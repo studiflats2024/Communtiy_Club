@@ -1,0 +1,86 @@
+
+
+
+
+.side-bar {
+  width: 250px;
+  /* background-color: #333; */
+  color:  var(--Primary-Shades-primary95, #D2D9E1);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease-in-out;
+  border-right: 1px solid var(--Other-Divider, #E1E3E5);
+background: var(--Primary-40, #1F4068);
+height: auto; /* Full viewport height */
+overflow-y: auto; /* Enable vertical scrolling */
+padding-top:100px !important;
+z-index: 9999 !important;
+}
+
+.side-bar::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.side-bar::-webkit-scrollbar-track {
+  background: transparent; /* Scrollbar track color */
+}
+
+.side-bar::-webkit-scrollbar-thumb {
+  background-color: #8FA0B4; /* Scrollbar color */
+  border-radius: 10px;
+}
+
+.hide {
+  transform: translateX(-250px); /* Moves the sidebar off-screen */
+}
+
+.side-bar a{
+  color: var(--Primary-Shades-primary95, #D2D9E1);
+  font-feature-settings: 'liga' off, 'clig' off;
+  /* font-family: Poppins; */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
+  cursor: pointer;
+
+}
+
+.side-bar a:hover {
+  border-radius: 4px;
+  background: var(--Secondary-40, #FFB900);
+
+  color: var(--White-100, var(--Key-colors-White, #FFF));
+font-feature-settings: 'liga' off, 'clig' off;
+/* font-family: Poppins; */
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: 24px; /* 150% */
+text-transform: capitalize;
+}
+
+.side-bar a.active {
+  border-radius: 4px;
+  background: var(--Secondary-40, #FFB900);
+  color: var(--White-100, var(--Key-colors-White, #FFF));
+font-feature-settings: 'liga' off, 'clig' off;
+/* font-family: Poppins; */
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: 24px; /* 150% */
+text-transform: capitalize;
+}
+
+.other{
+  color: var(--Primary-Shades-primary80, #8FA0B4);
+font-feature-settings: 'liga' off, 'clig' off;
+/* font-family: Poppins; */
+font-size: 14px;
+font-style: normal;
+font-weight: 600;
+line-height: 16px; /* 133.333% */
+}

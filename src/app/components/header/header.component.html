@@ -1,0 +1,75 @@
+<div class="d-lg-flex header border align-item-center justify-content-between">
+
+    <div class="header-logo col-md-2 d-none d-lg-block px-3">
+      <img src="./logo.svg" style="margin-top:6px;    max-width: 100%; border-radius: 0.1875rem;">
+    </div>
+    <div class="col-lg-10 col-sm-12 row justify-content-between headerTitle py-3">
+        <div class="col-lg-7 col-8  ms-lg-0 row ">
+            <p class=" col-lg-6 pd d-none d-lg-block"> Worker Requests</p>
+            <div (click)="onToggleSidebar()" class="d-lg-none col-1 ms-4 me-2 fs-4"><i class="fa fa-bars" aria-hidden="true"></i></div>
+        </div>
+        <div class="col-4  col-lg-3 d-flex justify-content-end align-items-center">
+            <div class="d-flex pe-lg-4 ">
+                <!-- start notification -->
+                <span (click)="shownot()" style="cursor: pointer; margin-right: 1.25rem;margin-top:0.55rem;">
+                   <!-- <img src="assets/images/notification.svg" /> -->
+
+                   <!-- <i *ngIf="NCount>0" class="pi pi-bell mr-4 p-text-secondary"  pBadge   style="font-size: 1.5rem" ></i> -->
+                   <i   class="pi pi-bell"   badgeClass="p-badge-white"  style="font-size: 1.5rem" ></i>  <!--*ngIf="NCount == 0"-->
+
+
+
+
+                </span>
+                <!-- end notification -->
+                <!-- <div   (click)="ClickedOut($event)" style=" z-index: 999 ; right: 7.4rem ; margin-top: 3.3rem;position: absolute; width: 26.75rem;height: 200px" class=" z-3 rounded-3 bg-white cfresda">
+                  <div class="arrow-up">
+
+                  </div>
+                    <div class="notifications">
+                        <div class="div">
+                          <div class="carbon-read" style="cursor: pointer;" *ngIf="NCount>0">
+                            <a (click)="MarkAllRead()" style="cursor: pointer;">
+                            <i class="fa-solid fa-check-double" style="cursor: pointer; color: #1F4068;"></i>
+                           </a>
+                          </div>
+                            <div class="carbon-close"><img (click)="closenotifaction()" style="cursor: pointer;" class="vector" src="../../../../assets/images/carbon_close.svg" /></div>
+                            <div class="text-wrapper">Notifications</div>
+                            <div class="div-2 px-0 mx-0">
+                                <div class="frame"  *ngFor="let item of NotifiList">
+                                    <img class="studiflats" src="../../../../assets/images/Layer 2.svg" />
+                                    <div class="frame-wrapper ms-3" >
+                                        <div class="div-wrapper">
+
+                                            <div class="frame-2">
+                                                <div  class="new-apartment cursor" (click)="navigateToRoute(item?.action_Route, item?.action_ID,item.id)">{{item.noti_Name}}</div>
+                                                <div class="element-jun">{{item.noti_Date }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="item.iS_Readed==true" class="text-wrapper-2"><a style="cursor: pointer !important;" (click)="MarkUnReaded(item.id)">
+                                       Readed
+
+                                    </a></div>
+                                    <div *ngIf="item.iS_Readed==false" class="text-wrapper-2"><a style="cursor: pointer !important;" (click)="MarkReaded(item.id)">
+                                    Unreaded
+                                    </a></div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div> -->
+                <div class="d-flex" style="margin-left: 1rem; margin-right: 1rem;">
+                    <div class=" me-1"><img src="./One.svg" /></div>
+                    <p class="pname mt-2">Umar</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+

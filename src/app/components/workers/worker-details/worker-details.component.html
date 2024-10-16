@@ -1,0 +1,103 @@
+<div class="parent">
+  <div class="fixDiv"></div>
+  <div class="page">
+    <p-breadcrumb class="max-w-full" [model]="items">
+      <ng-template pTemplate="item" let-item>
+          <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+              <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+              <span>{{ item.label }}</span>
+          </a>
+      </ng-template>
+    </p-breadcrumb>
+
+    <p-card   [style]="{ width: '100%' }">
+      <ng-template pTemplate="header">
+
+        <div class="header-section">
+          <div class="extra-ellipse"></div>
+            <span class="status-tag">Available</span>
+            <div class="profile-image">
+                <img src="workerImg.png" alt="Profile" />
+                <h3 class="name">Shawn Obrain</h3>
+                <span class="role">Individual</span>
+            </div>
+
+        </div>
+    </ng-template>
+
+    <div  >
+        <div class="personal-info">Personal Information</div>
+        <div class="info-grid">
+            <div>
+                <div class="h">Email:</div>
+                <div class="i">ShawnObrain&#64;example.com</div>
+            </div>
+            <div>
+                <div class="h">Date Of Birth:</div>
+                <div class="i">02-04-2023</div>
+            </div>
+
+            <div>
+                <div class="h">Address:</div>
+               <div class="i">16th Street Main Boulevard Newyork</div>
+            </div>
+            <div>
+              <div class="h">Whatsapp Number:</div>
+              <div class="i">+923316789005</div>
+          </div>
+        </div>
+    </div>
+
+    <div class="skills-section">
+        <div class="personal-info">Skills</div>
+        <div class="skills">
+            <p-chip *ngFor="let skill of skills" label="{{ skill }}"></p-chip>
+            <!-- <p-chip   label="alaa"></p-chip> -->
+
+        </div>
+    </div>
+
+    <div class="additional-skills">
+        <div class="personal-info" style="padding-bottom:5px !important">Additional skills</div>
+        <div class="i">Sorem ipsum dolor sit amet, consectetur adipiscing elit...</div>
+    </div>
+
+    <div class="id-section">
+        <div class="h">Front and Back of ID</div>
+        <div class="id-images">
+            <img src="staticPass.png" alt="Front ID" />
+            <img src="staticPass.png" alt="Back ID" />
+        </div>
+        <div class="document-content">
+          <div class="doc-info">
+            <img src="document.svg" alt="Handover protocols" />
+            <p>commercial registration .pdf</p>
+          </div>
+          <div class="doc-actions">
+            <a class="text-decoration-none" href="" target="_blank">
+              <button class="btn-view">
+                <i class="pi pi-eye"></i> View
+              </button>
+            </a>
+            <a class="text-decoration-none" href="" download>
+              <button class="btn-download">
+                <i class="pi pi-download"></i> Download
+              </button>
+            </a>
+          </div>
+        </div>
+    </div>
+
+
+    <div class="divider"></div>
+
+    <ng-template pTemplate="footer">
+        <div class="actions">
+            <button pButton label="Reject" class=" reject p-button "></button>
+            <button pButton label="Accept" class="accept p-button"></button>
+        </div>
+    </ng-template>
+  </p-card>
+
+
+  </div>

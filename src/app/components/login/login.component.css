@@ -1,0 +1,43 @@
+.login {
+  height: 90vh;
+}
+img{
+width: 155px;
+height: 71px;
+}
+
+.text-color {
+  color: #475467;
+}
+
+.text-weight {
+  font-weight: 600;
+}
+
+.btn-sign {
+  background-color: #1F4068;
+  color: white;
+  padding: 10px 0;
+}
+.password{
+position: relative;
+img{
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+}
+}
+
+::ng-deep .form-check input[type="checkbox"],
+::ng-deep .radio input[type="radio"]{
+opacity: 1 !important;
+visibility: visible !important;
+}
+
+::ng-deep .form-check .form-check-label{
+padding-left: 6px !important;
+
+}
