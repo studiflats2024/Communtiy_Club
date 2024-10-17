@@ -13,13 +13,18 @@ import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Table } from 'primeng/table';
 import { Router } from '@angular/router';
+import { MenuModule } from 'primeng/menu';
+import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-requests-list',
   standalone: true,
-  imports: [FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
+  imports: [MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
   templateUrl: './requests-list.component.html',
-  styleUrl: './requests-list.component.css'
+  styleUrl: './requests-list.component.css',
+  providers: [MessageService]
 })
 export class RequestsListComponent {
   @ViewChild('dt2') dt2!: Table;
@@ -27,6 +32,7 @@ export class RequestsListComponent {
   loading: boolean = false;
   value:any;
   selectedCustomer: any;
+  items!: any;
 
   representatives = [
     { name: 'Amy Elsner', image: 'amyelsner.png' },
@@ -42,9 +48,33 @@ export class RequestsListComponent {
 
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private messageService: MessageService) {}
 
   ngOnInit() {
+
+    this.items = [
+      {
+        label: 'View Details',
+        icon: 'pi pi-eye',
+        command: () => this.viewDetails()
+      },
+      {
+        label: 'Accept Worker',
+        icon: 'pi pi-check',
+        command: () => this.acceptWorker()
+      },
+      {
+        label: 'Reject Worker',
+        icon: 'pi pi-times',
+        command: () => this.rejectWorker()
+      },
+      {
+        label: 'Deactivate Worker',
+        icon: 'pi pi-ban',
+        command: () => this.deactivateWorker()
+      }
+    ];
+
     // Mock customer data
     this.workers = [
       {
@@ -131,6 +161,22 @@ export class RequestsListComponent {
     const workerId = event.data.id;
     console.log('id',workerId)
     this.router.navigate(['/worker-details', workerId]);
+  }
+
+  viewDetails() {
+    this.messageService.add({ severity: 'info', summary: 'Details', detail: 'Viewing details' });
+  }
+
+  acceptWorker() {
+    this.messageService.add({ severity: 'success', summary: 'Accepted', detail: 'Worker has been accepted' });
+  }
+
+  rejectWorker() {
+    this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'Worker has been rejected' });
+  }
+
+  deactivateWorker() {
+    this.messageService.add({ severity: 'warn', summary: 'Deactivated', detail: 'Worker has been deactivated' });
   }
 
 }

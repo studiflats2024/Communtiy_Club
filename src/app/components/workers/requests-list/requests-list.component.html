@@ -158,23 +158,23 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-worker>
-                            <tr (click)="onRowSelect({ data: worker })" style="cursor: pointer;">
-                               <td>
+                            <tr  style="cursor: pointer;">
+                               <td (click)="onRowSelect({ data: worker })">
                                 {{ worker.requestNo }}
                                </td>
-                                <td>
+                                <td (click)="onRowSelect({ data: worker })">
                                     {{ worker.name }}
                                 </td>
-                                <td>
+                                <td (click)="onRowSelect({ data: worker })">
                                   {{ worker.email }}
                                 </td>
-                                <td>
+                                <td (click)="onRowSelect({ data: worker })">
                                   {{ worker.type }}
                                </td>
-                               <td>
+                               <td (click)="onRowSelect({ data: worker })">
                                 {{ worker.phone }}
                                </td>
-                               <td>
+                               <td (click)="onRowSelect({ data: worker })">
                                 {{ worker.skills}}
                                </td>
                                 <!-- <td>
@@ -196,14 +196,16 @@
                                         {{ customer.representative.name }}
                                     </span>
                                 </td> -->
-                                <td style="width:10% !important">
+                                <td (click)="onRowSelect({ data: worker })" style="width:10% !important">
                                     <p-tag
                                         [value]="worker.status"
                                         [severity]="getSeverity(worker.status)" />
                                 </td>
-                                <!-- <td>
-                                    <i class="pi" [ngClass]="{ 'text-green-500 pi-check-circle': customer.verified, 'text-red-500 pi-times-circle': !customer.verified }"></i>
-                                </td> -->
+                                <td>
+                                  <p-toast />
+                                  <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
+                                  <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                                </td>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="emptymessage">

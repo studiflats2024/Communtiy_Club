@@ -6,11 +6,14 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
 import { CommonModule } from '@angular/common';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @Component({
   selector: 'app-worker-details',
   standalone: true,
-  imports: [CommonModule,ChipModule,ButtonModule,CardModule,FormsModule,NgClass,BreadcrumbModule],
+  imports: [InputTextareaModule,InputTextModule,DialogModule,CommonModule,ChipModule,ButtonModule,CardModule,FormsModule,NgClass,BreadcrumbModule],
   templateUrl: './worker-details.component.html',
   styleUrl: './worker-details.component.css'
 })
@@ -28,5 +31,16 @@ export class WorkerDetailsComponent {
       { label: 'Worker Requests', routerLink: '/requests-list' },
       { label: 'Worker Details', routerLink: '/worker-details' }
     ];
+  }
+
+  ///modals
+  visible: boolean = false;
+
+  showDialog() {
+      this.visible = true;
+  }
+  visibleSuccess:boolean =false;
+  showDialog2(){
+    this.visibleSuccess=true;
   }
 }

@@ -108,3 +108,51 @@ font-weight: 400;
   border-width: 0;
   width: 15% !important;
 }
+/* :host ::ng-deep .p-taple  tr  {
+  position: relative ;
+} */
+
+
+
+:host ::ng-deep .p-menu{
+  left: 78% !important;
+  /* position: absolute;
+  top: 100% !important;
+  right: 0 !important; */
+}
+
+:host ::ng-deep .p-menu .p-menuitem-content a{
+  text-decoration: none !important;
+}
+
+:host ::ng-deep .p-menu-overlay .p-menuitem-content a{
+  text-decoration: none !important;
+}
+
+:host ::ng-deep  .p-button {
+  color: #787579 !important;
+  background: #fff !important;
+  border:  none !important;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  border-radius: 3px;
+  outline-color: transparent;
+  position: relative;
+}
+
+:host ::ng-deep .p-menu-overlay {
+  top: 0 !important; /* Adjust to set the desired top position */
+  left: 0 !important; /* Adjust to align it directly beside the button */
+  transform: translate(-50%, -50%); /* Optional: center the menu relative to the button */
+}
+
+::ng-deep .p-menu .p-menuitem-link {
+
+  text-decoration: none !important;
+}
+::ng-deep .p-menu ul {
+
+ padding-left: 0 !important;
+}
+
