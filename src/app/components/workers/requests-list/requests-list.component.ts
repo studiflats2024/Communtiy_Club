@@ -17,6 +17,8 @@ import { MenuModule } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { WorkerService } from '../../../services/worker.service';
+
 
 @Component({
   selector: 'app-requests-list',
@@ -48,7 +50,7 @@ export class RequestsListComponent {
 
   ];
 
-  constructor(private router: Router,private messageService: MessageService) {}
+  constructor(private workerService: WorkerService,private router: Router,private messageService: MessageService) {}
 
   ngOnInit() {
 
@@ -128,23 +130,205 @@ export class RequestsListComponent {
         skills:'Plumbing, Paint & Coloring',
         status: 'rejected',
       }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
+      ,
+      {
+        id: 4,
+        requestNo:'00200',
+        name: 'David Miller',
+        email: "DavidMiller@gmail.com",
+        type:"Company",
+        phone:'011273333',
+        skills:'Plumbing, Paint & Coloring',
+        status: 'rejected',
+      }
     ];
-
+   this.getWorkers();
 
     // setTimeout(() => {
     //   this.loading = false;
     // }, 1000);
   }
 
+  getWorkers() {
+    this.workerService.getAllWorkerRequests(1, 20000, '').subscribe(
+      (response) => {
+        console.log('Data received:', response);
+        this.workers = response; // Adjust this according to the response structure
+        this.workers = response.data.map((worker: any) => ({
+          id: worker.request_ID,
+          requestNo: worker.request_ID,
+          name: worker.worker_Name,
+          email: worker.worker_Mail,
+          type: worker.worker_Type,
+          phone: worker.worker_Phone,
+          skills: worker.worker_Skills.join(', '),
+          status: worker.worker_Profile_Status,
+        }));
+
+        this.filterWorkersByStatus();
+      },
+      (error) => {
+        console.error('Error fetching worker data:', error);
+      }
+    );
+  }
+
+acceptedWorkers:any;
+rejectedWorkers:any;
+pendingWorkers:any;
+  filterWorkersByStatus() {
+    this.acceptedWorkers = this.workers.filter((worker) => worker.status === 'Completed');
+    this.rejectedWorkers = this.workers.filter((worker) => worker.status === 'NotCompleted');
+    this.pendingWorkers = this.workers.filter((worker) => worker.status === 'InReview');
+    // this.filteredWorkers = [...this.workers];
+    console.log(this.workers)
+    console.log(this.acceptedWorkers)
+    console.log(this.rejectedWorkers)
+    console.log(this.pendingWorkers)
+
+  }
+
   getSeverity(status: string): 'info' | 'success' | 'warning' | 'danger' | 'secondary' | 'contrast' {
     switch (status) {
-      case 'pending':
+      case 'InReview':
         return 'info';
-      case 'accepted':
+      case 'Completed':
         return 'success';
       // case 'pending':
       //   return 'warning';
-      case 'rejected':
+      case 'NotCompleted':
         return 'danger';
       default:
         return 'secondary'; // If none of the cases match, return 'secondary'

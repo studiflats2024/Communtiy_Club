@@ -336,12 +336,12 @@ background: var(--Key-colors-White, #FFF);
   padding: 0 0 0 0 !important;
 }
 
-/* :host ::ng-deep .p-button {
+:host ::ng-deep .p-button {
+
+background: transparent;
 
 
-
-
-} */
+}
 
 ::ng-deep .accept .p-button {
   background: var(--Primary-40, #1F4068) !important;
