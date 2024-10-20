@@ -15,11 +15,13 @@
 
         <div class="header-section">
           <div class="extra-ellipse"></div>
-            <span class="status-tag">Available</span>
+          <span class="status-tag" *ngIf="profileData.is_Available">Available</span>
+          <span class="status-tag" style="background:red;" *ngIf="!profileData.is_Available">Not Available</span>
+
             <div class="profile-image">
-                <img src="workerImg.png" alt="Profile" />
-                <h3 class="name">Shawn Obrain</h3>
-                <span class="role">Individual</span>
+              <img [src]="profileData.image || 'workerImg.png'" alt="Profile" />
+                <h3 class="name">{{ profileData.name }}</h3>
+                <span class="role">{{ profileData.type }}</span>
             </div>
 
         </div>
@@ -30,20 +32,20 @@
         <div class="info-grid">
             <div>
                 <div class="h">Email:</div>
-                <div class="i">ShawnObrain&#64;example.com</div>
+                <div class="i">{{ profileData.email }}</div>
             </div>
             <div>
                 <div class="h">Date Of Birth:</div>
-                <div class="i">02-04-2023</div>
+                <div class="i">{{ profileData.doB }}</div>
             </div>
 
             <div>
                 <div class="h">Address:</div>
-               <div class="i">16th Street Main Boulevard Newyork</div>
+               <div class="i">{{ profileData.address }}</div>
             </div>
             <div>
               <div class="h">Whatsapp Number:</div>
-              <div class="i">+923316789005</div>
+              <div class="i">{{ profileData.whatsapp_No }}</div>
           </div>
         </div>
     </div>
@@ -51,7 +53,7 @@
     <div class="skills-section">
         <div class="personal-info">Skills</div>
         <div class="skills">
-            <p-chip *ngFor="let skill of skills" label="{{ skill }}"></p-chip>
+            <p-chip *ngFor="let skill of profileData?.skills" label="{{ skill }}"></p-chip>
             <!-- <p-chip   label="alaa"></p-chip> -->
 
         </div>
@@ -59,27 +61,27 @@
 
     <div class="additional-skills">
         <div class="personal-info" style="padding-bottom:5px !important">Additional skills</div>
-        <div class="i">Sorem ipsum dolor sit amet, consectetur adipiscing elit...</div>
+        <div class="i">{{ profileData.additional_Skills }}</div>
     </div>
 
     <div class="id-section">
         <div class="h">Front and Back of ID</div>
         <div class="id-images">
-            <img src="staticPass.png" alt="Front ID" />
+            <img [src]="profileData.attachments || 'staticPass.png'" alt="Front ID" />
             <img src="staticPass.png" alt="Back ID" />
         </div>
-        <div class="document-content">
+        <div class="document-content" *ngIf="profileData.type==='company'">
           <div class="doc-info">
             <img src="document.svg" alt="Handover protocols" />
             <p>commercial registration .pdf</p>
           </div>
           <div class="doc-actions">
-            <a class="text-decoration-none" href="" target="_blank">
+            <a class="text-decoration-none" [href]="profileData.attachments" target="_blank">
               <button class="btn-view">
                 <i class="pi pi-eye"></i> View
               </button>
             </a>
-            <a class="text-decoration-none" href="" download>
+            <a class="text-decoration-none" [href]="profileData.attachments" download>
               <button class="btn-download">
                 <i class="pi pi-download"></i> Download
               </button>
@@ -95,7 +97,7 @@
         <div class="actions">
 
             <!-- <button pButton label="Accept" class="accept p-button"></button> -->
-            <p-button (onClick)="showDialog2()" class="accept" label="Accept" />
+            <p-button (onClick)="showDialog2()" class="accept" [label]="isDeactivate ? 'Deactivate' : 'Accept'" />
              <p-button (onClick)="showDialog()" class=" reject " label="Reject" />
 
         </div>
@@ -109,7 +111,7 @@
 
 
   <!-- <p-button (onClick)="showDialog()" label="Show" /> -->
-<p-dialog header="rejection reason" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+<p-dialog header="rejection reason" [modal]="true" [(visible)]="visibleReject" [style]="{ width: '25rem' }">
     <span class="p-text-secondary block mb-5"> Write your reason.</span>
       <textarea
         rows="5"
@@ -121,7 +123,7 @@
     <div class="flex justify-content-end gap-2">
 
         <p-button (onClick)="visible = false" class="accept" label="Cancel" />
-        <p-button (onClick)="visible = false" class=" reject " label="Send" />
+        <p-button (onClick)="onSendReject()" class=" reject " label="Send" />
 
     </div>
 </p-dialog>
@@ -132,8 +134,8 @@
     <div class="featured-icon">
       <img src="tick_done.svg"/>
     </div>
-      <div class="textS">send successfully!</div>
-      <div class="textS2">rejection reason has been sent successfully.</div>
+      <div class="textS">Accepted successfully!</div>
+      <!-- <div class="textS2">rejection reason has been sent successfully.</div> -->
 
 
       <p-button (onClick)="visibleSuccess = false" class="accept" label="Back to workers requests" />
@@ -141,6 +143,37 @@
   </div>
 </p-dialog>
 
+<p-dialog class="DS"  [modal]="true" [(visible)]="visibleSuccessR" [style]="{ width: '25rem' }">
+
+  <div class="success">
+    <div class="featured-icon">
+      <img src="tick_done.svg"/>
+    </div>
+      <div class="textS">send successfully!</div>
+      <div class="textS2">rejection reason has been sent successfully.</div>
+
+
+      <p-button (onClick)="visibleSuccessR = false" class="accept" label="Back to workers requests" />
+
+  </div>
+</p-dialog>
+
+
+
+<p-dialog class="DS"  [modal]="true" [(visible)]="visibleSuccessD" [style]="{ width: '25rem' }">
+
+  <div class="success">
+    <div class="featured-icon">
+      <img src="tick_done.svg"/>
+    </div>
+      <div class="textS">Deactivated successfully!</div>
+      <!-- <div class="textS2">rejection reason has been sent successfully.</div> -->
+
+
+      <p-button (onClick)="visibleSuccessD = false" class="accept" label="Back to workers requests" />
+
+  </div>
+</p-dialog>
 
 
 <!-- <p-dialog class="DS"  [modal]="true" [(visible)]="visibleSuccess" [style]="{ width: '25rem' }">

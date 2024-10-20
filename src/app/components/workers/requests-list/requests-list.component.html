@@ -19,7 +19,7 @@
                     <span class=" white-space-nowrap m-0">
                       All workers
                     </span>
-                    <p-badge value="2" />
+                    <p-badge [value]="workers.length" />
 
                 </div>
             </ng-template>
@@ -200,11 +200,16 @@
                                     <p-tag
                                         [value]="worker.status"
                                         [severity]="getSeverity(worker.status)" />
+
+
+
                                 </td>
                                 <td>
                                   <p-toast />
                                   <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
-                                  <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                                  <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
+                                  <p-button  (onClick)="selectWorker(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+
                                 </td>
                             </tr>
                         </ng-template>
@@ -224,7 +229,7 @@
                     <span class=" white-space-nowrap m-0">
                       Accepted Workers
                     </span>
-                    <p-badge value="2" />
+                    <p-badge [value]="acceptedWorkers.length" />
 
                 </div>
             </ng-template>
@@ -409,7 +414,9 @@
                                 <td>
                                   <p-toast />
                                   <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
-                                  <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                                  <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
+                                   <p-button  (onClick)="selectWorker(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+
                                 </td>
                             </tr>
                         </ng-template>
@@ -427,7 +434,7 @@
                     <span class=" white-space-nowrap m-0">
                       Pending Workers
                     </span>
-                    <p-badge value="2" />
+                    <p-badge [value]="pendingWorkers.length" />
                 </div>
             </ng-template>
             <p-table
@@ -611,7 +618,9 @@
                     <td>
                       <p-toast />
                       <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
-                      <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                      <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
+                      <p-button  (onClick)="selectWorker(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+
                     </td>
                 </tr>
             </ng-template>
@@ -629,7 +638,7 @@
                   <span class=" white-space-nowrap m-0">
                     Rejected Workers
                   </span>
-                  <p-badge value="2" />
+                  <p-badge [value]="rejectedWorkers.length" />
               </div>
           </ng-template>
           <p-table
@@ -810,10 +819,13 @@
                           [value]="worker.status"
                           [severity]="getSeverity(worker.status)" />
                   </td>
-                  <td>
-                    <p-toast />
-                    <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
-                    <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                  <td >
+
+                      <p-toast />
+                      <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
+                      <p-button  (onClick)="selectWorker(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                      <!-- <p-button (onClick)=" menu.toggle($event)" icon="pi pi-ellipsis-v"></p-button> -->
+
                   </td>
               </tr>
           </ng-template>
@@ -830,3 +842,25 @@
   </div>
 
  </div>
+
+
+
+
+
+ <p-dialog header="rejection reason" [modal]="true" [(visible)]="visibleReject" [style]="{ width: '25rem' }">
+  <span class="p-text-secondary block mb-5"> Write your reason.</span>
+    <textarea
+      rows="5"
+      cols="30"
+      pInputTextarea
+      [(ngModel)]="reason"
+      [style]="{ width: '100%' ,'margin-bottom':'15px' }"
+      >
+  </textarea>
+  <div class="flex justify-content-end gap-2">
+
+      <p-button (onClick)="visibleReject = false" class="accept" label="Cancel" />
+      <p-button (onClick)="onSendReject()" class=" reject " label="Send" />
+
+  </div>
+</p-dialog>

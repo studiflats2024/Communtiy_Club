@@ -18,15 +18,23 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { WorkerService } from '../../../services/worker.service';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { Menu } from 'primeng/menu';
+import { DialogModule } from 'primeng/dialog';
+
+
+
+
 
 
 @Component({
   selector: 'app-requests-list',
   standalone: true,
-  imports: [MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
+  imports: [ DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
   templateUrl: './requests-list.component.html',
   styleUrl: './requests-list.component.css',
-  providers: [MessageService]
+  providers: [MessageService],
+  // changeDetection: ChangeDetectionStrategy.Default
 })
 export class RequestsListComponent {
   @ViewChild('dt2') dt2!: Table;
@@ -58,228 +66,239 @@ export class RequestsListComponent {
       {
         label: 'View Details',
         icon: 'pi pi-eye',
-        command: () => this.viewDetails()
+        command: () =>  {
+
+            this.viewDetails(this.selectedWorkerId);
+
+        }
       },
       {
         label: 'Accept Worker',
         icon: 'pi pi-check',
-        command: () => this.acceptWorker()
+        command: () => this.onUpdateProfileStatus(this.selectedWorkerId,'Accept','')
       },
       {
         label: 'Reject Worker',
         icon: 'pi pi-times',
-        command: () => this.rejectWorker()
+        command: () => this.onSelectReject()
       },
-      {
-        label: 'Deactivate Worker',
-        icon: 'pi pi-ban',
-        command: () => this.deactivateWorker()
-      }
+      // {
+      //   label: 'Deactivate Worker',
+      //   icon: 'pi pi-ban',
+      //   command: () => this.deactivateWorker()
+      // }
     ];
 
     // Mock customer data
-    this.workers = [
-      {
-        id: 1,
-        requestNo:'00211',
-        name: 'James Smith',
-        email: "alaa@gmail.com",
-        type:"Company",
-        phone:'011111111',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'pending',
+    // this.workers = [
+    //   {
+    //     id: 1,
+    //     requestNo:'00211',
+    //     name: 'James Smith',
+    //     email: "alaa@gmail.com",
+    //     type:"Company",
+    //     phone:'011111111',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'pending',
 
-      },
-      {
-        id: 2,
-        requestNo:'00233',
-        name: 'Michael Johnson',
-        email: "MichaelJohnson@gmail.com",
-        type:"Individual",
-        phone:'0117237927',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      },
-      {
-        id: 3,
-        requestNo:'00255',
-        name: 'Linda Williams',
-        email: "LindaWilliams@gmail.com",
-        type:"Individual",
-        phone:'01127862367',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'accepted',
-      },
-      {
-        id: 3,
-        requestNo:'00221',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'accepted',
-      },
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-      ,
-      {
-        id: 4,
-        requestNo:'00200',
-        name: 'David Miller',
-        email: "DavidMiller@gmail.com",
-        type:"Company",
-        phone:'011273333',
-        skills:'Plumbing, Paint & Coloring',
-        status: 'rejected',
-      }
-    ];
+    //   },
+    //   {
+    //     id: 2,
+    //     requestNo:'00233',
+    //     name: 'Michael Johnson',
+    //     email: "MichaelJohnson@gmail.com",
+    //     type:"Individual",
+    //     phone:'0117237927',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   },
+    //   {
+    //     id: 3,
+    //     requestNo:'00255',
+    //     name: 'Linda Williams',
+    //     email: "LindaWilliams@gmail.com",
+    //     type:"Individual",
+    //     phone:'01127862367',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'accepted',
+    //   },
+    //   {
+    //     id: 3,
+    //     requestNo:'00221',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'accepted',
+    //   },
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    //   ,
+    //   {
+    //     id: 4,
+    //     requestNo:'00200',
+    //     name: 'David Miller',
+    //     email: "DavidMiller@gmail.com",
+    //     type:"Company",
+    //     phone:'011273333',
+    //     skills:'Plumbing, Paint & Coloring',
+    //     status: 'rejected',
+    //   }
+    // ];
    this.getWorkers();
 
     // setTimeout(() => {
     //   this.loading = false;
     // }, 1000);
   }
+
+  selectedWorkerId:any;
+  selectWorker(workerId:any) {
+    this.selectedWorkerId = workerId;
+    console.log(this.selectedWorkerId)
+  }
+
 
   getWorkers() {
     this.workerService.getAllWorkerRequests(1, 20000, '').subscribe(
@@ -305,6 +324,46 @@ export class RequestsListComponent {
     );
   }
 
+  statusView:string='';
+  onUpdateProfileStatus(workerId:any,status:any,reason:any) {
+    const profile_ID = this.selectedWorkerId;
+    const profile_Action = 'Accept';
+    const additional_Data = '';
+
+
+    const worker = this.workers.find(w => w.id === workerId);
+      if (worker) {
+          if(status==='Accept'){
+
+       worker.status = 'Accepted';
+    }else {
+
+      worker.status = 'Rejected';
+    }
+
+      }
+
+    this.workerService.updateProfileStatus(workerId, status, reason).subscribe(
+      (response) => {
+        console.log('Status updated successfully:', response);
+      },
+      (error) => {
+        console.error('Error updating status:', error);
+      }
+    );
+  }
+
+  visibleReject:boolean=false;
+  reason:string='';
+  onSelectReject(){
+    this.visibleReject=true;
+
+  }
+  onSendReject(){
+    this.onUpdateProfileStatus(this.selectedWorkerId,'Reject',this.reason)
+    this.visibleReject=false;
+  }
+
 acceptedWorkers:any;
 rejectedWorkers:any;
 pendingWorkers:any;
@@ -324,7 +383,9 @@ pendingWorkers:any;
     switch (status) {
       case 'InReview':
         return 'info';
-      case 'Completed':
+        case 'Rejected':
+          return 'danger';
+      case 'Accepted':
         return 'success';
       // case 'pending':
       //   return 'warning';
@@ -347,8 +408,9 @@ pendingWorkers:any;
     this.router.navigate(['/worker-details', workerId]);
   }
 
-  viewDetails() {
-    this.messageService.add({ severity: 'info', summary: 'Details', detail: 'Viewing details' });
+  viewDetails(workerId: any) {
+    this.router.navigate(['/worker-details', workerId]);
+
   }
 
   acceptWorker() {

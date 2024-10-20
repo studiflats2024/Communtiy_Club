@@ -27,4 +27,35 @@ export class WorkerService {
     });
     return this.http.get<any>(url, {params,headers});
   }
+
+  updateProfileStatus(profile_ID: string, profile_Action: string, additional_Data: string): Observable<any> {
+    const url = `${environment.apiUrl}/WokersStaff/Profile_Status_Update`;
+
+    const body = {
+      profile_ID: profile_ID,
+      profile_Action: profile_Action,
+      additional_Data: additional_Data,
+    };
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`, // Add your token here if required
+    });
+
+    return this.http.post<any>(url, body, { headers });
+  }
+
+  getProfile(profile_ID: string): Observable<any> {
+    const url = `${environment.apiUrl}/WokersStaff/GetProfile_InDetails`;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}` // Ensure the token is stored in local storage
+    });
+
+    return this.http.get<any>( url, {
+      headers,
+      params: { profile_ID }
+    });
+  }
 }
