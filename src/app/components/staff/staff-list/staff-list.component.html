@@ -17,7 +17,7 @@
                 <div class="flex align-items-center gap-2">
 
                     <span class=" white-space-nowrap m-0">
-                      All workers
+                      Cleaner
                     </span>
                     <p-badge [value]="workers.length" />
 
@@ -34,7 +34,8 @@
                         [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
                         [tableStyle]="{ 'min-width': '120rem'  }"
                         selectionMode="single"
-                        [(selection)]="selectedWorker"
+                        [(selection)]="selectedStaff"
+
                         (onRowSelect)="onRowSelect($event)"
                     >
                         <ng-template pTemplate="caption">
@@ -53,7 +54,7 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr class="headInfo">
-                              <th></th>
+                                <th style="width:22%">name</th>
                                 <th style="width:22%">Request No</th>
                                 <th style="width:22%">Worker Name</th>
                                 <th style="width:22%">Email</th>
@@ -70,7 +71,29 @@
                                 <th style="width:12%">Verified</th> -->
                             </tr>
                             <tr>
-                              <th></th>
+                                   <th>
+                                    <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+                                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                            <p-multiSelect
+                                                [ngModel]="value"
+                                                [options]="representatives"
+                                                placeholder="Any"
+                                                (onChange)="filter($event.value)"
+                                                optionLabel="name">
+                                                    <ng-template let-option pTemplate="item">
+                                                        <div class="inline-block vertical-align-middle">
+                                                            <img
+                                                                [alt]="option.label"
+                                                                src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ option.image }}"
+                                                                width="24"
+                                                                class="vertical-align-middle" />
+                                                            <span class="ml-1 mt-1">{{ option.name }}</span>
+                                                        </div>
+                                                    </ng-template>
+                                            </p-multiSelect>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </th>
                                 <th>
                                     <p-columnFilter
                                         type="text"
@@ -113,29 +136,7 @@
                                         placeholder="Search by Skills"
                                         ariaLabel="Filter Skills" />
                                 </th>
-                                <!-- <th>
-                                    <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
-                                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                            <p-multiSelect
-                                                [ngModel]="value"
-                                                [options]="representatives"
-                                                placeholder="Any"
-                                                (onChange)="filter($event.value)"
-                                                optionLabel="name">
-                                                    <ng-template let-option pTemplate="item">
-                                                        <div class="inline-block vertical-align-middle">
-                                                            <img
-                                                                [alt]="option.label"
-                                                                src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ option.image }}"
-                                                                width="24"
-                                                                class="vertical-align-middle" />
-                                                            <span class="ml-1 mt-1">{{ option.name }}</span>
-                                                        </div>
-                                                    </ng-template>
-                                            </p-multiSelect>
-                                        </ng-template>
-                                    </p-columnFilter>
-                                </th> -->
+
                                 <th>
                                     <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
                                         <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -161,9 +162,19 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-worker>
                             <tr  style="cursor: pointer;" [pSelectableRow]="worker">
-                              <td>
-                              <p-tableRadioButton (click)="assignWorker(worker)" class="mt-20" *ngIf="selectMode"   [value]="worker"  ></p-tableRadioButton>
-                              </td>
+
+                                <p-tableRadioButton (click)="assignStaff(worker)" class="mt-20" *ngIf="selectMode"   [value]="worker"  ></p-tableRadioButton>
+
+                              <td (click)="onRowSelect({ data: worker })">
+                                <img
+                                    [alt]="worker.representative.name"
+                                    src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ worker.representative.image }}"
+                                    width="32"
+                                    style="vertical-align: middle" />
+                                <span class="ml-1 vertical-align-middle">
+                                    {{ worker.representative.name }}
+                                </span>
+                            </td>
                                <td (click)="onRowSelect({ data: worker })">
                                 {{ worker.requestNo }}
                                </td>
@@ -191,16 +202,7 @@
                                         {{ worker.name }}
                                     </span>
                                 </td> -->
-                                <!-- <td>
-                                    <img
-                                        [alt]="worker.representative.name"
-                                        src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ customer.representative.image }}"
-                                        width="32"
-                                        style="vertical-align: middle" />
-                                    <span class="ml-1 vertical-align-middle">
-                                        {{ customer.representative.name }}
-                                    </span>
-                                </td> -->
+
                                 <td (click)="onRowSelect({ data: worker })" style="width:10% !important">
                                     <p-tag
                                         [value]="worker.status"
@@ -232,7 +234,7 @@
                 <div class="flex align-items-center gap-2">
 
                     <span class=" white-space-nowrap m-0">
-                      Accepted Workers
+                      Cash Collector
                     </span>
                     <p-badge [value]="acceptedWorkers.length" />
 
@@ -249,7 +251,7 @@
                         [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
                         [tableStyle]="{ 'min-width': '120rem'  }"
                         selectionMode="single"
-                        [(selection)]="selectedWorker"
+                        [(selection)]="selectedCustomer"
                         (onRowSelect)="onRowSelect($event)"
                     >
                         <ng-template pTemplate="caption">
@@ -373,9 +375,7 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-worker>
-                            <tr  style="cursor: pointer;" [pSelectableRow]="worker">
-                              <p-tableRadioButton (click)="assignWorker(worker)" class="mt-20" *ngIf="selectMode"   [value]="worker"  ></p-tableRadioButton>
-
+                            <tr  style="cursor: pointer;">
                                <td (click)="onRowSelect({ data: worker })">
                                 {{ worker.requestNo }}
                                </td>
@@ -439,7 +439,7 @@
                 <div class="flex align-items-center gap-2">
 
                     <span class=" white-space-nowrap m-0">
-                      Pending Workers
+                      Workers
                     </span>
                     <p-badge [value]="pendingWorkers.length" />
                 </div>
@@ -490,6 +490,29 @@
                     <th style="width:12%">Verified</th> -->
                 </tr>
                 <tr>
+                      <th>
+                        <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                <p-multiSelect
+                                    [ngModel]="value"
+                                    [options]="representatives"
+                                    placeholder="Any"
+                                    (onChange)="filter($event.value)"
+                                    optionLabel="name">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="inline-block vertical-align-middle">
+                                                <img
+                                                    [alt]="option.label"
+                                                    src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ option.image }}"
+                                                    width="24"
+                                                    class="vertical-align-middle" />
+                                                <span class="ml-1 mt-1">{{ option.name }}</span>
+                                            </div>
+                                        </ng-template>
+                                </p-multiSelect>
+                            </ng-template>
+                        </p-columnFilter>
+                    </th>
                     <th>
                         <p-columnFilter
                             type="text"
@@ -609,7 +632,7 @@
                     </td> -->
                     <!-- <td>
                         <img
-                            [alt]="worker.representative.name"
+                            [alt]="customer.representative.name"
                             src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ customer.representative.image }}"
                             width="32"
                             style="vertical-align: middle" />
@@ -643,7 +666,7 @@
               <div class="flex align-items-center gap-2">
 
                   <span class=" white-space-nowrap m-0">
-                    Rejected Workers
+                    General Worker
                   </span>
                   <p-badge [value]="rejectedWorkers.length" />
               </div>

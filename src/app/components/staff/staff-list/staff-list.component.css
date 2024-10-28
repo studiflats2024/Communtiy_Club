@@ -326,14 +326,13 @@ font-weight: 500;
 
 
 
- :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-  background: var(--Neutral-Neutral95, #F6F6F6);
 
-}
 .headInfo{
   background: var(--Neutral-Neutral95, #F6F6F6);
 
 }
-
+:host ::ng-deep .p-dialog{
+  width: 35rem;
+}
 
 

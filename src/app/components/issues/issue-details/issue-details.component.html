@@ -1,0 +1,167 @@
+<div class="parent">
+  <div class="fixDiv"></div>
+  <div class="page">
+    <p-breadcrumb class="max-w-full" [model]="itemsLink">
+      <ng-template pTemplate="item" let-item>
+          <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+              <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+              <span>{{ item.label }}</span>
+          </a>
+      </ng-template>
+    </p-breadcrumb>
+
+
+
+    <div class="row">
+      <div class="col-7">
+        <!-- <ng-container>
+          <div class="container testimonial-group">
+            <div class="row mb-3 vcrr">
+              <div class="image-gallery" style="max-width: 1500px;">
+                <div class="main-image">
+                  <img
+                    [src]="aprt_Imgs[0].includes('https') ? aprt_Imgs[0] : '../../../assets/images/apartmentImages/default_apartment.jpg'"
+                    style="width: 100%; height:500px; border-radius:13px" />
+                </div>
+                <div class="thumbnail-container" style="display: flex; justify-content: start; margin-top: 20px;">
+                  <div *ngFor="let img of aprt_Imgs; let i = index" style="cursor: pointer;">
+                    <img *ngIf="i > 0"
+                      [src]="img?.includes('https') ? img : '../../../assets/images/apartmentImages/default_apartment.jpg'"
+                      style="height: 120px; width: 100%; border-radius:13px;" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container> -->
+        <ng-container>
+          <div class="container testimonial-group">
+            <div class="row mb-3 vcrr">
+              <div class="image-gallery" style="max-width: 1500px;">
+                <div class="main-image">
+                  <img
+                    [src]="currentImage"
+                    style="width: 100%; height: 500px; border-radius: 13px;" />
+                </div>
+                <div class="thumbnail-container" style="display: flex; justify-content: space-between; gap:10px; margin-top: 20px; ">
+                  <div *ngFor="let img of displayedThumbnails; let i = index" style="cursor: pointer;    width: 25%;" (click)="changeMainImage(img)">
+                    <img
+                      [src]="img?.includes('https') ? img : '../../../assets/images/apartmentImages/default_apartment.jpg'"
+                      [class.selected-thumbnail]="img === currentImage"
+                      style="height: 120px; width: 100%; border-radius: 13px;" />
+                  </div>
+                </div>
+                <div *ngIf="images.length > 5" class="navigation-buttons" style="display: flex; justify-content: space-between; margin-top: 20px;">
+                  <button class="btn btn-secondary" style="border-radius:10px; background-color:#D2D9E1; color: #1F4068;" (click)="previous()" [disabled]="currentIndex === 0">Previous</button>
+                  <button class="btn btn-secondary" style="border-radius:10px; background-color:#D2D9E1; color: #1F4068;" (click)="next()" [disabled]="currentIndex + 5 >= images.length">Next</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+
+        <div>
+          <p class="color: var(--Neutral-Neutral20, #313033);
+          font-feature-settings: 'liga' off, 'clig' off;
+          font-family: Poppins;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 20px; ">Description</p>
+          <div class="description-text">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mus mauris ultaricies nullam cras ut orci. Facilisi duis dis auctor ut massa nunc aliquet ultricies senectus. Eu et posuere commodo, sodales.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mus mauris ultaricies nullam cras ut orci. Facilisi duis dis auctor ut massa nunc aliquet ultricies senectus. Eu et posuere commodo, sodales.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-5">
+        <div class="custom-apartment-details bg-white rounded-3 p-3">
+          <h3 class="custom-apartment-title">Paint & Coloring</h3>
+
+          <div class="custom-apartment-info d-flex mb-0">
+            <div class="custom-info-item d-flex align-items-center me-4">
+              <img src="locIssue.svg" alt="Location">
+              <p class="issue-info">Arts District, East way Los Angeles.</p>
+            </div>
+
+            <div class="custom-info-item d-flex align-items-center me-4">
+              <img src="homeIss.svg" alt="Bedrooms">
+              <p class="issue-info">Apartment Number: 102</p>
+            </div>
+
+            <div class="custom-info-item d-flex align-items-center">
+              <img src="timeIss.svg" alt="Guests">
+              <p class="issue-info">Date Reported: : 28/04/2023</p>
+            </div>
+            <div class="custom-info-item">
+              <img src="issue.svg" alt="Duration">
+              <p class="issue-info">Issues:Paint & Coloring</p>
+            </div>
+            <div class="custom-info-item">
+              <img src="levelIss.svg" alt="Published">
+              <p class="issue-info">Priority Level:high</p>
+            </div>
+            <div class="custom-info-item">
+              <img src="estimateTime.svg" alt="Published">
+              <p class="issue-info">Estimated Repair Time:4 hours</p>
+            </div>
+
+          </div>
+
+          <!-- <div class="custom-apartment-actions d-flex justify-content-between mb-5">
+            <button class="custom-btn custom-btn-edit w-75" routerLink="">
+              <img src="assets/images/apartmentImages/edit.svg" alt="Edit" class="custom-btn-icon">Edit
+            </button>
+            <button class="custom-btn custom-btn-share w-25">
+              <img src="assets/images/apartmentImages/share.svg" alt="Share" class="custom-btn-icon">Share
+            </button>
+          </div> -->
+
+
+
+          <div class="accord"></div>
+          <div class="custom-apartment-buttons mt-5">
+            <button class="custom-btn-rented">Assign Job</button>
+            <button class="custom-btn-delete">
+               Publish Job
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div>
+      <div class="available-appointment">Available Appointment</div>
+      <div class="info-appointment" style="margin-bottom:24px;">
+        <div class="view">October 9th, 2024 ,10:00 AM</div>
+        <div class="view">October 9th, 2024 ,10:00 AM</div>
+      </div>
+
+      <div class="info-appointment">
+        <div class="view">October 9th, 2024 ,10:00 AM</div>
+        <div class="view">October 9th, 2024 ,10:00 AM</div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

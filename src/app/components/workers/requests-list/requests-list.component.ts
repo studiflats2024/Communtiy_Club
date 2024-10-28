@@ -21,6 +21,8 @@ import { WorkerService } from '../../../services/worker.service';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Menu } from 'primeng/menu';
 import { DialogModule } from 'primeng/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -30,7 +32,7 @@ import { DialogModule } from 'primeng/dialog';
 @Component({
   selector: 'app-requests-list',
   standalone: true,
-  imports: [ DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
+  imports: [CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
   templateUrl: './requests-list.component.html',
   styleUrl: './requests-list.component.css',
   providers: [MessageService],
@@ -38,7 +40,7 @@ import { DialogModule } from 'primeng/dialog';
 })
 export class RequestsListComponent {
   @ViewChild('dt2') dt2!: Table;
-  workers!: any[];
+  workers: any[] = [];
   loading: boolean = false;
   value:any;
   selectedCustomer: any;
@@ -58,9 +60,24 @@ export class RequestsListComponent {
 
   ];
 
-  constructor(private workerService: WorkerService,private router: Router,private messageService: MessageService) {}
+  constructor(private route: ActivatedRoute,private workerService: WorkerService,private router: Router,private messageService: MessageService) {
+    this.route.queryParams.subscribe((params) => {
+      if (params['selectMode'] === 'assign') {
+        this.selectMode = true;
+        console.log(this.selectMode)
+      }
+    });
+  }
 
+  selectMode:boolean=false;
   ngOnInit() {
+
+    this.route.queryParams.subscribe((params) => {
+      if (params['selectMode'] === 'assign') {
+        this.selectMode = true;
+        console.log(this.selectMode)
+      }
+    });
 
     this.items = [
       {
@@ -293,6 +310,18 @@ export class RequestsListComponent {
     // }, 1000);
   }
 
+  selectedWorker:any
+  assignWorker(worker:any) {
+    if (this.selectedWorker) {
+      // Handle the assignment, e.g., navigate back or update the issue with the selected staff ID
+      this.selectedWorker = worker;
+      console.log('Selected Worker:', this.selectedWorker);
+      this.router.navigate(['/issues-list'], {
+        state: { selectedStaff: this.selectedWorker }
+      });
+    }
+  }
+
   selectedWorkerId:any;
   selectWorker(workerId:any) {
     this.selectedWorkerId = workerId;
@@ -364,12 +393,12 @@ export class RequestsListComponent {
     this.visibleReject=false;
   }
 
-acceptedWorkers:any;
-rejectedWorkers:any;
-pendingWorkers:any;
+acceptedWorkers:any[]=[];
+rejectedWorkers:any[]=[];
+pendingWorkers:any[]=[];
   filterWorkersByStatus() {
-    this.acceptedWorkers = this.workers.filter((worker) => worker.status === 'Completed');
-    this.rejectedWorkers = this.workers.filter((worker) => worker.status === 'NotCompleted');
+    this.acceptedWorkers = this.workers.filter((worker) => worker.status === 'Accepted');
+    this.rejectedWorkers = this.workers.filter((worker) => worker.status === 'Rejected');
     this.pendingWorkers = this.workers.filter((worker) => worker.status === 'InReview');
     // this.filteredWorkers = [...this.workers];
     console.log(this.workers)
@@ -387,12 +416,11 @@ pendingWorkers:any;
           return 'danger';
       case 'Accepted':
         return 'success';
-      // case 'pending':
-      //   return 'warning';
+
       case 'NotCompleted':
         return 'danger';
       default:
-        return 'secondary'; // If none of the cases match, return 'secondary'
+        return 'secondary';
     }
   }
 

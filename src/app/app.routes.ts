@@ -21,6 +21,31 @@ export const routes: Routes = [
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
     canActivate: [AdminGuard]
   },
+  {
+    path: 'staff-list',
+    loadComponent: () => import('./components/staff/staff-list/staff-list.component').then(m => m.StaffListComponent),
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'staff-details/:id',
+    loadComponent: () => import('./components/staff/staff-details/staff-details.component').then(m => m.StaffDetailsComponent),
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'issues-list',
+    loadComponent: () => import('./components/issues/issues-list/issues-list.component').then(m => m.IssuesListComponent),
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'create-issue',
+    loadComponent: () => import('./components/issues/create-issue/create-issue.component').then(m => m.CreateIssueComponent),
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'issue-details/:id',
+    loadComponent: () => import('./components/issues/issue-details/issue-details.component').then(m => m.IssueDetailsComponent),
+    canActivate: [AdminGuard]
+  },
 
   { path: '**', redirectTo: 'login' },
 ];

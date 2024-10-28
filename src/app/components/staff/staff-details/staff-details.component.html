@@ -1,0 +1,582 @@
+<div class="parent">
+  <div class="fixDiv"></div>
+  <div class="page">
+    <p-breadcrumb class="max-w-full" [model]="itemsLink">
+      <ng-template pTemplate="item" let-item>
+          <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+              <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+              <span>{{ item.label }}</span>
+          </a>
+      </ng-template>
+    </p-breadcrumb>
+
+    <p-card   [style]="{ width: '100%' }">
+      <ng-template pTemplate="header">
+
+        <div class="header-section">
+          <div class="extra-ellipse"></div>
+          <span class="status-tag" *ngIf="profileData.is_Available">Available</span>
+          <span class="status-tag" style="background:red;" *ngIf="!profileData.is_Available">Not Available</span>
+
+            <div class="profile-image">
+              <img [src]="profileData.image || 'workerImg.png'" alt="Profile" />
+                <h3 class="name">{{ profileData.name }}</h3>
+                <span class="role">{{ profileData.type }}</span>
+            </div>
+
+        </div>
+    </ng-template>
+
+    <div  >
+        <div class="personal-info">Personal Information</div>
+        <div class="info-grid">
+            <div>
+                <div class="h">Email:</div>
+                <div class="i">{{ profileData.email }}</div>
+            </div>
+            <div>
+                <div class="h">Date Of Birth:</div>
+                <div class="i">{{ profileData.doB }}</div>
+            </div>
+
+            <div>
+                <div class="h">Address:</div>
+               <div class="i">{{ profileData.address }}</div>
+            </div>
+            <div>
+              <div class="h">Whatsapp Number:</div>
+              <div class="i">{{ profileData.whatsapp_No }}</div>
+          </div>
+          <div>
+            <div class="h">Company Name:</div>
+            <div class="i">{{ profileData.company_Name }}</div>
+        </div>
+        <!-- <div>
+          <div class="h">Tax registration number :</div>
+          <div class="i">{{ profileData.tax_No }}</div>
+      </div> -->
+        </div>
+    </div>
+
+    <div class="skills-section">
+        <div class="personal-info">Skills</div>
+        <div class="skills">
+            <p-chip *ngFor="let skill of profileData?.skills" label="{{ skill }}"></p-chip>
+            <!-- <p-chip   label="alaa"></p-chip> -->
+
+        </div>
+    </div>
+
+    <div class="additional-skills">
+        <div class="personal-info" style="padding-bottom:5px !important">Total Jobs</div>
+        <div class="i">{{ profileData.total_Jobs }}</div>
+    </div>
+
+
+    <!---------------------------------------add table herre------------------------------------->
+    <p-card class="table" >
+
+      <p-tabView styleClass="tabview-custom">
+        <p-tabPanel>
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center gap-2">
+
+                    <span class=" white-space-nowrap m-0">
+                      Jobs
+                    </span>
+                    <p-badge [value]="jobs.length" />
+
+                </div>
+            </ng-template>
+                 <p-table
+                        #dt2
+                        [value]="jobs"
+                        dataKey="id"
+                        [rows]="10"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        [loading]="loading"
+                        [paginator]="true"
+                        [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
+                        [tableStyle]="{ 'min-width': '120rem'  }"
+                        selectionMode="single"
+                        [(selection)]="selectedCustomer"
+                        (onRowSelect)="onRowSelect($event)"
+                    >
+                        <ng-template pTemplate="caption">
+                            <div class="flex">
+                                <p-iconField iconPosition="left" class="ml-auto">
+                                    <p-inputIcon>
+                                        <i class="pi pi-search"></i>
+                                    </p-inputIcon>
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        (input)="onFilter($event)"
+                                        placeholder="Search keyword" />
+                                </p-iconField>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr class="headInfo">
+                                <th style="width:22%">Issue ID</th>
+                                <th style="width:22%">Requested by</th>
+                                <th style="width:22%">Apartment Number</th>
+                                <th style="width:22%">Issues</th>
+                                <th style="width:22%">Date Reported</th>
+                                <th style="width:22%">Status</th>
+
+
+
+
+                                <!-- <th style="width:22%">Name</th>
+                                <th style="width:22%">Country</th>
+                                <th style="width:22%">Agent</th>
+                                <th style="width:22%">Status</th>
+                                <th style="width:12%">Verified</th> -->
+                            </tr>
+                            <tr>
+                                    <th>
+                                      <p-columnFilter
+                                          type="text"
+                                          field="issueId"
+                                          placeholder="Search by IssueId"
+                                          ariaLabel="Filter No" />
+                                  </th>
+                                   <th>
+                                    <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+                                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                            <p-multiSelect
+                                                [ngModel]="value"
+                                                [options]="representatives"
+                                                placeholder="Any"
+                                                (onChange)="filter($event.value)"
+                                                optionLabel="name">
+                                                    <ng-template let-option pTemplate="item">
+                                                        <div class="inline-block vertical-align-middle">
+                                                            <img
+                                                                [alt]="option.label"
+                                                                src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ option.image }}"
+                                                                width="24"
+                                                                class="vertical-align-middle" />
+                                                            <span class="ml-1 mt-1">{{ option.name }}</span>
+                                                        </div>
+                                                    </ng-template>
+                                            </p-multiSelect>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </th>
+
+                                <th>
+                                    <p-columnFilter
+                                        type="text"
+                                        field="aprt_No"
+                                        placeholder="Search by Apartment No"
+                                        ariaLabel="Filter Number" />
+                                </th>
+                                <th>
+                                    <p-columnFilter
+                                        type="text"
+                                        field="issue"
+                                        placeholder="Search by isssue"
+                                        ariaLabel="Filter name" />
+                                </th>
+                                <th>
+                                  <p-columnFilter
+                                      type="text"
+                                      field="date_report"
+                                      placeholder="Search by date"
+                                      ariaLabel="Filter date" />
+                                  </th>
+
+
+                                <th>
+                                    <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                            <p-dropdown
+                                                [ngModel]="value"
+                                                [options]="statuses"
+                                                (onChange)="filter($event.value)"
+                                                placeholder="Select One"
+                                                [showClear]="true">
+                                                    <ng-template let-option pTemplate="item">
+                                                        <p-tag
+                                                            [value]="option.value"
+                                                            [ngClass]="getSeverity(option.label)" /> <!--[severity]="getSeverity(option.label)" -->
+                                                    </ng-template>
+                                            </p-dropdown>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </th>
+                                <!-- <th>
+                                    <p-columnFilter type="boolean" field="verified"></p-columnFilter>
+                                </th> -->
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-job>
+                            <tr  style="cursor: pointer;">
+                              <td (click)="onRowSelect({ data: job })">
+                                {{ job.issueId }}
+                               </td>
+                              <td class="workerName" (click)="onRowSelect({ data: job })">
+                                <img
+                                    [alt]="job.representative.name"
+                                    src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ job.representative.image }}"
+                                    width="32"
+                                    style="vertical-align: middle" />
+                                <span class="ml-1 vertical-align-middle">
+                                    {{ job.representative.name }}
+                                </span>
+                            </td>
+
+                                <td   (click)="onRowSelect({ data: job })">
+                                    {{ job.aprt_No }}
+                                </td>
+                                <td (click)="onRowSelect({ data:job })">
+                                  {{ job.issue }}
+                                </td>
+                                <td (click)="onRowSelect({ data: job })">
+                                  {{ job.date_report }}
+                               </td>
+
+                                <!-- <td>
+                                    <img
+                                        src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+                                        [class]="'flag flag-' + customer.country.code"
+                                        style="width: 20px" />
+                                    <span class="ml-1 vertical-align-middle">
+                                        {{ worker.name }}
+                                    </span>
+                                </td> -->
+
+                                <td (click)="onRowSelect({ data: job })" style="width:10% !important">
+                                    <p-tag
+                                        [value]="job.status"
+                                        [ngClass]="getSeverity(job.status)" /> <!--[severity]="getSeverity(worker.status)"-->
+
+
+
+                                </td>
+                                <td>
+                                  <p-toast />
+                                  <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
+                                  <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
+                                  <p-button  (onClick)="selectWorker(job.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="5">No jobs found.</td>
+                            </tr>
+                        </ng-template>
+              </p-table>
+        </p-tabPanel>
+
+
+        <p-tabPanel header="Header II">
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center gap-2">
+
+                    <span class=" white-space-nowrap m-0">
+                      Payments
+                    </span>
+                    <p-badge [value]="jobs.length" />
+
+                </div>
+            </ng-template>
+            <p-table
+            #dt2
+            [value]="jobs"
+            dataKey="id"
+            [rows]="10"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [loading]="loading"
+            [paginator]="true"
+            [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
+            [tableStyle]="{ 'min-width': '120rem'  }"
+            selectionMode="single"
+            [(selection)]="selectedCustomer"
+            (onRowSelect)="onRowSelect($event)"
+        >
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <p-iconField iconPosition="left" class="ml-auto">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input
+                            pInputText
+                            type="text"
+                            (input)="onFilter($event)"
+                            placeholder="Search keyword" />
+                    </p-iconField>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr class="headInfo">
+                    <th style="width:22%">Issue ID</th>
+                    <th style="width:22%">Requested by</th>
+                    <th style="width:22%">Apartment Number</th>
+                    <th style="width:22%">Issues</th>
+                    <th style="width:22%">Date Reported</th>
+                    <th style="width:22%">Status</th>
+
+
+
+
+                    <!-- <th style="width:22%">Name</th>
+                    <th style="width:22%">Country</th>
+                    <th style="width:22%">Agent</th>
+                    <th style="width:22%">Status</th>
+                    <th style="width:12%">Verified</th> -->
+                </tr>
+                <tr>
+                        <th>
+                          <p-columnFilter
+                              type="text"
+                              field="issueId"
+                              placeholder="Search by IssueId"
+                              ariaLabel="Filter No" />
+                      </th>
+                       <th>
+                        <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                <p-multiSelect
+                                    [ngModel]="value"
+                                    [options]="representatives"
+                                    placeholder="Any"
+                                    (onChange)="filter($event.value)"
+                                    optionLabel="name">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="inline-block vertical-align-middle">
+                                                <img
+                                                    [alt]="option.label"
+                                                    src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ option.image }}"
+                                                    width="24"
+                                                    class="vertical-align-middle" />
+                                                <span class="ml-1 mt-1">{{ option.name }}</span>
+                                            </div>
+                                        </ng-template>
+                                </p-multiSelect>
+                            </ng-template>
+                        </p-columnFilter>
+                    </th>
+
+                    <th>
+                        <p-columnFilter
+                            type="text"
+                            field="aprt_No"
+                            placeholder="Search by Apartment No"
+                            ariaLabel="Filter Number" />
+                    </th>
+                    <th>
+                        <p-columnFilter
+                            type="text"
+                            field="issue"
+                            placeholder="Search by isssue"
+                            ariaLabel="Filter name" />
+                    </th>
+                    <th>
+                      <p-columnFilter
+                          type="text"
+                          field="date_report"
+                          placeholder="Search by date"
+                          ariaLabel="Filter date" />
+                      </th>
+
+
+                    <th>
+                        <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                <p-dropdown
+                                    [ngModel]="value"
+                                    [options]="statuses"
+                                    (onChange)="filter($event.value)"
+                                    placeholder="Select One"
+                                    [showClear]="true">
+                                        <ng-template let-option pTemplate="item">
+                                            <p-tag
+                                                [value]="option.value"
+                                                [ngClass]="getSeverity(option.label)" /> <!--[severity]="getSeverity(option.label)" -->
+                                        </ng-template>
+                                </p-dropdown>
+                            </ng-template>
+                        </p-columnFilter>
+                    </th>
+                    <!-- <th>
+                        <p-columnFilter type="boolean" field="verified"></p-columnFilter>
+                    </th> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-job>
+                <tr  style="cursor: pointer;">
+                  <td (click)="onRowSelect({ data: job })">
+                    {{ job.issueId }}
+                   </td>
+                  <td class="workerName" (click)="onRowSelect({ data: job })">
+                    <img
+                        [alt]="job.representative.name"
+                        src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ job.representative.image }}"
+                        width="32"
+                        style="vertical-align: middle" />
+                    <span class="ml-1 vertical-align-middle">
+                        {{ job.representative.name }}
+                    </span>
+                </td>
+
+                    <td   (click)="onRowSelect({ data: job })">
+                        {{ job.aprt_No }}
+                    </td>
+                    <td (click)="onRowSelect({ data:job })">
+                      {{ job.issue }}
+                    </td>
+                    <td (click)="onRowSelect({ data: job })">
+                      {{ job.date_report }}
+                   </td>
+
+                    <!-- <td>
+                        <img
+                            src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+                            [class]="'flag flag-' + customer.country.code"
+                            style="width: 20px" />
+                        <span class="ml-1 vertical-align-middle">
+                            {{ worker.name }}
+                        </span>
+                    </td> -->
+
+                    <td (click)="onRowSelect({ data: job })" style="width:10% !important">
+                        <p-tag
+                            [value]="job.status"
+                            [ngClass]="getSeverity(job.status)" /> <!--[severity]="getSeverity(worker.status)"-->
+
+
+
+                    </td>
+                    <td>
+                      <p-toast />
+                      <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
+                      <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
+                      <p-button  (onClick)="selectWorker(job.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5">No payments found.</td>
+                </tr>
+            </ng-template>
+  </p-table>
+        </p-tabPanel>
+
+    </p-tabView>
+  </p-card>
+    <!---------------------------------------endd table ------------------------------------->
+
+
+
+    <div class="divider"></div>
+
+    <ng-template pTemplate="footer">
+        <div class="actions">
+
+            <!-- <button pButton label="Accept" class="accept p-button"></button> -->
+            <p-button (onClick)="showDialog2()" class="accept" [label]="isDeactivate ? 'Deactivate' : 'Accept'" />
+             <p-button (onClick)="showDialog()" class=" reject " label="Reject" />
+
+        </div>
+    </ng-template>
+  </p-card>
+
+
+  </div>
+
+
+
+
+  <!-- <p-button (onClick)="showDialog()" label="Show" /> -->
+<p-dialog header="rejection reason" [modal]="true" [(visible)]="visibleRejectTable" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-5"> Write your reason.</span>
+      <textarea
+        rows="5"
+        cols="30"
+        pInputTextarea
+        [style]="{ width: '100%' ,'margin-bottom':'15px' }"
+        >
+    </textarea>
+    <div class="flex justify-content-end gap-2">
+
+        <p-button (onClick)="visible = false" class="accept" label="Cancel" />
+        <p-button (onClick)="onSendRejectTable()" class=" reject " label="Send" />
+
+    </div>
+</p-dialog>
+
+<p-dialog class="DS"  [modal]="true" [(visible)]="visibleSuccess" [style]="{ width: '25rem' }">
+
+  <div class="success">
+    <div class="featured-icon">
+      <img src="tick_done.svg"/>
+    </div>
+      <div class="textS">Accepted successfully!</div>
+      <!-- <div class="textS2">rejection reason has been sent successfully.</div> -->
+
+
+      <p-button (onClick)="visibleSuccess = false" class="accept" label="Back to workers requests" />
+
+  </div>
+</p-dialog>
+
+<p-dialog class="DS"  [modal]="true" [(visible)]="visibleSuccessR" [style]="{ width: '25rem' }">
+
+  <div class="success">
+    <div class="featured-icon">
+      <img src="tick_done.svg"/>
+    </div>
+      <div class="textS">send successfully!</div>
+      <div class="textS2">rejection reason has been sent successfully.</div>
+
+
+      <p-button (onClick)="visibleSuccessR = false" class="accept" label="Back to workers requests" />
+
+  </div>
+</p-dialog>
+
+
+
+<p-dialog class="DS"  [modal]="true" [(visible)]="visibleSuccessD" [style]="{ width: '25rem' }">
+
+  <div class="success">
+    <div class="featured-icon">
+      <img src="tick_done.svg"/>
+    </div>
+      <div class="textS">Deactivated successfully!</div>
+      <!-- <div class="textS2">rejection reason has been sent successfully.</div> -->
+
+
+      <p-button (onClick)="visibleSuccessD = false" class="accept" label="Back to workers requests" />
+
+  </div>
+</p-dialog>
+
+
+<!-- <p-dialog class="DS"  [modal]="true" [(visible)]="visibleSuccess" [style]="{ width: '25rem' }">
+
+  <div class="success">
+    <div class="delete-icon">
+      <img src="deleteworker.svg"/>
+    </div>
+      <div class="textS">Confirm deletion of user account</div>
+      <div class="textS2">Are you sure you want to delete your account? This action is irreversible and will permanently delete all data associated with your account.</div>
+
+
+      <div class="flex justify-content-between gap-2 w-full">
+
+        <p-button (onClick)="visibleSuccess = false" class="acceptt w-50" label="Cancel" />
+        <p-button (onClick)="visibleSuccess = false" class=" rejectt w-50" label="Send" />
+
+    </div>
+
+  </div>
+</p-dialog> -->

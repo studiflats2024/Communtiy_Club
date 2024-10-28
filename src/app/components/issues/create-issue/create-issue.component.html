@@ -1,0 +1,107 @@
+<div class="parent">
+  <div class="fixDiv"></div>
+  <div class="page">
+    <p-breadcrumb class="max-w-full" [model]="itemsLink">
+      <ng-template pTemplate="item" let-item>
+          <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+              <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+              <span>{{ item.label }}</span>
+          </a>
+      </ng-template>
+    </p-breadcrumb>
+
+    <div class="row m-2">
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="title">Issue</div>
+          <div class="desc">Create a new issue and assign anyone</div>
+
+      </div>
+
+      <div class="col-lg-9 col-md-9 col-sm-12">
+
+        <div class="div">
+              <div class="flex flex-column gap-2 w-50">
+                <label for="isseid">Issue Id</label>
+                <input
+                    pInputText
+                    id="isseid"
+                    aria-describedby="username-help"
+                    [(ngModel)]="issueId" />
+
+            </div>
+            <div class="flex flex-column gap-2 w-50">
+              <label for="issuename">Issue Name</label>
+              <input
+                  pInputText
+                  id="issuename"
+                  aria-describedby="username-help"
+                  [(ngModel)]="issueName" />
+
+          </div>
+        </div>
+        <div class="div">
+                  <div class="flex flex-column gap-2 w-50">
+                    <label for="aprtno">Apartment Number</label>
+                    <input
+                        pInputText
+                        id="aprtno"
+                        aria-describedby="username-help"
+                        [(ngModel)]="aprtNo" />
+
+                </div>
+                <div class="flex flex-column gap-2 w-50">
+                  <label for="requestedBy">Requested by</label>
+                  <input
+                      pInputText
+                      id="requestedBy"
+                      aria-describedby="username-help"
+                      [(ngModel)]="requestedBy" />
+
+              </div>
+        </div>
+        <div class="div">
+          <div class="flex flex-column gap-2 w-50">
+            <label for="userType">User Type</label>
+              <p-dropdown
+              [options]="userTypes"
+              [(ngModel)]="selectedUserType"
+              id="userType"
+              optionLabel="name"
+              placeholder="Select a Type" />
+          </div>
+
+          <div class="flex flex-column gap-2 w-50">
+            <label for="issueType">Issue Type</label>
+              <p-dropdown
+              [options]="issueTypes"
+              [(ngModel)]="selectedIssueType"
+              id="issueType"
+              optionLabel="name"
+              placeholder="Select a Type" />
+          </div>
+        </div>
+        <div class="div">
+          <div class="flex flex-column gap-2 ">
+            <label for="desc">Description</label>
+
+                  <textarea
+                  rows="5"
+                  cols="30"
+                  id="desc"
+                  pInputTextarea
+                  [(ngModel)]="description">
+                 </textarea>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
