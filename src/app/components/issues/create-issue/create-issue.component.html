@@ -9,6 +9,7 @@
           </a>
       </ng-template>
     </p-breadcrumb>
+    <p-toast></p-toast>
 
     <div class="row m-2">
       <div class="col-lg-3 col-md-3 col-sm-12">
@@ -21,12 +22,13 @@
 
         <div class="div">
               <div class="flex flex-column gap-2 w-50">
-                <label for="isseid">Issue Id</label>
+                <label for="isseid">Issue Code</label>
                 <input
                     pInputText
                     id="isseid"
                     aria-describedby="username-help"
-                    [(ngModel)]="issueId" />
+                    [(ngModel)]="issueCode"
+                    readonly />
 
             </div>
             <div class="flex flex-column gap-2 w-50">
@@ -46,7 +48,8 @@
                         pInputText
                         id="aprtno"
                         aria-describedby="username-help"
-                        [(ngModel)]="aprtNo" />
+                        [(ngModel)]="selectedApartment.apartment_No"
+                        readonly />
 
                 </div>
                 <div class="flex flex-column gap-2 w-50">
@@ -70,18 +73,29 @@
               placeholder="Select a Type" />
           </div>
 
-          <div class="flex flex-column gap-2 w-50">
+          <!-- <div class="flex flex-column gap-2 w-50">
             <label for="issueType">Issue Type</label>
               <p-dropdown
               [options]="issueTypes"
               [(ngModel)]="selectedIssueType"
               id="issueType"
-              optionLabel="name"
-              placeholder="Select a Type" />
+              optionLabel="skill_Name"
+              placeholder="Select a Type"
+               />
+          </div> -->
+          <div class="flex flex-column gap-2 w-50">
+            <label for="issueType">Issue Type</label>
+            <p-multiSelect
+              [options]="issueTypes"
+              [(ngModel)]="selectedIssueTypes"
+              id="issueType"
+              optionLabel="skill_Name"
+              placeholder="Select Types">
+            </p-multiSelect>
           </div>
         </div>
         <div class="div">
-          <div class="flex flex-column gap-2 ">
+          <div class="flex flex-column gap-2 w-full desc">
             <label for="desc">Description</label>
 
                   <textarea
@@ -94,8 +108,151 @@
           </div>
         </div>
 
+        <div class=" w-full">
+            <!-- File Upload (Browse and Drag/Drop) -->
+                    <p-fileUpload
+                    mode="advanced"
+                    name="demo[]"
+                    accept="image/*"
+                    maxFileSize="5000000"
+                    (onSelect)="onImageSelect($event)">
+
+                    <ng-template pTemplate="content">
+                      <div style=" width:100%;text-align: center; padding: 20px; margin-top: 10px; padding-bottom:0;">
+                        <!-- Cloud Icon -->
+                        <!-- <i class="pi pi-cloud-upload" style="font-size: 48px; color: #b3b3b3;"></i> -->
+                        <img src="cloud-add.svg"/>
+
+                        <!-- Text -->
+                        <p class="choosep">Choose a file or drag & drop it here</p>
+
+                        <!-- Supported Formats -->
+                        <p class="imgtypes">
+                          JPEG, PNG, PDG, and MP4 formats, up to 50MB
+                        </p>
+                      </div>
+                    </ng-template>
+                    <!-- <ng-template pTemplate="chooseButtonLabel">
+                      <span>Browse File</span>
+                    </ng-template> -->
+                  </p-fileUpload>
+
+                  <!-- Galleria Display -->
+                  <p-galleria
+                    [value]="images"
+                    [circular]="true"
+                    [showThumbnails]="false"
+                    [responsiveOptions]="responsiveOptions"
+                    [containerStyle]="{'max-width': '640px'}"
+                    [numVisible]="5">
+                    <ng-template pTemplate="item" let-item>
+                      <img [src]="item" alt="issue img" style="width: 100%;">
+                    </ng-template>
+                    <ng-template pTemplate="thumbnail" let-item>
+                      <img [src]="item" alt="issue img" style="width: 50px; height: 50px;">
+                    </ng-template>
+                  </p-galleria>
+
+                  <!-- Drag and Drop to Reorder -->
+                  <!-- <h5>Reorder Images</h5> -->
+                  <div class="image-list">
+                    <div
+                      *ngFor="let img of images; let i = index"
+                      class="item"
+                      pDraggable="true"
+                      (onDragStart)="onDragStart($event, img)"
+                      (onDragEnd)="onDragEnd($event)">
+
+                      <div pDroppable="true" (onDrop)="onDrop($event, i)" (onDragEnter)="onDragEnter($event, i)">
+                        <img class="image-item" [src]="img" alt="issue img"  >
+                        <div class="bin" (click)="removeImage(i)"><img src="bin.svg"/></div>
+                      </div>
+                    </div>
+                  </div>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="div">
+          <div class="flex flex-column gap-2 w-50">
+            <label for="level">Periority Level</label>
+              <p-dropdown
+              [options]="periorityLevels"
+              [(ngModel)]="selectedLevel"
+              id="level"
+              optionLabel="name"
+              placeholder="Select a Level" />
+          </div>
+
+          <div class="flex flex-column gap-2 w-50">
+            <label for="repairTime">Estimated Repair Time</label>
+            <p-calendar
+              [(ngModel)]="repairTime"
+              [showIcon]="true"
+              timeOnly="true"
+              showSeconds="true"
+              placeholder="00:00:00"
+              inputId="repairTime">
+            </p-calendar>
+          </div>
+        </div>
+
+
+        <div class="appoint">
+           <div>
+            <div class="title">Suggested dates</div>
+          <div class="desc">add available appointments</div>
+           </div>
+
+          <div   class="appointment-row">
+            <div *ngFor="let appointment of appointments; let i = index">
+              <label>Appointment ({{ i + 1 }})</label>
+              <div class="div gap-0" style="margin-bottom: 0px;">
+                    <p-calendar
+                    [(ngModel)]="appointment.date"
+                    [showIcon]="true"
+                    dateFormat="dd/mm/yy"
+                    timeOnly="true"
+
+                    hourFormat="12"
+                    placeholder="Select Date & Time">
+                  </p-calendar>
+                  <button pButton icon="pi pi-times" class="p-button-text danger" (click)="removeAppointment(i)"></button>
+              </div>
+            </div>
+          <button pButton type="button" label="add new appointment" icon="pi pi-plus" class="add-appoint" (click)="addAppointment()"></button>
+
+
+          </div>
+
+          <!-- <button pButton type="button" label="add new appointment" icon="pi pi-plus" class="p-button-link" (click)="addAppointment()"></button> -->
+
+        </div>
+
+
+        <div class="divider"></div>
+
+        <div class="actions">
+
+          <!-- <button pButton label="Accept" class="accept p-button"></button> -->
+          <p-button (onClick)="showSuccessD()" class="accept"  label="Create" />
+           <p-button (onClick)="showSuccess=false" class=" reject " label="Cancel" />
 
       </div>
+
+
+      </div>
+
+
+
+
+
+
     </div>
   </div>
 </div>
@@ -105,3 +262,17 @@
 
 
 
+<p-dialog class="DS"  [modal]="true" [(visible)]="showSuccess" [style]="{ width: '25rem' }">
+
+  <div class="success">
+    <div class="featured-icon">
+      <img src="tick_done.svg"/>
+    </div>
+      <div class="textS">Created successfully!</div>
+      <!-- <div class="textS2">rejection reason has been sent successfully.</div> -->
+
+
+      <p-button (onClick)="showSuccess = false" class="accept" label="Back to issues" />
+
+  </div>
+</p-dialog>

@@ -1,0 +1,246 @@
+ <!-- <div class="row">
+  <div class="col-lg-2 col-md-0 col-sm-0 "></div>
+  <div class="col-lg-10 col-md-12 col-sm-12">
+    helloooooooooo
+  </div>
+
+ </div> -->
+ <div class="parent">
+  <div class="fixDiv"></div>
+  <div class="page">
+
+    <p-card  >
+
+      <p-tabView styleClass="tabview-custom">
+        <p-tabPanel>
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center gap-2">
+
+                    <span class=" white-space-nowrap m-0">
+                      All Apartment
+                    </span>
+                    <p-badge [value]="apartments.length" />
+
+                </div>
+            </ng-template>
+                 <p-table
+                        #dt2
+                        [value]="apartments"
+                        dataKey="apartment_ID"
+                        [rows]="10"
+                        [rowsPerPageOptions]="[10, 25, 50]"
+                        [loading]="loading"
+                        [paginator]="true"
+                        [globalFilterFields]="['apartment_Code', 'apartment_Name', 'apartment_Address','apartment_No','apartment_Door_No']"
+                        [tableStyle]="{ 'min-width': '120rem'  }"
+                        selectionMode="single"
+                        [(selection)]="selectedApartment"
+                        (onRowSelect)="onRowSelect($event)"
+                    >
+                        <ng-template pTemplate="caption">
+                            <div class="flex">
+                                <p-iconField iconPosition="left" class="ml-auto">
+                                    <p-inputIcon>
+                                        <i class="pi pi-search"></i>
+                                    </p-inputIcon>
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        (input)="onFilter($event)"
+                                        placeholder="Search keyword" />
+                                </p-iconField>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr class="headInfo">
+                              <th *ngIf="selectMode" ></th>
+                                <th style="width:22%">ID</th>
+                                <th style="width:22%">Apartment Name</th>
+                                <th style="width:22%">Address</th>
+                                <th style="width:22%">Door Number</th>
+                                <th style="width:22%">Apartment Name</th>
+                                <th style="width:22%">Apartment No</th>
+
+
+
+                                <!-- <th style="width:22%">Name</th>
+                                <th style="width:22%">Country</th>
+                                <th style="width:22%">Agent</th>
+                                <th style="width:22%">Status</th>
+                                <th style="width:12%">Verified</th> -->
+                            </tr>
+                            <tr>
+                               <th *ngIf="selectMode" ></th>
+                                <th>
+                                    <p-columnFilter
+                                        type="text"
+                                        field="apartment_Code"
+                                        placeholder="Search by ID"
+                                        ariaLabel="Filter No" />
+                                </th>
+                                <th>
+                                    <p-columnFilter
+                                        type="text"
+                                        field="apartment_Name"
+                                        placeholder="Search by name"
+                                        ariaLabel="Filter Name" />
+                                </th>
+                                <th>
+                                    <p-columnFilter
+                                        type="text"
+                                        field="apartment_Address"
+                                        placeholder="Search by address"
+                                        ariaLabel="Filter address" />
+                                </th>
+                                <th>
+                                  <p-columnFilter
+                                      type="text"
+                                      field="apartment_Door_No"
+                                      placeholder="Search by DoorNo"
+                                      ariaLabel="Filter No" />
+                                  </th>
+                                  <th>
+                                      <p-columnFilter
+                                          type="text"
+                                          field="apartment_No"
+                                          placeholder="Search by number"
+                                          ariaLabel="Filter number" />
+                                  </th>
+                                  <!-- <th>
+                                    <p-columnFilter
+                                        type="text"
+                                        field="skills"
+                                        placeholder="Search by Skills"
+                                        ariaLabel="Filter Skills" />
+                                </th> -->
+                                <!-- <th>
+                                    <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+                                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                            <p-multiSelect
+                                                [ngModel]="value"
+                                                [options]="representatives"
+                                                placeholder="Any"
+                                                (onChange)="filter($event.value)"
+                                                optionLabel="name">
+                                                    <ng-template let-option pTemplate="item">
+                                                        <div class="inline-block vertical-align-middle">
+                                                            <img
+                                                                [alt]="option.label"
+                                                                src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ option.image }}"
+                                                                width="24"
+                                                                class="vertical-align-middle" />
+                                                            <span class="ml-1 mt-1">{{ option.name }}</span>
+                                                        </div>
+                                                    </ng-template>
+                                            </p-multiSelect>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </th> -->
+                                <!-- <th>
+                                    <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+                                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                            <p-dropdown
+                                                [ngModel]="value"
+                                                [options]="statuses"
+                                                (onChange)="filter($event.value)"
+                                                placeholder="Select One"
+                                                [showClear]="true">
+                                                    <ng-template let-option pTemplate="item">
+                                                        <p-tag
+                                                            [value]="option.value"
+                                                            [ngClass]="getSeverity(option.label)" />
+                                                    </ng-template>
+                                            </p-dropdown>
+                                        </ng-template>
+                                    </p-columnFilter>
+                                </th> -->
+                                <!-- <th>
+                                    <p-columnFilter type="boolean" field="verified"></p-columnFilter>
+                                </th> -->
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-apartment>
+                            <tr  style="cursor: pointer;" [pSelectableRow]="apartment">
+                              <!-- <td> -->
+                              <p-tableRadioButton (click)="assignApartment(apartment)" class="mt-20" *ngIf="selectMode"   [value]="apartment"  ></p-tableRadioButton>
+                              <!-- </td> -->
+                               <td (click)="onRowSelect({ data: apartment })">
+                                {{ apartment.apartment_Code }}
+                               </td>
+                               <td (click)="onRowSelect({ data: apartment })">
+                                <img
+                                    [alt]="apartment.apartment_Name"
+                                    [src]="apartment.apartment_Thumb_Image"
+                                    width="32"
+                                    style="vertical-align: middle;width:32px; height:32px;" />
+                                <span class="ml-1 vertical-align-middle">
+                                    {{ apartment.apartment_Name }}
+                                </span>
+                               </td>
+                                <td (click)="onRowSelect({ data: apartment })">
+                                  {{ apartment.apartment_Address }}
+                                </td>
+                                <td (click)="onRowSelect({ data: apartment })">
+                                  {{ apartment.apartment_Door_No }}
+                               </td>
+                               <td (click)="onRowSelect({ data: apartment })">
+                                {{ apartment.apartment_No }}
+                               </td>
+
+                                <!-- <td>
+                                    <img
+                                        src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+                                        [class]="'flag flag-' + customer.country.code"
+                                        style="width: 20px" />
+                                    <span class="ml-1 vertical-align-middle">
+                                        {{ worker.name }}
+                                    </span>
+                                </td> -->
+
+                                <td>
+                                  <p-toast />
+                                  <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
+                                  <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
+                                  <p-button  (onClick)="selectApartment(apartment.apartment_ID); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="5">No apartments found.</td>
+                            </tr>
+                        </ng-template>
+              </p-table>
+        </p-tabPanel>
+
+
+
+    </p-tabView>
+  </p-card>
+
+  </div>
+
+ </div>
+
+
+
+
+
+ <p-dialog header="rejection reason" [modal]="true" [(visible)]="visibleReject" [style]="{ width: '25rem' }">
+  <span class="p-text-secondary block mb-5"> Write your reason.</span>
+    <textarea
+      rows="5"
+      cols="30"
+      pInputTextarea
+      [(ngModel)]="reason"
+      [style]="{ width: '100%' ,'margin-bottom':'15px' }"
+      >
+  </textarea>
+  <div class="flex justify-content-end gap-2">
+
+      <p-button (onClick)="visibleReject = false" class="accept" label="Cancel" />
+      <p-button (onClick)="onSendReject()" class=" reject " label="Send" />
+
+  </div>
+</p-dialog>

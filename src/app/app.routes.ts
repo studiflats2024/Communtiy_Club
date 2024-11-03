@@ -12,6 +12,11 @@ export const routes: Routes = [
     canActivate: [AdminGuard]
   },
   {
+    path: 'apartment-list',
+    loadComponent: () => import('./components/apartment/apartment-list/apartment-list.component').then(m => m.ApartmentListComponent),
+    canActivate: [AdminGuard]
+  },
+  {
     path: 'worker-details/:id',
     loadComponent: () => import('./components/workers/worker-details/worker-details.component').then(m => m.WorkerDetailsComponent),
     canActivate: [AdminGuard]
@@ -46,6 +51,7 @@ export const routes: Routes = [
     loadComponent: () => import('./components/issues/issue-details/issue-details.component').then(m => m.IssueDetailsComponent),
     canActivate: [AdminGuard]
   },
+
 
   { path: '**', redirectTo: 'login' },
 ];

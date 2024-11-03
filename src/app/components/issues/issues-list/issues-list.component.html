@@ -14,9 +14,9 @@
     justify-content: end;
     margin-bottom: 20px;">
 
-      <a  class="px-3 py-2 rounded border text-white text-decoration-none" routerLink="/create-issue" style="background-color:#1F4068; cursor: pointer;">
+      <div (click)="onNewIssue()"  class="px-3 py-2 rounded border text-white text-decoration-none"   style="background-color:#1F4068; cursor: pointer;">
         <img src="plus.svg" class="me-2 ">Add New
-    </a>
+    </div>
     </div>
 
 
@@ -31,22 +31,22 @@
                 <span class=" white-space-nowrap m-0">
                   Unassigned issues
                 </span>
-                <p-badge [value]="jobs.length" />
+                <p-badge [value]="issuesNotAssigned.length" />
 
             </div>
         </ng-template>
              <p-table
                     #dt2
-                    [value]="jobs"
+                    [value]="issuesNotAssigned"
                     dataKey="id"
                     [rows]="10"
                     [rowsPerPageOptions]="[10, 25, 50]"
                     [loading]="loading"
                     [paginator]="true"
-                    [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
+                    [globalFilterFields]="['code', 'requestedByName', 'apartmentCode','issuesNames','reportedAt','assignedTo', 'status']"
                     [tableStyle]="{ 'min-width': '120rem'  }"
                     selectionMode="single"
-                    [(selection)]="selectedCustomer"
+                    [(selection)]="selectedIssue"
                     (onRowSelect)="onRowSelect($event)"
                 >
                     <ng-template pTemplate="caption">
@@ -65,11 +65,12 @@
                     </ng-template>
                     <ng-template pTemplate="header">
                         <tr class="headInfo">
-                            <th style="width:22%">Issue ID</th>
+                            <th style="width:22%">Issue Code</th>
                             <th style="width:22%">Requested by</th>
                             <th style="width:22%">Apartment Number</th>
                             <th style="width:22%">Issues</th>
                             <th style="width:22%">Date Reported</th>
+                            <th style="width:22%">Assigned To</th>
                             <th style="width:22%">Status</th>
 
 
@@ -85,12 +86,19 @@
                                 <th>
                                   <p-columnFilter
                                       type="text"
-                                      field="issueId"
-                                      placeholder="Search by IssueId"
+                                      field="code"
+                                      placeholder="Search by Code"
                                       ariaLabel="Filter No" />
                               </th>
-                               <th>
-                                <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+                              <th>
+                                <p-columnFilter
+                                    type="text"
+                                    field=" requestedByName"
+                                    placeholder="Search by Name"
+                                    ariaLabel="Filter Name" />
+                            </th>
+                               <!-- <th>
+                                <p-columnFilter field="requestedByName" matchMode="in" [showMenu]="false">
                                     <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                                         <p-multiSelect
                                             [ngModel]="value"
@@ -111,29 +119,37 @@
                                         </p-multiSelect>
                                     </ng-template>
                                 </p-columnFilter>
-                            </th>
+                            </th> -->
 
                             <th>
                                 <p-columnFilter
                                     type="text"
-                                    field="aprt_No"
+                                    field="apartmentCode"
                                     placeholder="Search by Apartment No"
                                     ariaLabel="Filter Number" />
                             </th>
                             <th>
                                 <p-columnFilter
                                     type="text"
-                                    field="issue"
+                                    field="issuesNames"
                                     placeholder="Search by isssue"
                                     ariaLabel="Filter name" />
                             </th>
                             <th>
                               <p-columnFilter
                                   type="text"
-                                  field="date_report"
+                                  field="reportedAt"
                                   placeholder="Search by date"
                                   ariaLabel="Filter date" />
                               </th>
+
+                              <th>
+                                <p-columnFilter
+                                    type="text"
+                                    field="assignedTo"
+                                    placeholder="Search by name"
+                                    ariaLabel="Filter Name" />
+                                </th>
 
 
                             <th>
@@ -159,31 +175,35 @@
                             </th> -->
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-job>
+                    <ng-template pTemplate="body" let-issue>
                         <tr  style="cursor: pointer;">
-                          <td (click)="onRowSelect({ data: job })">
-                            {{ job.issueId }}
+                          <td (click)="onRowSelect({ data: issue })">
+                            {{ issue.code }}
                            </td>
-                          <td class="workerName" (click)="onRowSelect({ data: job })">
+                          <td class="workerName" (click)="onRowSelect({ data: issue })">
                             <img
-                                [alt]="job.representative.name"
-                                src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ job.representative.image }}"
+                                [alt]="issue.requestedByName"
+                                [src]="issue.requestedByPic"
                                 width="32"
                                 style="vertical-align: middle" />
                             <span class="ml-1 vertical-align-middle">
-                                {{ job.representative.name }}
+                                {{ issue.requestedByName }}
                             </span>
                         </td>
 
-                            <td   (click)="onRowSelect({ data: job })">
-                                {{ job.aprt_No }}
+                            <td   (click)="onRowSelect({ data: issue })">
+                                {{ issue.apartmentCode }}
                             </td>
-                            <td (click)="onRowSelect({ data:job })">
-                              {{ job.issue }}
+                            <td (click)="onRowSelect({ data:issue})">
+                              {{ issue.issuesNames }}
                             </td>
-                            <td (click)="onRowSelect({ data: job })">
-                              {{ job.date_report }}
+                            <td (click)="onRowSelect({ data: issue })">
+                              {{ issue.reportedAt }}
                            </td>
+                              <td (click)="onRowSelect({ data: issue })">
+                                {{ issue.assignedTo }}
+                            </td>
+
 
                             <!-- <td>
                                 <img
@@ -195,10 +215,10 @@
                                 </span>
                             </td> -->
 
-                            <td (click)="onRowSelect({ data: job })" style="width:10% !important">
+                            <td (click)="onRowSelect({ data: issue })" style="width:10% !important">
                                 <p-tag
-                                    [value]="job.status"
-                                    [ngClass]="getSeverity(job.status)" /> <!--[severity]="getSeverity(worker.status)"-->
+                                    [value]="issue.status"
+                                    [ngClass]="getSeverity(issue.status)" /> <!--[severity]="getSeverity(worker.status)"-->
 
 
 
@@ -207,14 +227,14 @@
                               <p-toast />
                               <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
                               <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-                              <p-button  (onClick)="selectWorker(job.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                              <p-button  (onClick)="selectWorker(issue.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
                             </td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
                         <tr>
-                            <td colspan="5">No jobs found.</td>
+                            <td colspan="5">No issues found.</td>
                         </tr>
                     </ng-template>
           </p-table>
@@ -230,22 +250,22 @@
                 <span class=" white-space-nowrap m-0">
                   Cleaner
                 </span>
-                <p-badge [value]="jobs.length" />
+                <p-badge [value]="issuesCleaner.length" />
 
             </div>
         </ng-template>
         <p-table
         #dt2
-        [value]="jobs"
+        [value]="issuesCleaner"
         dataKey="id"
         [rows]="10"
         [rowsPerPageOptions]="[10, 25, 50]"
         [loading]="loading"
         [paginator]="true"
-        [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
+        [globalFilterFields]="['code', 'requestedByName', 'apartmentCode','issuesNames','reportedAt','assignedTo', 'status']"
         [tableStyle]="{ 'min-width': '120rem'  }"
         selectionMode="single"
-        [(selection)]="selectedCustomer"
+        [(selection)]="selectedIssue"
         (onRowSelect)="onRowSelect($event)"
     >
         <ng-template pTemplate="caption">
@@ -264,11 +284,12 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr class="headInfo">
-                <th style="width:22%">Issue ID</th>
+                <th style="width:22%">Issue Code</th>
                 <th style="width:22%">Requested by</th>
                 <th style="width:22%">Apartment Number</th>
                 <th style="width:22%">Issues</th>
                 <th style="width:22%">Date Reported</th>
+                <th style="width:22%">Assigned To</th>
                 <th style="width:22%">Status</th>
 
 
@@ -284,12 +305,19 @@
                     <th>
                       <p-columnFilter
                           type="text"
-                          field="issueId"
-                          placeholder="Search by IssueId"
+                          field="code"
+                          placeholder="Search by Code"
                           ariaLabel="Filter No" />
                   </th>
-                   <th>
-                    <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+                  <th>
+                    <p-columnFilter
+                        type="text"
+                        field=" requestedByName"
+                        placeholder="Search by Name"
+                        ariaLabel="Filter Name" />
+                </th>
+                   <!-- <th>
+                    <p-columnFilter field="requestedByName" matchMode="in" [showMenu]="false">
                         <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                             <p-multiSelect
                                 [ngModel]="value"
@@ -310,29 +338,37 @@
                             </p-multiSelect>
                         </ng-template>
                     </p-columnFilter>
-                </th>
+                </th> -->
 
                 <th>
                     <p-columnFilter
                         type="text"
-                        field="aprt_No"
+                        field="apartmentCode"
                         placeholder="Search by Apartment No"
                         ariaLabel="Filter Number" />
                 </th>
                 <th>
                     <p-columnFilter
                         type="text"
-                        field="issue"
+                        field="issuesNames"
                         placeholder="Search by isssue"
                         ariaLabel="Filter name" />
                 </th>
                 <th>
                   <p-columnFilter
                       type="text"
-                      field="date_report"
+                      field="reportedAt"
                       placeholder="Search by date"
                       ariaLabel="Filter date" />
                   </th>
+
+                  <th>
+                    <p-columnFilter
+                        type="text"
+                        field="assignedTo"
+                        placeholder="Search by name"
+                        ariaLabel="Filter Name" />
+                    </th>
 
 
                 <th>
@@ -358,31 +394,35 @@
                 </th> -->
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-job>
+        <ng-template pTemplate="body" let-issue>
             <tr  style="cursor: pointer;">
-              <td (click)="onRowSelect({ data: job })">
-                {{ job.issueId }}
+              <td (click)="onRowSelect({ data: issue })">
+                {{ issue.code }}
                </td>
-              <td class="workerName" (click)="onRowSelect({ data: job })">
+              <td class="workerName" (click)="onRowSelect({ data: issue })">
                 <img
-                    [alt]="job.representative.name"
-                    src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ job.representative.image }}"
+                    [alt]="issue.requestedByName"
+                    [src]="issue.requestedByPic"
                     width="32"
                     style="vertical-align: middle" />
                 <span class="ml-1 vertical-align-middle">
-                    {{ job.representative.name }}
+                    {{ issue.requestedByName }}
                 </span>
             </td>
 
-                <td   (click)="onRowSelect({ data: job })">
-                    {{ job.aprt_No }}
+                <td   (click)="onRowSelect({ data: issue })">
+                    {{ issue.apartmentCode }}
                 </td>
-                <td (click)="onRowSelect({ data:job })">
-                  {{ job.issue }}
+                <td (click)="onRowSelect({ data:issue})">
+                  {{ issue.issuesNames }}
                 </td>
-                <td (click)="onRowSelect({ data: job })">
-                  {{ job.date_report }}
+                <td (click)="onRowSelect({ data: issue })">
+                  {{ issue.reportedAt }}
                </td>
+                  <td (click)="onRowSelect({ data: issue })">
+                    {{ issue.assignedTo }}
+                </td>
+
 
                 <!-- <td>
                     <img
@@ -394,10 +434,10 @@
                     </span>
                 </td> -->
 
-                <td (click)="onRowSelect({ data: job })" style="width:10% !important">
+                <td (click)="onRowSelect({ data: issue })" style="width:10% !important">
                     <p-tag
-                        [value]="job.status"
-                        [ngClass]="getSeverity(job.status)" /> <!--[severity]="getSeverity(worker.status)"-->
+                        [value]="issue.status"
+                        [ngClass]="getSeverity(issue.status)" /> <!--[severity]="getSeverity(worker.status)"-->
 
 
 
@@ -406,14 +446,14 @@
                   <p-toast />
                   <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
                   <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-                  <p-button  (onClick)="selectWorker(job.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                  <p-button  (onClick)="selectWorker(issue.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td colspan="5">No payments found.</td>
+                <td colspan="5">No issues found.</td>
             </tr>
         </ng-template>
 </p-table>
@@ -427,22 +467,22 @@
               <span class=" white-space-nowrap m-0">
                 Worker
               </span>
-              <p-badge [value]="jobs.length" />
+              <p-badge [value]="issuesWorker.length" />
 
           </div>
       </ng-template>
       <p-table
       #dt2
-      [value]="jobs"
+      [value]="issuesWorker"
       dataKey="id"
       [rows]="10"
       [rowsPerPageOptions]="[10, 25, 50]"
       [loading]="loading"
       [paginator]="true"
-      [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
+      [globalFilterFields]="['code', 'requestedByName', 'apartmentCode','issuesNames','reportedAt','assignedTo', 'status']"
       [tableStyle]="{ 'min-width': '120rem'  }"
       selectionMode="single"
-      [(selection)]="selectedCustomer"
+      [(selection)]="selectedIssue"
       (onRowSelect)="onRowSelect($event)"
   >
       <ng-template pTemplate="caption">
@@ -461,11 +501,13 @@
       </ng-template>
       <ng-template pTemplate="header">
           <tr class="headInfo">
-              <th style="width:22%">Issue ID</th>
+              <th style="width:22%">Issue Code</th>
               <th style="width:22%">Requested by</th>
               <th style="width:22%">Apartment Number</th>
               <th style="width:22%">Issues</th>
               <th style="width:22%">Date Reported</th>
+              <th style="width:22%">Assigned To</th>
+
               <th style="width:22%">Status</th>
 
 
@@ -481,12 +523,19 @@
                   <th>
                     <p-columnFilter
                         type="text"
-                        field="issueId"
-                        placeholder="Search by IssueId"
+                        field="code"
+                        placeholder="Search by Code"
                         ariaLabel="Filter No" />
                 </th>
-                 <th>
-                  <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+                <th>
+                  <p-columnFilter
+                      type="text"
+                      field=" requestedByName"
+                      placeholder="Search by Name"
+                      ariaLabel="Filter Name" />
+              </th>
+                 <!-- <th>
+                  <p-columnFilter field="requestedByName" matchMode="in" [showMenu]="false">
                       <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                           <p-multiSelect
                               [ngModel]="value"
@@ -507,29 +556,37 @@
                           </p-multiSelect>
                       </ng-template>
                   </p-columnFilter>
-              </th>
+              </th> -->
 
               <th>
                   <p-columnFilter
                       type="text"
-                      field="aprt_No"
+                      field="apartmentCode"
                       placeholder="Search by Apartment No"
                       ariaLabel="Filter Number" />
               </th>
               <th>
                   <p-columnFilter
                       type="text"
-                      field="issue"
+                      field="issuesNames"
                       placeholder="Search by isssue"
                       ariaLabel="Filter name" />
               </th>
               <th>
                 <p-columnFilter
                     type="text"
-                    field="date_report"
+                    field="reportedAt"
                     placeholder="Search by date"
                     ariaLabel="Filter date" />
                 </th>
+
+                <th>
+                  <p-columnFilter
+                      type="text"
+                      field="assignedTo"
+                      placeholder="Search by name"
+                      ariaLabel="Filter Name" />
+                  </th>
 
 
               <th>
@@ -555,31 +612,35 @@
               </th> -->
           </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-job>
+      <ng-template pTemplate="body" let-issue>
           <tr  style="cursor: pointer;">
-            <td (click)="onRowSelect({ data: job })">
-              {{ job.issueId }}
+            <td (click)="onRowSelect({ data: issue })">
+              {{ issue.code }}
              </td>
-            <td class="workerName" (click)="onRowSelect({ data: job })">
+            <td class="workerName" (click)="onRowSelect({ data: issue })">
               <img
-                  [alt]="job.representative.name"
-                  src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ job.representative.image }}"
+                  [alt]="issue.requestedByName"
+                  [src]="issue.requestedByPic"
                   width="32"
                   style="vertical-align: middle" />
               <span class="ml-1 vertical-align-middle">
-                  {{ job.representative.name }}
+                  {{ issue.requestedByName }}
               </span>
           </td>
 
-              <td   (click)="onRowSelect({ data: job })">
-                  {{ job.aprt_No }}
+              <td   (click)="onRowSelect({ data: issue })">
+                  {{ issue.apartmentCode }}
               </td>
-              <td (click)="onRowSelect({ data:job })">
-                {{ job.issue }}
+              <td (click)="onRowSelect({ data:issue})">
+                {{ issue.issuesNames }}
               </td>
-              <td (click)="onRowSelect({ data: job })">
-                {{ job.date_report }}
+              <td (click)="onRowSelect({ data: issue })">
+                {{ issue.reportedAt }}
              </td>
+                <td (click)="onRowSelect({ data: issue })">
+                  {{ issue.assignedTo }}
+              </td>
+
 
               <!-- <td>
                   <img
@@ -591,10 +652,10 @@
                   </span>
               </td> -->
 
-              <td (click)="onRowSelect({ data: job })" style="width:10% !important">
+              <td (click)="onRowSelect({ data: issue })" style="width:10% !important">
                   <p-tag
-                      [value]="job.status"
-                      [ngClass]="getSeverity(job.status)" /> <!--[severity]="getSeverity(worker.status)"-->
+                      [value]="issue.status"
+                      [ngClass]="getSeverity(issue.status)" /> <!--[severity]="getSeverity(worker.status)"-->
 
 
 
@@ -603,14 +664,14 @@
                 <p-toast />
                 <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
                 <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-                <p-button  (onClick)="selectWorker(job.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                <p-button  (onClick)="selectWorker(issue.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
               </td>
           </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage">
           <tr>
-              <td colspan="5">No payments found.</td>
+              <td colspan="5">No issues found.</td>
           </tr>
       </ng-template>
 </p-table>
@@ -623,22 +684,22 @@
             <span class=" white-space-nowrap m-0">
               Cash Collector
             </span>
-            <p-badge [value]="jobs.length" />
+            <p-badge [value]="issuesCashC.length" />
 
         </div>
     </ng-template>
     <p-table
     #dt2
-    [value]="jobs"
+    [value]="issuesCashC"
     dataKey="id"
     [rows]="10"
     [rowsPerPageOptions]="[10, 25, 50]"
     [loading]="loading"
     [paginator]="true"
-    [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
+    [globalFilterFields]="['code', 'requestedByName', 'apartmentCode','issuesNames','reportedAt','assignedTo', 'status']"
     [tableStyle]="{ 'min-width': '120rem'  }"
     selectionMode="single"
-    [(selection)]="selectedCustomer"
+    [(selection)]="selectedIssue"
     (onRowSelect)="onRowSelect($event)"
 >
     <ng-template pTemplate="caption">
@@ -657,11 +718,13 @@
     </ng-template>
     <ng-template pTemplate="header">
         <tr class="headInfo">
-            <th style="width:22%">Issue ID</th>
+            <th style="width:22%">Issue Code</th>
             <th style="width:22%">Requested by</th>
             <th style="width:22%">Apartment Number</th>
             <th style="width:22%">Issues</th>
             <th style="width:22%">Date Reported</th>
+            <th style="width:22%">Assigned To</th>
+
             <th style="width:22%">Status</th>
 
 
@@ -677,12 +740,19 @@
                 <th>
                   <p-columnFilter
                       type="text"
-                      field="issueId"
-                      placeholder="Search by IssueId"
+                      field="code"
+                      placeholder="Search by Code"
                       ariaLabel="Filter No" />
               </th>
-               <th>
-                <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+              <th>
+                <p-columnFilter
+                    type="text"
+                    field=" requestedByName"
+                    placeholder="Search by Name"
+                    ariaLabel="Filter Name" />
+            </th>
+               <!-- <th>
+                <p-columnFilter field="requestedByName" matchMode="in" [showMenu]="false">
                     <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                         <p-multiSelect
                             [ngModel]="value"
@@ -703,29 +773,37 @@
                         </p-multiSelect>
                     </ng-template>
                 </p-columnFilter>
-            </th>
+            </th> -->
 
             <th>
                 <p-columnFilter
                     type="text"
-                    field="aprt_No"
+                    field="apartmentCode"
                     placeholder="Search by Apartment No"
                     ariaLabel="Filter Number" />
             </th>
             <th>
                 <p-columnFilter
                     type="text"
-                    field="issue"
+                    field="issuesNames"
                     placeholder="Search by isssue"
                     ariaLabel="Filter name" />
             </th>
             <th>
               <p-columnFilter
                   type="text"
-                  field="date_report"
+                  field="reportedAt"
                   placeholder="Search by date"
                   ariaLabel="Filter date" />
               </th>
+
+              <th>
+                <p-columnFilter
+                    type="text"
+                    field="assignedTo"
+                    placeholder="Search by name"
+                    ariaLabel="Filter Name" />
+                </th>
 
 
             <th>
@@ -751,31 +829,35 @@
             </th> -->
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-job>
+    <ng-template pTemplate="body" let-issue>
         <tr  style="cursor: pointer;">
-          <td (click)="onRowSelect({ data: job })">
-            {{ job.issueId }}
+          <td (click)="onRowSelect({ data: issue })">
+            {{ issue.code }}
            </td>
-          <td class="workerName" (click)="onRowSelect({ data: job })">
+          <td class="workerName" (click)="onRowSelect({ data: issue })">
             <img
-                [alt]="job.representative.name"
-                src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ job.representative.image }}"
+                [alt]="issue.requestedByName"
+                [src]="issue.requestedByPic"
                 width="32"
                 style="vertical-align: middle" />
             <span class="ml-1 vertical-align-middle">
-                {{ job.representative.name }}
+                {{ issue.requestedByName }}
             </span>
         </td>
 
-            <td   (click)="onRowSelect({ data: job })">
-                {{ job.aprt_No }}
+            <td   (click)="onRowSelect({ data: issue })">
+                {{ issue.apartmentCode }}
             </td>
-            <td (click)="onRowSelect({ data:job })">
-              {{ job.issue }}
+            <td (click)="onRowSelect({ data:issue})">
+              {{ issue.issuesNames }}
             </td>
-            <td (click)="onRowSelect({ data: job })">
-              {{ job.date_report }}
+            <td (click)="onRowSelect({ data: issue })">
+              {{ issue.reportedAt }}
            </td>
+              <td (click)="onRowSelect({ data: issue })">
+                {{ issue.assignedTo }}
+            </td>
+
 
             <!-- <td>
                 <img
@@ -787,10 +869,10 @@
                 </span>
             </td> -->
 
-            <td (click)="onRowSelect({ data: job })" style="width:10% !important">
+            <td (click)="onRowSelect({ data: issue })" style="width:10% !important">
                 <p-tag
-                    [value]="job.status"
-                    [ngClass]="getSeverity(job.status)" /> <!--[severity]="getSeverity(worker.status)"-->
+                    [value]="issue.status"
+                    [ngClass]="getSeverity(issue.status)" /> <!--[severity]="getSeverity(worker.status)"-->
 
 
 
@@ -799,14 +881,14 @@
               <p-toast />
               <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
               <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-              <p-button  (onClick)="selectWorker(job.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+              <p-button  (onClick)="selectWorker(issue.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
             </td>
         </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="5">No payments found.</td>
+            <td colspan="5">No issues found.</td>
         </tr>
     </ng-template>
 </p-table>
@@ -820,22 +902,22 @@
           <span class=" white-space-nowrap m-0">
             General Workers
           </span>
-          <p-badge [value]="jobs.length" />
+          <p-badge [value]="issuesGeneralW.length" />
 
       </div>
   </ng-template>
   <p-table
   #dt2
-  [value]="jobs"
+  [value]="issuesGeneralW"
   dataKey="id"
   [rows]="10"
   [rowsPerPageOptions]="[10, 25, 50]"
   [loading]="loading"
   [paginator]="true"
-  [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
+  [globalFilterFields]="['code', 'requestedByName', 'apartmentCode','issuesNames','reportedAt','assignedTo', 'status']"
   [tableStyle]="{ 'min-width': '120rem'  }"
   selectionMode="single"
-  [(selection)]="selectedCustomer"
+  [(selection)]="selectedIssue"
   (onRowSelect)="onRowSelect($event)"
 >
   <ng-template pTemplate="caption">
@@ -854,11 +936,12 @@
   </ng-template>
   <ng-template pTemplate="header">
       <tr class="headInfo">
-          <th style="width:22%">Issue ID</th>
+          <th style="width:22%">Issue Code</th>
           <th style="width:22%">Requested by</th>
           <th style="width:22%">Apartment Number</th>
           <th style="width:22%">Issues</th>
           <th style="width:22%">Date Reported</th>
+          <th style="width:22%">Assigned To</th>
           <th style="width:22%">Status</th>
 
 
@@ -874,12 +957,19 @@
               <th>
                 <p-columnFilter
                     type="text"
-                    field="issueId"
-                    placeholder="Search by IssueId"
+                    field="code"
+                    placeholder="Search by Code"
                     ariaLabel="Filter No" />
             </th>
-             <th>
-              <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+            <th>
+              <p-columnFilter
+                  type="text"
+                  field=" requestedByName"
+                  placeholder="Search by Name"
+                  ariaLabel="Filter Name" />
+          </th>
+             <!-- <th>
+              <p-columnFilter field="requestedByName" matchMode="in" [showMenu]="false">
                   <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                       <p-multiSelect
                           [ngModel]="value"
@@ -900,29 +990,37 @@
                       </p-multiSelect>
                   </ng-template>
               </p-columnFilter>
-          </th>
+          </th> -->
 
           <th>
               <p-columnFilter
                   type="text"
-                  field="aprt_No"
+                  field="apartmentCode"
                   placeholder="Search by Apartment No"
                   ariaLabel="Filter Number" />
           </th>
           <th>
               <p-columnFilter
                   type="text"
-                  field="issue"
+                  field="issuesNames"
                   placeholder="Search by isssue"
                   ariaLabel="Filter name" />
           </th>
           <th>
             <p-columnFilter
                 type="text"
-                field="date_report"
+                field="reportedAt"
                 placeholder="Search by date"
                 ariaLabel="Filter date" />
             </th>
+
+            <th>
+              <p-columnFilter
+                  type="text"
+                  field="assignedTo"
+                  placeholder="Search by name"
+                  ariaLabel="Filter Name" />
+              </th>
 
 
           <th>
@@ -948,31 +1046,35 @@
           </th> -->
       </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-job>
+  <ng-template pTemplate="body" let-issue>
       <tr  style="cursor: pointer;">
-        <td (click)="onRowSelect({ data: job })">
-          {{ job.issueId }}
+        <td (click)="onRowSelect({ data: issue })">
+          {{ issue.code }}
          </td>
-        <td class="workerName" (click)="onRowSelect({ data: job })">
+        <td class="workerName" (click)="onRowSelect({ data: issue })">
           <img
-              [alt]="job.representative.name"
-              src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ job.representative.image }}"
+              [alt]="issue.requestedByName"
+              [src]="issue.requestedByPic"
               width="32"
               style="vertical-align: middle" />
           <span class="ml-1 vertical-align-middle">
-              {{ job.representative.name }}
+              {{ issue.requestedByName }}
           </span>
       </td>
 
-          <td   (click)="onRowSelect({ data: job })">
-              {{ job.aprt_No }}
+          <td   (click)="onRowSelect({ data: issue })">
+              {{ issue.apartmentCode }}
           </td>
-          <td (click)="onRowSelect({ data:job })">
-            {{ job.issue }}
+          <td (click)="onRowSelect({ data:issue})">
+            {{ issue.issuesNames }}
           </td>
-          <td (click)="onRowSelect({ data: job })">
-            {{ job.date_report }}
+          <td (click)="onRowSelect({ data: issue })">
+            {{ issue.reportedAt }}
          </td>
+            <td (click)="onRowSelect({ data: issue })">
+              {{ issue.assignedTo }}
+          </td>
+
 
           <!-- <td>
               <img
@@ -984,10 +1086,10 @@
               </span>
           </td> -->
 
-          <td (click)="onRowSelect({ data: job })" style="width:10% !important">
+          <td (click)="onRowSelect({ data: issue })" style="width:10% !important">
               <p-tag
-                  [value]="job.status"
-                  [ngClass]="getSeverity(job.status)" /> <!--[severity]="getSeverity(worker.status)"-->
+                  [value]="issue.status"
+                  [ngClass]="getSeverity(issue.status)" /> <!--[severity]="getSeverity(worker.status)"-->
 
 
 
@@ -996,14 +1098,14 @@
             <p-toast />
             <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
             <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-            <p-button  (onClick)="selectWorker(job.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+            <p-button  (onClick)="selectWorker(issue.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
           </td>
       </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage">
       <tr>
-          <td colspan="5">No payments found.</td>
+          <td colspan="5">No issues found.</td>
       </tr>
   </ng-template>
 </p-table>

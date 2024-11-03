@@ -4,6 +4,8 @@ import { NgClass } from '@angular/common';
 import { RatingModule } from 'primeng/rating';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { IssuesService } from '../../../services/issues.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -20,7 +22,18 @@ export class IssueDetailsComponent {
   itemsLink:any;
   images:any;
 
+  constructor(private route: ActivatedRoute,private issuesService: IssuesService){
+
+  }
+
+
+
   ngOnInit() {
+
+    this.issueId = this.route.snapshot.paramMap.get('id');
+    console.log('Issue ID:', this.issueId);
+
+    this.  fetchIssueDetails();
 
     this.itemsLink = [
       { label: 'issues List', routerLink: '/issues-list' },
@@ -74,5 +87,20 @@ export class IssueDetailsComponent {
 
   closePopup() {
     this.currentImagee = null;
+  }
+
+
+  issueDetails:any;
+  issueId:any;
+  fetchIssueDetails() {
+    this.issuesService.getIssueDetails(this.issueId).subscribe(
+      response => {
+        console.log('Issue details:', response);
+        this.issueDetails = response;
+      },
+      error => {
+        console.error('Error fetching issue details:', error);
+      }
+    );
   }
 }

@@ -1,3 +1,4 @@
+import { IssuesService } from './../../../services/issues.service';
 import { Component, ViewChild } from '@angular/core';
 import { TabViewModule } from 'primeng/tabview';
 import { BadgeModule } from 'primeng/badge';
@@ -17,7 +18,7 @@ import { MenuModule } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { WorkerService } from '../../../services/worker.service';
+
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Menu } from 'primeng/menu';
 import { DialogModule } from 'primeng/dialog';
@@ -40,6 +41,7 @@ export class IssuesListComponent {
   skills = ['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4', 'Skill 5', 'Skill 6', 'Skill 7'];
   workerId:any;
   jobs:any;
+  selectedIssue:any;
 
 
   @ViewChild('dt2') dt2!: Table;
@@ -63,9 +65,12 @@ export class IssuesListComponent {
 
   ];
 
-  constructor( private router: Router,private messageService: MessageService,private workerService: WorkerService,private route: ActivatedRoute) {}
+  constructor( private router: Router,private messageService: MessageService,private issuesService: IssuesService,private route: ActivatedRoute) {}
 selectedStaff:any;
   ngOnInit() {
+    this.loadIssues();
+    this.filterIssuesByStatus();
+
 
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as { selectedStaff: any };
@@ -74,6 +79,21 @@ selectedStaff:any;
       this.selectedStaff = state.selectedStaff;
       console.log('Assigned Staff:', this.selectedStaff);
     }
+
+       // Check if state is available
+       if (state) {
+        this.selectedStaff = state.selectedStaff;
+        console.log('state')
+      console.log('Assigned Staff:', this.selectedStaff);
+
+      } else {
+        // Fallback to using history.state for page reloads or direct navigation
+        this.selectedStaff = history.state.selectedStaff;
+        console.log('history')
+      console.log('Assigned Staff:', this.selectedStaff);
+
+
+      }
 
 
     this.items = [
@@ -170,7 +190,7 @@ selectedStaff:any;
 // workers array of objects with representative data
 
 
-// this.filterWorkersByStatus();
+
 
     this.workerId = this.route.snapshot.paramMap.get('id');
     console.log(this.workerId)
@@ -202,59 +222,59 @@ selectedStaff:any;
     console.log(this.selectedWorkerId)
   }
 
+  issues: any[] = [];
+loadIssues(){
+  this.issuesService.getAllIssues(1, 20000).subscribe(
+    (response) => {
+      console.log('Data received:', response);
 
-  getWorkers() {
-    this.workerService.getAllWorkerRequests(1, 20000, '').subscribe(
-      (response) => {
-        console.log('Data received:', response);
-        this.workers = response; // Adjust this according to the response structure
-        this.workers = response.data.map((worker: any) => ({
-          id: worker.request_ID,
-          requestNo: worker.request_ID,
-          name: worker.worker_Name,
-          email: worker.worker_Mail,
-          type: worker.worker_Type,
-          phone: worker.worker_Phone,
-          skills: worker.worker_Skills.join(', '),
-          status: worker.worker_Profile_Status,
-        }));
+      // Map the response data to a structured array of issues
+      this.issues = response.data.map((issue: any) => ({
+        id: issue.issue_ID,
+        code: issue.issue_Code,
+        requestedByPic: issue.requested_By_Pic,
+        requestedByName: issue.requested_By_Name,
+        apartmentCode: issue.apartment_Code,
+        issuesNames: issue.issues_Names.join(', '), // Join names as a comma-separated string
+        reportedAt: issue.issue_Reported_At,
+        assignedTo: issue.issue_Assigned_To,
+        status: issue.issue_Status
+      }));
+      console.log('issues:', this.issues);
+      this.filterIssuesByStatus()
 
-        this.filterWorkersByStatus();
-      },
-      (error) => {
-        console.error('Error fetching worker data:', error);
-      }
-    );
-  }
-
-  statusView:string='';
-  onUpdateProfileStatusTable(workerId:any,status:any,reason:any) {
-    const profile_ID = this.selectedWorkerId;
-    const profile_Action = 'Accept';
-    const additional_Data = '';
-
-
-    const worker = this.workers.find(w => w.id === workerId);
-      if (worker) {
-          if(status==='Accept'){
-
-       worker.status = 'Accepted';
-    }else {
-
-      worker.status = 'Rejected';
+    },
+    (error) => {
+      console.error('Error fetching issues data:', error);
     }
+  );
+}
+issuesWorker:any[]=[];
+issuesCleaner:any[]=[];
+issuesCashC:any[]=[];
+issuesGeneralW:any[]=[];
 
-      }
+issuesNotAssigned:any[]=[];
 
-    this.workerService.updateProfileStatus(workerId, status, reason).subscribe(
-      (response) => {
-        console.log('Status updated successfully:', response);
-      },
-      (error) => {
-        console.error('Error updating status:', error);
-      }
-    );
+  filterIssuesByStatus() {
+    this.issuesNotAssigned = this.issues.filter((issue:any) => issue.assignedTo=== '');
+    this.issuesWorker = this.issues.filter((issue:any) => issue.assignedTo !== '');
+    this.issuesCleaner= this.issues.filter((issue:any) => issue.assignedTo !== '');
+    this.issuesGeneralW= this.issues.filter((issue:any) => issue.assignedTo !== '');
+    this.issuesCashC= this.issues.filter((issue:any) => issue.assignedTo !== '');
+
+
+
+    // this.filteredWorkers = [...this.workers];
+    console.log(this.issuesNotAssigned)
+    console.log(this.issuesWorker)
+    console.log(this.issuesCleaner)
+    console.log(this.issuesGeneralW)
+
   }
+
+
+
 
   visibleRejectTable:boolean=false;
   reasonTable:string='';
@@ -278,26 +298,18 @@ onChooseType(type:string){
 
   }
 }
+onNewIssue(){
+
+  this.router.navigate(['/apartment-list'], { queryParams: { selectMode: 'choose' } });
+
+}
 
 
-acceptedWorkers:any;
-rejectedWorkers:any;
-pendingWorkers:any;
-  filterWorkersByStatus() {
-    this.acceptedWorkers = this.workers.filter((worker) => worker.status === 'Accepted');
-    this.rejectedWorkers = this.workers.filter((worker) => worker.status === 'Rejected');
-    this.pendingWorkers = this.workers.filter((worker) => worker.status === 'InReview');
-    // this.filteredWorkers = [...this.workers];
-    console.log(this.workers)
-    console.log(this.acceptedWorkers)
-    console.log(this.rejectedWorkers)
-    console.log(this.pendingWorkers)
 
-  }
 
   getSeverity(status: string): 'info' | 'success' | 'warning' | 'danger' | 'secondary' | 'contrast' {
     switch (status) {
-      case 'InReview':
+      case 'Pending':
         return 'info';
         case 'Rejected':
           return 'danger';

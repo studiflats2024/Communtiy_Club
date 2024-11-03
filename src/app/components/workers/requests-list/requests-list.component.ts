@@ -427,6 +427,7 @@ pendingWorkers:any[]=[];
   onFilter(event: Event) {
     const inputValue = (event.target as HTMLInputElement).value;
     this.dt2.filterGlobal(inputValue, 'contains');
+    // console.log(this.dt2.filterGlobal(inputValue, 'contains'))
   }
 
   onRowSelect(event: any) {

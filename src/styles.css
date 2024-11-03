@@ -3,3 +3,6 @@
 @import "primeflex/primeflex.css";
 
 
+.p-toast {
+  z-index: 99999999999 !important; /* Adjust the value to fit your needs */
+}
