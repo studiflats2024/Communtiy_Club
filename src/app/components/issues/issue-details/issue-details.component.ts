@@ -6,23 +6,30 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IssuesService } from '../../../services/issues.service';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { ChangeDetectorRef } from '@angular/core';
 
+
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 
 
 
 @Component({
   selector: 'app-issue-details',
   standalone: true,
-  imports: [CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
+  imports: [  AvatarGroupModule,AvatarModule,ToastModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
   templateUrl: './issue-details.component.html',
-  styleUrl: './issue-details.component.css'
+  styleUrl: './issue-details.component.css',
+  providers: [MessageService]
 })
 export class IssueDetailsComponent {
 
   itemsLink:any;
-  images:any;
+  images:any[]=[];
 
-  constructor(private route: ActivatedRoute,private issuesService: IssuesService){
+  constructor(private cdr: ChangeDetectorRef,private messageService: MessageService,private route: ActivatedRoute,private issuesService: IssuesService){
 
   }
 
@@ -40,19 +47,8 @@ export class IssueDetailsComponent {
       { label: 'issue Details', routerLink: '/issue-details' }
     ];
 
-    this.images = [
 
-      'https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_640.jpg',
-      'https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg',
-      'https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_640.jpg',
-      'https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg',
-      'https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_640.jpg',
-      'https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg',
-      'https://cdn.pixabay.com/photo/2024/05/26/10/15/bird-8788491_640.jpg',
-      'https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg'
 
-    ];
-    this.currentImage = this.images[0]?.includes('https') ? this.images[0] : '../../../assets/images/apartmentImages/default_apartment.jpg';
 
   }
 
@@ -90,17 +86,45 @@ export class IssueDetailsComponent {
   }
 
 
-  issueDetails:any;
+  issueData:any;
   issueId:any;
   fetchIssueDetails() {
     this.issuesService.getIssueDetails(this.issueId).subscribe(
       response => {
         console.log('Issue details:', response);
-        this.issueDetails = response;
+        this.issueData = response;
+        this.images=response.issue_Images
+        this.currentImage =  this.images[0];
+        console.log(this.currentImage)
+
+
       },
       error => {
         console.error('Error fetching issue details:', error);
       }
     );
   }
+disablePublish:boolean=true;
+  publishIssue() {
+    this.issuesService.setIssuePublishStatus(this.issueId).subscribe(
+      (response:any) => {
+        this.disablePublish=!this.disablePublish;
+        this.cdr.detectChanges();
+        console.log('Issue published successfully:', response);
+        if(!this.disablePublish){
+        this.messageService.add({severity: 'success', summary: 'Success', detail: 'Issue published successfully!'});
+
+        }else{
+          this.messageService.add({severity: 'success', summary: 'Success', detail: 'Issue Unpublished successfully!'});
+        }
+
+      },
+      (error:any) => {
+        console.error('Error publishing issue:', error);
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to publish issue!'});
+      }
+    );
+  }
+
+
 }

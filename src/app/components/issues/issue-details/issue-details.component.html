@@ -14,26 +14,7 @@
 
     <div class="row">
       <div class="col-lg-7 col-md-12 col-sm-12">
-        <!-- <ng-container>
-          <div class="container testimonial-group">
-            <div class="row mb-3 vcrr">
-              <div class="image-gallery" style="max-width: 1500px;">
-                <div class="main-image">
-                  <img
-                    [src]="aprt_Imgs[0].includes('https') ? aprt_Imgs[0] : '../../../assets/images/apartmentImages/default_apartment.jpg'"
-                    style="width: 100%; height:500px; border-radius:13px" />
-                </div>
-                <div class="thumbnail-container" style="display: flex; justify-content: start; margin-top: 20px;">
-                  <div *ngFor="let img of aprt_Imgs; let i = index" style="cursor: pointer;">
-                    <img *ngIf="i > 0"
-                      [src]="img?.includes('https') ? img : '../../../assets/images/apartmentImages/default_apartment.jpg'"
-                      style="height: 120px; width: 100%; border-radius:13px;" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-container> -->
+
         <ng-container>
           <div class="container testimonial-group">
             <div class="row mb-3 vcrr">
@@ -70,49 +51,56 @@
           font-weight: 500;
           line-height: 20px; ">Description</p>
           <div class="description-text">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mus mauris ultaricies nullam cras ut orci. Facilisi duis dis auctor ut massa nunc aliquet ultricies senectus. Eu et posuere commodo, sodales.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mus mauris ultaricies nullam cras ut orci. Facilisi duis dis auctor ut massa nunc aliquet ultricies senectus. Eu et posuere commodo, sodales.</p>
+            <p>{{ issueData?.issue_Desc }}</p>
           </div>
         </div>
       </div>
 
       <div class="col-lg-5 col-md-12 col-sm-12">
         <div class="custom-apartment-details bg-white rounded-3 p-3">
-          <h3 class="custom-apartment-title">Paint & Coloring</h3>
+          <h3 class="custom-apartment-title">{{ issueData?.issue_Name }}</h3>
 
           <div class="custom-apartment-info d-flex mb-0">
             <div class="custom-info-item d-flex align-items-center me-4">
               <img src="locIssue.svg" alt="Location">
-              <p class="issue-info">Arts District, East way Los Angeles.</p>
+              <p class="issue-info">{{ issueData?.issue_Location }}</p>
             </div>
 
             <div class="custom-info-item d-flex align-items-center me-4">
               <img src="homeIss.svg" alt="Bedrooms">
-              <p class="issue-info">Apartment Number: 102</p>
+              <p class="issue-info">Apartment Number: {{ issueData?.apartment_No }}</p>
             </div>
 
             <div class="custom-info-item d-flex align-items-center">
               <img src="timeIss.svg" alt="Guests">
-              <p class="issue-info">Date Reported: : 28/04/2023</p>
+              <p class="issue-info">Date Reported: : {{ issueData?.issue_reported_at | date: 'dd/MM/yyyy' }}</p>
             </div>
             <div class="custom-info-item">
               <img src="issue.svg" alt="Duration">
-              <p class="issue-info">Issues:Paint & Coloring</p>
+              <p class="issue-info">Issues:{{ issueData?.issue_Category.join(', ') }}</p>
             </div>
             <div class="custom-info-item">
               <img src="levelIss.svg" alt="Published">
-              <p class="issue-info">Priority Level:high</p>
+              <p class="issue-info">Priority Level:{{ issueData?.issue_Priority }}</p>
             </div>
             <div class="custom-info-item">
               <img src="estimateTime.svg" alt="Published">
-              <p class="issue-info">Estimated Repair Time:4 hours</p>
+              <p class="issue-info">Estimated Repair Time: {{ issueData?.issue_Estimation_Repair | date:'shortTime' }}</p>
             </div>
             <div class="">
               <div class="r-by">Requested by</div>
               <div class="custom-info-item" style="padding:24px;">
-                <img src="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" alt="Published" style="width: 40px; height: 40px;">
+                <p-avatar
+                *ngIf="issueData?.requested_By_Image===''"
+                icon="pi pi-user"
+                styleClass="mr-2"
+                size="large"
+
+                shape="circle" />
+
+                <img *ngIf="issueData?.requested_By_Image!==''" [src]="issueData?.requested_By_Image " alt="Published" style="width: 40px; height: 40px;">
                 <div>
-                  <div class="name">Ben Ten</div>
+                  <div class="name">{{ issueData?.requested_By }}</div>
                   <div class="mail">bentengmail.com</div>
 
                 </div>
@@ -125,9 +113,17 @@
             <div class="">
               <div class="r-by">Assigned To</div>
               <div class="custom-info-item" style="padding:24px;">
-                <img src="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" alt="Published" style="width: 40px; height: 40px;">
+                <p-avatar
+                *ngIf="issueData?.assigned_Pic===''"
+                icon="pi pi-user"
+                styleClass="mr-2"
+                size="large"
+
+                shape="circle" />
+
+                <img *ngIf="issueData?.assigned_Pic!==''" [src]="issueData?.assigned_Pic " alt="Published" style="width: 40px; height: 40px;">
                 <div>
-                  <div class="name">Ben Ten</div>
+                  <div class="name">{{ issueData?.assigned_Name }}</div>
                   <div class="mail">bentengmail.com</div>
 
                 </div>
@@ -137,22 +133,15 @@
 
           </div>
 
-          <!-- <div class="custom-apartment-actions d-flex justify-content-between mb-5">
-            <button class="custom-btn custom-btn-edit w-75" routerLink="">
-              <img src="assets/images/apartmentImages/edit.svg" alt="Edit" class="custom-btn-icon">Edit
-            </button>
-            <button class="custom-btn custom-btn-share w-25">
-              <img src="assets/images/apartmentImages/share.svg" alt="Share" class="custom-btn-icon">Share
-            </button>
-          </div> -->
 
 
+          <p-toast></p-toast>
 
           <div class="accord"></div>
           <div class="custom-apartment-buttons mt-5">
             <button class="custom-btn-rented">Assign Job</button>
-            <button class="custom-btn-delete">
-               Publish Job
+            <button class="custom-btn-delete"     [ngClass]="{'disabled-btn': !disablePublish, 'custom-btn-delete': disablePublish}"  (click)="publishIssue()"  >
+              {{ disablePublish ? 'Publish Job' : 'Unpublish Job' }}
             </button>
           </div>
         </div>
@@ -162,7 +151,7 @@
 
 
 
-    <div>
+    <!-- <div>
       <div class="available-appointment">Available Appointment</div>
       <div class="info-appointment" style="margin-bottom:24px;">
         <div class="view">October 9th, 2024 ,10:00 AM</div>
@@ -174,6 +163,12 @@
         <div class="view">October 9th, 2024 ,10:00 AM</div>
       </div>
 
+    </div> -->
+    <div>
+      <div class="available-appointment">Available Appointment</div>
+      <div class="info-appointment" *ngFor="let appointment of issueData?.issue_Appointments" style="margin-bottom:24px;">
+        <div class="view">{{ appointment | date: 'MMMM d, yyyy, h:mm a' }}</div>
+      </div>
     </div>
 
   </div>

@@ -102,4 +102,30 @@ export class IssuesService {
     }
 
 
+    uploadImage(file: File) {
+    const url = `${environment.apiUrl}/Basics/UploadSingleFile`;
+
+      const formData = new FormData();
+      formData.append('fileData', file);
+
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem('token')}` // If authentication is required
+      });
+
+      return this.http.post(url, formData, { headers });
+    }
+
+    setIssuePublishStatus(issueId: string): Observable<any> {
+      const url = `${environment.apiUrl}/WokersStaff/SetIssuePublishStatus`;
+      const token = localStorage.getItem('token'); // Retrieve the token from local storage
+
+      const headers = new HttpHeaders({
+        'Accept': 'text/plain',
+        'Authorization': `Bearer ${token}`
+      });
+
+      return this.http.post<any>(`${url}?Issue_ID=${issueId}`, null, { headers });
+    }
+
+
 }

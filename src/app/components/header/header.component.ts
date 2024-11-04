@@ -1,9 +1,9 @@
 
-import { HttpClient } from '@angular/common/http';
+
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
-// import { UploadFileService } from 'src/app/_services/UploadFile/upload-file.service';
-// import { AdminsService } from 'src/app/_services/admins/admins.service';
-import { MessageService } from 'primeng/api';
+
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +14,30 @@ import { MessageService } from 'primeng/api';
 })
 export class HeaderComponent {
 
+  headerTitle: string = 'Default Title';
+
+  // Define route titles based on your routes
+  routeTitles: { [key: string]: string } = {
+    '/login': 'Login',
+    '/workers-requests': 'Worker Requests',
+    '/apartment-list': 'Apartment List',
+    '/worker-details': 'Worker Details',
+    '/dashboard': 'Dashboard',
+    '/staff-list': 'Staff List',
+    '/staff-details': 'Staff Details',
+    '/issues-list': 'Issues List',
+    '/create-issue': 'Create Issue',
+    '/issue-details': 'Issue Details',
+  };
+
+  // Method to update the header title based on the route
+  updateTitle(url: string): void {
+    // Remove any route parameters (like :id) to match only the base path
+    const baseRoute = url.split('/')[1];
+    const routeKey = `/${baseRoute}`;
+
+    this.headerTitle = this.routeTitles[routeKey] || 'Dashboard';
+  }
 
   @Output() toggleSidebar = new EventEmitter<void>(); // Event to toggle sidebar visibility
 
@@ -30,8 +54,13 @@ export class HeaderComponent {
   @Input() titleModule = '';
 
 
-  constructor( ) {}
+  constructor(private router: Router) {}
   ngOnInit() {
+    this.router.events
+    .pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe((event: NavigationEnd) => {
+      this.updateTitle(event.urlAfterRedirects);
+    });
     this.PushNotification();
     this.PushNotificationCount();
   }

@@ -36,8 +36,8 @@
                         selectionMode="single"
                         [(selection)]="selectedStaff"
 
-                        (onRowSelect)="onRowSelect($event)"
-                    >
+
+                    >  <!--(onRowSelect)="onRowSelect($event)"-->
                         <ng-template pTemplate="caption">
                             <div class="flex">
                                 <p-iconField iconPosition="left" class="ml-auto">
@@ -54,6 +54,7 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr class="headInfo">
+                               <th *ngIf="selectMode"></th>
                                 <th style="width:22%">name</th>
                                 <th style="width:22%">Request No</th>
                                 <th style="width:22%">Worker Name</th>
@@ -71,6 +72,8 @@
                                 <th style="width:12%">Verified</th> -->
                             </tr>
                             <tr>
+                              <th *ngIf="selectMode"></th>
+
                                    <th>
                                     <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
                                         <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -162,8 +165,11 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-worker>
                             <tr  style="cursor: pointer;" [pSelectableRow]="worker">
-
+                               <td *ngIf="selectMode">
                                 <p-tableRadioButton (click)="assignStaff(worker)" class="mt-20" *ngIf="selectMode"   [value]="worker"  ></p-tableRadioButton>
+
+                               </td>
+
 
                               <td (click)="onRowSelect({ data: worker })">
                                 <img
@@ -251,8 +257,8 @@
                         [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
                         [tableStyle]="{ 'min-width': '120rem'  }"
                         selectionMode="single"
-                        [(selection)]="selectedCustomer"
-                        (onRowSelect)="onRowSelect($event)"
+                        [(selection)]="selectedStaff"
+
                     >
                         <ng-template pTemplate="caption">
                             <div class="flex">
@@ -270,6 +276,8 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
+                              <th *ngIf="selectMode"></th>
+
                                 <th style="width:22%">Request No</th>
                                 <th style="width:22%">Worker Name</th>
                                 <th style="width:22%">Email</th>
@@ -286,6 +294,8 @@
                                 <th style="width:12%">Verified</th> -->
                             </tr>
                             <tr>
+                              <th *ngIf="selectMode"></th>
+
                                 <th>
                                     <p-columnFilter
                                         type="text"
@@ -376,6 +386,10 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-worker>
                             <tr  style="cursor: pointer;">
+                              <td *ngIf="selectMode">
+                                <p-tableRadioButton (click)="assignStaff(worker)" class="mt-20" *ngIf="selectMode"   [value]="worker"  ></p-tableRadioButton>
+
+                               </td>
                                <td (click)="onRowSelect({ data: worker })">
                                 {{ worker.requestNo }}
                                </td>
@@ -455,8 +469,8 @@
             [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
             [tableStyle]="{ 'min-width': '120rem'  }"
             selectionMode="single"
-            [(selection)]="selectedCustomer"
-            (onRowSelect)="onRowSelect($event)"
+            [(selection)]="selectedStaff"
+
         >
             <ng-template pTemplate="caption">
                 <div class="flex">
@@ -474,6 +488,8 @@
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
+                  <th *ngIf="selectMode"></th>
+
                     <th style="width:22%">Request No</th>
                     <th style="width:22%">Worker Name</th>
                     <th style="width:22%">Email</th>
@@ -490,6 +506,8 @@
                     <th style="width:12%">Verified</th> -->
                 </tr>
                 <tr>
+                  <th *ngIf="selectMode"></th>
+
                       <th>
                         <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
                             <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -603,6 +621,11 @@
             </ng-template>
             <ng-template pTemplate="body" let-worker>
                 <tr  style="cursor: pointer;">
+                  <td *ngIf="selectMode">
+                    <p-tableRadioButton (click)="assignStaff(worker)" class="mt-20" *ngIf="selectMode"   [value]="worker"  ></p-tableRadioButton>
+
+                   </td>
+
                    <td (click)="onRowSelect({ data: worker })">
                     {{ worker.requestNo }}
                    </td>
@@ -682,8 +705,8 @@
           [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
           [tableStyle]="{ 'min-width': '120rem'  }"
           selectionMode="single"
-          [(selection)]="selectedCustomer"
-          (onRowSelect)="onRowSelect($event)"
+          [(selection)]="selectedStaff"
+
       >
           <ng-template pTemplate="caption">
               <div class="flex">
@@ -701,6 +724,8 @@
           </ng-template>
           <ng-template pTemplate="header">
               <tr>
+                <th *ngIf="selectMode"></th>
+
                   <th style="width:22%">Request No</th>
                   <th style="width:22%">Worker Name</th>
                   <th style="width:22%">Email</th>
@@ -717,6 +742,8 @@
                   <th style="width:12%">Verified</th> -->
               </tr>
               <tr>
+                <th *ngIf="selectMode"></th>
+
                   <th>
                       <p-columnFilter
                           type="text"
@@ -807,6 +834,11 @@
           </ng-template>
           <ng-template pTemplate="body" let-worker>
               <tr  style="cursor: pointer;">
+                <td *ngIf="selectMode">
+                  <p-tableRadioButton (click)="assignStaff(worker)" class="mt-20" *ngIf="selectMode"   [value]="worker"  ></p-tableRadioButton>
+
+                 </td>
+
                  <td (click)="onRowSelect({ data: worker })">
                   {{ worker.requestNo }}
                  </td>

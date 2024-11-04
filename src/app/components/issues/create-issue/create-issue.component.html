@@ -155,6 +155,11 @@
 
                   <!-- Drag and Drop to Reorder -->
                   <!-- <h5>Reorder Images</h5> -->
+                  <div *ngIf="loading" class="loading-overlay">
+                    <div class="spinner"></div>
+                    <p>Loading...</p>
+                  </div>
+
                   <div class="image-list">
                     <div
                       *ngFor="let img of images; let i = index"

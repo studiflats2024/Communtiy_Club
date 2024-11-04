@@ -147,15 +147,36 @@ skills:any;
     }
   ];
 
+  // onImageSelect(event: any) {
+  //   for (let file of event.files) {
+  //     const reader = new FileReader();
+  //     reader.onload = (e: any) => {
+  //       this.images.push(e.target.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
+  loading: boolean = false;
+
   onImageSelect(event: any) {
+    this.loading=true;
     for (let file of event.files) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.images.push(e.target.result);
-      };
-      reader.readAsDataURL(file);
+      this.issuesService.uploadImage(file).subscribe(
+        (response: any) => {
+          // Assuming the API returns a URL to the uploaded image
+          const imageUrl = response[0].file_Path;
+          console.log(imageUrl)
+          this.images.push(imageUrl);
+          this.loading = false;
+        },
+        (error) => {
+          console.error('Error uploading file:', error);
+        }
+      );
     }
   }
+
+
 
   removeImage(index: number) {
     this.images.splice(index, 1);

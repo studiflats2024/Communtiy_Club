@@ -51,12 +51,6 @@ export class IssuesListComponent {
   selectedCustomer: any;
 
 
-  representatives = [
-    { name: 'Amy Elsner', image: 'amyelsner.png' },
-    { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
-    { name: 'Bernardo Dominic', image: 'bernardodominic.png' },
-    { name: 'Elwin Sharvill', image: 'elwinsharvill.png' }
-  ];
 
   statuses = [
     { label: 'pending', value: 'pending' },
@@ -111,83 +105,23 @@ selectedStaff:any;
         // icon: 'pi pi-eye',
         command: () =>  {
 
-            this. openSuccess();
+            this.publishIssue(this.selectedIssueId);
 
         }
       }
 
     ];
 
-    this.jobs = [
-      {
-        id:1,
-        issueId: 'ISS-001',
-        representative: {
-          name: 'John Doe',
-          image: 'ivanmagalhaes.png', // Replace with the actual image file name
-        },
-        aprt_No: 'Apt-102',
-        issue: 'Leaking faucet in the kitchen',
-        date_report: '2024-10-23',
-        status: 'InReview',
-        assigned_to:'John Doe'
-      },
-      {
-        id:2,
-        issueId: 'ISS-002',
-        representative: {
-          name: 'Jane Smith',
-          image: 'asiyajavayant.png', // Replace with the actual image file name
-        },
-        aprt_No: 'Apt-203',
-        issue: 'Broken window in the living room',
-        date_report: '2024-10-22',
-        status: 'Rejected',
-        assigned_to:'John Doe'
-
-      },
-      {
-        id:3,
-        issueId: 'ISS-003',
-        representative: {
-          name: 'Mark Wilson',
-          image: 'asiyajavayant.png', // Replace with the actual image file name
-        },
-        aprt_No: 'Apt-305',
-        issue: 'No electricity in the bedroom',
-        date_report: '2024-10-20',
-        status: 'Accepted',
-        assigned_to:'John Doe'
-
-      },
-      {
-        id:4,
-        issueId: 'ISS-004',
-        representative: {
-          name: 'Lisa Brown',
-          image: 'amyelsner.png', // Replace with the actual image file name
-        },
-        aprt_No: 'Apt-401',
-        issue: 'Heating system malfunction',
-        date_report: '2024-10-19',
-        status: 'Accepted',
-        assigned_to:'John Doe'
-
-      },
-    ];
 
 
 
-  //  this.getWorkers();
+
+
 
     // setTimeout(() => {
     //   this.loading = false;
     // }, 1000);
 
-
-   // workers array of objects
-
-// workers array of objects with representative data
 
 
 
@@ -204,9 +138,28 @@ selectedStaff:any;
     ];
 
   }
+  selectedIssueId:any;
+  selectIssue(workerId:any) {
+    this.selectedIssueId = workerId;
+    console.log(this.selectedIssueId)
+  }
 
+  disablePublish:boolean=false;
+  publishIssue(issueId:any) {
+    this.issuesService.setIssuePublishStatus(issueId).subscribe(
+      (response:any) => {
+        this.disablePublish=true;
 
-
+        console.log('Issue published successfully:', response);
+        this.messageService.add({severity: 'success', summary: 'Success', detail: 'Issue published successfully!'});
+        this.openSuccess();
+      },
+      (error:any) => {
+        console.error('Error publishing issue:', error);
+        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to publish issue!'});
+      }
+    );
+  }
 
 
 
@@ -216,11 +169,7 @@ selectedStaff:any;
 
 
   //////////////////////////////////table here//////////////////////////////
-  selectedWorkerId:any;
-  selectWorker(workerId:any) {
-    this.selectedWorkerId = workerId;
-    console.log(this.selectedWorkerId)
-  }
+
 
   issues: any[] = [];
 loadIssues(){

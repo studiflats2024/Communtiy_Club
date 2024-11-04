@@ -687,6 +687,27 @@ line-height: 140%;
 
 
 
+.disabled-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 10px;
+  padding: 10px 15px;
+
+  color: var(--Neutral-Neutral70, #AFAFAF);
+text-align: center;
+font-feature-settings: 'liga' off, 'clig' off;
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px; /* 125% */
+border:#fff
+}
+
+
 
 
 
