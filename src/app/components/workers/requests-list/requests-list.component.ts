@@ -65,16 +65,25 @@ export class RequestsListComponent {
       if (params['selectMode'] === 'assign') {
         this.selectMode = true;
         console.log(this.selectMode)
+      }else if(params['selectMode'] === 'assignFromDetails') {
+        this.selectMode = true;
+        console.log(this.selectMode)
+        this.fromDetails=true;
+
       }
     });
   }
-
+  fromDetails:boolean=false;
   selectMode:boolean=false;
   ngOnInit() {
 
     this.route.queryParams.subscribe((params) => {
       if (params['selectMode'] === 'assign') {
         this.selectMode = true;
+        console.log(this.selectMode)
+      }else if(params['selectMode'] === 'assignFromDetails') {
+        this.selectMode = true;
+        this.fromDetails=true;
         console.log(this.selectMode)
       }
     });
@@ -312,12 +321,20 @@ export class RequestsListComponent {
 
   selectedWorker:any
   assignWorker(worker:any) {
-    if (this.selectedWorker) {
+    if (this.selectedWorker&&this.fromDetails===false) {
       // Handle the assignment, e.g., navigate back or update the issue with the selected staff ID
       this.selectedWorker = worker;
       console.log('Selected Worker:', this.selectedWorker);
       this.router.navigate(['/issues-list'], {
         state: { selectedStaff: this.selectedWorker }
+      });
+    }else if(this.selectedWorker&&this.fromDetails===true){
+      this.selectedWorker = worker;
+      console.log('Selected Worker:', this.selectedWorker);
+      const issueIdDetails = localStorage.getItem('issueIDdetails');
+      console.log('issueidagain',issueIdDetails)
+      this.router.navigate([`/issue-details/${issueIdDetails}`], {
+        state: { selectedWorker: this.selectedWorker }
       });
     }
   }

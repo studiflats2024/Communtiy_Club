@@ -1070,3 +1070,121 @@ font-style: normal;
 font-weight: 400;
 line-height: 20px; /* 142.857% */
 }
+
+
+
+::ng-deep .accept .p-button {
+  background: var(--Primary-40, #1F4068) !important;
+  color:#fff !important;
+
+  transition: none;
+
+  outline-color: none;
+
+
+  display: flex;
+height: 44px;
+padding: 12px 24px !important;
+align-items: center;
+
+border-radius: 8px !important;
+border: 1px solid var(--Primary-Shades-primary70, #798CA4) !important;
+
+
+text-align: center;
+font-feature-settings: 'liga' off, 'clig' off;
+font-family: Poppins;
+font-size: 16px !important;
+font-style: normal;
+font-weight: 500;
+line-height: 20px;
+text-transform: capitalize;
+
+overflow: hidden;
+}
+
+
+
+:host ::ng-deep .p-dialog{
+  width: 35rem !important;
+}
+
+.successs{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap:16px;
+  margin:0
+}
+
+::ng-deep .DS .p-dialog-draggable .p-dialog-header {
+  padding: 0;
+  cursor: move;
+}
+
+
+.textS{
+  color: var(--Gray-900, #101828);
+  text-align: center;
+
+  /* Text lg/Semibold */
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 155.556% */
+}
+
+.featured-icon {
+  width: 100px;
+  height: 100px;
+  padding: 25px;
+  background: #d1fadf;
+  border-radius: 58.33px;
+  border: 16.67px #ecfdf3 solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+
+
+
+
+.headInfo{
+  background: var(--Neutral-Neutral95, #F6F6F6);
+
+}
+
+
+.user-type{
+  display: flex;
+height: 260px;
+padding: 40px;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 20px;
+flex: 1 0 0;
+
+border-radius: 12px;
+border: 1px solid var(--Neutral-Neutral90, #EBEBEB);
+background: var(--Key-colors-White, #FFF);
+}
+.user-type img {
+  display: flex;
+width: 100px;
+height: 100px;
+padding: 12.5px;
+justify-content: center;
+align-items: center;
+gap: 12.5px;
+flex-shrink: 0;
+
+border-radius: 10px;
+background: rgba(17, 81, 179, 0.08);
+}
+

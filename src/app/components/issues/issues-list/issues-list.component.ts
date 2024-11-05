@@ -75,16 +75,24 @@ selectedStaff:any;
     }
 
        // Check if state is available
-       if (state) {
+       if (state&&localStorage.getItem('issueID')) {
         this.selectedStaff = state.selectedStaff;
         console.log('state')
       console.log('Assigned Staff:', this.selectedStaff);
+      this.selectedIssueId=localStorage.getItem('issueID');
+      console.log(this.selectedIssueId)
 
-      } else {
+      this.assignIssueToUser(this.selectedIssueId,this.selectedStaff?.id);
+
+      } else  if(localStorage.getItem('issueID')){
         // Fallback to using history.state for page reloads or direct navigation
         this.selectedStaff = history.state.selectedStaff;
         console.log('history')
       console.log('Assigned Staff:', this.selectedStaff);
+      this.selectedIssueId=localStorage.getItem('issueID');
+      console.log(this.selectedIssueId)
+      this.assignIssueToUser(this.selectedIssueId,this.selectedStaff?.id);
+
 
 
       }
@@ -126,8 +134,7 @@ selectedStaff:any;
 
 
 
-    this.workerId = this.route.snapshot.paramMap.get('id');
-    console.log(this.workerId)
+
 
 
 
@@ -138,10 +145,26 @@ selectedStaff:any;
     ];
 
   }
+assignSuccess:boolean =false;
+  assignIssueToUser(issueId: string, assignsId: string) {
+    this.issuesService.assignIssue(issueId, assignsId).subscribe(
+      response => {
+        this.assignSuccess=true;
+        console.log('Issue assigned successfully:', response);
+        localStorage.removeItem('issueID');
+      },
+      error => {
+        console.error('Error assigning issue:', error);
+      }
+    );
+  }
+
   selectedIssueId:any;
   selectIssue(workerId:any) {
     this.selectedIssueId = workerId;
-    console.log(this.selectedIssueId)
+    localStorage.setItem('issueID',this.selectedIssueId)
+
+    console.log('selectedIssue',this.selectedIssueId)
   }
 
   disablePublish:boolean=false;
@@ -264,6 +287,8 @@ onNewIssue(){
           return 'danger';
       case 'Accepted':
         return 'success';
+        case 'Assigned':
+          return 'success';
 
       case 'NotCompleted':
         return 'danger';

@@ -9,9 +9,13 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 
 import { AvatarModule } from 'primeng/avatar';
+import { DialogModule } from 'primeng/dialog';
+
 import { AvatarGroupModule } from 'primeng/avatargroup';
 
 
@@ -19,7 +23,7 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 @Component({
   selector: 'app-issue-details',
   standalone: true,
-  imports: [  AvatarGroupModule,AvatarModule,ToastModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
+  imports: [ButtonModule, DialogModule, AvatarGroupModule,AvatarModule,ToastModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
   templateUrl: './issue-details.component.html',
   styleUrl: './issue-details.component.css',
   providers: [MessageService]
@@ -29,13 +33,46 @@ export class IssueDetailsComponent {
   itemsLink:any;
   images:any[]=[];
 
-  constructor(private cdr: ChangeDetectorRef,private messageService: MessageService,private route: ActivatedRoute,private issuesService: IssuesService){
+  constructor(private router: Router,private cdr: ChangeDetectorRef,private messageService: MessageService,private route: ActivatedRoute,private issuesService: IssuesService){
 
   }
 
-
+  selectedWorker :any;
+  selectedIssueId:any
 
   ngOnInit() {
+
+
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state as { selectedWorker: any };
+
+    // if (state?.selectedStaff) {
+    //   this.selectedStaff = state.selectedStaff;
+    //   console.log('Assigned Staff:', this.selectedStaff);
+    // }
+
+       // Check if state is available
+       if (state&&localStorage.getItem('issueIDdetails')) {
+        this.selectedWorker = state.selectedWorker;
+        console.log('state')
+      console.log('Assigned Worker:', this.selectedWorker);
+      this.selectedIssueId=localStorage.getItem('issueIDdetails');
+      console.log(this.selectedIssueId)
+
+      this.assignIssueToUser(this.selectedIssueId,this.selectedWorker?.id);
+
+      } else  if(localStorage.getItem('issueIDdetails')){
+        // Fallback to using history.state for page reloads or direct navigation
+        this.selectedWorker = history.state.selectedWorker;
+        console.log('history')
+      console.log('Assigned Worker:', this.selectedWorker);
+      this.selectedIssueId=localStorage.getItem('issueIDdetails');
+      console.log(this.selectedIssueId)
+      this.assignIssueToUser(this.selectedIssueId,this.selectedWorker?.id);
+
+
+
+      }
 
     this.issueId = this.route.snapshot.paramMap.get('id');
     console.log('Issue ID:', this.issueId);
@@ -88,6 +125,7 @@ export class IssueDetailsComponent {
 
   issueData:any;
   issueId:any;
+  assigned:boolean=false;
   fetchIssueDetails() {
     this.issuesService.getIssueDetails(this.issueId).subscribe(
       response => {
@@ -96,6 +134,9 @@ export class IssueDetailsComponent {
         this.images=response.issue_Images
         this.currentImage =  this.images[0];
         console.log(this.currentImage)
+        if(response.issue_Status==='Assigned'){
+          this.assigned=true;
+        }
 
 
       },
@@ -104,24 +145,53 @@ export class IssueDetailsComponent {
       }
     );
   }
-disablePublish:boolean=true;
+disablePublish:boolean=false;
   publishIssue() {
     this.issuesService.setIssuePublishStatus(this.issueId).subscribe(
       (response:any) => {
-        this.disablePublish=!this.disablePublish;
+        // this.disablePublish=!this.disablePublish;
+        this.issueData.is_Published=!this.issueData.is_Published;
         this.cdr.detectChanges();
         console.log('Issue published successfully:', response);
-        if(!this.disablePublish){
-        this.messageService.add({severity: 'success', summary: 'Success', detail: 'Issue published successfully!'});
 
-        }else{
-          this.messageService.add({severity: 'success', summary: 'Success', detail: 'Issue Unpublished successfully!'});
-        }
+        this.messageService.add({severity: 'success', summary: 'Success', detail:response.message});
+
 
       },
       (error:any) => {
         console.error('Error publishing issue:', error);
         this.messageService.add({severity: 'error', summary: 'Error', detail: 'Failed to publish issue!'});
+      }
+    );
+  }
+
+  onChooseType(type:string){
+    if(type==='staff'){
+      this.router.navigate(['/staff-list'], { queryParams: { selectMode: 'assignFromDetails' } });
+    }else if(type='worker'){
+      this.router.navigate(['/workers-requests'], { queryParams: { selectMode: 'assignFromDetails' } });
+
+    }
+  }
+
+  visibleAssignTable:boolean=false;
+  onAssign(){
+   this.visibleAssignTable=true;
+   localStorage.setItem('issueIDdetails',this.issueData.issue_ID)
+  }
+
+
+  assignSuccess:boolean =false;
+  assignIssueToUser(issueId: string, assignsId: string) {
+    this.issuesService.assignIssue(issueId, assignsId).subscribe(
+      response => {
+        this.assignSuccess=true;
+        console.log('Issue assigned successfully:', response);
+        localStorage.removeItem('issueIDdetails');
+        this.assigned=true;
+      },
+      error => {
+        console.error('Error assigning issue:', error);
       }
     );
   }

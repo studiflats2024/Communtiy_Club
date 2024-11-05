@@ -1146,7 +1146,32 @@
       <!-- <div class="textS2">rejection reason has been sent successfully.</div> -->
 
 
-      <p-button (onClick)="publishSuccess = false" class="accept" label="Back to workers requests" />
+      <p-button (onClick)="publishSuccess = false" class="accept" label="Back to issues" />
 
   </div>
 </p-dialog>
+
+
+
+
+
+<p-dialog class="DS"  [modal]="true" [(visible)]="assignSuccess" [style]="{ width: '25rem' }">
+
+  <div class="successs">
+    <div class="featured-icon">
+      <img src="tick_done.svg"/>
+    </div>
+      <div class="textS">Assigned successfully!</div>
+      <!-- <div class="textS2">rejection reason has been sent successfully.</div> -->
+
+
+      <p-button (onClick)="assignSuccess = false" class="accept" label="Back to issues" />
+
+  </div>
+</p-dialog>
+
+
+
+
+
+

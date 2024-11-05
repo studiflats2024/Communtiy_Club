@@ -117,4 +117,11 @@ export class WorkerDetailsComponent {
     this.onUpdateProfileStatus(this.workerId,'Reject',this.reason)
     // this.visibleReject=false;
   }
+
+  daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+// Check if a day is in worker_Availabilities
+isDayAvailable(day: string): boolean {
+  return this.profileData?.worker_Availabilities?.some((availability:any) => availability.day === day);
+}
 }

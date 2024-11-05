@@ -24,7 +24,7 @@
                     [src]="currentImage"
                     style="width: 100%; height: 500px; border-radius: 13px;" />
                 </div>
-                <div class="thumbnail-container" style="display: flex; justify-content: space-between; gap:10px; margin-top: 20px; ">
+                <div class="thumbnail-container" style="display: flex; justify-content: flex-start; gap:10px; margin-top: 20px; ">
                   <div *ngFor="let img of displayedThumbnails; let i = index" style="cursor: pointer;    width: 25%;" (click)="changeMainImage(img)">
                     <img
                       [src]="img?.includes('https') ? img : '../../../assets/images/apartmentImages/default_apartment.jpg'"
@@ -139,9 +139,10 @@
 
           <div class="accord"></div>
           <div class="custom-apartment-buttons mt-5">
-            <button class="custom-btn-rented">Assign Job</button>
-            <button class="custom-btn-delete"     [ngClass]="{'disabled-btn': !disablePublish, 'custom-btn-delete': disablePublish}"  (click)="publishIssue()"  >
-              {{ disablePublish ? 'Publish Job' : 'Unpublish Job' }}
+            <button class="custom-btn-rented "  [ngClass]="{'disabled-btn mb-2': assigned, 'custom-btn-rented': !assigned}" (click)=" onAssign()" [disabled]="assigned"> {{ !assigned ? 'Assign Job' : 'Assigned' }}
+            </button>
+            <button class="custom-btn-delete"     [ngClass]="{'disabled-btn': issueData?. is_Published, 'custom-btn-delete': !issueData?.is_Published}"  (click)="publishIssue()"  >
+              {{ !issueData?.is_Published ? 'Publish Job' : 'Unpublish Job' }}
             </button>
           </div>
         </div>
@@ -164,12 +165,17 @@
       </div>
 
     </div> -->
+
     <div>
       <div class="available-appointment">Available Appointment</div>
-      <div class="info-appointment" *ngFor="let appointment of issueData?.issue_Appointments" style="margin-bottom:24px;">
-        <div class="view">{{ appointment | date: 'MMMM d, yyyy, h:mm a' }}</div>
+      <div class="row" style="margin-bottom:24px;">
+        <div *ngFor="let appointment of issueData?.issue_Appointments" class="col-6 mb-3">
+          <div class="view">{{ appointment | date: 'MMMM d, yyyy, h:mm a' }}</div>
+        </div>
       </div>
     </div>
+
+
 
   </div>
 
@@ -179,7 +185,29 @@
 
 
 
+  <p-dialog header="Select User Type" [modal]="true" [(visible)]="visibleAssignTable" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-5"> Choose User Type.</span>
 
+    <div class="flex justify-content-center gap-2">
+       <div class="flex justify-content-center user-type" (click)="onChooseType('staff')"><img src="staffs.svg"/></div>
+       <div class="flex justify-content-center user-type" (click)="onChooseType('worker')"><img src="workers.svg"/></div>
+    </div>
+  </p-dialog>
+
+  <p-dialog class="DS"  [modal]="true" [(visible)]="assignSuccess" [style]="{ width: '25rem' }">
+
+    <div class="successs">
+      <div class="featured-icon">
+        <img src="tick_done.svg"/>
+      </div>
+        <div class="textS">Assigned successfully!</div>
+        <!-- <div class="textS2">rejection reason has been sent successfully.</div> -->
+
+
+        <p-button   [routerLink]="['/issues-list']" class="accept" label="Back to issues" />
+
+    </div>
+  </p-dialog>
 
 
 

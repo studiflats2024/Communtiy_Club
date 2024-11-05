@@ -127,5 +127,21 @@ export class IssuesService {
       return this.http.post<any>(`${url}?Issue_ID=${issueId}`, null, { headers });
     }
 
+    assignIssue(issueId: string, assignsId: string): Observable<any> {
+      const url = `${environment.apiUrl}/WokersStaff/AssignIssue`;
+      const token = localStorage.getItem('token'); // Retrieve the token from local storage
+
+      const params = new HttpParams()
+        .set('Issue_ID', issueId)
+        .set('Assigns_ID', assignsId);
+
+      const headers = new HttpHeaders({
+        'accept': 'text/plain'   ,
+        'Authorization': `Bearer ${token}`
+      });
+
+      return this.http.post<any>(url, null, { headers, params });
+    }
+
 
 }

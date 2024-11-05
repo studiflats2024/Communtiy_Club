@@ -15,13 +15,13 @@
 
         <div class="header-section">
           <div class="extra-ellipse"></div>
-          <span class="status-tag" *ngIf="profileData.is_Available">Available</span>
-          <span class="status-tag" style="background:red;" *ngIf="!profileData.is_Available">Not Available</span>
+          <span class="status-tag" *ngIf="profileData?.is_Available">Available</span>
+          <span class="status-tag" style="background:red;" *ngIf="!profileData?.is_Available">Not Available</span>
 
             <div class="profile-image">
-              <img [src]="profileData.image || 'workerImg.png'" alt="Profile" />
-                <h3 class="name">{{ profileData.name }}</h3>
-                <span class="role">{{ profileData.type }}</span>
+              <img [src]="profileData?.image || 'workerImg.png'" alt="Profile" />
+                <h3 class="name">{{ profileData?.name }}</h3>
+                <span class="role">{{ profileData?.type }}</span>
             </div>
 
         </div>
@@ -32,28 +32,28 @@
         <div class="info-grid">
             <div>
                 <div class="h">Email:</div>
-                <div class="i">{{ profileData.email }}</div>
+                <div class="i">{{ profileData?.email }}</div>
             </div>
             <div>
                 <div class="h">Date Of Birth:</div>
-                <div class="i">{{ profileData.doB }}</div>
+                <div class="i">{{ profileData?.doB }}</div>
             </div>
 
             <div>
                 <div class="h">Address:</div>
-               <div class="i">{{ profileData.address }}</div>
+               <div class="i">{{ profileData?.address }}</div>
             </div>
             <div>
               <div class="h">Whatsapp Number:</div>
-              <div class="i">{{ profileData.whatsapp_No }}</div>
+              <div class="i">{{ profileData?.whatsapp_No }}</div>
           </div>
           <div>
             <div class="h">Company Name:</div>
-            <div class="i">{{ profileData.company_Name }}</div>
+            <div class="i">{{ profileData?.company_Name }}</div>
         </div>
         <div>
           <div class="h">Tax registration number :</div>
-          <div class="i">{{ profileData.tax_No }}</div>
+          <div class="i">{{ profileData?.tax_No }}</div>
       </div>
         </div>
     </div>
@@ -68,28 +68,61 @@
     </div>
 
     <div class="additional-skills">
-        <div class="personal-info" style="padding-bottom:5px !important">Additional skills</div>
-        <div class="i">{{ profileData.additional_Skills }}</div>
+        <div class="working-days mt-4 mb-2" style="padding-bottom:5px !important">Additional skills</div>
+        <div class="i">{{ profileData?.additional_Skills }}</div>
     </div>
+
+    <div style="margin-bottom: 32px;">
+      <div class="personal-info">Availability Details</div>
+
+      <div style="margin-bottom: 24px;">
+        <div class="working-days mb-2" >Working days</div>
+        <div class="days-list">
+          <p-chip label="Sunday"  class="day-chip inactive"></p-chip>
+          <p-chip label="Monday" icon="pi pi-check-circle" class="day-chip active"></p-chip>
+          <p-chip label="Tuesday" icon="pi pi-check-circle" class="day-chip active"></p-chip>
+          <p-chip label="Wednesday" icon="pi pi-check-circle" class="day-chip active"></p-chip>
+          <p-chip label="Thursday" icon="pi pi-check-circle" class="day-chip active"></p-chip>
+          <p-chip label="Friday" icon="pi pi-check-circle" class="day-chip active"></p-chip>
+          <p-chip label="Saturday" class="day-chip inactive"></p-chip>
+        </div>
+      </div>
+      <div class="working">
+        <div class=""  style="margin-bottom: 24px;">
+          <div class="working-days mb-2">Working hours</div>
+          <div class="i">From 8:00 AM to 8:00 PM </div>
+        </div>
+
+        <div class="" style="margin-bottom: 24px;">
+          <div class="working-days mb-2">Emergency Service</div>
+          <div class="i">Yes</div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
 
     <div class="id-section">
         <div class="h">Front and Back of ID</div>
         <div class="id-images">
-            <img [src]="profileData.attachments || 'staticPass.png'" alt="Front ID" />
+            <img [src]="profileData?.attachments || 'staticPass.png'" alt="Front ID" />
             <img src="staticPass.png" alt="Back ID" />
         </div>
-        <div class="document-content" *ngIf="profileData.type==='company'">
+        <div class="document-content" *ngIf="profileData?.type==='company'">
           <div class="doc-info">
             <img src="document.svg" alt="Handover protocols" />
             <p>commercial registration .pdf</p>
           </div>
           <div class="doc-actions">
-            <a class="text-decoration-none" [href]="profileData.attachments" target="_blank">
+            <a class="text-decoration-none" [href]="profileData?.attachments" target="_blank">
               <button class="btn-view">
                 <i class="pi pi-eye"></i> View
               </button>
             </a>
-            <a class="text-decoration-none" [href]="profileData.attachments" download>
+            <a class="text-decoration-none" [href]="profileData?.attachments" download>
               <button class="btn-download">
                 <i class="pi pi-download"></i> Download
               </button>

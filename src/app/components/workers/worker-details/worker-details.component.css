@@ -545,6 +545,93 @@ text-transform: capitalize;
 overflow: hidden;
 
 }
+
+.availability-details {
+  padding: 1rem;
+}
+
+
+
+.days-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.days-list ::ng-deep .p-chip{
+  color:  unset;
+text-align: center;
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+background-color: transparent !important;
+padding: 4px var(--corner-radius-16, 16px) !important;
+
+}
+
+
+
+/* .day-chip {
+  border-radius: 20px;
+  font-weight: 500;
+  padding: 0.25rem 1rem;
+  font-size: 0.875rem;
+} */
+
+.day-chip.active {
+
+  background-color: #ffffff;
+
+  display: flex;
+
+justify-content: center;
+align-items: center;
+/* gap: 10px; */
+
+border-radius: 20px;
+border: 1px solid var(--Primary-Mobile, #1151B3);
+
+color: var(--Primary-Mobile, #1151B3);
+
+}
+
+.day-chip.inactive {
+  color: #9e9e9e !important;
+  border: 1px solid #9e9e9e;
+  background-color: #f0f0f0;
+
+  display: flex;
+
+justify-content: center;
+align-items: center;
+/* gap: 10px; */
+
+border-radius: 20px;
+border: 1px solid #EBEBEB;
+
+color: #6F6F6F;
+
+}
+
+ .working-days{
+  color: var(--Neutral-Neutral30, #484649);
+/* text-align: center; */
+font-feature-settings: 'liga' off, 'clig' off;
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 600;
+line-height: 20px; /* 142.857% */
+ }
+
+ .working{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap:229px;
+ }
+
 @media (max-width:992px) {
   .fixDiv{
     display: none;
