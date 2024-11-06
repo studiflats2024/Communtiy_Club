@@ -51,6 +51,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/issues/issue-details/issue-details.component').then(m => m.IssueDetailsComponent),
     canActivate: [AdminGuard]
   },
+  {
+    path: 'update-issue/:id',
+    loadComponent: () => import('./components/issues/update-issue/update-issue.component').then(m => m.UpdateIssueComponent),
+    canActivate: [AdminGuard]
+  },
 
 
   { path: '**', redirectTo: 'login' },

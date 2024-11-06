@@ -59,6 +59,17 @@ export class IssuesService {
     return this.http.post<any>(url, data, { headers });
   }
 
+  updateIssue(issueData: any): Observable<any> {
+    const url = `${environment.apiUrl}/WokersStaff/UpdateIssue_Dashboard`;
+
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+    return this.http.post(url, issueData,{ headers });
+  }
+
 
   getIssueDetails(issueId: string): Observable<any> {
     const url = `${environment.apiUrl}/WokersStaff/GetIssue_Details_Dashbaord`;

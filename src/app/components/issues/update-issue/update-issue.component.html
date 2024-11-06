@@ -48,7 +48,7 @@
                         pInputText
                         id="aprtno"
                         aria-describedby="username-help"
-                        [(ngModel)]="selectedApartment.apartment_No"
+                        [(ngModel)]="apartment_No"
                         readonly />
 
                 </div>
@@ -115,7 +115,7 @@
               [(ngModel)]="selectedUserType"
               id="userType"
               optionLabel="name"
-              placeholder="Select a Type" />
+              [placeholder]="selectedUserType || 'Select Type'"/>
           </div>
 
           <!-- <div class="flex flex-column gap-2 w-50">
@@ -135,7 +135,7 @@
               [(ngModel)]="selectedIssueTypes"
               id="issueType"
               optionLabel="skill_Name"
-              placeholder="Select Types">
+              [placeholder]="selectedIssueType">
             </p-multiSelect>
           </div>
         </div>
@@ -183,7 +183,7 @@
                   </p-fileUpload>
 
                   <!-- Galleria Display -->
-                  <p-galleria
+                  <!-- <p-galleria
                     [value]="images"
                     [circular]="true"
                     [showThumbnails]="false"
@@ -196,7 +196,7 @@
                     <ng-template pTemplate="thumbnail" let-item>
                       <img [src]="item" alt="issue img" style="width: 50px; height: 50px;">
                     </ng-template>
-                  </p-galleria>
+                  </p-galleria> -->
 
                   <!-- Drag and Drop to Reorder -->
                   <!-- <h5>Reorder Images</h5> -->
@@ -236,7 +236,7 @@
               [(ngModel)]="selectedLevel"
               id="level"
               optionLabel="name"
-              placeholder="Select a Level" />
+              [placeholder]="selectedLevel || 'Select a Level'" />
           </div>
 
           <div class="flex flex-column gap-2 w-50">
@@ -335,7 +335,7 @@
     <div class="featured-icon">
       <img src="tick_done.svg"/>
     </div>
-      <div class="textS">Created successfully!</div>
+      <div class="textS">Updated successfully!</div>
       <!-- <div class="textS2">rejection reason has been sent successfully.</div> -->
 
 

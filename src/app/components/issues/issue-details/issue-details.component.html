@@ -43,13 +43,7 @@
 
 
         <div>
-          <p class="color: var(--Neutral-Neutral20, #313033);
-          font-feature-settings: 'liga' off, 'clig' off;
-          font-family: Poppins;
-          font-size: 14px;
-          font-style: normal;
-          font-weight: 500;
-          line-height: 20px; ">Description</p>
+          <p  class="r-by my-5 ">Description</p>
           <div class="description-text">
             <p>{{ issueData?.issue_Desc }}</p>
           </div>
@@ -151,6 +145,7 @@
 
 
 
+    <div class="devider"></div>
 
     <!-- <div>
       <div class="available-appointment">Available Appointment</div>
@@ -166,14 +161,168 @@
 
     </div> -->
 
+
+
+  <div>
+    <div class="personal-info">Issue Details</div>
+    <div class="info-grid">
+      <div>
+        <div class="h">Name on the Ringbell</div>
+        <div class="i">{{ issueData?.nameRing_Bill || 'N/A' }}</div>
+      </div>
+      <div>
+        <div class="h">Floor No</div>
+        <div class="i">{{ issueData?.floor_No || 'N/A' }}</div>
+      </div>
+      <div>
+        <div class="h">The Location of the Apartment on the Floor</div>
+        <div class="i">{{issueData?.apartment_Location || 'N/A' }}</div>
+      </div>
+      <div>
+        <div class="h">Phone Number</div>
+        <div class="i">{{ issueData?.phoneNo || 'N/A' }}</div>
+      </div>
+      <div>
+        <div class="h">Alternative Phone Number</div>
+        <div class="i">{{ issueData?.alternative_Phone || 'N/A' }}</div>
+      </div>
+      <div>
+        <div class="h">User Type</div>
+        <div class="i">{{ issueData?.userType || 'N/A' }}</div>
+      </div>
+      <div>
+        <div class="h">Issue Type</div>
+        <div class="i">{{ issueData?.issue_Category ? issueData?.issue_Category.join(', ') : 'N/A' }}</div>
+      </div>
+      <div>
+        <div class="h">Property Manager</div>
+        <div class="i">{{ issueData?.property_Manager || 'N/A' }}</div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<div class="devider"></div>
+
     <div>
-      <div class="available-appointment">Available Appointment</div>
+      <div class="personal-info ">Available Appointment</div>
       <div class="row" style="margin-bottom:24px;">
         <div *ngFor="let appointment of issueData?.issue_Appointments" class="col-6 mb-3">
           <div class="view">{{ appointment | date: 'MMMM d, yyyy, h:mm a' }}</div>
         </div>
       </div>
     </div>
+
+
+    <div class="devider"></div>
+
+    <div>
+      <div class="r-by mt-4">Comments</div>
+
+
+          <div class="view fixcommit mt-2">Issue: A constant dripping sound is emanating from the tap in your house, indicating a leaking faucet. This problem not only leads to water wastage but can also cause annoyance and inconvenience.
+            Observations:
+            You notice water droplets forming and falling from the tap even when it's turned off.
+            </div>
+
+
+    </div>
+
+
+    <div class="devider"></div>
+
+    <div  >
+      <div class="personal-info">Payment Responsibility and Cost Breakdown
+        <div class="fixcommit">a brief overview about solved the problem</div>
+      </div>
+
+      <div class="info-grid">
+          <div>
+
+              <div  class="h">who will pay</div>
+
+              <div class="i">N/A </div>
+          </div>
+          <div>
+              <div class="h">worker cost</div>
+              <div class="i"> N/A</div>
+          </div>
+
+          <div>
+
+              <div  class="h">items cost</div>
+
+             <div class="i"> N/A</div>
+          </div>
+          <div>
+
+            <div   class="h">Total cost</div>
+
+            <div class="i">N/A </div>
+        </div>
+
+
+
+
+
+
+      </div>
+  </div>
+
+
+
+
+    <div>
+      <div class="r-by mt-4">Description</div>
+
+
+          <div class="view fixcommit mt-2 ">Issue: A constant dripping sound is emanating from the tap in your house, indicating a leaking faucet. This problem not only leads to water wastage but can also cause annoyance and inconvenience.
+            Observations:
+            You notice water droplets forming and falling from the tap even when it's turned off.
+            </div>
+
+
+    </div>
+
+
+    <div>
+      <div class="r-by mt-4 mb-2">Attachment</div>
+      <div class="imgs">
+        <img src="https://via.placeholder.com/150" alt="Dummy Image 1" />
+        <img src="https://via.placeholder.com/150" alt="Dummy Image 2" />
+        <img src="https://via.placeholder.com/150" alt="Dummy Image 3" />
+        <img src="https://via.placeholder.com/150" alt="Dummy Image 4" />
+
+
+      </div>
+    </div>
+
+
+    <div class="document-content" >
+      <div class="doc-info">
+        <img src="document.svg" alt="Issue Details" />
+        <p>Issue Details.pdf</p>
+      </div>
+      <div class="doc-actions">
+        <!-- <a class="text-decoration-none" [href]="profileData?.attachments" target="_blank">
+          <button class="btn-view">
+            <i class="pi pi-eye"></i> View
+          </button>
+        </a> -->
+        <a class="text-decoration-none" href=" " download>
+          <button class="btn-download">
+             <img src="download.svg"/>
+          </button>
+        </a>
+      </div>
+    </div>
+
+
+  </div>
+
+
 
 
 

@@ -23,18 +23,17 @@ import { MessageService } from 'primeng/api';
 import { IssuesService } from '../../../services/issues.service';
 import { MultiSelectModule } from 'primeng/multiselect';
 
-
-
 @Component({
-  selector: 'app-create-issue',
+  selector: 'app-update-issue',
   standalone: true,
   imports: [ToastModule,MultiSelectModule,CalendarModule,DragDropModule,ButtonModule,GalleriaModule,FileUploadModule,InputTextareaModule,DropdownModule,InputTextModule,DialogModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
-  templateUrl: './create-issue.component.html',
-  styleUrl: './create-issue.component.css',
-  providers: [MessageService]
-})
-export class CreateIssueComponent {
 
+  templateUrl: './update-issue.component.html',
+  styleUrl: './update-issue.component.css',
+  providers: [MessageService]
+
+})
+export class UpdateIssueComponent {
 
   itemsLink:any;
   // images:any;
@@ -62,36 +61,44 @@ export class CreateIssueComponent {
   altPhone:any;
   comments:any;
 
+  apartment_No:any;
+
+
   constructor(private messageService: MessageService,private route: ActivatedRoute,private router: Router ,private issuesService: IssuesService) {}
 
   ngOnInit() {
+
+    this.issueId = this.route.snapshot.paramMap.get('id');
+    console.log('Issue ID:', this.issueId);
+
+    this.  fetchIssueDetails();
 
     // this.getIssueCode();
     this.getIssueTypes();
 
 
 
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state as { selectedApartment: any };
+    // const navigation = this.router.getCurrentNavigation();
+    // const state = navigation?.extras.state as { selectedApartment: any };
 
-    // Check if state is available
-    if (state) {
-      this.selectedApartment = state.selectedApartment;
-      console.log('state')
-    this.getIssueCode();
-    } else {
-      // Fallback to using history.state for page reloads or direct navigation
-      this.selectedApartment = history.state.selectedApartment;
-      console.log('history')
-    this.getIssueCode();
 
-    }
+    // if (state) {
+    //   this.selectedApartment = state.selectedApartment;
+    //   console.log('state')
+    // this.getIssueCode();
+    // } else {
+
+    //   this.selectedApartment = history.state.selectedApartment;
+    //   console.log('history')
+    // this.getIssueCode();
+
+    // }
 
     console.log(this.selectedApartment);
 
     this.itemsLink = [
       { label: 'issues', routerLink: '/issues-list' },
-      { label: 'Create Issue', routerLink: '/create-issue' }
+      { label: 'Update Issue'  }
     ];
 
     this.userTypes = [
@@ -234,6 +241,50 @@ skills:any;
     return this.selectedIssueTypes.map((item) => item.skill_ID);
   }
 
+issueDetails:any
+  fetchIssueDetails() {
+    this.issuesService.getIssueDetails(this.issueId).subscribe(
+      response => {
+        console.log('Issue details:', response);
+        this.issueDetails = response;
+
+
+        this.issueName = this.issueDetails?.issue_Name;
+      this.aprtNo = this.issueDetails?.apartment_No;
+      this.requestedBy = this.issueDetails?.requested_By;
+      this.description = this.issueDetails?.issue_Desc;
+      this.selectedUserType = this.issueDetails?.userType;
+      this.selectedLevel = this.issueDetails?.issue_Priority;
+      this.repairTime = new Date(this.issueDetails?.issue_Estimation_Repair);
+      this.manager = this.issueDetails?.property_Manager;
+      this.ringbell = this.issueDetails?.nameRing_Bill;
+      this.floorNo = this.issueDetails?.floor_No;
+      this.locAprtFloor = this.issueDetails?.apartment_Location;
+      this.phone = this.issueDetails?.phoneNo;
+      this.altPhone = this.issueDetails?.alternative_Phone;
+      this.comments = this.issueDetails?.comments;
+      this.selectedIssueType= this.issueDetails?.issue_Category ? this.issueDetails?.issue_Category.join(', ') : 'Select Types'
+      this.images=this.issueDetails?.issue_Images
+      this.initializeAppointments();
+      this.issueCode=this.issueDetails?.issue_Code;
+      this.apartment_No=this.issueDetails?.apartment_No;
+
+      },
+      error => {
+        console.error('Error fetching issue details:', error);
+      }
+    );
+  }
+
+
+  initializeAppointments() {
+    if (this.issueDetails?.issue_Appointments?.length) {
+      this.appointments = this.issueDetails.issue_Appointments.map((appointment: string) => ({
+        date: new Date(appointment), // Convert string to Date object
+      }));
+    }
+  }
+
   submitIssue() {
 
 
@@ -333,14 +384,14 @@ skills:any;
     comments: this.comments
     };
 
-    this.issuesService.createNewIssue(issueData).subscribe(
+    this.issuesService.updateIssue(issueData).subscribe(
       response => {
-        console.log('Issue created successfully:', response);
+        console.log('Issue updated successfully:', response);
     this.showSuccess=true
 
       },
       error => {
-        console.error('Error creating issue:', error);
+        console.error('Error updating issue:', error);
       }
     );
   }

@@ -75,7 +75,7 @@ selectedStaff:any;
     }
 
        // Check if state is available
-       if (state&&localStorage.getItem('issueID')) {
+       if (state&&localStorage.getItem('issueID')!==null) {
         this.selectedStaff = state.selectedStaff;
         console.log('state')
       console.log('Assigned Staff:', this.selectedStaff);
@@ -84,14 +84,17 @@ selectedStaff:any;
 
       this.assignIssueToUser(this.selectedIssueId,this.selectedStaff?.id);
 
-      } else  if(localStorage.getItem('issueID')){
-        // Fallback to using history.state for page reloads or direct navigation
+      } else  if(localStorage.getItem('issueID')!==null){
+
         this.selectedStaff = history.state.selectedStaff;
         console.log('history')
       console.log('Assigned Staff:', this.selectedStaff);
       this.selectedIssueId=localStorage.getItem('issueID');
       console.log(this.selectedIssueId)
       this.assignIssueToUser(this.selectedIssueId,this.selectedStaff?.id);
+
+
+
 
 
 
@@ -114,6 +117,15 @@ selectedStaff:any;
         command: () =>  {
 
             this.publishIssue(this.selectedIssueId);
+
+        }
+      },
+      {
+        label: 'Update Issue',
+        // icon: 'pi pi-eye',
+        command: () =>  {
+
+          this.router.navigate(['/update-issue', this.selectedIssueId]);
 
         }
       }
@@ -162,7 +174,7 @@ assignSuccess:boolean =false;
   selectedIssueId:any;
   selectIssue(workerId:any) {
     this.selectedIssueId = workerId;
-    localStorage.setItem('issueID',this.selectedIssueId)
+
 
     console.log('selectedIssue',this.selectedIssueId)
   }
@@ -261,6 +273,7 @@ issuesNotAssigned:any[]=[];
   visibleAssignTable:boolean=false;
 onAssign(){
  this.visibleAssignTable=true;
+ localStorage.setItem('issueID',this.selectedIssueId)
 }
 onChooseType(type:string){
   if(type==='staff'){

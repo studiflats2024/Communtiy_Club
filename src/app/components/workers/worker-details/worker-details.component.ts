@@ -122,6 +122,9 @@ export class WorkerDetailsComponent {
 
 // Check if a day is in worker_Availabilities
 isDayAvailable(day: string): boolean {
-  return this.profileData?.worker_Availabilities?.some((availability:any) => availability.day === day);
+  console.log(this.profileData?.worker_Avaliabilities?.some((availability:any) => availability.day === day))
+  return this.profileData?.worker_Avaliabilities?.some((availability:any) => availability.day === day);
 }
+
+
 }

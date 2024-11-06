@@ -579,7 +579,7 @@ padding: 4px var(--corner-radius-16, 16px) !important;
   font-size: 0.875rem;
 } */
 
-.day-chip.active {
+ .active {
 
   background-color: #ffffff;
 
