@@ -13,7 +13,8 @@ import { GalleriaModule } from 'primeng/galleria';      // Image gallery
 import { ButtonModule } from 'primeng/button';
 import { DragDropModule } from 'primeng/dragdrop';
 import { CalendarModule } from 'primeng/calendar';
-
+import { InputNumberModule } from 'primeng/inputnumber';
+import { DatePipe } from '@angular/common';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { MenuModule } from 'primeng/menu';
@@ -26,7 +27,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 @Component({
   selector: 'app-update-issue',
   standalone: true,
-  imports: [ToastModule,MultiSelectModule,CalendarModule,DragDropModule,ButtonModule,GalleriaModule,FileUploadModule,InputTextareaModule,DropdownModule,InputTextModule,DialogModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
+  imports: [InputNumberModule,ToastModule,MultiSelectModule,CalendarModule,DragDropModule,ButtonModule,GalleriaModule,FileUploadModule,InputTextareaModule,DropdownModule,InputTextModule,DialogModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
 
   templateUrl: './update-issue.component.html',
   styleUrl: './update-issue.component.css',
@@ -49,7 +50,9 @@ export class UpdateIssueComponent {
   selectedUserType:any;
   selectedIssueType:any;
   selectedLevel:any;
-  repairTime!: Date;
+  // repairTime!: Date;
+  repairTime: any;
+
   selectedApartment:any
   selectedIssueTypes:any[]=[]
 
@@ -64,17 +67,24 @@ export class UpdateIssueComponent {
   apartment_No:any;
 
 
-  constructor(private messageService: MessageService,private route: ActivatedRoute,private router: Router ,private issuesService: IssuesService) {}
+  constructor( private messageService: MessageService,private route: ActivatedRoute,private router: Router ,private issuesService: IssuesService) {
+
+  }
 
   ngOnInit() {
 
+
     this.issueId = this.route.snapshot.paramMap.get('id');
     console.log('Issue ID:', this.issueId);
-
-    this.  fetchIssueDetails();
-
-    // this.getIssueCode();
     this.getIssueTypes();
+    this.fetchIssueDetails(this.issueId);
+
+
+    // this.newArr=this.issueDetails?.issue_Category
+    // this.selectedIssueTypes=this.getIssueTypeDetailsByName(this.newArr)
+    // console.log(this.selectedIssueTypes)
+    // this.getIssueCode();
+
 
 
 
@@ -141,6 +151,9 @@ skills:any;
       }
     });
   }
+
+
+
 
 
   //////////////////////////photos///////////////////////////
@@ -237,25 +250,67 @@ skills:any;
     this.submitIssue()
   }
 
+  // getSelectedIssueNames(): string[] {
+
+  //   return this.selectedIssueTypes.map((item) => item.skill_ID);
+  // }
+
   getSelectedIssueNames(): string[] {
-    return this.selectedIssueTypes.map((item) => item.skill_ID);
+    // Use a Set to filter out duplicate skill_IDs
+    const uniqueIds = new Set(this.selectedIssueTypes.map(item => item.skill_ID));
+    console.log(uniqueIds)
+    // Convert the Set back to an array
+    return Array.from(uniqueIds);
   }
 
-issueDetails:any
-  fetchIssueDetails() {
-    this.issuesService.getIssueDetails(this.issueId).subscribe(
+  getIssueTypeIdsByName(names: string[]): string[] {
+    return names.map(name => {
+      const foundType = this.issueTypes.find(type => type.skill_Name === name);
+      return foundType ? foundType.skill_ID : null;
+    }).filter(id => id !== null); // Filter out any null values in case some names don't match
+  }
+
+  issuefixTypes:any[]=[];
+  getIssueTypeDetailsByName(names: string[]): { skill_Name: string, skill_ID: string }[] {
+    this.issuefixTypes=this.issueTypes
+    return names.map(name => {
+        const foundType = this.issuefixTypes.find(type => type.skill_Name === name);
+        return foundType ? { skill_Name: foundType.skill_Name, skill_ID: foundType.skill_ID } : null;
+      })
+      .filter(item => item !== null); // Filter out any null values in case some names don't match
+  }
+
+
+
+issueDetails:any;
+selectedDLevel:any;
+selectedDUserType:any;
+selectedDIssueType:any;
+newArr:any;
+finalTypesIssue:any;
+issueID:any;
+  fetchIssueDetails(id:any) {
+    this.issuesService.getIssueDetails(id).subscribe(
       response => {
         console.log('Issue details:', response);
         this.issueDetails = response;
+       this.issueID=this.issueDetails?.issue_ID;
 
-
+this.selectedApartment=this.issueDetails?.apartment_ID
         this.issueName = this.issueDetails?.issue_Name;
       this.aprtNo = this.issueDetails?.apartment_No;
       this.requestedBy = this.issueDetails?.requested_By;
       this.description = this.issueDetails?.issue_Desc;
-      this.selectedUserType = this.issueDetails?.userType;
-      this.selectedLevel = this.issueDetails?.issue_Priority;
-      this.repairTime = new Date(this.issueDetails?.issue_Estimation_Repair);
+      this.selectedDUserType = this.issueDetails?.userType;
+     this.selectedUserType={name:this.selectedDUserType}
+      // this.selectedLevel = this.issueDetails?.issue_Priority;
+      this.selectedDLevel = this.issueDetails?.issue_Priority;
+      this.selectedLevel= {name:this.selectedDLevel};
+      console.log(this.selectedLevel.name)
+
+      // this.repairTime = new Date(this.issueDetails?.issue_Estimation_Repair);
+      this.repairTime = this.issueDetails?.issue_Estimation_Repair;
+
       this.manager = this.issueDetails?.property_Manager;
       this.ringbell = this.issueDetails?.nameRing_Bill;
       this.floorNo = this.issueDetails?.floor_No;
@@ -263,7 +318,22 @@ issueDetails:any
       this.phone = this.issueDetails?.phoneNo;
       this.altPhone = this.issueDetails?.alternative_Phone;
       this.comments = this.issueDetails?.comments;
-      this.selectedIssueType= this.issueDetails?.issue_Category ? this.issueDetails?.issue_Category.join(', ') : 'Select Types'
+      this.selectedIssueType= this.issueDetails?.issue_Category ? this.issueDetails?.issue_Category.join(', ') : 'Select Types';
+      // this.selectedIssueTypes=this.issueDetails?.issue_Category
+      this.newArr=this.issueDetails?.issue_Category
+
+      // this.finalTypesIssue=this.getIssueTypeDetailsByName(this.newArr)
+
+      this.finalTypesIssue=this.getIssueTypeIdsByName(this.newArr)
+
+      console.log(this.newArr)
+
+      console.log(this.finalTypesIssue)
+      console.log(this.selectedIssueType)
+
+
+
+
       this.images=this.issueDetails?.issue_Images
       this.initializeAppointments();
       this.issueCode=this.issueDetails?.issue_Code;
@@ -311,7 +381,8 @@ issueDetails:any
       return;
     }
 
-    if (!this.getSelectedIssueNames()?.length) {
+    if (!this.getSelectedIssueNames()?.length&&!this.newArr.length) {
+
       this.messageService.add({severity: 'error', summary: 'Error', detail: 'At least one issue category is required'});
       return;
     }
@@ -350,7 +421,10 @@ issueDetails:any
     this.messageService.add({severity: 'error', summary: 'Error', detail: 'Comments are required'});
     return;
   }
-
+   console.log(this.getSelectedIssueNames().length)
+  const issueCategory = this.getSelectedIssueNames().length === 0
+  ? this.finalTypesIssue
+  : this.getSelectedIssueNames();
 
     const appointmentDates = this.appointments
     .filter(appointment => appointment.date) // Ensure date is not null
@@ -359,30 +433,31 @@ issueDetails:any
     console.log(appointmentDates);
 
     const issueData = {
-      apartment_ID: this.selectedApartment.apartment_ID,
-      issue_Code: this.issueCode,
+      apartment_ID: this.selectedApartment,
+      issue_ID: this.issueID,
       issue_Name: this.issueName,
-      apartment_No: this.aprtNo,
+      // apartment_No: this.aprtNo,
       requested_By: this.requestedBy,
       assigned_ID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       userType: this.selectedUserType.name,
       issue_Desc: this.description,
 
       // issue_Category: [this.selectedIssueType.skill_Name],
-      issue_Category: this.getSelectedIssueNames() ,
+      issue_Category: issueCategory ,
 
 
       issue_Images: this.images,
-      issue_Priority: this.selectedLevel.name,
-      issue_Estimation_Solve: this.repairTime?.toISOString(),
+      issue_Piority: this.selectedLevel.name,
+      issue_Estimation_Solve: this.repairTime?.toString(),
       issue_Appointments: appointmentDates,
 
         // Additional data with correct naming from the object structure
-    name_RingBell: this.ringbell,
-    phoneNo: this.phone,
-    alternative_PhoneNo: this.altPhone,
-    comments: this.comments
+        name_RingBell: this.ringbell,
+        phoneNo: this.phone,
+        alternative_PhoneNo: this.altPhone,
+        comments: this.comments
     };
+    console.log('datasended to api',issueData)
 
     this.issuesService.updateIssue(issueData).subscribe(
       response => {

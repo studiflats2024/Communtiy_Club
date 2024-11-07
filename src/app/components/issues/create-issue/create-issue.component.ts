@@ -13,7 +13,7 @@ import { GalleriaModule } from 'primeng/galleria';      // Image gallery
 import { ButtonModule } from 'primeng/button';
 import { DragDropModule } from 'primeng/dragdrop';
 import { CalendarModule } from 'primeng/calendar';
-
+import { InputNumberModule } from 'primeng/inputnumber';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { MenuModule } from 'primeng/menu';
@@ -28,7 +28,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 @Component({
   selector: 'app-create-issue',
   standalone: true,
-  imports: [ToastModule,MultiSelectModule,CalendarModule,DragDropModule,ButtonModule,GalleriaModule,FileUploadModule,InputTextareaModule,DropdownModule,InputTextModule,DialogModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
+  imports: [InputNumberModule,ToastModule,MultiSelectModule,CalendarModule,DragDropModule,ButtonModule,GalleriaModule,FileUploadModule,InputTextareaModule,DropdownModule,InputTextModule,DialogModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
   templateUrl: './create-issue.component.html',
   styleUrl: './create-issue.component.css',
   providers: [MessageService]
@@ -50,7 +50,9 @@ export class CreateIssueComponent {
   selectedUserType:any;
   selectedIssueType:any;
   selectedLevel:any;
-  repairTime!: Date;
+  // repairTime!: Date;
+  repairTime: any;
+
   selectedApartment:any
   selectedIssueTypes:any[]=[]
 
@@ -313,7 +315,7 @@ skills:any;
       issue_Name: this.issueName,
       apartment_No: this.aprtNo,
       requested_By: this.requestedBy,
-      assigned_ID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      // assigned_ID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       userType: this.selectedUserType.name,
       issue_Desc: this.description,
 
@@ -322,8 +324,10 @@ skills:any;
 
 
       issue_Images: this.images,
-      issue_Priority: this.selectedLevel.name,
-      issue_Estimation_Solve: this.repairTime?.toISOString(),
+      issue_Piority: this.selectedLevel.name,
+      // issue_Estimation_Solve: this.repairTime?.toISOString(),
+      issue_Estimation_Solve: this.repairTime?.toString(),
+
       issue_Appointments: appointmentDates,
 
         // Additional data with correct naming from the object structure

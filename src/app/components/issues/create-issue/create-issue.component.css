@@ -686,11 +686,7 @@ box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
     }
 
 
-    .disabled-btn {
-      background-color: #cccccc; /* disabled color */
-      color: #666666;
-      cursor: not-allowed;
-      /* any other styles to indicate the button is disabled */
-  }
 
-
+    :host ::ng-deep .p-inputnumber{
+      width:100%;
+    }

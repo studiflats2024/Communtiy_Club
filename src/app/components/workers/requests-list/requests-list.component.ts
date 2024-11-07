@@ -320,23 +320,61 @@ export class RequestsListComponent {
   }
 
   selectedWorker:any
+  assignAlert:boolean=false;
   assignWorker(worker:any) {
+     this.selectedWorker = worker;
+     localStorage.setItem('selectedWorker', JSON.stringify(worker));
     if (this.selectedWorker&&this.fromDetails===false) {
       // Handle the assignment, e.g., navigate back or update the issue with the selected staff ID
       this.selectedWorker = worker;
+      console.log(this.selectedWorker)
+      console.log('Selected Worker:', JSON.parse(localStorage.getItem('selectedWorker') || 'null'));
+      this.assignAlert=true;
+
+      // this.router.navigate(['/issues-list'], {
+      //   state: { selectedStaff: this.selectedWorker }
+      // });
+    }else if(this.selectedWorker&&this.fromDetails===true){
+      // this.selectedWorker = worker;
       console.log('Selected Worker:', this.selectedWorker);
+      this.assignAlert=true;
+
+      // const issueIdDetails = localStorage.getItem('issueIDdetails');
+      // console.log('issueidagain',issueIdDetails)
+      // this.router.navigate([`/issue-details/${issueIdDetails}`], {
+      //   state: { selectedWorker: this.selectedWorker }
+      // });
+    }
+  }
+
+  sureAssign(){
+    this.selectedWorker = JSON.parse(localStorage.getItem('selectedWorker') || 'null');
+    if (this.fromDetails===false) {
+
+
       this.router.navigate(['/issues-list'], {
         state: { selectedStaff: this.selectedWorker }
       });
-    }else if(this.selectedWorker&&this.fromDetails===true){
-      this.selectedWorker = worker;
-      console.log('Selected Worker:', this.selectedWorker);
-      const issueIdDetails = localStorage.getItem('issueIDdetails');
+      console.log(this.selectedWorker)
+    }else if(this.fromDetails===true){
+
+
+      const issueIdDetails = localStorage.getItem('issueIDdetails')|| '';
+      // localStorage.setItem('issueIDAssign',issueIdDetails );
+
       console.log('issueidagain',issueIdDetails)
       this.router.navigate([`/issue-details/${issueIdDetails}`], {
         state: { selectedWorker: this.selectedWorker }
       });
+      // localStorage.removeItem('issueIDdetails');
+
+
+
     }
+  }
+
+  notSureAssign(){
+   this.assignAlert=false;
   }
 
   selectedWorkerId:any;

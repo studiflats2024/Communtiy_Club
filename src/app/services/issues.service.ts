@@ -154,5 +154,17 @@ export class IssuesService {
       return this.http.post<any>(url, null, { headers, params });
     }
 
+    deleteIssue(issueId: string): Observable<any> {
+      const url = `${environment.apiUrl}/WokersStaff/DeleteIssue`;
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'accept': 'text/plain'   ,
+        'Authorization': `Bearer ${token}`
+      });
+      const params = new HttpParams().set('Issue_ID', issueId);
+
+      return this.http.delete(url, { headers, params });
+    }
+
 
 }

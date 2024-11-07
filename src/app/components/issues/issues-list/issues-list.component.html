@@ -227,7 +227,7 @@
                               <p-toast />
                               <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
                               <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-                              <p-button  (onClick)="selectIssue(issue.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                              <p-button  (onClick)="selectIssue(issue.id,issue.status); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
                             </td>
                         </tr>
@@ -446,7 +446,7 @@
                   <p-toast />
                   <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
                   <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-                  <p-button  (onClick)="selectIssue(issue.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                  <p-button  (onClick)="selectIssue(issue.id,issue.status); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
                 </td>
             </tr>
@@ -664,7 +664,7 @@
                 <p-toast />
                 <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
                 <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-                <p-button  (onClick)="selectIssue(issue.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                <p-button  (onClick)="selectIssue(issue.id,issue.status); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
               </td>
           </tr>
@@ -881,7 +881,7 @@
               <p-toast />
               <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
               <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-              <p-button  (onClick)="selectIssue(issue.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+              <p-button  (onClick)="selectIssue(issue.id,issue.status); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
             </td>
         </tr>
@@ -1098,7 +1098,7 @@
             <p-toast />
             <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
             <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-            <p-button  (onClick)="selectIssue(issue.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+            <p-button  (onClick)="selectIssue(issue.id,issue.status); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
           </td>
       </tr>
@@ -1127,11 +1127,11 @@
 
 
  <p-dialog header="Select User Type" [modal]="true" [(visible)]="visibleAssignTable" [style]="{ width: '25rem' }">
-  <span class="p-text-secondary block mb-5"> Write your reason.</span>
+  <span class="p-text-secondary block mb-5">Choose User Type.</span>
 
   <div class="flex justify-content-center gap-2">
-     <div class="flex justify-content-center user-type" (click)="onChooseType('staff')"><img src="staffs.svg"/></div>
-     <div class="flex justify-content-center user-type" (click)="onChooseType('worker')"><img src="workers.svg"/></div>
+     <div class="flex justify-content-center user-type" (click)="onChooseType('staff')"><img src="staffs.svg"/><div class="type">Assign To Staff</div></div>
+     <div class="flex justify-content-center user-type" (click)="onChooseType('worker')"> <img src="workers.svg"/><div class="type">Assign To Worker</div></div>
   </div>
 </p-dialog>
 

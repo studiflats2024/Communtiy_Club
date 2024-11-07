@@ -62,27 +62,7 @@
 
               </div>
         </div>
-        <div class="div">
-          <div class="flex flex-column gap-2 w-50">
-            <label for="manager">property manager</label>
-            <input
-                pInputText
-                id="manager"
-                aria-describedby="manager"
-                [(ngModel)]="manager"
-                  />
 
-        </div>
-        <div class="flex flex-column gap-2 w-50">
-          <label for="ringbell">Name on the Ringbell</label>
-          <input
-              pInputText
-              id="ringbell"
-              aria-describedby="ringbell"
-              [(ngModel)]="ringbell" />
-
-      </div>
-       </div>
 
 
      <div class="div">
@@ -115,7 +95,7 @@
               [(ngModel)]="selectedUserType"
               id="userType"
               optionLabel="name"
-              [placeholder]="selectedUserType || 'Select Type'"/>
+              [placeholder]="selectedDUserType || 'Select Type'"/>
           </div>
 
           <!-- <div class="flex flex-column gap-2 w-50">
@@ -135,10 +115,33 @@
               [(ngModel)]="selectedIssueTypes"
               id="issueType"
               optionLabel="skill_Name"
-              [placeholder]="selectedIssueType">
-            </p-multiSelect>
+              [placeholder]="selectedIssueType"
+              (onChange)="getSelectedIssueNames()"></p-multiSelect>
+
           </div>
         </div>
+
+        <div class="div">
+          <!-- <div class="flex flex-column gap-2 w-50">
+            <label for="manager">property manager</label>
+            <input
+                pInputText
+                id="manager"
+                aria-describedby="manager"
+                [(ngModel)]="manager"
+                  />
+
+        </div> -->
+        <div class="flex flex-column gap-2 w-50">
+          <label for="ringbell">Name on the Ringbell</label>
+          <input
+              pInputText
+              id="ringbell"
+              aria-describedby="ringbell"
+              [(ngModel)]="ringbell" />
+
+      </div>
+       </div>
         <div class="div">
           <div class="flex flex-column gap-2 w-full desc">
             <label for="desc">Description</label>
@@ -236,19 +239,30 @@
               [(ngModel)]="selectedLevel"
               id="level"
               optionLabel="name"
-              [placeholder]="selectedLevel || 'Select a Level'" />
+              [placeholder]="selectedDLevel || 'Select a Level'" />
           </div>
 
           <div class="flex flex-column gap-2 w-50">
             <label for="repairTime">Estimated Repair Time</label>
-            <p-calendar
+            <!-- <p-calendar
               [(ngModel)]="repairTime"
               [showIcon]="true"
               timeOnly="true"
               showSeconds="true"
               placeholder="00:00:00"
               inputId="repairTime">
-            </p-calendar>
+            </p-calendar> -->
+            <p-inputNumber
+
+            inputId="hours"
+  suffix="h"
+  mode="decimal"
+  [(ngModel)]="repairTime"
+  [locale]="'en'"
+  [step]="0.1"
+  [minFractionDigits]="1"
+  [maxFractionDigits]="2"
+  [useGrouping]="false" />
           </div>
         </div>
 
@@ -307,7 +321,7 @@
         <div class="actions">
 
           <!-- <button pButton label="Accept" class="accept p-button"></button> -->
-          <p-button (onClick)="showSuccessD()" class="accept"  label="Create" />
+          <p-button (onClick)="showSuccessD()" class="accept"  label="Update" />
            <p-button (onClick)="showSuccess=false" class=" reject " label="Cancel" />
 
       </div>

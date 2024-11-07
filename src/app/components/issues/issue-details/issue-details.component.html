@@ -52,7 +52,15 @@
 
       <div class="col-lg-5 col-md-12 col-sm-12">
         <div class="custom-apartment-details bg-white rounded-3 p-3">
-          <h3 class="custom-apartment-title">{{ issueData?.issue_Name }}</h3>
+          <!-- <h3 class="custom-apartment-title">{{ issueData?.issue_Name }}</h3> -->
+          <div class="custom-info-item d-flex justify-content-between align-items-center me-4">
+            <h3 class="custom-apartment-title">{{ issueData?.issue_Name }}</h3>
+
+            <div   [ngClass]="{
+              'success': issueData?.issue_Status === 'Assigned',
+              'info': issueData?.issue_Status === 'Pending'
+            }">{{ issueData?.issue_Status }}</div>
+          </div>
 
           <div class="custom-apartment-info d-flex mb-0">
             <div class="custom-info-item d-flex align-items-center me-4">
@@ -79,7 +87,7 @@
             </div>
             <div class="custom-info-item">
               <img src="estimateTime.svg" alt="Published">
-              <p class="issue-info">Estimated Repair Time: {{ issueData?.issue_Estimation_Repair | date:'shortTime' }}</p>
+              <p class="issue-info">Estimated Repair Time: {{ issueData?.issue_Estimation_Repair }} hours</p>
             </div>
             <div class="">
               <div class="r-by">Requested by</div>
@@ -133,7 +141,7 @@
 
           <div class="accord"></div>
           <div class="custom-apartment-buttons mt-5">
-            <button class="custom-btn-rented "  [ngClass]="{'disabled-btn mb-2': assigned, 'custom-btn-rented': !assigned}" (click)=" onAssign()" [disabled]="assigned"> {{ !assigned ? 'Assign Job' : 'Assigned' }}
+            <button class="custom-btn-rented "  [ngClass]="{'disabled-btn mb-2': assigned, 'custom-btn-rented': !assigned}" (click)=" onAssign()" [disabled]="assigned"> {{ !assigned &&!picked ? 'Assign Job' : picked? 'Picked Up':'Assigned' }}
             </button>
             <button class="custom-btn-delete"     [ngClass]="{'disabled-btn': issueData?. is_Published, 'custom-btn-delete': !issueData?.is_Published}"  (click)="publishIssue()"  >
               {{ !issueData?.is_Published ? 'Publish Job' : 'Unpublish Job' }}

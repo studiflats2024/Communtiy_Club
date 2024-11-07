@@ -28,16 +28,33 @@ export class HeaderComponent {
     '/issues-list': 'Issues List',
     '/create-issue': 'Create Issue',
     '/issue-details': 'Issue Details',
+    '/update-issue': 'Update Issue',
+
   };
 
   // Method to update the header title based on the route
+  // updateTitle(url: string): void {
+
+  //   const baseRoute = url.split('/')[1];
+  //   const routeKey = `/${baseRoute}`;
+
+  //   this.headerTitle = this.routeTitles[routeKey] || 'Dashboard';
+  // }
   updateTitle(url: string): void {
-    // Remove any route parameters (like :id) to match only the base path
-    const baseRoute = url.split('/')[1];
+    // Remove query parameters by splitting at `?` and taking the first part
+    const pathWithoutQuery = url.split('?')[0];
+
+    // Then, get the base route by splitting at `/` and taking the part after the base domain
+    const baseRoute = pathWithoutQuery.split('/')[1];
+
+    // Create the routeKey using the determined baseRoute
     const routeKey = `/${baseRoute}`;
 
+    // Set the header title based on the route or default to 'Dashboard'
     this.headerTitle = this.routeTitles[routeKey] || 'Dashboard';
   }
+
+
 
   @Output() toggleSidebar = new EventEmitter<void>(); // Event to toggle sidebar visibility
 

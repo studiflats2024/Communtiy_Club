@@ -62,6 +62,8 @@ export class IssuesListComponent {
   constructor( private router: Router,private messageService: MessageService,private issuesService: IssuesService,private route: ActivatedRoute) {}
 selectedStaff:any;
   ngOnInit() {
+      localStorage.removeItem('issueIDdetails');
+
     this.loadIssues();
     this.filterIssuesByStatus();
 
@@ -69,29 +71,39 @@ selectedStaff:any;
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as { selectedStaff: any };
 
-    if (state?.selectedStaff) {
-      this.selectedStaff = state.selectedStaff;
-      console.log('Assigned Staff:', this.selectedStaff);
-    }
+
+      this.selectedStaff = state?.selectedStaff || null;
+      console.log(this.selectedStaff)
 
        // Check if state is available
-       if (state&&localStorage.getItem('issueID')!==null) {
+       if (state&&localStorage.getItem('issueID')) {
         this.selectedStaff = state.selectedStaff;
         console.log('state')
       console.log('Assigned Staff:', this.selectedStaff);
       this.selectedIssueId=localStorage.getItem('issueID');
       console.log(this.selectedIssueId)
+      console.log(this.selectedStaff?.id)
 
-      this.assignIssueToUser(this.selectedIssueId,this.selectedStaff?.id);
 
-      } else  if(localStorage.getItem('issueID')!==null){
+      // this.assignIssueToUser(this.selectedIssueId,this.selectedStaff?.id);
+      if(this.selectedStaff?.id){
+        this.assignIssueToUser(this.selectedIssueId,this.selectedStaff?.id);
+        history.replaceState({}, document.title);
+      }
+
+      } else  if( localStorage.getItem('issueID')){
 
         this.selectedStaff = history.state.selectedStaff;
         console.log('history')
       console.log('Assigned Staff:', this.selectedStaff);
       this.selectedIssueId=localStorage.getItem('issueID');
       console.log(this.selectedIssueId)
-      this.assignIssueToUser(this.selectedIssueId,this.selectedStaff?.id);
+      console.log(this.selectedStaff?.id)
+      if(this.selectedStaff?.id){
+        this.assignIssueToUser(this.selectedIssueId,this.selectedStaff?.id);
+        history.replaceState({}, document.title);
+      }
+
 
 
 
@@ -102,14 +114,23 @@ selectedStaff:any;
 
 
     this.items = [
+      // {
+      //   label: 'Assign',
+
+      //   command: () =>  {
+
+      //       this.onAssign();
+
+      //   }
+      // }
       {
-        label: 'Assign',
-        // icon: 'pi pi-eye',
-        command: () =>  {
-
+        label: this.selectedStatus === 'Assigned' ? 'Assigned' : 'Assign',
+        command: () => {
+          if (this.selectedStatus !== 'Assigned') {
             this.onAssign();
-
-        }
+          }
+        },
+        disabled: this.selectedStatus === 'Assigned', // Disables the button if status is "Assigned"
       },
       {
         label: 'Publish In App',
@@ -126,6 +147,15 @@ selectedStaff:any;
         command: () =>  {
 
           this.router.navigate(['/update-issue', this.selectedIssueId]);
+
+        }
+      },
+      {
+        label: 'Delete Issue',
+        // icon: 'pi pi-eye',
+        command: () =>  {
+
+          this.deleteIssue(this.selectedIssueId);
 
         }
       }
@@ -164,6 +194,8 @@ assignSuccess:boolean =false;
         this.assignSuccess=true;
         console.log('Issue assigned successfully:', response);
         localStorage.removeItem('issueID');
+    this.loadIssues();
+
       },
       error => {
         console.error('Error assigning issue:', error);
@@ -172,11 +204,60 @@ assignSuccess:boolean =false;
   }
 
   selectedIssueId:any;
-  selectIssue(workerId:any) {
+  selectedStatus:any;
+  selectIssue(workerId:any,status:any) {
     this.selectedIssueId = workerId;
+    this.selectedStatus=status
+    this.items = [
+      // {
+      //   label: 'Assign',
 
+      //   command: () =>  {
 
-    console.log('selectedIssue',this.selectedIssueId)
+      //       this.onAssign();
+
+      //   }
+      // }
+      {
+        label: this.selectedStatus === 'Assigned' ? 'Assigned' : 'Assign',
+        command: () => {
+          if (this.selectedStatus !== 'Assigned') {
+            this.onAssign();
+          }
+        },
+        disabled: this.selectedStatus === 'Assigned', // Disables the button if status is "Assigned"
+      },
+      {
+        label: 'Publish In App',
+        // icon: 'pi pi-eye',
+        command: () =>  {
+
+            this.publishIssue(this.selectedIssueId);
+
+        }
+      },
+      {
+        label: 'Update Issue',
+        // icon: 'pi pi-eye',
+        command: () =>  {
+
+          this.router.navigate(['/update-issue', this.selectedIssueId]);
+
+        }
+      },
+      {
+        label: 'Delete Issue',
+        // icon: 'pi pi-eye',
+        command: () =>  {
+
+          this.deleteIssue(this.selectedIssueId);
+
+        }
+      }
+
+    ];
+
+    console.log('selectedIssue',this.selectedIssueId,this.selectedStatus)
   }
 
   disablePublish:boolean=false;
@@ -292,7 +373,7 @@ onNewIssue(){
 
 
 
-  getSeverity(status: string): 'info' | 'success' | 'warning' | 'danger' | 'secondary' | 'contrast' {
+  getSeverity(status: string):'picked'| 'info' | 'success' | 'warning' | 'danger' | 'secondary' | 'contrast' {
     switch (status) {
       case 'Pending':
         return 'info';
@@ -305,6 +386,8 @@ onNewIssue(){
 
       case 'NotCompleted':
         return 'danger';
+        case 'PickedUp':
+          return 'picked';
       default:
         return 'secondary';
     }
@@ -341,5 +424,22 @@ onNewIssue(){
    publishSuccess:boolean=false;
   openSuccess(){
    this.publishSuccess=true;
+  }
+
+
+  deleteIssue(issueId: string) {
+    this.issuesService.deleteIssue(issueId).subscribe(
+      response => {
+        console.log('Issue deleted successfully:', response);
+        this.messageService.add({ severity: 'info', summary: 'deleted', detail: 'Issue Deleted Successfully' });
+        this.loadIssues();
+
+      },
+      error => {
+        console.error('Error deleting issue:', error);
+    this.messageService.add({ severity: 'danger', summary: 'Error', detail: 'Error on delete issue' });
+
+      }
+    );
   }
 }

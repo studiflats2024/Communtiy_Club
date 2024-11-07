@@ -62,27 +62,7 @@
 
               </div>
         </div>
-        <div class="div">
-          <div class="flex flex-column gap-2 w-50">
-            <label for="manager">property manager</label>
-            <input
-                pInputText
-                id="manager"
-                aria-describedby="manager"
-                [(ngModel)]="manager"
-                  />
 
-        </div>
-        <div class="flex flex-column gap-2 w-50">
-          <label for="ringbell">Name on the Ringbell</label>
-          <input
-              pInputText
-              id="ringbell"
-              aria-describedby="ringbell"
-              [(ngModel)]="ringbell" />
-
-      </div>
-       </div>
 
 
      <div class="div">
@@ -139,6 +119,27 @@
             </p-multiSelect>
           </div>
         </div>
+        <div class="div">
+          <!-- <div class="flex flex-column gap-2 w-50">
+            <label for="manager">property manager</label>
+            <input
+                pInputText
+                id="manager"
+                aria-describedby="manager"
+                [(ngModel)]="manager"
+                  />
+
+        </div> -->
+        <div class="flex flex-column gap-2 w-50">
+          <label for="ringbell">Name on the Ringbell</label>
+          <input
+              pInputText
+              id="ringbell"
+              aria-describedby="ringbell"
+              [(ngModel)]="ringbell" />
+
+      </div>
+       </div>
         <div class="div">
           <div class="flex flex-column gap-2 w-full desc">
             <label for="desc">Description</label>
@@ -241,14 +242,25 @@
 
           <div class="flex flex-column gap-2 w-50">
             <label for="repairTime">Estimated Repair Time</label>
-            <p-calendar
+            <!-- <p-calendar
               [(ngModel)]="repairTime"
               [showIcon]="true"
               timeOnly="true"
               showSeconds="true"
               placeholder="00:00:00"
               inputId="repairTime">
-            </p-calendar>
+            </p-calendar> -->
+            <p-inputNumber
+
+            inputId="hours"
+            suffix="h"
+            mode="decimal"
+            [(ngModel)]="repairTime"
+            [locale]="'en'"
+            [step]="0.1"
+            [minFractionDigits]="1"
+            [maxFractionDigits]="2"
+            [useGrouping]="false" />
           </div>
         </div>
 

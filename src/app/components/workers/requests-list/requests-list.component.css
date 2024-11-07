@@ -326,14 +326,53 @@ font-weight: 500;
 
 
 
- :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-  background: var(--Neutral-Neutral95, #F6F6F6);
 
-}
 .headInfo{
   background: var(--Neutral-Neutral95, #F6F6F6);
 
 }
+
+
+.successs{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap:16px;
+  margin:0
+}
+
+::ng-deep .DS .p-dialog-draggable .p-dialog-header {
+  padding: 0;
+  cursor: move;
+}
+
+
+.textS{
+  color: var(--Gray-900, #101828);
+  text-align: center;
+
+  /* Text lg/Semibold */
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 155.556% */
+}
+
+.featured-icon {
+  width: 100px;
+  height: 100px;
+  padding: 25px;
+  background: #d1fadf;
+  border-radius: 58.33px;
+  border: 16.67px #ecfdf3 solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
 
 
 

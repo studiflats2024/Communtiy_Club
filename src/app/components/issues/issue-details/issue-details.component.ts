@@ -126,6 +126,7 @@ export class IssueDetailsComponent {
   issueData:any;
   issueId:any;
   assigned:boolean=false;
+  picked:boolean=false;
   fetchIssueDetails() {
     this.issuesService.getIssueDetails(this.issueId).subscribe(
       response => {
@@ -134,8 +135,11 @@ export class IssueDetailsComponent {
         this.images=response.issue_Images
         this.currentImage =  this.images[0];
         console.log(this.currentImage)
-        if(response.issue_Status==='Assigned'){
+        if(response.issue_Status==='Assigned' || response.issue_Status==='PickedUp'){
           this.assigned=true;
+          if(response.issue_Status==='PickedUp'){
+            this.picked=true;
+          }
         }
 
 

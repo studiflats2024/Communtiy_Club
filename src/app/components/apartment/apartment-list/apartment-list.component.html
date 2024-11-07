@@ -8,7 +8,7 @@
  <div class="parent">
   <div class="fixDiv"></div>
   <div class="page">
-
+ <div *ngIf="selectMode" class="select-aprt mb-5">Select Apartment </div>
     <p-card  >
 
       <p-tabView styleClass="tabview-custom">
@@ -53,12 +53,12 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr class="headInfo">
-                              <th *ngIf="selectMode" ></th>
-                                <th style="width:22%">ID</th>
+                              <!-- <th *ngIf="selectMode" ></th> -->
+                                <th style="width:22%">Code</th>
                                 <th style="width:22%">Apartment Name</th>
                                 <th style="width:22%">Address</th>
                                 <th style="width:22%">Door Number</th>
-                                <th style="width:22%">Apartment Name</th>
+                                <!-- <th style="width:22%">Apartment Name</th> -->
                                 <th style="width:22%">Apartment No</th>
 
 
@@ -70,13 +70,13 @@
                                 <th style="width:12%">Verified</th> -->
                             </tr>
                             <tr>
-                               <th *ngIf="selectMode" ></th>
+                               <!-- <th *ngIf="selectMode" ></th> -->
                                 <th>
                                     <p-columnFilter
                                         type="text"
                                         field="apartment_Code"
                                         placeholder="Search by ID"
-                                        ariaLabel="Filter No" />
+                                        ariaLabel="Filter code" />
                                 </th>
                                 <th>
                                     <p-columnFilter
@@ -97,7 +97,7 @@
                                       type="text"
                                       field="apartment_Door_No"
                                       placeholder="Search by DoorNo"
-                                      ariaLabel="Filter No" />
+                                      ariaLabel="Filter Door No" />
                                   </th>
                                   <th>
                                       <p-columnFilter
@@ -162,9 +162,10 @@
                         <ng-template pTemplate="body" let-apartment>
                             <tr  style="cursor: pointer;" [pSelectableRow]="apartment">
                               <!-- <td> -->
-                              <p-tableRadioButton (click)="assignApartment(apartment)" class="mt-20" *ngIf="selectMode"   [value]="apartment"  ></p-tableRadioButton>
+                              <!-- <p-tableRadioButton (click)="assignApartment(apartment)" class="mt-20" *ngIf="selectMode"   [value]="apartment"  ></p-tableRadioButton> -->
                               <!-- </td> -->
-                               <td (click)="onRowSelect({ data: apartment })">
+                               <td  >
+                                <p-tableRadioButton (click)="assignApartment(apartment)" class="mt-20 mr-3" *ngIf="selectMode"   [value]="apartment"  ></p-tableRadioButton>
                                 {{ apartment.apartment_Code }}
                                </td>
                                <td (click)="onRowSelect({ data: apartment })">
@@ -197,13 +198,13 @@
                                     </span>
                                 </td> -->
 
-                                <td>
+                                <!-- <td>
                                   <p-toast />
                                   <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
-                                  <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
+
                                   <p-button  (onClick)="selectApartment(apartment.apartment_ID); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
-                                </td>
+                                </td> -->
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="emptymessage">
