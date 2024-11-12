@@ -327,6 +327,158 @@
       </div>
     </div>
 
+    <div class="devider"></div>
+
+    <!------------------------design for steps of staff ---------------------------->
+
+    <!-------------for cleaner------------------>
+    <div class="steps">
+      <div class="bill">Job details</div>
+      <div class="bill-layout">
+        <div class="mt-2">
+          <div class="bill-h">Before Image</div>
+          <div class=""><img [src]="image"  style="width: 60px; height: 60px; border-radius: 10px; cursor: pointer;"
+            (click)="openImage(image)"  /></div>
+        </div>
+        <div class="mt-2">
+          <div class="bill-h">After Image</div>
+          <div class=""><img [src]="image"  style="width: 60px; height: 60px; border-radius: 10px; cursor: pointer;"
+            (click)="openImage(image)"  /></div>
+        </div>
+        <div class="mt-2">
+          <div class="bill-h">Invoice Image</div>
+          <div class=""><img [src]="image"  style="width: 60px; height: 60px; border-radius: 10px; cursor: pointer;"
+            (click)="openImage(image)"  /></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="devider"></div>
+        <!-------------for cash collector------------------>
+        <div class="steps">
+          <div class="bill">Payment details</div>
+          <div class="bill-layout">
+            <div>
+              <div class="bill-h">Rent Collection</div>
+              <div class="bill-p">$100</div>
+            </div>
+            <div>
+              <div class="bill-h">Deposit Collection</div>
+              <div class="bill-p">$100</div>
+            </div>
+            <div>
+              <div class="bill-h">Deposit Refund</div>
+              <div class="bill-p">$100</div>
+            </div>
+          </div>
+          <div class="bill-layout">
+            <div class="mt-2">
+              <div class="bill-h">Before Image</div>
+              <div class=""><img [src]="image"  style="width: 60px; height: 60px; border-radius: 10px; cursor: pointer;"
+                (click)="openImage(image)"  /></div>
+            </div>
+            <div class="mt-2">
+              <div class="bill-h">After Image</div>
+              <div class=""><img [src]="image"  style="width: 60px; height: 60px; border-radius: 10px; cursor: pointer;"
+                (click)="openImage(image)"  /></div>
+            </div>
+            <div class="mt-2">
+              <div class="bill-h">Invoice Image</div>
+              <div class=""><img [src]="image"  style="width: 60px; height: 60px; border-radius: 10px; cursor: pointer;"
+                (click)="openImage(image)"  /></div>
+            </div>
+          </div>
+          <div class="mt-3">
+          <div class="bill">Pecularities
+            <div class="bill-comment">
+              Lorem ipsum is a dummy text Lorem ipsum is a dummy textLorem ipsum is a dummy textLorem ipsum is a dummy text
+            </div>
+          </div>
+
+
+          </div>
+        </div>
+
+        <div class="devider"></div>
+    <!-------------for general------------------>
+    <div class="steps">
+      <div class="bill">Billing detail</div>
+      <div class="bill-layout">
+        <div>
+          <div class="bill-h">Material cost</div>
+          <div class="bill-p">$100</div>
+        </div>
+        <div>
+          <div class="bill-h">Labour cost</div>
+          <div class="bill-p">$100</div>
+        </div>
+      </div>
+      <div class="mt-2">
+        <div class="bill-h">Invoice Image</div>
+        <div class=""><img [src]="image"  style="width: 60px; height: 60px; border-radius: 10px; cursor: pointer;"
+          (click)="openImage(image)"  /></div>
+      </div>
+
+      <div class="mt-2">
+        <div class="bill-h">Comment</div>
+        <div class="">
+          <div class="">
+
+            <div class="custom-info-item"  >
+              <p-avatar
+              *ngIf="issueData?.requested_By_Image===''"
+              icon="pi pi-user"
+              styleClass="mr-2"
+              size="large"
+
+              shape="circle" />
+
+              <img *ngIf="issueData?.requested_By_Image!==''" [src]="issueData?.requested_By_Image " alt="Published" style="width: 40px; height: 40px;">
+              <div>
+                <div class="bill-name">{{ issueData?.requested_By }}</div>
+                <!-- <div class="mail">bentengmail.com</div> -->
+
+              </div>
+            </div>
+
+          </div>
+          <div class="bill-comment">
+            Lorem ipsum is a dummy text Lorem ipsum is a dummy textLorem ipsum is a dummy textLorem ipsum is a dummy text
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="devider"></div>
+    <!-------------for general worker------------------>
+    <div class="steps">
+      <div class="bill">Damage images</div>
+      <div class="bill-layout">
+        <div class="mt-2">
+          <div class="bill-h">Check In</div>
+          <div class=""><img [src]="image"  style="width: 60px; height: 60px; border-radius: 10px; cursor: pointer;"
+            (click)="openImage(image)"  /></div>
+        </div>
+        <div class="mt-2">
+          <div class="bill-h">Check Out</div>
+          <div class=""><img [src]="image"  style="width: 60px; height: 60px; border-radius: 10px; cursor: pointer;"
+            (click)="openImage(image)"  /></div>
+        </div>
+      </div>
+
+
+      <div class="mt-2">
+        <div class="bill-h">Description</div>
+        <div class="">
+
+          <div class="bill-comment">
+            Lorem ipsum is a dummy text Lorem ipsum is a dummy textLorem ipsum is a dummy textLorem ipsum is a dummy text
+          </div>
+        </div>
+      </div>
+
+    </div>
+
 
   </div>
 
@@ -346,9 +498,9 @@
     <span class="p-text-secondary block mb-5"> Choose User Type.</span>
 
     <div class="flex justify-content-center gap-2">
-       <div class="flex justify-content-center user-type" (click)="onChooseType('staff')"><img src="staffs.svg"/></div>
-       <div class="flex justify-content-center user-type" (click)="onChooseType('worker')"><img src="workers.svg"/></div>
-    </div>
+      <div class="flex justify-content-center user-type" (click)="onChooseType('staff')"><img src="staffs.svg"/><div class="type">Assign To Staff</div></div>
+      <div class="flex justify-content-center user-type" (click)="onChooseType('worker')"> <img src="workers.svg"/><div class="type">Assign To Worker</div></div>
+   </div>
   </p-dialog>
 
   <p-dialog class="DS"  [modal]="true" [(visible)]="assignSuccess" [style]="{ width: '25rem' }">
@@ -368,6 +520,14 @@
 
 
 
+
+
+<!-- Dialog for displaying the image -->
+<p-dialog [(visible)]="displayImageDialog" [modal]="true" [closable]="true" header="Invoice Image" [style]="{width: 'auto'}">
+  <ng-container *ngIf="selectedImage">
+      <img [src]="selectedImage" style="max-width: 100%; max-height: 100%;" />
+  </ng-container>
+</p-dialog>
 
 
 

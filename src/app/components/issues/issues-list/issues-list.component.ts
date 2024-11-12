@@ -18,18 +18,24 @@ import { MenuModule } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Menu } from 'primeng/menu';
 import { DialogModule } from 'primeng/dialog';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { FileUploadModule } from 'primeng/fileupload';  // File upload
+import { GalleriaModule } from 'primeng/galleria';      // Image gallery
+
+import { DragDropModule } from 'primeng/dragdrop';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 
 
 @Component({
   selector: 'app-issues-list',
   standalone: true,
-  imports: [ DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
+  imports: [InputTextareaModule,FileUploadModule,GalleriaModule,DragDropModule, RadioButtonModule,DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
   templateUrl: './issues-list.component.html',
   styleUrl: './issues-list.component.css',
   providers: [MessageService],
@@ -158,6 +164,15 @@ selectedStaff:any;
           this.deleteIssue(this.selectedIssueId);
 
         }
+      },
+      {
+        label: 'Payment Responsibility',
+        // icon: 'pi pi-eye',
+        command: () =>  {
+
+          this.showPaymentDialog();
+
+        }
       }
 
     ];
@@ -187,6 +202,17 @@ selectedStaff:any;
     ];
 
   }
+
+
+  ingredient: string = '';
+
+  // You can also add a method if you want to perform an action when the value changes
+  onIngredientChange() {
+    console.log('Selected ingredient:', this.ingredient);
+  }
+
+
+
 assignSuccess:boolean =false;
   assignIssueToUser(issueId: string, assignsId: string) {
     this.issuesService.assignIssue(issueId, assignsId).subscribe(
@@ -201,6 +227,11 @@ assignSuccess:boolean =false;
         console.error('Error assigning issue:', error);
       }
     );
+  }
+
+  showPayment:boolean=false;
+  showPaymentDialog(){
+    this.showPayment=true;
   }
 
   selectedIssueId:any;
@@ -251,6 +282,14 @@ assignSuccess:boolean =false;
         command: () =>  {
 
           this.deleteIssue(this.selectedIssueId);
+
+        }
+      } , {
+        label: 'Payment Responsibility',
+        // icon: 'pi pi-eye',
+        command: () =>  {
+
+          this.showPaymentDialog();
 
         }
       }
@@ -441,5 +480,83 @@ onNewIssue(){
 
       }
     );
+  }
+
+
+
+
+  images: any[] = [];
+  draggedImage: any;
+
+  responsiveOptions: any[] = [
+    {
+      breakpoint: '1024px',
+      numVisible: 5
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 3
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1
+    }
+  ];
+
+  // onImageSelect(event: any) {
+  //   for (let file of event.files) {
+  //     const reader = new FileReader();
+  //     reader.onload = (e: any) => {
+  //       this.images.push(e.target.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
+  loadingPhoto: boolean = false;
+  description:any;
+
+  onImageSelect(event: any) {
+    this.loadingPhoto=true;
+    for (let file of event.files) {
+      this.issuesService.uploadImage(file).subscribe(
+        (response: any) => {
+          // Assuming the API returns a URL to the uploaded image
+          const imageUrl = response[0].file_Path;
+          console.log(imageUrl)
+          this.images.push(imageUrl);
+          this.loadingPhoto = false;
+        },
+        (error) => {
+          console.error('Error uploading file:', error);
+        }
+      );
+    }
+  }
+
+
+
+  removeImage(index: number) {
+    this.images.splice(index, 1);
+  }
+
+  onDragStart(event: any, img: any) {
+    this.draggedImage = img;
+  }
+
+  onDrop(event: any, index: number) {
+    if (this.draggedImage) {
+      const draggedIndex = this.images.indexOf(this.draggedImage);
+      this.images.splice(draggedIndex, 1); // Remove from original position
+      this.images.splice(index, 0, this.draggedImage); // Insert at new position
+      this.draggedImage = null; // Reset
+    }
+  }
+
+  onDragEnd(event: any) {
+    this.draggedImage = null;
+  }
+
+  onDragEnter(event: any, index: number) {
+    // Optional: Handle visual effects for drag over
   }
 }

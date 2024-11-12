@@ -201,4 +201,22 @@ disablePublish:boolean=false;
   }
 
 
+
+  displayImageDialog: boolean = false;
+  selectedImage: string | null = null;
+  image: string | null='https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-fall-natural-scenery-painting-cabin-by-a-lake-free-image.jpeg?w=600&quality=80'
+
+  // Function to open the image in the dialog
+  openImage(imageUrl: any) {
+    this.selectedImage = imageUrl;
+    this.displayImageDialog = true;
+  }
+
+  // Optional: Function to close the dialog
+  closeDialog() {
+    this.displayImageDialog = false;
+    this.selectedImage = null;
+  }
+
+
 }

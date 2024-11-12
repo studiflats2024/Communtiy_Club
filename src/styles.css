@@ -6,3 +6,9 @@
 .p-toast {
   z-index: 99999999999 !important; /* Adjust the value to fit your needs */
 }
+
+
+.p-dialog-mask{
+  z-index: 9999999999999999 !important;
+
+}

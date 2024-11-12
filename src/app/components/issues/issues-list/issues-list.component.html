@@ -1172,6 +1172,141 @@
 
 
 
+<p-dialog header="Assign Payment Responsibility"    [modal]="true" [(visible)]="showPayment" [style]="{ width: '25rem' }">
+  <span class="p-text-secondary block  mb-1">who will pay</span>
+  <div class="flex flex-wrap gap-3 mb-3">
+    <div class="flex align-items-center">
+        <p-radioButton
+            name="pay"
+            value="Studiflats"
+            [(ngModel)]="ingredient"
+            (ngModelChange)="onIngredientChange()"
+            inputId="ingredient1" />
+        <label for="ingredient1" class="ml-2">
+          Studiflats
+        </label>
+    </div>
+
+    <div class="flex align-items-center">
+        <p-radioButton
+            name="pay"
+            value="Tenant"
+            [(ngModel)]="ingredient"
+            (ngModelChange)="onIngredientChange()"
+            inputId="ingredient2" />
+        <label for="ingredient2" class="ml-2">
+          Tenant
+        </label>
+    </div>
+
+    <div class="flex align-items-center">
+        <p-radioButton
+            name="pay"
+            value="Owner"
+            [(ngModel)]="ingredient"
+            (ngModelChange)="onIngredientChange()"
+            inputId="ingredient3" />
+        <label for="ingredient3" class="ml-2">
+          Owner
+        </label>
+    </div>
+
+</div>
+
+
+<div class="div">
+  <div class="flex flex-column gap-2 w-full desc">
+    <label for="desc">Description</label>
+
+          <textarea
+          rows="5"
+          cols="30"
+          id="desc"
+          pInputTextarea
+          [(ngModel)]="description">
+         </textarea>
+  </div>
+</div>
+
+<div class=" w-full">
+
+            <p-fileUpload
+            mode="advanced"
+            name="demo[]"
+            accept="image/*"
+            maxFileSize="5000000"
+            (onSelect)="onImageSelect($event)">
+
+            <ng-template pTemplate="content">
+              <div style=" width:100%;text-align: center; padding: 20px; margin-top: 10px; padding-bottom:0;">
+
+                <img src="cloud-add.svg"/>
+                 <p class="choosep">Choose a file or drag & drop it here</p>
+
+
+                <p class="imgtypes">
+                  JPEG, PNG, PDG, and MP4 formats, up to 50MB
+                </p>
+              </div>
+            </ng-template>
+
+          </p-fileUpload>
+
+          <p-galleria
+            [value]="images"
+            [circular]="true"
+            [showThumbnails]="false"
+            [responsiveOptions]="responsiveOptions"
+            [containerStyle]="{'max-width': '640px'}"
+            [numVisible]="5">
+            <ng-template pTemplate="item" let-item>
+              <img [src]="item" alt="issue img" style="width: 100%;">
+            </ng-template>
+            <ng-template pTemplate="thumbnail" let-item>
+              <img [src]="item" alt="issue img" style="width: 50px; height: 50px;">
+            </ng-template>
+          </p-galleria>
+
+          <div *ngIf="loadingPhoto" class="loading-overlay">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+          </div>
+
+          <div class="image-list">
+            <div
+              *ngFor="let img of images; let i = index"
+              class="item"
+              pDraggable="true"
+              (onDragStart)="onDragStart($event, img)"
+              (onDragEnd)="onDragEnd($event)">
+
+              <div pDroppable="true" (onDrop)="onDrop($event, i)" (onDragEnter)="onDragEnter($event, i)">
+                <img class="image-item" [src]="img" alt="issue img"  >
+                <div class="bin" (click)="removeImage(i)"><img src="bin.svg"/></div>
+              </div>
+            </div>
+          </div>
+</div>
+
+
+  <div class="actions">
+
+
+
+     <p-button (onClick)="showPayment = false" class=" reject " label="Cancel" />
+     <p-button   class="accept"  label="Confirm" />
+
+</div>
+</p-dialog>
+
+
+
+
+
+
+
+
+
 
 
 
