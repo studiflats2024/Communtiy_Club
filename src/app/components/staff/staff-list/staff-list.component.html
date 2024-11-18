@@ -9,6 +9,16 @@
   <div class="fixDiv"></div>
   <div class="page">
 
+    <div style="
+    display: flex;
+    justify-content: end;
+    margin-bottom: 20px;">
+
+      <div (click)="onNewStaff()"  class="px-3 py-2 rounded border text-white text-decoration-none"   style="background-color:#1F4068; cursor: pointer;">
+        <img src="plus.svg" class="me-2 ">Add New
+    </div>
+    </div>
+
     <p-card  >
 
       <p-tabView styleClass="tabview-custom">
@@ -19,13 +29,13 @@
                     <span class=" white-space-nowrap m-0">
                       Cleaner
                     </span>
-                    <p-badge [value]="workers.length" />
+                    <p-badge [value]="staff.length" />
 
                 </div>
             </ng-template>
                  <p-table
                         #dt2
-                        [value]="workers"
+                        [value]="staff"
                         dataKey="id"
                         [rows]="10"
                         [rowsPerPageOptions]="[10, 25, 50]"
@@ -221,7 +231,7 @@
                                   <p-toast />
                                   <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
                                   <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-                                  <p-button  (onClick)="selectWorker(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                                  <p-button  (onClick)="selectStaff(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
                                 </td>
                             </tr>
@@ -436,7 +446,7 @@
                                   <p-toast />
                                   <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
                                   <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-                                   <p-button  (onClick)="selectWorker(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                                   <p-button  (onClick)="selectStaff(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
                                 </td>
                             </tr>
@@ -672,7 +682,7 @@
                       <p-toast />
                       <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
                       <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-                      <p-button  (onClick)="selectWorker(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                      <p-button  (onClick)="selectStaff(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
                     </td>
                 </tr>
@@ -885,7 +895,7 @@
 
                       <p-toast />
                       <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
-                      <p-button  (onClick)="selectWorker(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                      <p-button  (onClick)="selectStaff(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
                       <!-- <p-button (onClick)=" menu.toggle($event)" icon="pi pi-ellipsis-v"></p-button> -->
 
                   </td>

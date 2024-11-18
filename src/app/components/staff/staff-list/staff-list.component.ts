@@ -35,10 +35,10 @@ import { CommonModule } from '@angular/common';
 })
 export class StaffListComponent {
   @ViewChild('dt2') dt2!: Table;
-  workers!: any[];
+  // workers!: any[];
   loading: boolean = false;
   value:any;
-  selectedCustomer: any;
+
   items!: any;
 
   representatives = [
@@ -64,6 +64,8 @@ export class StaffListComponent {
     });
   }
 selectMode:boolean=false;
+selectedStaffId:any;
+staff:any[]=[]
   ngOnInit() {
 
     this.route.queryParams.subscribe((params) => {
@@ -79,7 +81,25 @@ selectMode:boolean=false;
         icon: 'pi pi-eye',
         command: () =>  {
 
-            this.viewDetails(this.selectedWorkerId);
+            this.viewDetails(this.selectedStaffId);
+
+        }
+      },
+      {
+        label: 'View Assigned Jobs',
+        icon: 'pi pi-eye',
+        command: () =>  {
+
+            this.viewJobs(this.selectedStaffId);
+
+        }
+      },
+      {
+        label: 'Update Staff',
+        icon: 'pi pi-pencil',
+        command: () =>  {
+
+            this.openUpdate(this.selectedStaffId);
 
         }
       },
@@ -111,7 +131,7 @@ selectMode:boolean=false;
    // workers array of objects
 
 // workers array of objects with representative data
-this.workers = [
+this.staff = [
   {
     id: 1,
     requestNo: 'REQ-001',
@@ -203,10 +223,10 @@ this.filterWorkersByStatus();
   }
 
 
-  selectedWorkerId:any;
-  selectWorker(workerId:any) {
-    this.selectedWorkerId = workerId;
-    console.log(this.selectedWorkerId)
+  // selectedWorkerId:any;
+  selectStaff(workerId:any) {
+    this.selectedStaffId = workerId;
+    console.log(this.selectedStaffId)
   }
 
 
@@ -214,8 +234,8 @@ this.filterWorkersByStatus();
     this.workerService.getAllWorkerRequests(1, 20000, '').subscribe(
       (response) => {
         console.log('Data received:', response);
-        this.workers = response; // Adjust this according to the response structure
-        this.workers = response.data.map((worker: any) => ({
+        this.staff = response; // Adjust this according to the response structure
+        this.staff= response.data.map((worker: any) => ({
           id: worker.request_ID,
           requestNo: worker.request_ID,
           name: worker.worker_Name,
@@ -236,12 +256,12 @@ this.filterWorkersByStatus();
 
   statusView:string='';
   onUpdateProfileStatus(workerId:any,status:any,reason:any) {
-    const profile_ID = this.selectedWorkerId;
+    const profile_ID = this.selectedStaffId;
     const profile_Action = 'Accept';
     const additional_Data = '';
 
 
-    const worker = this.workers.find(w => w.id === workerId);
+    const worker = this.staff.find(w => w.id === workerId);
       if (worker) {
           if(status==='Accept'){
 
@@ -270,7 +290,7 @@ this.filterWorkersByStatus();
 
   }
   onSendReject(){
-    this.onUpdateProfileStatus(this.selectedWorkerId,'Reject',this.reason)
+    this.onUpdateProfileStatus(this.selectedStaffId,'Reject',this.reason)
     this.visibleReject=false;
   }
 
@@ -278,11 +298,11 @@ acceptedWorkers:any;
 rejectedWorkers:any;
 pendingWorkers:any;
   filterWorkersByStatus() {
-    this.acceptedWorkers = this.workers.filter((worker) => worker.status === 'Accepted');
-    this.rejectedWorkers = this.workers.filter((worker) => worker.status === 'Rejected');
-    this.pendingWorkers = this.workers.filter((worker) => worker.status === 'InReview');
+    this.acceptedWorkers = this.staff.filter((worker) => worker.status === 'Accepted');
+    this.rejectedWorkers = this.staff.filter((worker) => worker.status === 'Rejected');
+    this.pendingWorkers = this.staff.filter((worker) => worker.status === 'InReview');
     // this.filteredWorkers = [...this.workers];
-    console.log(this.workers)
+    console.log(this.staff)
     console.log(this.acceptedWorkers)
     console.log(this.rejectedWorkers)
     console.log(this.pendingWorkers)
@@ -318,7 +338,15 @@ pendingWorkers:any;
   }
 
   viewDetails(workerId: any) {
-    this.router.navigate(['/worker-details', workerId]);
+    this.router.navigate(['/staff-details', workerId]);
+
+  }
+    viewJobs(workerId: any) {
+    this.router.navigate(['/staff-jobs', workerId]);
+
+  }
+  openUpdate(workerId: any){
+    this.router.navigate(['/update-staff', workerId]);
 
   }
 
@@ -332,5 +360,12 @@ pendingWorkers:any;
 
   deactivateWorker() {
     this.messageService.add({ severity: 'warn', summary: 'Deactivated', detail: 'Worker has been deactivated' });
+  }
+
+
+  onNewStaff(){
+
+    this.router.navigate(['/create-staff'] );
+
   }
 }

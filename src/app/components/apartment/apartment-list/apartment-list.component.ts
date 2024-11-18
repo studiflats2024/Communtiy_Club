@@ -127,6 +127,8 @@ export class ApartmentListComponent {
           apartment_Door_No: apartment.apartment_Door_No,
 
         }));
+     
+
 
         // this.filterWorkersByStatus();
       },

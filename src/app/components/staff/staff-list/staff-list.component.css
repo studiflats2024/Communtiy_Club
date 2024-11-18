@@ -331,8 +331,6 @@ font-weight: 500;
   background: var(--Neutral-Neutral95, #F6F6F6);
 
 }
-:host ::ng-deep .p-dialog{
-  width: 35rem;
-}
+ 
 
 

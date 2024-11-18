@@ -32,6 +32,11 @@ export const routes: Routes = [
     canActivate: [AdminGuard]
   },
   {
+    path: 'staff-jobs/:id',
+    loadComponent: () => import('./components/staff/staff-assigned-job/staff-assigned-job.component').then(m => m.StaffAssignedJobComponent),
+    canActivate: [AdminGuard]
+  },
+  {
     path: 'staff-details/:id',
     loadComponent: () => import('./components/staff/staff-details/staff-details.component').then(m => m.StaffDetailsComponent),
     canActivate: [AdminGuard]
@@ -44,6 +49,16 @@ export const routes: Routes = [
   {
     path: 'create-issue',
     loadComponent: () => import('./components/issues/create-issue/create-issue.component').then(m => m.CreateIssueComponent),
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'create-staff',
+    loadComponent: () => import('./components/staff/create-staff/create-staff.component').then(m => m.CreateStaffComponent),
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'update-staff/:id',
+    loadComponent: () => import('./components/staff/update-staff/update-staff.component').then(m => m.UpdateStaffComponent),
     canActivate: [AdminGuard]
   },
   {

@@ -25,10 +25,15 @@ export class HeaderComponent {
     '/dashboard': 'Dashboard',
     '/staff-list': 'Staff List',
     '/staff-details': 'Staff Details',
+    '/create-staff': 'Create Staff',
+    '/staff-jobs': 'Assigned jobs',
+    '/update-staff': 'Update Staff',
+
     '/issues-list': 'Issues List',
     '/create-issue': 'Create Issue',
     '/issue-details': 'Issue Details',
     '/update-issue': 'Update Issue',
+
 
   };
 

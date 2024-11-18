@@ -1,0 +1,455 @@
+<div class="parent">
+  <div class="fixDiv"></div>
+  <div class="page">
+    <p-breadcrumb class="max-w-full" [model]="itemsLink">
+      <ng-template pTemplate="item" let-item>
+          <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+              <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+              <span>{{ item.label }}</span>
+          </a>
+      </ng-template>
+    </p-breadcrumb>
+    <p-toast></p-toast>
+
+    <div class="row m-2">
+      <div class="col-lg-3 col-md-3 col-sm-12">
+          <div class="title">Add New</div>
+          <div class="desc">Add New Worker To Staff </div>
+
+      </div>
+
+      <div class="col-lg-9 col-md-9 col-sm-12">
+
+        <div>
+          <div class="tit">Personal Information</div>
+          <div class="det">Please enter the worker's personal information.</div>
+        </div>
+
+        <div class="div">
+              <div class="flex flex-column gap-2 w-50">
+                <label for="staffName">Staff Name</label>
+                <input
+                    pInputText
+                    id="staffName"
+                    aria-describedby="username-help"
+                    [(ngModel)]="staffName"
+                    readonly />
+
+            </div>
+            <div class="flex flex-column gap-2 w-50 p-field">
+              <!-- <label for="issuename">Issue Name</label> -->
+              <!-- <div class=" "> -->
+                <label for="staffEmail">Email</label>
+                <input
+                  pInputText
+                  type="email"
+                  id="staffEmail"
+                  [(ngModel)]="staffEmail"
+                  placeholder="Enter your email"
+                  required
+                />
+              <!-- </div> -->
+              <div *ngIf="staffEmail && !emailPattern.test(staffEmail)" class="p-error">
+                Please enter a valid email address.
+              </div>
+
+          </div>
+        </div>
+
+
+
+        <div class="div">
+                  <div class="flex flex-column gap-2 w-50">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input
+                        pInputText
+                        id="phoneNumber"
+                        aria-describedby="username-help"
+                        [(ngModel)]="phoneNumber"
+                        />
+
+                </div>
+                <div class="flex flex-column gap-2 w-50">
+                  <label for="whatsappNumber">Whatsapp Number</label>
+                  <input
+                      pInputText
+                      id="whatsappNumber"
+                      aria-describedby="username-help"
+                      [(ngModel)]="whatsappNumber" />
+
+              </div>
+        </div>
+
+
+
+     <div class="div">
+      <div class="flex flex-column gap-2 w-50">
+        <label for="phone">Date Of Birth</label>
+        <p-calendar
+                    [(ngModel)]="DateOfBirth"
+                    [showIcon]="true"
+                    dateFormat="dd/mm/yy"
+                    placeholder="Select Date">
+                  </p-calendar>
+
+    </div>
+    <div class="flex flex-column gap-2 w-50">
+
+      <label for="country">Country</label>
+      <p-dropdown
+        [options]="countries"
+        [(ngModel)]="selectedCountry"
+        optionLabel="name"
+        placeholder="Select a country"
+        inputId="country"
+        filter="true"
+        [filterBy]="'name'"
+      >
+        <!-- Custom Template to Show Flag and Country Name -->
+        <ng-template let-country pTemplate="item">
+          <div class="country-item">
+            <img [src]="country.flag" alt="{{country.name}} flag" class="country-flag"/>
+            <span>{{ country.name }}</span>
+          </div>
+        </ng-template>
+
+        <!-- Template for the selected item in dropdown -->
+        <ng-template pTemplate="selectedItem" let-country>
+          <div class="country-item">
+            <img [src]="country?.flag" alt="{{country?.name}} flag" class="country-flag"/>
+            <span>{{ country?.name }}</span>
+          </div>
+        </ng-template>
+      </p-dropdown>
+
+  </div>
+   </div>
+
+        <div class="div">
+          <div class="flex flex-column gap-2 w-100">
+            <label for="address">Address</label>
+            <input
+            pInputText
+            id="address"
+            aria-describedby="username-help"
+            [(ngModel)]="address"
+            placeholder="Please enter address here"/>
+          </div>
+
+
+
+        </div>
+
+
+        <div class="my-3">
+          <div class="skills-header">
+            <div class="addSkill">Skills</div>
+            <!-- <button pButton type="button" label="+ Add Skill"  ></button> -->
+             <div class="skillInput">
+              <input *ngIf="addSkill" type="text" pInputText  [(ngModel)]="newSkill" (blur)="addNewSkill()" (keydown.enter)="addNewSkill()"        />
+              <p-button label="+ Add Skill" [text]="true" (click)="openAddSkill()" />
+             </div>
+
+          </div>
+          <div class="days-list">
+            <!-- Loop through each day and add "active" class only if it exists in worker_Availabilities -->
+            <!-- <p-chip *ngFor="let day of daysOfWeek"
+                    [label]="day"
+                    [icon]="isDayAvailable(day) ? 'pi pi-check-circle' : ''"
+                    [ngClass]="{'day-chip active': isDayAvailable(day), 'day-chip inactive': !isDayAvailable(day)}">
+            </p-chip> -->
+
+            <p-chip
+            *ngFor="let skill of skillsArr"
+            [label]="skill"
+            [icon]="isSelected(skill) ? 'pi pi-check-circle' : ''"
+            [ngClass]="isSelected(skill) ? ' active' : ' inactive'"
+            (click)="toggleSkill(skill)"
+
+          ></p-chip>
+          </div>
+
+       </div>
+        <div   class="div">
+          <div class="flex flex-column gap-2 w-full desc">
+            <label for="newSkill">Additional Skills</label>
+
+                  <textarea
+                  rows="5"
+                  cols="30"
+                  id="newSkill"
+                  pInputTextarea
+                  [(ngModel)]="newSkills"
+                   >
+                 </textarea>
+          </div>
+        </div>
+
+        <div class=" w-full">
+          <label for="newSkill"> Front and Back of ID</label>
+
+            <!-- File Upload (Browse and Drag/Drop) -->
+                    <p-fileUpload
+                    mode="advanced"
+                    name="demo[]"
+                    accept="image/*"
+                    maxFileSize="5000000"
+                    (onSelect)="onImageSelect($event)">
+
+                    <ng-template pTemplate="content">
+                      <div style=" width:100%;text-align: center; padding: 20px; margin-top: 10px; padding-bottom:0;">
+                        <!-- Cloud Icon -->
+                        <!-- <i class="pi pi-cloud-upload" style="font-size: 48px; color: #b3b3b3;"></i> -->
+                        <img src="cloud-add.svg"/>
+
+                        <!-- Text -->
+                        <p class="choosep">Choose a file or drag & drop it here</p>
+
+                        <!-- Supported Formats -->
+                        <p class="imgtypes">
+                          JPEG, PNG, PDG, and MP4 formats, up to 50MB
+                        </p>
+                      </div>
+                    </ng-template>
+                    <!-- <ng-template pTemplate="chooseButtonLabel">
+                      <span>Browse File</span>
+                    </ng-template> -->
+                  </p-fileUpload>
+
+                  <!-- Galleria Display -->
+                  <p-galleria
+                    [value]="images"
+                    [circular]="true"
+                    [showThumbnails]="false"
+                    [responsiveOptions]="responsiveOptions"
+                    [containerStyle]="{'max-width': '640px'}"
+                    [numVisible]="5">
+                    <ng-template pTemplate="item" let-item>
+                      <img [src]="item" alt="issue img" style="width: 100%;">
+                    </ng-template>
+                    <ng-template pTemplate="thumbnail" let-item>
+                      <img [src]="item" alt="issue img" style="width: 50px; height: 50px;">
+                    </ng-template>
+                  </p-galleria>
+
+                  <!-- Drag and Drop to Reorder -->
+                  <!-- <h5>Reorder Images</h5> -->
+                  <div *ngIf="loading" class="loading-overlay">
+                    <div class="spinner"></div>
+                    <p>Loading...</p>
+                  </div>
+
+                  <div class="image-list">
+                    <div
+                      *ngFor="let img of images; let i = index"
+                      class="item"
+                      pDraggable="true"
+                      (onDragStart)="onDragStart($event, img)"
+                      (onDragEnd)="onDragEnd($event)">
+
+                      <div pDroppable="true" (onDrop)="onDrop($event, i)" (onDragEnter)="onDragEnter($event, i)">
+                        <img class="image-item" [src]="img" alt="issue img"  >
+                        <div class="bin" (click)="removeImage(i)"><img src="bin.svg"/></div>
+                      </div>
+                    </div>
+                  </div>
+        </div>
+
+
+
+
+
+      <div class="subT">Working Days</div>
+
+        <div class="div">
+
+          <div class="days-list">
+
+
+            <!-- <p-chip
+            *ngFor="let day of days"
+            label="{{ day.name }}"
+            [class.selected]="day.selected"
+            (click)="toggleDaySelection(day)">
+          </p-chip> -->
+
+
+          <div class="flex align-items-center mr-4 mb-2" *ngFor="let day of days">
+            <p-checkbox
+                [(ngModel)]="day.selected"
+                [label]="day.name"
+                name="days"
+                [binary]="true"
+                (onChange)="onDaySelectionChange()"
+            ></p-checkbox>
+        </div>
+          <!------->
+          </div>
+
+       </div>
+
+       <div class="divider"></div>
+
+
+       <div>
+        <div class="tit">availability details</div>
+        <div class="det">Please select the availability of this person</div>
+      </div>
+
+      <div class="subT">Working Hours</div>
+       <div class="div">
+        <div class="flex flex-column gap-2 w-50">
+         <label for="appo_From">From</label>
+         <p-calendar
+           [(ngModel)]="work_from"
+           [showIcon]="true"
+           [timeOnly]="true"
+
+           placeholder="00:00"
+           inputId="appo_From">
+         </p-calendar>
+         </div>
+         <div class="flex flex-column gap-2 w-50">
+          <label for="appo_To">To</label>
+          <p-calendar
+            [(ngModel)]="work_to"
+            [showIcon]="true"
+            [timeOnly]="true"
+
+            placeholder="00:00"
+            inputId="appo_To">
+          </p-calendar>
+          </div>
+        </div>
+
+    <div class="div">
+  <div class="flex flex-wrap gap-3">
+
+
+
+    <div class="flex align-items-center">
+       <div class="subEm mb-0 mr-5">emergency service</div>
+
+        <p-radioButton
+            name="yes"
+            value="yes"
+            [(ngModel)]="emergency"
+            inputId="ingredient3" />
+        <label for="ingredient3" class="ml-2">
+            Yes
+        </label>
+    </div>
+
+    <div class="flex align-items-center">
+        <p-radioButton
+            name="no"
+            value="no"
+            [(ngModel)]="emergency"
+            inputId="ingredient4" />
+        <label for="ingredient4" class="ml-2">
+            No
+        </label>
+    </div>
+</div>
+</div>
+
+
+<div class="divider"></div>
+
+
+
+        <div>
+          <div class="tit">bank details</div>
+          <div class="det">Please enter worker bank details</div>
+        </div>
+
+        <div class="div">
+              <div class="flex flex-column gap-2 w-50">
+                <label for="bankName">Bank Name</label>
+                <input
+                    pInputText
+                    id="bankName"
+                    aria-describedby="username-help"
+                    [(ngModel)]="bankName"
+                    />
+
+            </div>
+            <div class="flex flex-column gap-2 w-50">
+              <label for="accountName">Account Holder’s Name </label>
+              <input
+                  pInputText
+                  id="accountName"
+                  aria-describedby="username-help"
+                  [(ngModel)]="accountName"
+                   />
+
+          </div>
+        </div>
+
+
+
+        <div class="div">
+                  <div class="flex flex-column gap-2 w-50">
+                    <label for="accountNumber">Account Number/IBAN</label>
+                    <input
+                        pInputText
+                        id="accountNumber"
+                        aria-describedby="username-help"
+                        [(ngModel)]="accountNumber"
+                        />
+
+                </div>
+                <div class="flex flex-column gap-2 w-50">
+                  <label for="BIC_Code">BIC Code</label>
+                  <input
+                      pInputText
+                      id="BIC_Code"
+                      aria-describedby="username-help"
+                      [(ngModel)]="bic_code" />
+
+              </div>
+        </div>
+
+
+
+        <div class="divider"></div>
+
+        <div class="actions">
+
+          <!-- <button pButton label="Accept" class="accept p-button"></button> -->
+          <p-button (onClick)="showSuccessD()" class="accept"  label="Create" />
+           <p-button (onClick)="showSuccess=false" class=" reject " label="Cancel" />
+
+      </div>
+
+
+      </div>
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<p-dialog class="DS"  [modal]="true" [(visible)]="showSuccess" [style]="{ width: '25rem' }">
+
+  <div class="success">
+    <div class="featured-icon">
+      <img src="tick_done.svg"/>
+    </div>
+      <div class="textS">Created successfully!</div>
+      <!-- <div class="textS2">rejection reason has been sent successfully.</div> -->
+
+
+      <p-button [routerLink]="['/issues-list']" class="accept" label="Back to issues" />
+
+  </div>
+</p-dialog>
