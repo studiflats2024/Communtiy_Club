@@ -126,13 +126,23 @@
    </div>
 
         <div class="div">
-          <div class="flex flex-column gap-2 w-100">
+          <div class="flex flex-column gap-2 w-50">
             <label for="address">Address</label>
             <input
             pInputText
             id="address"
             aria-describedby="username-help"
             [(ngModel)]="address"
+            placeholder="Please enter address here"/>
+          </div>
+
+          <div class="flex flex-column gap-2 w-50">
+            <label for="password">Password</label>
+            <input
+            pInputText
+            id="password"
+            aria-describedby="username-help"
+            [(ngModel)]="password"
             placeholder="Please enter address here"/>
           </div>
 
@@ -186,7 +196,7 @@
         </div>
 
         <div class=" w-full">
-          <label for="newSkill"> Front and Back of ID</label>
+          <label for="newSkill"> Image of ID</label>
 
             <!-- File Upload (Browse and Drag/Drop) -->
                     <p-fileUpload
@@ -217,7 +227,7 @@
                   </p-fileUpload>
 
                   <!-- Galleria Display -->
-                  <p-galleria
+                  <!-- <p-galleria
                     [value]="images"
                     [circular]="true"
                     [showThumbnails]="false"
@@ -230,7 +240,7 @@
                     <ng-template pTemplate="thumbnail" let-item>
                       <img [src]="item" alt="issue img" style="width: 50px; height: 50px;">
                     </ng-template>
-                  </p-galleria>
+                  </p-galleria> -->
 
                   <!-- Drag and Drop to Reorder -->
                   <!-- <h5>Reorder Images</h5> -->
@@ -238,18 +248,20 @@
                     <div class="spinner"></div>
                     <p>Loading...</p>
                   </div>
-
-                  <div class="image-list">
+<!--*ngFor="let img of images; let i = index"
+(onDragStart)="onDragStart($event, img)"
+  (onDragEnd)="onDragEnd($event)"-->
+                  <div *ngIf="images!==''" class="image-list">
                     <div
-                      *ngFor="let img of images; let i = index"
-                      class="item"
-                      pDraggable="true"
-                      (onDragStart)="onDragStart($event, img)"
-                      (onDragEnd)="onDragEnd($event)">
 
-                      <div pDroppable="true" (onDrop)="onDrop($event, i)" (onDragEnter)="onDragEnter($event, i)">
-                        <img class="image-item" [src]="img" alt="issue img"  >
-                        <div class="bin" (click)="removeImage(i)"><img src="bin.svg"/></div>
+                      class="item"
+                      pDraggable="true" >
+
+                      <!-- <div pDroppable="true" (onDrop)="onDrop($event, i)" (onDragEnter)="onDragEnter($event, i)"> -->
+                      <div >
+
+                        <img class="image-item" [src]="images" alt="id img"  >
+                        <div class="bin" (click)="removeImage()"><img src="bin.svg"/></div>
                       </div>
                     </div>
                   </div>
@@ -259,31 +271,47 @@
 
 
 
-      <div class="subT">Working Days</div>
+
+        <!-- <div class="skills-header">
+          <div>
+            <div class="tit">availability details</div>
+            <div class="det">Please select the availability of this person</div>
+
+
+          </div>
+
+
+           <div class="skillInput">
+
+            <p-button label="+ Add Availability Details" [text]="true" (click)="openAddAvailable()" />
+           </div>
+
+        </div>
+
+      <div class="subT">choose your day</div>
 
         <div class="div">
 
           <div class="days-list">
 
 
-            <!-- <p-chip
-            *ngFor="let day of days"
-            label="{{ day.name }}"
-            [class.selected]="day.selected"
-            (click)="toggleDaySelection(day)">
-          </p-chip> -->
+
 
 
           <div class="flex align-items-center mr-4 mb-2" *ngFor="let day of days">
-            <p-checkbox
-                [(ngModel)]="day.selected"
-                [label]="day.name"
-                name="days"
-                [binary]="true"
-                (onChange)="onDaySelectionChange()"
-            ></p-checkbox>
+
+
+            <p-radioButton
+            [(ngModel)]="selectedDay"
+            [label]="day.name"
+            [inputId]="day.name"
+            [value]="day.name"
+            name="days"
+            (ngModelChange)="onDaySelectionChange(day)"
+          ></p-radioButton>
+
         </div>
-          <!------->
+
           </div>
 
        </div>
@@ -291,10 +319,7 @@
        <div class="divider"></div>
 
 
-       <div>
-        <div class="tit">availability details</div>
-        <div class="det">Please select the availability of this person</div>
-      </div>
+
 
       <div class="subT">Working Hours</div>
        <div class="div">
@@ -304,6 +329,7 @@
            [(ngModel)]="work_from"
            [showIcon]="true"
            [timeOnly]="true"
+           (ngModelChange)="onFromTimeChange(work_from)"
 
            placeholder="00:00"
            inputId="appo_From">
@@ -315,12 +341,179 @@
             [(ngModel)]="work_to"
             [showIcon]="true"
             [timeOnly]="true"
+            (ngModelChange)="onToTimeChange(work_to)"
 
             placeholder="00:00"
             inputId="appo_To">
           </p-calendar>
           </div>
+
+
+
         </div>
+
+        <div class="flex justify-content-end">
+          <p-button [label]="labelAvailable"  [text]="true" (click)="saveAvailableDetails()" />
+
+        </div> -->
+
+
+
+        <!--------------------------------------->
+  <!-- <div *ngIf="openAvailable">
+
+    <div class="subT">choose your day</div>
+
+    <div class="div">
+
+      <div class="days-list">
+
+
+
+
+
+      <div class="flex align-items-center mr-4 mb-2" *ngFor="let day of days">
+        <p-radioButton
+            [(ngModel)]="day.selected"
+            [label]="day.name"
+            name="days"
+
+            (onChange)="onDaySelectionChange(day.name)"
+        ></p-radioButton>
+    </div>
+
+      </div>
+
+   </div>
+
+   <div class="divider"></div>
+
+
+
+
+  <div class="subT">Working Hours</div>
+   <div class="div">
+    <div class="flex flex-column gap-2 w-50">
+     <label for="appo_From">From</label>
+     <p-calendar
+       [(ngModel)]="work_from"
+       [showIcon]="true"
+       [timeOnly]="true"
+       (onChange)="onFromTimeChange(work_from)"
+
+       placeholder="00:00"
+       inputId="appo_From">
+     </p-calendar>
+     </div>
+     <div class="flex flex-column gap-2 w-50">
+      <label for="appo_To">To</label>
+      <p-calendar
+        [(ngModel)]="work_to"
+        [showIcon]="true"
+        [timeOnly]="true"
+        (onChange)="onToTimeChange(work_to)"
+
+        placeholder="00:00"
+        inputId="appo_To">
+      </p-calendar>
+      </div>
+    </div>
+    <div class="flex justify-content-end">
+      <p-button [label]="labelAvailable"  [text]="true" (click)="saveAvailableDetails()" />
+
+    </div>
+  </div> -->
+        <!------------------test--------------------------------------------->
+        <div class="skills-header">
+          <div>
+            <div class="tit">Availability Details</div>
+            <div class="det">Please select the availability of this person</div>
+          </div>
+
+          <div class="skillInput">
+            <p-button label="+ Add Availability Details" [text]="true" (click)="openAddAvailable()" />
+          </div>
+        </div>
+
+        <div>
+          <div class="subT">Choose Your Day</div>
+          <div class="div">
+            <div class="days-list">
+              <div class="flex align-items-center mr-4 mb-2" *ngFor="let day of days">
+                <p-radioButton
+                  [(ngModel)]="newAvailability.day"
+                  [label]="day.name"
+                  [value]="day.name"
+                  name="days"
+                ></p-radioButton>
+              </div>
+            </div>
+          </div>
+
+          <div class="subT">Working Hours</div>
+          <div class="div">
+            <div class="flex flex-column gap-2 w-50">
+              <label for="appo_From">From</label>
+              <p-calendar
+                [(ngModel)]="newAvailability.from"
+                [showIcon]="true"
+                [timeOnly]="true"
+                placeholder="00:00"
+                inputId="appo_From"
+              ></p-calendar>
+            </div>
+            <div class="flex flex-column gap-2 w-50">
+              <label for="appo_To">To</label>
+              <p-calendar
+                [(ngModel)]="newAvailability.to"
+                [showIcon]="true"
+                [timeOnly]="true"
+                placeholder="00:00"
+                inputId="appo_To"
+              ></p-calendar>
+            </div>
+          </div>
+
+          <div class="flex justify-content-end">
+            <p-button label="Save" [text]="true" (click)="saveAvailableDetails()" />
+          </div>
+        </div>
+
+        <!-- عرض البيانات المدخلة -->
+        <div *ngIf="staffAvailabilities.length!==0">
+
+
+          <div class="availability-container">
+            <h3>Saved Availability</h3>
+            <table class="availability-table">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let availability of staffAvailabilities;let i = index">
+                  <td>{{ availability.day }}</td>
+                  <td>{{ availability.from }}</td>
+                  <td>{{ availability.to }}</td>
+                  <td>
+                    <div class="actions">
+                      <button pButton type="button" label="Edit" class="edit-btn" (click)="editAvailability(i)"></button>
+                      <button pButton type="button" label="Delete" class="delete-btn" (click)="deleteAvailability(i)"></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <!----------------------------------test----------------------------->
+
 
     <div class="div">
   <div class="flex flex-wrap gap-3">

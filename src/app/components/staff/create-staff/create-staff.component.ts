@@ -30,6 +30,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 
 
 
+
 @Component({
   selector: 'app-create-staff',
   standalone: true,
@@ -95,6 +96,7 @@ export class CreateStaffComponent {
   phone:any;
   altPhone:any;
   comments:any;
+  password:any;
 
   constructor(private messageService: MessageService,private route: ActivatedRoute,private router: Router ,private staffService: StaffService,private issuesService: IssuesService) {}
 
@@ -144,6 +146,39 @@ export class CreateStaffComponent {
     //   { name: 'Low', code: '1' },
     // ];
   }
+
+
+  onAddSkill() {
+    if (this.newSkill.trim()) {
+      this.staffService.addNewSkill(this.newSkill).subscribe(
+        (response) => {
+          console.log('Skill added successfully:', response);
+          this.skills.push(response); // Update skills list
+          this.newSkill = ''; // Clear input field
+        },
+        (error) => {
+          console.error('Error adding skill:', error);
+        }
+      );
+
+    } else {
+      alert('Please enter a skill before submitting.');
+    }
+  }
+  addNewSkill() {
+    if (this.newSkill.trim() === '') return;
+    const newSkill = this.newSkill;
+    if (newSkill && !this.skillsArr.includes(newSkill)) {
+      this.skillsArr.push(newSkill);
+      this.selectedSkills.push(newSkill)
+      console.log(this.skillsArr,this.selectedSkills)
+      this.newSkill = '';
+    } else if (this.skillsArr.includes(newSkill)) {
+      // alert('Skill already exists.');
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'This Skill is already exist'});
+
+    }
+  }
   ///////////////////////////////////////////////////
   loadCountries() {
     this.staffService.getCountries().subscribe((data) => {
@@ -186,50 +221,243 @@ isSelected(skill: string): boolean {
 openAddSkill(){
   this.addSkill=true;
 }
-addNewSkill() {
-  if (this.newSkill.trim() === '') return;
-  const newSkill = this.newSkill;
-  if (newSkill && !this.skillsArr.includes(newSkill)) {
-    this.skillsArr.push(newSkill);
-    this.selectedSkills.push(newSkill)
-    console.log(this.skillsArr,this.selectedSkills)
-    this.newSkill = '';
-  } else if (this.skillsArr.includes(newSkill)) {
-    // alert('Skill already exists.');
-    this.messageService.add({severity: 'error', summary: 'Error', detail: 'This Skill is already exist'});
 
-  }
-}
 
 
 toggleDaySelection(day:any) {
   day.selected = !day.selected;
-  console.log('Selected Days:', this.getSelectedDays());
+  // console.log('Selected Days:', this.getSelectedDays());
 }
 
 
 
 
-days = [
-  { name: 'Sunday', selected: false },
-  { name: 'Monday', selected: false },
-  { name: 'Tuesday', selected: false },
-  { name: 'Wednesday', selected: false },
-  { name: 'Thursday', selected: false },
-  { name: 'Friday', selected: false },
-  { name: 'Saturday', selected: false }
-];
+// days = [
+//   { name: 'Sunday', selected: false },
+//   { name: 'Monday', selected: false },
+//   { name: 'Tuesday', selected: false },
+//   { name: 'Wednesday', selected: false },
+//   { name: 'Thursday', selected: false },
+//   { name: 'Friday', selected: false },
+//   { name: 'Saturday', selected: false }
+// ];
 
-onDaySelectionChange() {
-  const selectedDays = this.days
-    .filter(day => day.selected)
-    .map(day => day.name);
-  console.log('Selected Days:', selectedDays);
+// days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+// staffAvailabilities: any[] = [];
+
+addAvailability() {
+  this.staffAvailabilities.push({ day: '', from: '', to: '', selected: false });
 }
 
-getSelectedDays() {
-  return this.days.filter(day => day.selected).map(day => day.name);
+removeAvailability(index: number) {
+  this.staffAvailabilities.splice(index, 1);
 }
+selectedDay:string | null = null;;
+onDaySelectionChange(day:any ) {
+
+   this.selectedDay=day?.name;
+   console.log('day',this.selectedDay)
+   this.labelAvailable='Save'
+
+
+}
+
+onFromTimeChange(from:any){
+this.work_from=from;
+this.labelAvailable='Save'
+
+}
+onToTimeChange(to:any){
+  this.work_to=to;
+  this.labelAvailable='Save'
+
+  }
+openAvailable:boolean=false;
+//   openAddAvailable(){
+// this.openAvailable=!this.openAvailable
+//   }
+
+//   saveAvailableDetails(){
+//     this.staffAvailabilities.push({
+// day:this.day,
+// from:this.work_from,
+// to:this.work_to
+
+//     })
+//   }
+labelAvailable:string='Save';
+saved:boolean=false;
+// saveAvailableDetails() {
+//   const formattedFrom = new Date(this.work_from).toLocaleTimeString([], {
+//     hour: '2-digit',
+//     minute: '2-digit',
+//   });
+//   const formattedTo = new Date(this.work_to).toLocaleTimeString([], {
+//     hour: '2-digit',
+//     minute: '2-digit',
+//   });
+
+//   const newEntry = {
+//     day: this.selectedDay,
+//     from: formattedFrom,
+//     to: formattedTo,
+//   };
+
+//   const exists = this.staffAvailabilities.some(
+//     (availability) =>
+//       availability.day === newEntry.day &&
+//       availability.from === newEntry.from &&
+//       availability.to === newEntry.to
+//   );
+
+//   if (exists) {
+
+//     this.staffAvailabilities = this.staffAvailabilities.filter(
+//       (availability) =>
+//         !(
+//           availability.day === newEntry.day &&
+//           availability.from === newEntry.from &&
+//           availability.to === newEntry.to
+//         )
+//     );
+//     console.log('Entry removed:', newEntry);
+//     this.labelAvailable='Save'
+
+//   } else {
+//     this.labelAvailable='UnSave'
+
+//     this.staffAvailabilities.push(newEntry);
+//     this.saved=true;
+//     this.selectedDay=''
+//     this.work_from=''
+//     this.work_to=''
+//     console.log('Entry added:', newEntry);
+//   }
+
+//   console.log('Updated staffAvailabilities:', this.staffAvailabilities);
+// }
+//////////////////////////////////////////////test////////////////////
+
+  // قائمة الأيام
+  days = [
+    { name: 'Sunday' },
+    { name: 'Monday' },
+    { name: 'Tuesday' },
+    { name: 'Wednesday' },
+    { name: 'Thursday' },
+    { name: 'Friday' },
+    { name: 'Saturday' },
+  ];
+
+  // قائمة توفر الموظفين
+  staffAvailabilities: Array<any> = [];
+
+  // البيانات المؤقتة للإضافة أو التعديل
+  newAvailability = {
+    day: null,
+    from: null,
+    to: null,
+  };
+
+  // مؤشر إذا كنا نعدل بدلاً من الإضافة
+  editIndex: number | null = null;
+
+  // فتح فورم الإضافة/التعديل
+  openAddAvailable() {
+    this.newAvailability = { day: null, from: null, to: null };
+    this.editIndex = null; // التأكد من أن العملية هي إضافة
+  }
+
+  revertToOriginalDate(timeString: string) {
+    const [time, modifier] = timeString.split(' '); // Split into time and AM/PM
+    let [hours, minutes] = time.split(':').map(Number);
+
+    // Adjust hours for PM
+    if (modifier === 'PM' && hours !== 12) {
+      hours += 12;
+    } else if (modifier === 'AM' && hours === 12) {
+      hours = 0;
+    }
+
+    const originalDate = new Date();
+    originalDate.setHours(hours);
+    originalDate.setMinutes(minutes);
+    originalDate.setSeconds(0);
+    originalDate.setMilliseconds(0);
+
+    return originalDate;
+  }
+
+  // حفظ بيانات جديدة أو تحديث بيانات حالية
+  saveAvailableDetails() {
+    const formattedFrom = new Date(this.newAvailability.from!).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
+    const formattedTo = new Date(this.newAvailability.to!).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    });
+
+    const newEntry = {
+      day: this.newAvailability.day,
+      from: formattedFrom,
+      to: formattedTo,
+    };
+
+    if (this.editIndex !== null) {
+      // تعديل البيانات الموجودة
+      this.staffAvailabilities[this.editIndex] = newEntry;
+      this.editIndex = null; // إلغاء وضع التعديل
+    } else {
+      // إضافة بيانات جديدة
+      this.staffAvailabilities.push(newEntry);
+    }
+
+    // إعادة تعيين النموذج
+    this.newAvailability = { day: null, from: null, to: null };
+  }
+
+  // حذف إدخال معين
+  deleteAvailability(index: number) {
+    this.staffAvailabilities.splice(index, 1); // إزالة الإدخال
+  }
+
+  // تعديل إدخال معين
+  editAvailability(index: number) {
+    const availability = this.staffAvailabilities[index];
+    availability.from=this.revertToOriginalDate(availability.from);
+    availability.to=this.revertToOriginalDate(availability.to);
+    console.log(availability)
+
+    this.newAvailability = { ...availability }; // تحميل البيانات في النموذج
+    this.editIndex = index; // تحديد الإدخال الذي يتم تعديله
+  }
+
+//////////////////////////////////////////////test///////////////////////
+
+onTimeChange(index: number) {
+  const availability = this.staffAvailabilities[index];
+  if (availability.selected && (!availability.from || !availability.to)) {
+    alert('Please specify both "From" and "To" times.');
+  }
+}
+
+
+// onDaySelectionChange(day:any) {
+//   const selectedDays = this.days
+//     .filter(day => day.selected)
+//     .map(day => day.name);
+//   console.log('Selected Days:', selectedDays);
+// }
+
+// getSelectedDays(day:any) {
+//   return this.days.filter(day => day.selected).map(day => day.name);
+//   this.day=day
+// }
 
 
   //////////////////////////////////////////////////////
@@ -261,7 +489,9 @@ skills:any;
 
 
   //////////////////////////photos///////////////////////////
-  images: any[] = [];
+  // images: any[] = [];
+  images: string = '';
+
   draggedImage: any;
 
   responsiveOptions: any[] = [
@@ -298,7 +528,9 @@ skills:any;
           // Assuming the API returns a URL to the uploaded image
           const imageUrl = response[0].file_Path;
           console.log(imageUrl)
-          this.images.push(imageUrl);
+          // this.images.push(imageUrl);
+          this.images=imageUrl;
+
           this.loading = false;
         },
         (error) => {
@@ -310,22 +542,25 @@ skills:any;
 
 
 
-  removeImage(index: number) {
-    this.images.splice(index, 1);
+  // removeImage(index: number) {
+  //   this.images.splice(index, 1);
+  // }
+  removeImage() {
+    this.images='';
   }
 
   onDragStart(event: any, img: any) {
     this.draggedImage = img;
   }
 
-  onDrop(event: any, index: number) {
-    if (this.draggedImage) {
-      const draggedIndex = this.images.indexOf(this.draggedImage);
-      this.images.splice(draggedIndex, 1); // Remove from original position
-      this.images.splice(index, 0, this.draggedImage); // Insert at new position
-      this.draggedImage = null; // Reset
-    }
-  }
+  // onDrop(event: any, index: number) {
+  //   if (this.draggedImage) {
+  //     const draggedIndex = this.images.indexOf(this.draggedImage);
+  //     this.images.splice(draggedIndex, 1);
+  //     this.images.splice(index, 0, this.draggedImage);
+  //     this.draggedImage = null;
+  //   }
+  // }
 
   onDragEnd(event: any) {
     this.draggedImage = null;

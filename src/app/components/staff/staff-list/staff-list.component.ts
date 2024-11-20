@@ -18,6 +18,8 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { WorkerService } from '../../../services/worker.service';
+import { StaffService } from '../../../services/staff.service';
+
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Menu } from 'primeng/menu';
 import { DialogModule } from 'primeng/dialog';
@@ -55,7 +57,7 @@ export class StaffListComponent {
 
   ];
 
-  constructor(private route: ActivatedRoute,private workerService: WorkerService,private router: Router,private messageService: MessageService) {
+  constructor(private route: ActivatedRoute,private staffService: StaffService,private router: Router,private messageService: MessageService) {
     this.route.queryParams.subscribe((params) => {
       if (params['selectMode'] === 'assign') {
         this.selectMode = true;
@@ -67,6 +69,8 @@ selectMode:boolean=false;
 selectedStaffId:any;
 staff:any[]=[]
   ngOnInit() {
+
+    this.getStaffData()
 
     this.route.queryParams.subscribe((params) => {
       if (params['selectMode'] === 'assign') {
@@ -130,81 +134,81 @@ staff:any[]=[]
 
    // workers array of objects
 
-// workers array of objects with representative data
-this.staff = [
-  {
-    id: 1,
-    requestNo: 'REQ-001',
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    type: 'Full-Time',
-    phone: '123-456-7890',
-    skills: 'JavaScript, Angular, Node.js',
-    status: 'Active',
-    representative: {
-      name: 'Alice Representative',
-      image: 'amyelsner.png', // Replace with the actual image name if available
-    },
-  },
-  {
-    id: 2,
-    requestNo: 'REQ-002',
-    name: 'Jane Smith',
-    email: 'jane.smith@example.com',
-    type: 'Part-Time',
-    phone: '098-765-4321',
-    skills: 'Python, Django, Machine Learning',
-    status: 'Pending',
-    representative: {
-      name: 'Bob Representative',
-      image: 'asiyajavayant.png',
-    },
-  },
-  {
-    id: 3,
-    requestNo: 'REQ-003',
-    name: 'Alice Johnson',
-    email: 'alice.johnson@example.com',
-    type: 'Contract',
-    phone: '555-123-4567',
-    skills: 'Java, Spring Boot, Microservices',
-    status: 'InReview',
-    representative: {
-      name: 'Charlie Representative',
-      image: 'onyamalimba.png',
-    },
-  },
-  {
-    id: 4,
-    requestNo: 'REQ-004',
-    name: 'Bob Brown',
-    email: 'bob.brown@example.com',
-    type: 'Freelancer',
-    phone: '111-222-3333',
-    skills: 'UI/UX Design, Figma, Adobe XD',
-    status: 'Rejected',
-    representative: {
-      name: 'Diane Representative',
-      image: 'ivanmagalhaes.png',
-    },
-  },
-  {
-    id: 5,
-    requestNo: 'REQ-005',
-    name: 'Charlie Green',
-    email: 'charlie.green@example.com',
-    type: 'Full-Time',
-    phone: '444-555-6666',
-    skills: 'DevOps, AWS, Docker, Kubernetes',
-    status: 'Accepted',
-    representative: {
-      name: 'Emily Representative',
-      image: 'elwinsharvill.png',
-    },
-  },
-];
 
-this.filterWorkersByStatus();
+// this.staff = [
+//   {
+//     id: 1,
+//     requestNo: 'REQ-001',
+//     name: 'John Doe',
+//     email: 'john.doe@example.com',
+//     type: 'Full-Time',
+//     phone: '123-456-7890',
+//     skills: 'JavaScript, Angular, Node.js',
+//     status: 'Active',
+//     representative: {
+//       name: 'Alice Representative',
+//       image: 'amyelsner.png', // Replace with the actual image name if available
+//     },
+//   },
+//   {
+//     id: 2,
+//     requestNo: 'REQ-002',
+//     name: 'Jane Smith',
+//     email: 'jane.smith@example.com',
+//     type: 'Part-Time',
+//     phone: '098-765-4321',
+//     skills: 'Python, Django, Machine Learning',
+//     status: 'Pending',
+//     representative: {
+//       name: 'Bob Representative',
+//       image: 'asiyajavayant.png',
+//     },
+//   },
+//   {
+//     id: 3,
+//     requestNo: 'REQ-003',
+//     name: 'Alice Johnson',
+//     email: 'alice.johnson@example.com',
+//     type: 'Contract',
+//     phone: '555-123-4567',
+//     skills: 'Java, Spring Boot, Microservices',
+//     status: 'InReview',
+//     representative: {
+//       name: 'Charlie Representative',
+//       image: 'onyamalimba.png',
+//     },
+//   },
+//   {
+//     id: 4,
+//     requestNo: 'REQ-004',
+//     name: 'Bob Brown',
+//     email: 'bob.brown@example.com',
+//     type: 'Freelancer',
+//     phone: '111-222-3333',
+//     skills: 'UI/UX Design, Figma, Adobe XD',
+//     status: 'Rejected',
+//     representative: {
+//       name: 'Diane Representative',
+//       image: 'ivanmagalhaes.png',
+//     },
+//   },
+//   {
+//     id: 5,
+//     requestNo: 'REQ-005',
+//     name: 'Charlie Green',
+//     email: 'charlie.green@example.com',
+//     type: 'Full-Time',
+//     phone: '444-555-6666',
+//     skills: 'DevOps, AWS, Docker, Kubernetes',
+//     status: 'Accepted',
+//     representative: {
+//       name: 'Emily Representative',
+//       image: 'elwinsharvill.png',
+//     },
+//   },
+// ];
+
+// this.filterWorkersByStatus();
 
 
 
@@ -230,58 +234,81 @@ this.filterWorkersByStatus();
   }
 
 
-  getWorkers() {
-    this.workerService.getAllWorkerRequests(1, 20000, '').subscribe(
-      (response) => {
-        console.log('Data received:', response);
-        this.staff = response; // Adjust this according to the response structure
-        this.staff= response.data.map((worker: any) => ({
-          id: worker.request_ID,
-          requestNo: worker.request_ID,
-          name: worker.worker_Name,
-          email: worker.worker_Mail,
-          type: worker.worker_Type,
-          phone: worker.worker_Phone,
-          skills: worker.worker_Skills.join(', '),
-          status: worker.worker_Profile_Status,
-        }));
+  // getWorkers() {
+  //   this.workerService.getAllWorkerRequests(1, 20000, '').subscribe(
+  //     (response) => {
+  //       console.log('Data received:', response);
+  //       this.staff = response; // Adjust this according to the response structure
+  //       this.staff= response.data.map((worker: any) => ({
+  //         id: worker.request_ID,
+  //         requestNo: worker.request_ID,
+  //         name: worker.worker_Name,
+  //         email: worker.worker_Mail,
+  //         type: worker.worker_Type,
+  //         phone: worker.worker_Phone,
+  //         skills: worker.worker_Skills.join(', '),
+  //         status: worker.worker_Profile_Status,
+  //       }));
 
-        this.filterWorkersByStatus();
+  //       this.filterWorkersByStatus();
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching worker data:', error);
+  //     }
+  //   );
+  // }
+  getStaffData(): void {
+    const pageNo = 1; // Example page number
+    const pageSize = 50000; // Example page size
+
+    this.staffService.getAllStaff(pageNo, pageSize).subscribe(
+      (data) => {
+        console.log(data); // Logs the response
+        this.staff = data.data.map((staff: any) => ({
+          id: staff.id,
+          name: staff.name,
+          picture: staff.picture, // Assuming 'picture' is the image URL
+          email: staff.email,
+          dob: staff.dob,
+          phoneNo: staff.phoneNo,
+          address: staff.address,
+          skills: staff.skills.join(', '), // Join skills into a single string
+        }));
       },
       (error) => {
-        console.error('Error fetching worker data:', error);
+        console.error('Error fetching staff data', error);
       }
     );
   }
 
   statusView:string='';
-  onUpdateProfileStatus(workerId:any,status:any,reason:any) {
-    const profile_ID = this.selectedStaffId;
-    const profile_Action = 'Accept';
-    const additional_Data = '';
+  // onUpdateProfileStatus(workerId:any,status:any,reason:any) {
+  //   const profile_ID = this.selectedStaffId;
+  //   const profile_Action = 'Accept';
+  //   const additional_Data = '';
 
 
-    const worker = this.staff.find(w => w.id === workerId);
-      if (worker) {
-          if(status==='Accept'){
+  //   const worker = this.staff.find(w => w.id === workerId);
+  //     if (worker) {
+  //         if(status==='Accept'){
 
-       worker.status = 'Accepted';
-    }else {
+  //      worker.status = 'Accepted';
+  //   }else {
 
-      worker.status = 'Rejected';
-    }
+  //     worker.status = 'Rejected';
+  //   }
 
-      }
+  //     }
 
-    this.workerService.updateProfileStatus(workerId, status, reason).subscribe(
-      (response) => {
-        console.log('Status updated successfully:', response);
-      },
-      (error) => {
-        console.error('Error updating status:', error);
-      }
-    );
-  }
+  //   this.workerService.updateProfileStatus(workerId, status, reason).subscribe(
+  //     (response) => {
+  //       console.log('Status updated successfully:', response);
+  //     },
+  //     (error) => {
+  //       console.error('Error updating status:', error);
+  //     }
+  //   );
+  // }
 
   visibleReject:boolean=false;
   reason:string='';
@@ -289,14 +316,14 @@ this.filterWorkersByStatus();
     this.visibleReject=true;
 
   }
-  onSendReject(){
-    this.onUpdateProfileStatus(this.selectedStaffId,'Reject',this.reason)
-    this.visibleReject=false;
-  }
+  // onSendReject(){
+  //   this.onUpdateProfileStatus(this.selectedStaffId,'Reject',this.reason)
+  //   this.visibleReject=false;
+  // }
 
-acceptedWorkers:any;
-rejectedWorkers:any;
-pendingWorkers:any;
+acceptedWorkers:any[]=[];
+rejectedWorkers:any[]=[];
+pendingWorkers:any[]=[];
   filterWorkersByStatus() {
     this.acceptedWorkers = this.staff.filter((worker) => worker.status === 'Accepted');
     this.rejectedWorkers = this.staff.filter((worker) => worker.status === 'Rejected');
