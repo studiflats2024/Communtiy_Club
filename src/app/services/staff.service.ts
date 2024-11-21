@@ -40,4 +40,25 @@ export class StaffService {
     // Send the request with headers
     return this.http.post<any>(url, {}, { headers });
   }
+  getSkills(): Observable<any[]> {
+    const headers = {
+   Authorization:  `Bearer ${localStorage.getItem('token')}`,
+ };
+ return this.http.get<any[]>(`${environment.apiUrl}/WokersStaff/GetAllSkills`, { headers });
+   }
+
+
+
+   addNewStaff(staffData: any): Observable<any> {
+    // Setting headers
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`, // Example for adding a token
+    });
+
+    // Sending the request
+    return this.http.post(`${environment.apiUrl}/WokersStaff/AddNewStaff`, staffData, {
+      headers,
+    });
+  }
 }

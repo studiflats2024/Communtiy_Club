@@ -33,7 +33,7 @@
                     id="staffName"
                     aria-describedby="username-help"
                     [(ngModel)]="staffName"
-                    readonly />
+                    />
 
             </div>
             <div class="flex flex-column gap-2 w-50 p-field">
@@ -145,6 +145,22 @@
             [(ngModel)]="password"
             placeholder="Please enter address here"/>
           </div>
+
+
+
+        </div>
+
+        <div class="div">
+          <div class="flex flex-column gap-2 w-50">
+            <label for="address">Role Name</label>
+            <p-dropdown
+            [options]="roles"
+            [(ngModel)]="selectedRole"
+            optionLabel="name"
+            placeholder="Select a Role" />
+          </div>
+
+
 
 
 
@@ -424,7 +440,7 @@
     </div>
   </div> -->
         <!------------------test--------------------------------------------->
-        <div class="skills-header">
+        <div class="skills-header mt-4">
           <div>
             <div class="tit">Availability Details</div>
             <div class="det">Please select the availability of this person</div>
@@ -495,7 +511,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let availability of staffAvailabilities;let i = index">
+                <tr *ngFor="let availability of fixAvailableArray;let i = index">
                   <td>{{ availability.day }}</td>
                   <td>{{ availability.from }}</td>
                   <td>{{ availability.to }}</td>
@@ -603,7 +619,7 @@
               </div>
         </div>
 
-
+        <p-toast></p-toast>
 
         <div class="divider"></div>
 

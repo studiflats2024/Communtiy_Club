@@ -41,7 +41,7 @@
                         [rowsPerPageOptions]="[10, 25, 50]"
                         [loading]="loading"
                         [paginator]="true"
-                        [globalFilterFields]="['requestNo', 'name', 'email','type','phone','skills', 'status']"
+                        [globalFilterFields]="[ 'name', 'email','dob','phoneNo','skills', 'address']"
                         [tableStyle]="{ 'min-width': '120rem'  }"
                         selectionMode="single"
                         [(selection)]="selectedStaff"
@@ -66,13 +66,14 @@
                             <tr class="headInfo">
                                <th *ngIf="selectMode"></th>
                                 <th style="width:22%">name</th>
-                                <th style="width:22%">Request No</th>
-                                <th style="width:22%">Worker Name</th>
+
                                 <th style="width:22%">Email</th>
-                                <th style="width:22%">Worker Type</th>
+                                <th style="width:22%">DOB</th>
                                 <th style="width:22%">Phone Number</th>
+                                <th style="width:22%">Address</th>
+
                                 <th style="width:22%">Skills</th>
-                                <th style="width:22%">Status</th>
+
 
 
                                 <!-- <th style="width:22%">Name</th>
@@ -82,9 +83,9 @@
                                 <th style="width:12%">Verified</th> -->
                             </tr>
                             <tr>
-                              <th *ngIf="selectMode"></th>
+                              <!-- <th *ngIf="selectMode"></th> -->
 
-                                   <th>
+                                   <!-- <th>
                                     <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
                                         <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                                             <p-multiSelect
@@ -106,41 +107,41 @@
                                             </p-multiSelect>
                                         </ng-template>
                                     </p-columnFilter>
-                                </th>
-                                <th>
-                                    <p-columnFilter
-                                        type="text"
-                                        field="requestNo"
-                                        placeholder="Search by RequestNo"
-                                        ariaLabel="Filter No" />
-                                </th>
+                                </th> -->
                                 <th>
                                     <p-columnFilter
                                         type="text"
                                         field="name"
-                                        placeholder="Search by name"
+                                        placeholder="Search by Name"
                                         ariaLabel="Filter Name" />
                                 </th>
                                 <th>
                                     <p-columnFilter
                                         type="text"
                                         field="email"
-                                        placeholder="Search by email"
+                                        placeholder="Search by Email"
                                         ariaLabel="Filter Email" />
+                                </th>
+                                <th>
+                                    <p-columnFilter
+                                        type="text"
+                                        field="dob"
+                                        placeholder="Search by DOB"
+                                        ariaLabel="Filter DOB" />
                                 </th>
                                 <th>
                                   <p-columnFilter
                                       type="text"
-                                      field="type"
-                                      placeholder="Search by type"
-                                      ariaLabel="Filter Type" />
+                                      field="phoneNo"
+                                      placeholder="Search by PhoneNo"
+                                      ariaLabel="Filter Number" />
                                   </th>
                                   <th>
                                       <p-columnFilter
                                           type="text"
-                                          field="phone"
-                                          placeholder="Search by phone"
-                                          ariaLabel="Filter Phone" />
+                                          field="address"
+                                          placeholder="Search by Address"
+                                          ariaLabel="Filter Address" />
                                   </th>
                                   <th>
                                     <p-columnFilter
@@ -150,88 +151,55 @@
                                         ariaLabel="Filter Skills" />
                                 </th>
 
-                                <th>
-                                    <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
-                                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                                            <p-dropdown
-                                                [ngModel]="value"
-                                                [options]="statuses"
-                                                (onChange)="filter($event.value)"
-                                                placeholder="Select One"
-                                                [showClear]="true">
-                                                    <ng-template let-option pTemplate="item">
-                                                        <p-tag
-                                                            [value]="option.value"
-                                                            [ngClass]="getSeverity(option.label)" /> <!--[severity]="getSeverity(option.label)" -->
-                                                    </ng-template>
-                                            </p-dropdown>
-                                        </ng-template>
-                                    </p-columnFilter>
-                                </th>
+
                                 <!-- <th>
                                     <p-columnFilter type="boolean" field="verified"></p-columnFilter>
                                 </th> -->
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-worker>
-                            <tr  style="cursor: pointer;" [pSelectableRow]="worker">
-                               <td *ngIf="selectMode">
-                                <p-tableRadioButton (click)="assignStaff(worker)" class="mt-20" *ngIf="selectMode"   [value]="worker"  ></p-tableRadioButton>
-
-                               </td>
+                        <ng-template pTemplate="body" let-staff>
+                            <tr  style="cursor: pointer;" [pSelectableRow]="staff">
 
 
-                              <td (click)="onRowSelect({ data: worker })">
+
+
+
+                              <td (click)="onRowSelect({ data: staff })">
+                                <p-tableRadioButton (click)="assignStaff(staff)" class="mt-20" *ngIf="selectMode"   [value]="staff"  ></p-tableRadioButton>
                                 <img
-                                    [alt]="worker.representative.name"
-                                    src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ worker.representative.image }}"
+
+                                     [src]="staff.picture"
                                     width="32"
                                     style="vertical-align: middle" />
-                                <span class="ml-1 vertical-align-middle">
-                                    {{ worker.representative.name }}
+                                <span class=" workerName ml-1 vertical-align-middle">
+                                    {{ staff.name }}
                                 </span>
                             </td>
-                               <td (click)="onRowSelect({ data: worker })">
+                               <!-- <td (click)="onRowSelect({ data: staff})">
                                 {{ worker.requestNo }}
-                               </td>
-                                <td class="workerName" (click)="onRowSelect({ data: worker })">
-                                    {{ worker.name }}
+                               </td> -->
+
+                                <td (click)="onRowSelect({ data: staff })">
+                                  {{ staff.email }}
                                 </td>
-                                <td (click)="onRowSelect({ data: worker })">
-                                  {{ worker.email }}
-                                </td>
-                                <td (click)="onRowSelect({ data: worker })">
-                                  {{ worker.type }}
+                                <td (click)="onRowSelect({ data: staff })">
+                                  {{ staff.dob }}
                                </td>
-                               <td (click)="onRowSelect({ data: worker })">
-                                {{ worker.phone }}
+                               <td (click)="onRowSelect({ data: staff })">
+                                {{ staff.phoneNo }}
                                </td>
-                               <td (click)="onRowSelect({ data: worker })">
-                                {{ worker.skills}}
+                               <td (click)="onRowSelect({ data: staff })">
+                                {{ staff.address}}
                                </td>
-                                <!-- <td>
-                                    <img
-                                        src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
-                                        [class]="'flag flag-' + customer.country.code"
-                                        style="width: 20px" />
-                                    <span class="ml-1 vertical-align-middle">
-                                        {{ worker.name }}
-                                    </span>
-                                </td> -->
+                               <td (click)="onRowSelect({ data: staff })">
+                                {{ staff.skills}}
+                               </td>
 
-                                <td (click)="onRowSelect({ data: worker })" style="width:10% !important">
-                                    <p-tag
-                                        [value]="worker.status"
-                                        [ngClass]="getSeverity(worker.status)" /> <!--[severity]="getSeverity(worker.status)"-->
-
-
-
-                                </td>
                                 <td>
                                   <p-toast />
                                   <p-menu #menu [model]="items" appendTo="body" [popup]="true" />
                                   <!-- <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v"/> -->
-                                  <p-button  (onClick)="selectStaff(worker.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
+                                  <p-button  (onClick)="selectStaff(staff.id); menu.toggle($event)" icon="pi pi-ellipsis-v"/>
 
                                 </td>
                             </tr>

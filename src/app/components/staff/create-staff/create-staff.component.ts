@@ -98,9 +98,14 @@ export class CreateStaffComponent {
   comments:any;
   password:any;
 
+  roles:any[]=[{name:'Cleaner'}, {name:'Cash Collector'}, {name:'General'}]
+
+  selectedRole:any;
+
   constructor(private messageService: MessageService,private route: ActivatedRoute,private router: Router ,private staffService: StaffService,private issuesService: IssuesService) {}
 
   ngOnInit() {
+    this.fetchSkills();
 
     // this.getIssueCode();
     // this.getIssueTypes();
@@ -169,10 +174,20 @@ export class CreateStaffComponent {
     if (this.newSkill.trim() === '') return;
     const newSkill = this.newSkill;
     if (newSkill && !this.skillsArr.includes(newSkill)) {
-      this.skillsArr.push(newSkill);
-      this.selectedSkills.push(newSkill)
-      console.log(this.skillsArr,this.selectedSkills)
-      this.newSkill = '';
+      this.staffService.addNewSkill(this.newSkill).subscribe(
+        (response) => {
+          console.log('Skill added successfully:', response);
+            // this.skillsArr.push(newSkill);
+            this.fetchSkills();
+            this.selectedSkills.push(newSkill)
+            console.log(this.skillsArr,this.selectedSkills)
+            this.newSkill = '';
+        },
+        (error) => {
+          console.error('Error adding skill:', error);
+        }
+      );
+
     } else if (this.skillsArr.includes(newSkill)) {
       // alert('Skill already exists.');
       this.messageService.add({severity: 'error', summary: 'Error', detail: 'This Skill is already exist'});
@@ -199,11 +214,11 @@ export class CreateStaffComponent {
 //   return this.profileData?.worker_Avaliabilities?.some((availability:any) => availability.day === day);
 // }
 
-skillsArr = [
-  'Skill 1', 'Skill 2', 'Skill 3', 'Skill 4', 'Skill 5',
-  'Skill 6', 'Skill 7', 'Skill 8', 'Skill 9', 'Skill 10',
-  'Skill 11', 'Skill 12', 'Skill 13', 'Skill 14'
-];
+// skillsArr = [
+//   'Skill 1', 'Skill 2', 'Skill 3', 'Skill 4', 'Skill 5',
+//   'Skill 6', 'Skill 7', 'Skill 8', 'Skill 9', 'Skill 10',
+//   'Skill 11', 'Skill 12', 'Skill 13', 'Skill 14'
+// ];
 selectedSkills: string[] = [];
 
 toggleSkill(skill: string) {
@@ -419,11 +434,16 @@ saved:boolean=false;
 
     // إعادة تعيين النموذج
     this.newAvailability = { day: null, from: null, to: null };
+    // this.fixAvailableArray=[...this.staffAvailabilities]-->shallow copy
+    this.fixAvailableArray = JSON.parse(JSON.stringify(this.staffAvailabilities)); //-->solving use deep copy
+
   }
 
   // حذف إدخال معين
   deleteAvailability(index: number) {
     this.staffAvailabilities.splice(index, 1); // إزالة الإدخال
+    this.newAvailability = { day: null, from: null, to: null };
+
   }
 
   // تعديل إدخال معين
@@ -435,6 +455,151 @@ saved:boolean=false;
 
     this.newAvailability = { ...availability }; // تحميل البيانات في النموذج
     this.editIndex = index; // تحديد الإدخال الذي يتم تعديله
+
+  }
+  fixAvailableArray:any[]=[]
+
+
+  skillsArr:any[]=[];
+  skillsObj:any[]=[];
+  fetchSkills() {
+    this.staffService.getSkills().subscribe(
+      (data) => {
+        this.skillsObj=data
+        this.skillsArr = data.map(skill => skill.skill_Name);
+        console.log('Fetched skills:', this.skillsArr);
+      },
+      (error) => {
+        console.error('Error fetching skills:', error);
+      }
+    );
+  }
+
+
+
+  staffData: any = {
+    name: '',
+    email: '',
+    phone_No: '',
+    whatsapp_No: '',
+    password: '',
+    dob: '',
+    country: '',
+    role_Name: '',
+    address: '',
+    skills: [],
+    additional_Skills: '',
+    attachments: '',
+    staff_Availabilities: [],
+    emergency_Exist: false,
+    bank_Name: '',
+    account_Holder_Name: '',
+    account_No: '',
+    account_BIC: '',
+  };
+
+finalSkillsID:any[]=[]
+
+  validateAndSend() {
+
+    this.finalSkillsID = this.skillsObj
+    .filter(skill => this.selectedSkills.includes(skill.skill_Name)) // Filter objects with matching skill names
+    .map(skill => skill.skill_ID); // Map to skill_IDs
+
+  console.log(this.finalSkillsID);
+
+    this.staffData= {
+      name: this.staffName,
+      email: this.staffEmail,
+      phone_No: this.phoneNumber,
+      whatsapp_No: this.whatsappNumber,
+      password: this.password,
+      doB: this.DateOfBirth,
+      country: this.selectedCountry.name,
+      role_Name: this.selectedRole?.name,
+      address: this.address,
+      skills: this.finalSkillsID,
+      additional_Skills: this.newSkills,
+      attachments: this.images,
+      staff_Avaliabilities: this.fixAvailableArray,
+      emerngency_Exist: this.emergency==='yes' ?true:false,
+      bank_Name: this.bankName,
+      account_Holder_Name: this.accountName,
+      account_No: this.accountNumber,
+      account_BIC: this.bic_code,
+    };
+    // Validation
+    if (!this.staffData.name) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Validation Error',
+        detail: 'Name is required.',
+      });
+      return;
+    }
+    if (!this.staffData.email) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Validation Error',
+        detail: 'Email is required.',
+      });
+      return;
+    }
+    if (!this.staffData.phone_No) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Validation Error',
+        detail: 'Phone Number is required.',
+      });
+      return;
+    }
+    if (!this.staffData.skills || this.staffData.skills.length === 0) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Validation Error',
+        detail: 'At least one skill is required.',
+      });
+      return;
+    }
+    if (!this.staffData. staff_Avaliabilities || this.staffData. staff_Avaliabilities.length === 0) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Validation Error',
+        detail: 'Availability details are required.',
+      });
+      return;
+    }
+
+    // Additional validations for other fields
+    if (!this.staffData.password || this.staffData.password.length < 6) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Validation Error',
+        detail: 'Password must be at least 6 characters.',
+      });
+      return;
+    }
+
+    // Send data
+    this.staffService.addNewStaff(this.staffData).subscribe(
+      (response) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Staff added successfully!',
+        });
+        console.log('Response:', response);
+        this.showSuccess=true
+      },
+      (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to add new staff.',
+        });
+        console.error('Error:', error);
+      }
+    );
   }
 
 //////////////////////////////////////////////test///////////////////////
@@ -586,125 +751,14 @@ skills:any;
   showSuccess:boolean=false;
   showSuccessD(){
     // this.showSuccess=true
-    this.submitIssue()
+    this.validateAndSend()
   }
 
   getSelectedIssueNames(): string[] {
     return this.selectedIssueTypes.map((item) => item.skill_ID);
   }
 
-  submitIssue() {
 
-
-
-
-    if (!this.issueName) {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Issue name is required'});
-      return;
-    }
-
-
-    if (!this.requestedBy) {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Requested by is required'});
-      return;
-    }
-
-    if (!this.selectedUserType?.name) {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'User type is required'});
-      return;
-    }
-
-    if (!this.description) {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Description is required'});
-      return;
-    }
-
-    if (!this.getSelectedIssueNames()?.length) {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'At least one issue category is required'});
-      return;
-    }
-
-    if (!this.selectedLevel?.name) {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Priority level is required'});
-      return;
-    }
-
-    if (!this.repairTime) {
-      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Estimated repair time is required'});
-      return;
-    }
-
-    // Additional field validations
-
-
-  if (!this.ringbell) {
-    this.messageService.add({severity: 'error', summary: 'Error', detail: 'Name on the Ringbell is required'});
-    return;
-  }
-
-
-
-  if (!this.phone) {
-    this.messageService.add({severity: 'error', summary: 'Error', detail: 'Phone number is required'});
-    return;
-  }
-
-  if (!this.altPhone) {
-    this.messageService.add({severity: 'error', summary: 'Error', detail: 'Alternative phone number is required'});
-    return;
-  }
-
-  if (!this.comments) {
-    this.messageService.add({severity: 'error', summary: 'Error', detail: 'Comments are required'});
-    return;
-  }
-
-
-    const appointmentDates = this.appointments
-    .filter(appointment => appointment.date) // Ensure date is not null
-    .map(appointment => appointment.date!.toISOString());
-
-    console.log(appointmentDates);
-
-    const issueData = {
-      apartment_ID: this.selectedApartment.apartment_ID,
-      issue_Code: this.issueCode,
-      issue_Name: this.issueName,
-      apartment_No: this.aprtNo,
-      requested_By: this.requestedBy,
-      // assigned_ID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      userType: this.selectedUserType.name,
-      issue_Desc: this.description,
-
-      // issue_Category: [this.selectedIssueType.skill_Name],
-      issue_Category: this.getSelectedIssueNames() ,
-
-
-      issue_Images: this.images,
-      issue_Piority: this.selectedLevel.name,
-      // issue_Estimation_Solve: this.repairTime?.toISOString(),
-      issue_Estimation_Solve: this.repairTime?.toString(),
-
-      issue_Appointments: appointmentDates,
-
-        // Additional data with correct naming from the object structure
-    name_RingBell: this.ringbell,
-    phoneNo: this.phone,
-    alternative_PhoneNo: this.altPhone,
-    comments: this.comments
-    };
-
-    this.issuesService.createNewIssue(issueData).subscribe(
-      response => {
-        console.log('Issue created successfully:', response);
-    this.showSuccess=true
-
-      },
-      error => {
-        console.error('Error creating issue:', error);
-      }
-    );
-  }
 
 
 
