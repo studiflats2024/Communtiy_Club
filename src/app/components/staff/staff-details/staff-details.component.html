@@ -15,13 +15,13 @@
 
         <div class="header-section">
           <div class="extra-ellipse"></div>
-          <span class="status-tag" *ngIf="profileData?.is_Available">Available</span>
-          <span class="status-tag" style="background:red;" *ngIf="!profileData?.is_Available">Not Available</span>
+          <span class="status-tag" *ngIf="staffProfile?.is_Available">Available</span>
+          <span class="status-tag" style="background:red;" *ngIf="!staffProfile?.is_Available">Not Available</span>
 
             <div class="profile-image">
-              <img [src]="profileData?.image || 'workerImg.png'" alt="Profile" />
-                <h3 class="name">{{ profileData?.name }}</h3>
-                <span class="role">{{ profileData?.type }}</span>
+              <img [src]="staffProfile?.picture || 'workerImg.png'" alt="Profile" />
+                <h3 class="name">{{  staffProfile?.name }}</h3>
+                <!-- <span class="role">{{ profileData?.type }}</span> -->
             </div>
 
         </div>
@@ -31,36 +31,36 @@
         <div class="personal-info">Personal Information</div>
         <div class="info-grid">
             <div>
-                <div *ngIf="profileData?.type !=='company'" class="h">Email:</div>
-                <div *ngIf="profileData?.type ==='company'" class="h">Company Email:</div>
+                <div *ngIf="staffProfile?.type !=='company'" class="h">Email:</div>
+                <div *ngIf="staffProfile?.type ==='company'" class="h">Company Email:</div>
 
-                <div class="i">{{ profileData?.email }}</div>
+                <div class="i">{{ staffProfile?.email }}</div>
             </div>
-            <div>
+            <!-- <div>
                 <div class="h">Date Of Birth:</div>
                 <div class="i">{{ profileData?.doB }}</div>
-            </div>
+            </div> -->
 
             <div>
-                <div *ngIf="profileData?.type !=='company'" class="h">Address:</div>
-                <div *ngIf="profileData?.type ==='company'" class="h">Company Address:</div>
+                <div  class="h">Address:</div>
+                <!-- <div *ngIf="profileData?.type ==='company'" class="h">Company Address:</div> -->
 
-               <div class="i">{{ profileData?.address }}</div>
+               <div class="i">{{ staffProfile?.address }}</div>
             </div>
             <div>
-              <div *ngIf="profileData?.type !=='company'" class="h">Whatsapp Number:</div>
-              <div *ngIf="profileData?.type ==='company'" class="h">Phone Number:</div>
+              <div  class="h">Whatsapp Number:</div>
+              <!-- <div *ngIf="profileData?.type ==='company'" class="h">Phone Number:</div> -->
 
-              <div class="i">{{ profileData?.whatsapp_No }}</div>
+              <div class="i">{{ staffProfile?.wA_No }}</div>
           </div>
-          <div>
+          <!-- <div>
             <div *ngIf="profileData?.type ==='company'" class="h">Company Name:</div>
             <div *ngIf="profileData?.type ==='company'" class="i">{{ profileData?.company_Name }}</div>
-        </div>
-        <div>
+        </div> -->
+        <!-- <div>
           <div *ngIf="profileData?.type ==='company'" class="h">Tax registration number :</div>
           <div *ngIf="profileData?.type ==='company'" class="i">{{ profileData?.tax_No }}</div>
-      </div>
+      </div> -->
         </div>
     </div>
 
@@ -70,7 +70,7 @@
     <div class="skills-section">
         <div class="personal-info">Skills</div>
         <div class="skills">
-            <p-chip *ngFor="let skill of profileData?.skills" label="{{ skill }}"></p-chip>
+            <p-chip *ngFor="let skill of staffProfile?.skills" label="{{ skill }}"></p-chip>
             <!-- <p-chip   label="alaa"></p-chip> -->
 
         </div>
@@ -78,10 +78,10 @@
 
 
 
-    <div *ngIf="profileData?.additional_Skills!==''" class="additional-skills">
+    <!-- <div *ngIf="staffProfile?.additional_Skills!==''" class="additional-skills">
         <div class="working-days mt-4 mb-2" style="padding-bottom:5px !important">Additional skills</div>
-        <div class="i">{{ profileData?.additional_Skills }}</div>
-    </div>
+        <div class="i">{{ staffProfile?.additional_Skills }}</div>
+    </div> -->
 
 
     <div class="divider"></div><!-------------------------------------------------------->
@@ -96,25 +96,52 @@
         <div class="days-list">
           <!-- Loop through each day and add "active" class only if it exists in worker_Availabilities -->
           <p-chip *ngFor="let day of daysOfWeek"
-                  [label]="day"
-                  [icon]="isDayAvailable(day) ? 'pi pi-check-circle' : ''"
-                  [ngClass]="{'day-chip active': isDayAvailable(day), 'day-chip inactive': !isDayAvailable(day)}">
+
+
+                  >
+
+                    <div   style="margin-bottom: 24px;">
+                      <!-- <div class="working-days mb-2">Working hours</div> -->
+                      <div  style="padding: 5px;"   [ngClass]="{'day-chip active': isDayAvailable(day), 'day-chip inactive': !isDayAvailable(day)}">
+                        <!-- Find the availability for the current day -->
+                         <i *ngIf="isDayAvailable(day)" class="pi pi-check-circle "></i>
+                         <span class="mr-2" >{{day}}</span>
+                         <span  style="margin-right: 5px;"  *ngIf="isDayAvailable(day)">
+                          <span style="color: #FFB900;"> From</span>
+
+                          {{
+                            getWorkingHours(day)?.from || 'N/A'
+                          }}
+                         </span>
+                         <span    *ngIf="isDayAvailable(day)">
+                          <span style="color: #FFB900;"> To</span>
+                          {{
+                            getWorkingHours(day)?.to || 'N/A'
+                          }}
+                         </span>
+
+
+
+
+                      </div>
+                    </div>
+
           </p-chip>
         </div>
       </div>
 
       <div class="working">
-        <div style="margin-bottom: 24px;">
+        <!-- <div style="margin-bottom: 24px;">
           <div class="working-days mb-2">Working hours</div>
           <div class="i">
-            <!-- Display working hours based on the first availability record, or show a default if empty -->
-            From {{ profileData?.worker_Avaliabilities[0]?.from || 'N/A' }} to {{ profileData?.worker_Avaliabilities[0]?.to || 'N/A' }}
+
+            From {{ staffProfile?.staff_Avaliabilities[0]?.from || 'N/A' }} to {{ staffProfile?.staff_Avaliabilities[0]?.to || 'N/A' }}
           </div>
-        </div>
+        </div> -->
 
         <div style="margin-bottom: 24px;">
           <div class="working-days mb-2">Emergency Service</div>
-          <div class="i">{{ profileData?.emergency_Exist ? 'Yes' : 'No' }}</div>
+          <div class="i">{{ staffProfile?.is_Emergency_Exist ? 'Yes' : 'No' }}</div>
         </div>
       </div>
     </div>
@@ -129,20 +156,20 @@
       <div class="info-grid">
           <div>
               <div class="h">Bank Name</div>
-              <div class="i"> {{ profileData?.bank_Name || 'N/A' }}</div>
+              <div class="i"> {{ staffProfile?.bank_Name || 'N/A' }}</div>
           </div>
           <div>
               <div class="h">Account Holder’s Name </div>
-              <div class="i"> {{ profileData?.account_Holder_Name || 'N/A' }}</div>
+              <div class="i"> {{ staffProfile?.bank_Account_Holder || 'N/A' }}</div>
           </div>
 
           <div>
               <div class="h">Account Number/IBAN</div>
-             <div class="i"> {{ profileData?.account_No || 'N/A' }}</div>
+             <div class="i"> {{ staffProfile?.account_Iban || 'N/A' }}</div>
           </div>
           <div>
             <div class="h">BIC Code</div>
-            <div class="i">{{ profileData?.account_BIC || 'N/A' }} </div>
+            <div class="i">{{ staffProfile?.biC_Code || 'N/A' }} </div>
         </div>
 
       </div>
@@ -154,29 +181,12 @@
 
 
     <div class="id-section mt-4">
-        <div class="h">Front and Back of ID</div>
+        <div class="h">Image of ID</div>
         <div class="id-images">
-            <img [src]="profileData?.attachments || 'staticPass.png'" alt="Front ID" />
-            <img src="staticPass.png" alt="Back ID" />
+            <img [src]="staffProfile?.attachment || 'staticPass.png'" alt=" ID" />
+            <!-- <img src="staticPass.png" alt="Back ID" /> -->
         </div>
-        <div class="document-content" *ngIf="profileData?.type==='company'">
-          <div class="doc-info">
-            <img src="document.svg" alt="Handover protocols" />
-            <p>commercial registration .pdf</p>
-          </div>
-          <div class="doc-actions">
-            <a class="text-decoration-none" [href]="profileData?.attachments" target="_blank">
-              <button class="btn-view">
-                <i class="pi pi-eye"></i> View
-              </button>
-            </a>
-            <a class="text-decoration-none" [href]="profileData?.attachments" download>
-              <button class="btn-download">
-                <i class="pi pi-download"></i> Download
-              </button>
-            </a>
-          </div>
-        </div>
+
     </div>
 
 
@@ -186,7 +196,7 @@
         <div class="actions">
 
             <!-- <button pButton label="Accept" class="accept p-button"></button> -->
-            <p-button (onClick)="showDialog2()" class="accept" [label]="isDeactivate ? 'Deactivate' : 'Accept'" />
+            <p-button   class="accept" [label]="isDeactivate ? 'Deactivate' : 'Accept'" />
              <p-button (onClick)="showDialog()" class=" reject " label="Reject" />
 
         </div>
@@ -212,7 +222,7 @@
     <div class="flex justify-content-end gap-2">
 
         <p-button (onClick)="visible = false" class="accept" label="Cancel" />
-        <p-button (onClick)="onSendReject()" class=" reject " label="Send" />
+        <p-button  class=" reject " label="Send" />
 
     </div>
 </p-dialog>

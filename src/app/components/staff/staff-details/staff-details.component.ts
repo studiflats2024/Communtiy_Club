@@ -10,7 +10,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { HttpClientModule } from '@angular/common/http';
-import { WorkerService } from '../../../services/worker.service';
+import { StaffService } from '../../../services/staff.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 @Component({
@@ -27,7 +27,7 @@ export class StaffDetailsComponent {
   skills = ['Skill 1', 'Skill 2', 'Skill 3', 'Skill 4', 'Skill 5', 'Skill 6', 'Skill 7'];
   workerId:any;
 
-  constructor(private workerService: WorkerService,private route: ActivatedRoute) {}
+  constructor(private staffService: StaffService,private route: ActivatedRoute) {}
 
   ngOnInit() {
 
@@ -41,17 +41,21 @@ export class StaffDetailsComponent {
       { label: 'Staff List', routerLink: '/staff-list' },
       { label: 'Staff Details', routerLink: '/staff-details' }
     ];
-    // this.workerDetails();
+    this.fetchStaffProfile(this.workerId)
   }
-  profileData:any;
-  workerDetails(){
-    this.workerService.getProfile(this.workerId).subscribe(
-      (data) => {
-        this.profileData = data;
-        console.log('Profile Data:', this.profileData);
+  staffProfile:any;
+  fetchStaffProfile(staffId: string): void {
+
+
+    this.staffService.getStaffProfile(staffId).subscribe(
+      (response) => {
+        console.log('Staff Profile:', response);
+        this.staffProfile = response;
+
       },
       (error) => {
-        console.error('Error fetching profile data', error);
+        console.error('Error fetching staff profile:', error);
+
       }
     );
   }
@@ -62,48 +66,48 @@ export class StaffDetailsComponent {
       this.visibleReject = true;
   }
   visibleSuccess:boolean =false;
-  showDialog2(){
-   if(this.isDeactivate===false){
-    this.onUpdateProfileStatus(this.workerId,'Accept',this.reason)
+  // showDialog2(){
+  //  if(this.isDeactivate===false){
+  //   this.onUpdateProfileStatus(this.workerId,'Accept',this.reason)
 
-   }else{
-    this.onUpdateProfileStatus(this.workerId,'Deactivate',this.reason)
+  //  }else{
+  //   this.onUpdateProfileStatus(this.workerId,'Deactivate',this.reason)
 
-   }
+  //  }
 
 
 
-  }
+  // }
 
   isDeactivate:boolean=false;
   visibleSuccessR:boolean=false;
   visibleSuccessD:boolean=false;
 
-  onUpdateProfileStatus(workerId:any,status:any,reason:any) {
+  // onUpdateProfileStatus(workerId:any,status:any,reason:any) {
 
 
-    this.workerService.updateProfileStatus(workerId, status, reason).subscribe(
-      (response) => {
-        console.log('Status updated successfully:', response);
-        if(status==='Accept'){
-          this.visibleSuccess=true;
-          this.isDeactivate=true;
-       }else if(status==='Reject'){
-          this.visibleReject=false;
-          this.visibleSuccessR=true;
-        this.isDeactivate=false;
+  //   this.workerService.updateProfileStatus(workerId, status, reason).subscribe(
+  //     (response) => {
+  //       console.log('Status updated successfully:', response);
+  //       if(status==='Accept'){
+  //         this.visibleSuccess=true;
+  //         this.isDeactivate=true;
+  //      }else if(status==='Reject'){
+  //         this.visibleReject=false;
+  //         this.visibleSuccessR=true;
+  //       this.isDeactivate=false;
 
-       }else if(status==='Deactivate'){
-        this.isDeactivate=false;
-        this.visibleSuccessD=true;
+  //      }else if(status==='Deactivate'){
+  //       this.isDeactivate=false;
+  //       this.visibleSuccessD=true;
 
-       }
-      },
-      (error) => {
-        console.error('Error updating status:', error);
-      }
-    );
-  }
+  //      }
+  //     },
+  //     (error) => {
+  //       console.error('Error updating status:', error);
+  //     }
+  //   );
+  // }
 
   visibleReject:boolean=false;
   reason:string='';
@@ -113,16 +117,24 @@ export class StaffDetailsComponent {
   //   this.visibleSuccess=true;
 
   // }
-  onSendReject(){
-    this.onUpdateProfileStatus(this.workerId,'Reject',this.reason)
-    // this.visibleReject=false;
-  }
+  // onSendReject(){
+  //   this.onUpdateProfileStatus(this.workerId,'Reject',this.reason)
+
+  // }
 
   daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 // Check if a day is in worker_Availabilities
 isDayAvailable(day: string): boolean {
-  console.log(this.profileData?.worker_Avaliabilities?.some((availability:any) => availability.day === day))
-  return this.profileData?.worker_Avaliabilities?.some((availability:any) => availability.day === day);
+  console.log(this.staffProfile?.staff_Avaliabilities?.some((availability:any) => availability.day === day))
+  return this.staffProfile?.staff_Avaliabilities?.some((availability:any) => availability.day === day);
 }
+getWorkingHours(day: string): { from: string; to: string } | null {
+  const availability = this.staffProfile?.staff_Avaliabilities?.find(
+    (availability: any) => availability.day === day
+  );
+  console.log(availability)
+  return availability || null;
+}
+
 }

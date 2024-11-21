@@ -61,4 +61,17 @@ export class StaffService {
       headers,
     });
   }
+
+
+  getStaffProfile(staffId: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`, // Use token if required
+    });
+
+    return this.http.get<any>(`${environment.apiUrl}/WokersStaff/GetStaff_Profile`, {
+      headers: headers,
+      params: { Staff_ID: staffId },
+    });
+  }
 }
