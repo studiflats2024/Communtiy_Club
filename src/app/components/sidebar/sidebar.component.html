@@ -1,7 +1,8 @@
 <div class="side-bar  bottom-0 start-0 z-index py-3 z-2 px-2 top-90 col-lg-2" [class.hide]="!showSidebar">
   <!--main navigation-->
 
-  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="ooo">
+  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/
+  "   [routerLinkActiveOptions]="{ exact: true }">
       <img src="./navigation/dashboard.svg"> Dashboard
   </a>
 <!--
@@ -15,32 +16,27 @@
       <img src="./navigation/payments.svg"> Payments
   </a> -->
   <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="messages">
-      <img src="./navigation/messages.svg"> Messages
+      <img src="./navigation/CrownSimple.svg"> Manage Subscription
   </a>
   <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/statistic">
-      <img src="./navigation/stats.svg"> Statistics
+      <img src="./navigation/scan.svg"> Transaction
   </a>
   <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/admins">
-    <img src="./navigation/users.svg"> Admins
+    <img src="./navigation/UsersFour.svg"> Members
 </a>
 
 
-  <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active"  [routerLinkActiveOptions]="{ exact: true }"  :routerLink="/workers-requests">
-      <img src="./navigation/owner 2.svg"> Worker Requests
+  <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active"   :routerLink="/workers-requests">
+      <img src="./navigation/UserPlus.svg"> Invite Friends
   </a>
   <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active"   :routerLink="/apartment-list">
-    <img src="./apartment.svg"> Apartment
+    <img src="./navigation/note-favorite.svg"> Activity
 </a>
   <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/issues-list">
-    <img src="./issues.svg"> Issues
+    <img src="./navigation/stats.svg"> Statistics
 </a>
 
-  <!-- <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/configurations">
-      <img src="./navigation/reports.svg"> Issue Reports
-  </a> -->
-  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/staff-list">
-    <img src="./staff.svg"> Staff
-</a>
+ 
 
   <div style="margin-top:124px">
       <span class="other gray mb-3 fw-bold mt-4 d-block">other</span>

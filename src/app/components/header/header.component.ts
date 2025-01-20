@@ -19,20 +19,21 @@ export class HeaderComponent {
   // Define route titles based on your routes
   routeTitles: { [key: string]: string } = {
     '/login': 'Login',
-    '/workers-requests': 'Worker Requests',
-    '/apartment-list': 'Apartment List',
-    '/worker-details': 'Worker Details',
-    '/dashboard': 'Dashboard',
-    '/staff-list': 'Staff List',
-    '/staff-details': 'Staff Details',
-    '/create-staff': 'Create Staff',
-    '/staff-jobs': 'Assigned jobs',
-    '/update-staff': 'Update Staff',
+    // '/workers-requests': 'Worker Requests',
+    // '/apartment-list': 'Apartment List',
+    // '/worker-details': 'Worker Details',
+    '/dashboard': 'Community Club',
 
-    '/issues-list': 'Issues List',
-    '/create-issue': 'Create Issue',
-    '/issue-details': 'Issue Details',
-    '/update-issue': 'Update Issue',
+    // '/staff-list': 'Staff List',
+    // '/staff-details': 'Staff Details',
+    // '/create-staff': 'Create Staff',
+    // '/staff-jobs': 'Assigned jobs',
+    // '/update-staff': 'Update Staff',
+
+    // '/issues-list': 'Issues List',
+    // '/create-issue': 'Create Issue',
+    // '/issue-details': 'Issue Details',
+    // '/update-issue': 'Update Issue',
 
 
   };

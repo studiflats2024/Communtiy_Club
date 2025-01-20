@@ -24,9 +24,9 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
 
     // Register Service Worker (only for production)
-    provideServiceWorker('ngsw-worker.js', {
-      enabled: environment.production
-    }),
+    // provideServiceWorker('ngsw-worker.js', {
+    //   enabled: environment.production
+    // }),
 
     // Zone.js Change Detection optimization
     provideZoneChangeDetection({ eventCoalescing: true })
