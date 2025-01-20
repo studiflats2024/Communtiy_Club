@@ -1,8 +1,7 @@
 <div class="side-bar  bottom-0 start-0 z-index py-3 z-2 px-2 top-90 col-lg-2" [class.hide]="!showSidebar">
   <!--main navigation-->
 
-  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/
-  "   [routerLinkActiveOptions]="{ exact: true }">
+  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/"   [routerLinkActiveOptions]="{ exact: true }">
       <img src="./navigation/dashboard.svg"> Dashboard
   </a>
 <!--
@@ -15,24 +14,24 @@
   <!-- <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="payment">
       <img src="./navigation/payments.svg"> Payments
   </a> -->
-  <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="messages">
+  <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/manage-subscription">
       <img src="./navigation/CrownSimple.svg"> Manage Subscription
   </a>
-  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/statistic">
+  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="#">
       <img src="./navigation/scan.svg"> Transaction
   </a>
-  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/admins">
+  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="#">
     <img src="./navigation/UsersFour.svg"> Members
 </a>
 
 
-  <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active"   :routerLink="/workers-requests">
+  <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active"   :routerLink="#">
       <img src="./navigation/UserPlus.svg"> Invite Friends
   </a>
-  <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active"   :routerLink="/apartment-list">
+  <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active"   :routerLink="#">
     <img src="./navigation/note-favorite.svg"> Activity
 </a>
-  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/issues-list">
+  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="#">
     <img src="./navigation/stats.svg"> Statistics
 </a>
 
@@ -44,7 +43,7 @@
           <img src="./navigation/help.svg"> Help
       </a>
 
-          <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" :routerLink="/admins" routerLinkActive="active">
+          <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" :routerLink="#" routerLinkActive="active">
               <img src="./navigation/setting.svg"> Settings
           </a>
       <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" style="cursor: pointer" (click)="logoutCall()">

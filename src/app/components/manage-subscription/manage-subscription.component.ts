@@ -27,17 +27,16 @@ import { Menu } from 'primeng/menu';
 import { DialogModule } from 'primeng/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
- 
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-manage-subscription',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+
+  templateUrl: './manage-subscription.component.html',
+  styleUrl: './manage-subscription.component.css'
 })
-export class DashboardComponent {
+export class ManageSubscriptionComponent {
   items:any[]=[];
   ngOnInit() {
 
@@ -45,7 +44,9 @@ export class DashboardComponent {
 
 
     this.items = [
-      { label: 'Dashboard', routerLink: '/' },
+      { label: 'Community Club', routerLink: '/' },
+
+      { label: 'Manage Subscription', routerLink: '/manage-subscription' },
       
     ];
     

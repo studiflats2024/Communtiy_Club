@@ -1,1 +1,35 @@
-<p>dashboard works!</p>
+ <!-- <div class="row">
+  <div class="col-lg-2 col-md-0 col-sm-0 "></div>
+  <div class="col-lg-10 col-md-12 col-sm-12">
+    helloooooooooo
+  </div>
+
+ </div> -->
+ <div class="parent">
+    <div class="fixDiv"></div>
+    <div class="page">
+        <p-breadcrumb class="max-w-full" [model]="items">
+            <ng-template pTemplate="item" let-item>
+                <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+                    <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+                    <span>{{ item.label }}</span>
+                </a>
+            </ng-template>
+          </p-breadcrumb>
+     
+  
+    </div>
+  
+   </div>
+  
+  
+  
+  
+  
+   
+  
+  
+  
+  
+  
+  

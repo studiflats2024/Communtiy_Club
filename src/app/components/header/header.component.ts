@@ -14,7 +14,9 @@ import { filter } from 'rxjs/operators';
 })
 export class HeaderComponent {
 
-  headerTitle: string = 'Default Title';
+  headerTitle: string = 'Community Club';
+ 
+
 
   // Define route titles based on your routes
   routeTitles: { [key: string]: string } = {
@@ -22,7 +24,7 @@ export class HeaderComponent {
     // '/workers-requests': 'Worker Requests',
     // '/apartment-list': 'Apartment List',
     // '/worker-details': 'Worker Details',
-    '/dashboard': 'Community Club',
+    '/': 'Community Club',
 
     // '/staff-list': 'Staff List',
     // '/staff-details': 'Staff Details',
@@ -57,7 +59,7 @@ export class HeaderComponent {
     const routeKey = `/${baseRoute}`;
 
     // Set the header title based on the route or default to 'Dashboard'
-    this.headerTitle = this.routeTitles[routeKey] || 'Dashboard';
+    this.headerTitle = this.routeTitles[routeKey] || 'Community Club';
   }
 
 
