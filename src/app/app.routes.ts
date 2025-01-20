@@ -17,6 +17,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/manage-subscription/manage-subscription.component').then(m => m.ManageSubscriptionComponent),
     canActivate: [AdminGuard]
   },
+  {
+    path: 'add-new-plan',
+    loadComponent: () => import('./components/add-new-plan/add-new-plan.component').then(m => m.AddNewPlanComponent),
+    canActivate: [AdminGuard]
+  },
  
  
   
