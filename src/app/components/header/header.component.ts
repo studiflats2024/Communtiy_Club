@@ -24,7 +24,7 @@ export class HeaderComponent {
     // '/workers-requests': 'Worker Requests',
     // '/apartment-list': 'Apartment List',
     // '/worker-details': 'Worker Details',
-    '/': 'Community Club',
+    '/dashboard': 'Community Club',
 
     // '/staff-list': 'Staff List',
     // '/staff-details': 'Staff Details',

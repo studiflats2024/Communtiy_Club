@@ -473,7 +473,7 @@ background: #FFF;
 box-shadow: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
   }
   
-  .card-header {
+  .card-headerr {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -483,14 +483,14 @@ box-shadow: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
     margin-bottom: 16px;
   }
   
-  .card-header .edit-button {
+  .card-headerr .edit-button {
     background: transparent;
     border: none;
     cursor: pointer;
     font-size: 1.2rem;
     color: #004aad;
   }
-  .card-header{
+  .card-headerr{
     margin-bottom: 24px;
   }
   
@@ -608,5 +608,168 @@ line-height: 30px; /* 150% */
   }
   
   
+  .card-header{
+    color: var(--Colors-Base-Main-Text, #0A0C0F);
+
+/* Global Tokens/Body/B-1/Medium */
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 24px; /* 150% */
+display: flex;
+justify-content: center;
+align-items: center;
+margin-bottom: 0;
+  }
+  input{
+    border-radius: 8px;
+  }
+  .search-input {
+    width: 100%;
+    padding-right: 2.5rem; /* مساحة للأيقونة داخل الحقل */
+  }
   
-  
+  .search-icon {
+    position: absolute;
+    left: 0.75rem; /* مكان الأيقونة من الحافة اليمنى */
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888; /* لون الأيقونة */
+    pointer-events: none; /* يجعل الأيقونة غير قابلة للنقر */
+  }
+
+  :host ::ng-deep .p-datatable-thead{
+    /* display: flex;
+padding: 8px 16px;
+justify-content: space-between;
+align-items: center;
+align-self: stretch; */
+
+border-radius: 16px 16px 0px 0px !important;
+background: #F6F6F6;
+  }
+
+  :host ::ng-deep .p-datatable>.p-datatable-wrapper {
+    overflow: auto;
+    border-radius: 16px;
+    border: 1px solid #EBEBEB;
+}
+
+/***************************/
+ /* تصميم الشارات الأساسية */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #ccc;
+  text-transform: capitalize;
+}
+
+/* أيقونة داخل الشارة */
+.badge .icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* ألوان خاصة بكل خطة */
+.badge-monthly {
+   /* أخضر */
+   display: flex;
+   height: 32px;
+   padding: 8px;
+   justify-content: center;
+   align-items: center;
+   gap: 8px;
+
+   border-radius: 16px;
+background: #D7F8E7;
+color: #157E48;
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+}
+
+.badge-semi-annual {
+  display: flex;
+  height: 32px;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  border-radius: 16px;
+background: #E7EEF8;
+
+color: var(--Colors-Primary-700, #1151B4);
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+}
+
+.badge-annual {
+  display: flex;
+  height: 32px;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  border-radius: 16px;
+background: #FBEFD2;
+
+color: #DFA314;
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+}
+
+.badge-free-trial {
+  display: flex;
+  height: 32px;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  color: #A85D02;
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+
+border-radius: 16px;
+background: #FCF3E8;
+}
+
+/* الشارة الافتراضية */
+.badge-default {
+  background-color: #6c757d; /* رمادي */
+  color: #fff;
+}
+
+
+ 
+
+ 
+
+ 

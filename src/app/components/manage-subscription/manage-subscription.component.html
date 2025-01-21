@@ -62,12 +62,12 @@
                   </div>
               </ng-template>
   <div class="plan-cards">
-    <p-card class="subscription-card">
-        <div class="card-header">
+    <p-card class="subscription-card" *ngFor="let plan of plans">
+        <div class="card-headerr">
           <span class="plan-name">
             <!-- <i class="pi pi-star" style="color: gold; margin-right: 8px;"></i> -->
             <img src="community/starplan.svg" />
-             Annual
+            {{ plan.plan_Name }}
           </span>
           <button class="edit-button">
             <!-- <i class="pi pi-pencil"></i> -->
@@ -76,15 +76,14 @@
         </div>
       
         <div class="card-price">
-          <span class="price">€480</span>
-          <span class="duration">/ Year</span>
+          <span class="price">€{{ plan.plan_Price }}</span>
+          <span class="duration">/ {{ plan.plan_Duration }}</span>
         </div>
       
         <ul class="card-features">
-          <li><i class="pi pi-check-circle"></i> 10 guest passes per year</li>
-          <li><i class="pi pi-check-circle"></i> Access to gym and sports facilities</li>
-          <li><i class="pi pi-check-circle"></i> Free entry to club events</li>
-          <li><i class="pi pi-check-circle"></i> Discounts on classes and workshops</li>
+          <li *ngFor="let feature of plan.plan_Features">
+            <i class="pi pi-check-circle"></i> {{ feature }}
+          </li>
         </ul>
       
         <div class="card-footer">
@@ -92,21 +91,21 @@
               <!-- <i class="pi pi-users"></i> -->
                <img src="community/Usersplan.svg"/>
               <div class="footer-text">Current Subscribers</div>
-              <div class="value">100</div>
+              <div class="value">{{ plan.current_Subscripers }}</div>
             </div>
             <div style="width: 1px; height: 90px ;background-color: #E1E5EA;"></div>
             <div class="footer-item">
               <!-- <i class="pi pi-refresh"></i> -->
                <img src="community/refreshplan.svg"/>
               <div class="footer-text">Renewed Subscribers</div>
-              <div class="value">50</div>
+              <div class="value">{{ plan.renewed_Subscripers }}</div>
             </div>
           </div>
       </p-card>
 
 
       <p-card class="subscription-card" [style]="{'border-top':' 3px solid var(--Colors-Warning-500, #1151B4)'}" >
-        <div class="card-header">
+        <div class="card-headerr">
           <span class="plan-name">
             <!-- <i class="pi pi-star" style="color: #1151B4; margin-right: 8px;"></i>  -->
             <img src="community/calendarplan.svg" />
@@ -152,7 +151,7 @@
 
 
       <p-card class="subscription-card" [style]="{'border-top':' 3px solid var(--Colors-Warning-500, #1CA65F)'}">
-        <div class="card-header">
+        <div class="card-headerr">
           <span class="plan-name">
             <!-- <i class="pi pi-star" style="color: #1CA65F; margin-right: 8px;"></i> -->
             <img src="community/monthlyplan.svg" />
@@ -221,6 +220,104 @@
                     <!-- <p-badge [value]="rejectedWorkers.length" /> -->
                 </div>
             </ng-template>
+
+
+            <div>
+              <div class="p-card p-3" style="border-radius: 16px;" >
+                <div class="flex justify-content-between align-items-center mb-4">
+                  <!-- <h2>Subscription Alerts</h2> -->
+                   <div class="card-header">Subscription Alerts</div>
+                  <div class="p-inputgroup w-50" style=" position: relative;">
+                    <!-- <span class="p-inputgroup-addon">
+                      <i class="pi pi-search"></i>
+                    </span> -->
+                    <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
+                    <i class="pi pi-search search-icon"></i>
+                    <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
+                     <img src="filterplan.svg" style="margin-left: 24px; cursor: pointer;"/>
+                  </div>
+                </div>
+              
+                <p-table
+                  #dt
+                  [value]="subscriptions"
+                  [paginator]="true"
+                  [rows]="10"
+                  [globalFilterFields]="['name', 'email', 'phone', 'planType']"
+                  [filterDelay]="300"
+                  [resizableColumns]="true"
+                  [tableStyle]="{ 'min-width': '900px' }"
+                  [showCurrentPageReport]="true"
+                  [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
+                  (onPage)="pageChange($event)"
+                  [rowsPerPageOptions]="[5, 10, 20]"
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                      <th>Phone Number</th>
+                      <th pSortableColumn="planType">Plan Type <p-sortIcon field="planType"></p-sortIcon></th>
+                      <th pSortableColumn="startDate">Start Date <p-sortIcon field="startDate"></p-sortIcon></th>
+                      <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-subscription>
+                    <tr>
+                      <td>
+                        <div>
+                          <strong>{{ subscription.name }}</strong>
+                          <p>{{ subscription.email }}</p>
+                        </div>
+                      </td>
+                      <td>{{ subscription.phone }}</td>
+                      <td>
+                        <!-- <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="p-tag">{{ subscription.planType }}</span> -->
+                        <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="badge">
+                          <i [ngClass]="getPlanIcon(subscription.planType)" class="icon"></i>
+                          {{ subscription.planType }}
+                        </span>
+                      
+                      </td>
+                      <td>{{ subscription.startDate | date: 'MMM d, yyyy' }}</td>
+                      <td>{{ subscription.endDate | date: 'MMM d, yyyy' }}</td>
+                      <td>
+                        <span class=""><img class="mr-2" src="alertStatus.svg"/>{{ subscription.status }}</span>
+                      </td>
+                      <td >
+                        <div class="flex justify-content-between align-items-center gab-1">
+                          <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div>
+                        <div><img class="mr-2" style="cursor: pointer;" src="trashplan.svg"/></div>
+                        </div>
+                         
+
+                        <!-- <button pButton icon="pi pi-bell" class="p-button-rounded p-button-info p-mr-2"></button> -->
+                        <!-- <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger"></button> -->
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <!-- <ng-template pTemplate="footer">
+                    <tr>
+                      <td colspan="7">
+                        <div class="p-paginator-custom">
+                          <p-paginator
+                            [rows]="10"
+                            [totalRecords]="40"
+                            [rowsPerPageOptions]="[10, 25, 50]"
+                            [showCurrentPageReport]="true"
+                            currentPageReportTemplate="Show {rows} From {totalRecords}"
+                            
+                          ></p-paginator>
+                        </div>
+                        
+                      </td>
+                    </tr>
+                  </ng-template> -->
+                </p-table>
+              </div>
+              
+            </div>
   
         </p-tabPanel>
       </p-tabView>

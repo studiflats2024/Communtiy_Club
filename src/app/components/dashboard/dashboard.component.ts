@@ -45,7 +45,7 @@ export class DashboardComponent {
 
 
     this.items = [
-      { label: 'Dashboard', routerLink: '/' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
       
     ];
     

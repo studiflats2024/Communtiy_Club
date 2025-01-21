@@ -2,11 +2,15 @@
     display:flex;
     width: 100%;
     padding-top: 100px;
+    background: #F5F9FF;
+
   
   }
   
   .fixDiv{
     width:250px;
+    background: #F5F9FF;
+
   }
   
   
@@ -14,6 +18,8 @@
     padding: 30px;
     width: 80%;
     /* padding-top: 80px; */
+    background: #F5F9FF;
+
   }
   
   :host ::ng-deep .p-breadcrumb {
@@ -24,6 +30,8 @@
   
    padding-top: 10px;
     margin-bottom: 20px;
+    background: #F5F9FF;
+
   
   }
   :host ::ng-deep .p-breadcrumb ol {
@@ -448,7 +456,9 @@
   ::ng-deep p-fileupload{
     width: 100%;
   }
-  
+  :host ::ng-deep .p-card{
+    border-radius: 16px;
+  }
   ::ng-deep p-calendar{
     display: flex;
     height: 40px;
@@ -913,4 +923,56 @@
     background-color: #a71d2a !important;
   }
   
+  /*//////////////////////////////////////////////////////////////*/
+  .label{
+    color: #000;
+
+/* Global Tokens/Body/B-1/Medium */
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 24px; /* 150% */
+  }
   
+
+  .custom-button-add ::ng-deep .p-button  {
+
+    display: flex;
+width: 134px;
+height: 48px;
+padding: 16px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+   
+    border:1px solid #1151B4 !important;
+
+    color: #ffffff !important;
+    background-color: #1151B4 !important;
+    align-self: self-start;
+    border-radius: 8px;
+     
+  }
+  
+  .custom-button ::ng-deep .p-button {
+
+    display: flex;
+width: 134px;
+height: 48px;
+padding: 16px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+
+
+    color: #1151B4 !important;
+    
+    /* border-color: #004aad !important; */
+    background-color: #fff !important;
+    border-radius: 8px;
+  }
+  
+  .custom-button ::ng-deep .p-button .pi {
+    margin-right: 8px;
+  }

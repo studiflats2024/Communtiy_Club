@@ -10,5 +10,136 @@
         </ng-template>
       </p-breadcrumb>
 
+      <p-toast></p-toast>
+      <div class="content">
+        <p-card >
+          <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+                  <div class="flex flex-column gap-2 w-50">
+                    <label class="label" for="name">Name of Plan</label>
+                    <input 
+                        pInputText 
+                        id="name" 
+                        aria-describedby="username-help" 
+                        [(ngModel)]="planName"
+                        placeholder="Name of plan" />
+                    
+                </div>
+                <div class="flex flex-column gap-2 w-50">
+                  <label class="label"  >Duration of Plan</label>
+                  <p-dropdown 
+                  [options]="durations" 
+                  [(ngModel)]="selectedDuration" 
+                  optionLabel="name" 
+                  placeholder="Duration of plan " />
+              </div>
+          </div>
+<!-------------------------------------------------->
+          <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+                  <div class="flex flex-column gap-2 w-50">
+                    <label class="label"   >Type of Plan</label>
+                    <p-dropdown 
+                    [options]="plans" 
+                    [(ngModel)]="selectedPlan" 
+                    optionLabel="name" 
+                    placeholder="Type of plan " />
+                  
+                </div>
+                <div class="flex flex-column gap-2 w-50">
+                  <label class="label" for="price">Price</label>
+                  <input 
+                      type="number"
+                      pInputText 
+                      id="price" 
+                      aria-describedby="username-help" 
+                      [(ngModel)]="price" 
+                      placeholder="price" />
+
+                      <!-- <p-inputNumber 
+                        inputId="integeronly" 
+                        [(ngModel)]="price"
+                        placeholder="price" /> -->
+                
+              </div>
+          </div>
+<!-------------------------------------------------->
+
+        <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+              <div class="flex flex-column gap-2 w-50">
+                <label class="label" for="discount">Discount %</label>
+                <input 
+                type="number"
+                    pInputText 
+                    id="discount" 
+                    aria-describedby="username-help" 
+                    [(ngModel)]="discount" 
+                    placeholder="Ratio of discount"/>
+                
+            </div>
+            <div class="flex flex-column gap-2 w-50">
+              <label class="label" for="finalprice">Final Price (After Discount)</label>
+              <input 
+              type="number"
+                  pInputText 
+                  id="finalprice" 
+                  aria-describedby="username-help" 
+                  [(ngModel)]="finalPrice" 
+                  placeholder="Final Price"/>
+             
+          </div>
+        </div>
+<!-------------------------------------------------->
+
+          <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+            <div class="flex flex-column gap-2 w-50">
+              <label class="label" for="invitation">Invitation Number</label>
+              <input 
+              type="number"
+                  pInputText 
+                  id="invitation" 
+                  aria-describedby="username-help" 
+                  [(ngModel)]="invitationNo"
+                  placeholder="Invitation Number" />
+            
+          </div>
+          
+          </div>
+<!-------------------------------------------------->
+<label class="label" for="invitation">Features</label>
+<div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+        
+            <textarea 
+                rows="5"
+                cols="30" 
+                pInputTextarea 
+                [(ngModel)]="features"
+                placeholder="Write feature of plan">
+            </textarea>
+
+            </div>
+
+
+            <div class="flex justify-content-end align-items-center gap-4 mx-4 " style="margin-top: 35px;">
+              <div class=" ">
+                <p-button
+                label="Cancel"
+               
+                class="p-button-outlined custom-button"
+                
+              ></p-button>
+             </div>
+
+             <div class=" ">
+              <p-button
+              label="Add"
+              
+              class="p-button-outlined custom-button-add"
+             (click)="submitPlan()"
+            ></p-button>
+           </div>
+            </div>
+
+      </p-card>
+      </div>
+
 </div>
 </div>

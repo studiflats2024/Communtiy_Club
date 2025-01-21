@@ -72,7 +72,7 @@ export class LoginComponent {
           summary: 'Login Successful',
           detail: 'Redirecting to dashboard...'
         });
-        this.router.navigate(['']); // Redirect to the dashboard or desired route
+        this.router.navigate(['dashboard']); // Redirect to the dashboard or desired route
       },
       error: (err) => {
         this.messageService.add({
