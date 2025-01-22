@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component,HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';  // Provides ngIf, ngFor
 import { FormsModule } from '@angular/forms';    // Provides ngModel, form directives
 
@@ -30,11 +30,12 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { PaginatorModule } from 'primeng/paginator';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PlansService } from '../../services/plans.service';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-manage-subscription',
   standalone: true,
-  imports: [ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
+  imports: [CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
 
   templateUrl: './manage-subscription.component.html',
   styleUrl: './manage-subscription.component.css'
@@ -89,7 +90,7 @@ export class ManageSubscriptionComponent {
 
   ngOnInit() {
 
- 
+    // this.adjustDialogStyle(window.innerWidth);
 
 
     this.items = [
@@ -100,6 +101,7 @@ export class ManageSubscriptionComponent {
     ];
 
     this.loadPlans();
+
     
   }
 
@@ -157,4 +159,78 @@ export class ManageSubscriptionComponent {
       }
     });
   }
+
+//////////////////////////////////////////////filter //////////////////////////////////////////
+
+displayFilter: boolean = false;
+
+// Plan Types
+planTypes = [
+  { label: 'All', selected: true },
+  { label: 'Annual', selected: false },
+  { label: 'Semi-Annual', selected: false },
+  { label: 'Monthly', selected: false },
+  { label: 'Free Trial', selected: false }
+];
+
+selectedDate: Date | null = null;
+
+ 
+
+togglePlanType(type: any): void {
+  // إذا كنت تريد السماح باختيار زر واحد فقط:
+  // this.planTypes.forEach((t) => (t.selected = false));  
+  // type.selected = true;  
+
+  // إذا كنت تريد السماح باختيار أزرار متعددة، قم بإزالة التعليق:
+  type.selected = !type.selected;
+}
+
+ 
+
+openFilterDialog(): void {
+  this.displayFilter = true;
+}
+
+closeFilterDialog(): void {
+  this.displayFilter = false;
+}
+
+applyFilters(): void {
+  // Gather the filters
+  const selectedPlanType = this.planTypes.find((type) => type.selected)?.label;
+  const selectedDateRange = this.selectedDate;
+
+  console.log('Filters applied:', {
+    planType: selectedPlanType,
+    dateRange: selectedDateRange
+  });
+
+  // Close the dialog after applying filters
+  this.closeFilterDialog();
+}
+
+
+///////////////////////////////////////////////width dialog////////////////////////////////////
+ 
+// dialogStyle: { [key: string]: string } = { width: '40vw' };
+
+ 
+
+// @HostListener('window:resize', ['$event'])
+// onResize(event: any): void {
+//   this.adjustDialogStyle(event.target.innerWidth);  
+// }
+
+// private adjustDialogStyle(screenWidth: number): void {
+//   this.dialogStyle = screenWidth <= 768 ? { width: '100vw' } : { width: '40vw' };
+// }
+/////////////filter success////////////////////////////////////
+displayReminder: boolean = false;
+
+  showReminder() {
+    this.displayReminder = true;
+  }
+
+
 }

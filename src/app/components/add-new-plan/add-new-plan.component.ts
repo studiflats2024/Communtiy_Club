@@ -49,13 +49,13 @@ export class AddNewPlanComponent {
 
   // Form field bindings
   planName: string = '';
-  selectedDuration: any = null;
-  selectedPlan: any = null;
-  price: number | null = null;
-  discount: number | null = null;
-  finalPrice: number | null = null;
-  invitationNo: any;
-  features: string = '';
+selectedDuration: any = null;
+selectedPlan: any = null;
+price: number =0;
+discount: number =0;
+finalPrice: number =0;
+invitationNo: any;
+features: string = '';
 
   
   constructor(private messageService: MessageService,private plansService: PlansService) {}
@@ -76,9 +76,11 @@ export class AddNewPlanComponent {
 
         // Initialize dropdown options
         this.durations = [
-          { name: '12 Month / Annual', value: 1 },
-          { name: '6 Month / Semi-Annual', value: 3 },
-          { name: '1 Month / Monthly', value: 6 },
+          { name: 'Year', value: 1 },
+          { name: '6 Months', value: 3 },
+          { name: '3 Months', value: 3 },
+  
+          { name: 'Month', value: 6 },
          
         ];
     
@@ -95,7 +97,7 @@ export class AddNewPlanComponent {
     if (this.price && this.discount) {
       this.finalPrice = this.price - this.price * (this.discount / 100);
     } else {
-      this.finalPrice = null;
+      this.finalPrice = 0;
     }
   }
 
@@ -105,8 +107,8 @@ export class AddNewPlanComponent {
 
     const formattedPlan = {
       plan_Name: this.planName,
-      plan_Type: this.selectedPlan?.name || null,
-      plan_Duration: this.selectedDuration?.name || null,
+      plan_Type: this.selectedPlan?.name || '',
+      plan_Duration: this.selectedDuration?.name || '',
       invitation_NOs: this.invitationNo,
       plan_Price: this.price,
       plan_Discount: this.discount,

@@ -51,4 +51,14 @@ export class PlansService {
         const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         return this.http.post<any>(`${environment.apiUrl}/Plans/AddNewPlan`, planData, { headers });
       }
+
+        /**
+   * Update a plan by ID
+   * @param planData The plan data to be updated
+   * @returns Observable<any>
+   */
+  updatePlan(planData: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(`${environment.apiUrl}/Plans/UpdatePlan`, planData, { headers });
+  }
 }

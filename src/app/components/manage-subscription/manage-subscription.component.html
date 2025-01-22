@@ -22,7 +22,7 @@
             <p-button
             label="Add New Plan"
             icon="pi pi-plus"
-            class="p-button-outlined custom-button"
+            class="p-button-outlined custom-button-plan"
             [routerLink]="'/add-new-plan'"
           ></p-button>
          </div>
@@ -71,7 +71,10 @@
           </span>
           <button class="edit-button">
             <!-- <i class="pi pi-pencil"></i> -->
-             <img src="community/edit.svg" />
+            <a [routerLink]="['/edit-plan', plan.id]">
+              <img src="community/edit.svg" alt="Edit" />
+            </a>
+            
           </button>
         </div>
       
@@ -104,100 +107,15 @@
       </p-card>
 
 
-      <p-card class="subscription-card" [style]="{'border-top':' 3px solid var(--Colors-Warning-500, #1151B4)'}" >
-        <div class="card-headerr">
-          <span class="plan-name">
-            <!-- <i class="pi pi-star" style="color: #1151B4; margin-right: 8px;"></i>  -->
-            <img src="community/calendarplan.svg" />
-
-            Semi- Annual
-          </span>
-          <button class="edit-button">
-            <!-- <i class="pi pi-pencil"></i> -->
-            <img src="community/edit.svg" />
-
-          </button>
-        </div>
-      
-        <div class="card-price">
-          <span class="price">€480</span>
-          <span class="duration">/ Year</span>
-        </div>
-      
-        <ul class="card-features">
-          <li><i class="pi pi-check-circle"></i> 10 guest passes per year</li>
-          <li><i class="pi pi-check-circle"></i> Access to gym and sports facilities</li>
-          <li><i class="pi pi-check-circle"></i> Free entry to club events</li>
-          <li><i class="pi pi-check-circle"></i> Discounts on classes and workshops</li>
-        </ul>
-      
-        <div class="card-footer">
-            <div class="footer-item">
-              <!-- <i class="pi pi-users"></i> -->
-               <img src="community/Usersplan.svg"/>
-              <div class="footer-text">Current Subscribers</div>
-              <div class="value">100</div>
-            </div>
-            <div style="width: 1px; height: 90px ;background-color: #E1E5EA;"></div>
-
-            <div class="footer-item">
-              <!-- <i class="pi pi-refresh"></i> -->
-               <img src="community/refreshplan.svg"/>
-              <div class="footer-text">Renewed Subscribers</div>
-              <div class="value">50</div>
-            </div>
-          </div>
-      </p-card>
+     
 
 
-      <p-card class="subscription-card" [style]="{'border-top':' 3px solid var(--Colors-Warning-500, #1CA65F)'}">
-        <div class="card-headerr">
-          <span class="plan-name">
-            <!-- <i class="pi pi-star" style="color: #1CA65F; margin-right: 8px;"></i> -->
-            <img src="community/monthlyplan.svg" />
-
-              
-             Monthly
-          </span>
-          <button class="edit-button">
-            <!-- <i class="pi pi-pencil"></i> -->
-            <img src="community/edit.svg" />
-
-          </button>
-        </div>
-      
-        <div class="card-price">
-          <span class="price">€480</span>
-          <span class="duration">/ Year</span>
-        </div>
-      
-        <ul class="card-features">
-          <li><i class="pi pi-check-circle"></i> 10 guest passes per year</li>
-          <li><i class="pi pi-check-circle"></i> Access to gym and sports facilities</li>
-          <li><i class="pi pi-check-circle"></i> Free entry to club events</li>
-          <li><i class="pi pi-check-circle"></i> Discounts on classes and workshops</li>
-        </ul>
-        <div class="card-footer">
-            <div class="footer-item"  >
-              <!-- <i class="pi pi-users"></i> -->
-               <img src="community/Usersplan.svg"/>
-              <div class="footer-text">Current Subscribers</div>
-              <div class="value">100</div>
-            </div>
-            <div style="width: 1px; height: 90px ;background-color: #E1E5EA;"></div>
-
-            <div class="footer-item">
-              <!-- <i class="pi pi-refresh"></i> -->
-               <img src="community/refreshplan.svg"/>
-              <div class="footer-text">Renewed Subscribers</div>
-              <div class="value">50</div>
-            </div>
-          </div>
-      </p-card>
+     
   </div>
                
               
           </p-tabPanel>
+  <!----------------------------------------------------------------------------------------------------->
           <p-tabPanel header="Header III">
               <ng-template pTemplate="header">
                   <div class="flex align-items-center gap-2">
@@ -210,6 +128,8 @@
               </ng-template>
      
           </p-tabPanel>
+  <!----------------------------------------------------------------------------------------------------->
+
           <p-tabPanel header="Header III">
             <ng-template pTemplate="header">
                 <div class="flex align-items-center gap-2">
@@ -234,7 +154,7 @@
                     <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
                     <i class="pi pi-search search-icon"></i>
                     <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
-                     <img src="filterplan.svg" style="margin-left: 24px; cursor: pointer;"/>
+                     <img src="filterplan.svg" (click)="openFilterDialog()"   style="margin-left: 24px; cursor: pointer;"/>
                   </div>
                 </div>
               
@@ -287,7 +207,21 @@
                       </td>
                       <td >
                         <div class="flex justify-content-between align-items-center gab-1">
-                          <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div>
+                          <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
+                          <div class="image-container">
+                            <img
+                              class="image-default"
+                              src="alertUser.svg"
+                              alt="Default Alert Icon"
+                            />
+                            <img
+                              class="image-hover"
+                              src="alertUserHover.svg"
+                              alt="Hover Alert Icon"
+                               
+                            />
+                          </div>
+                          
                         <div><img class="mr-2" style="cursor: pointer;" src="trashplan.svg"/></div>
                         </div>
                          
@@ -347,4 +281,105 @@
   
   
   
+  <!------------------------dialog for filter on Alert------------------->
+
+  <!-- <p-button (onClick)="openFilterDialog()" label="Show" /> -->
+  <p-dialog 
+  [(visible)]="displayFilter" 
+  header="Filter" 
+  [closable]="true" 
+  [modal]="true" 
+
+  [style]="{  overflow: 'visible' }"
+ 
+
+  class="responsive-dialog"
+  [contentStyle]="{ padding: '1rem', overflow: 'visible' }"
+>
+  <!-- Plan Type -->
+  <div class="mb-3">
+    <label for="planType" class="block font-bold mb-2">Plan Type</label>
+    <div class="flex flex-wrap gap-3">
+      <p-button
+        *ngFor="let type of planTypes"
+        [label]="type.label"
+        [ngClass]="{ 'p-button-outlined custom-button': type.selected, 'p-button-outlined custom-button-add': !type.selected }"
+        (click)="togglePlanType(type)"
+        [style]="{ width: 'auto',padding:'8px 16px'  }"
+        class="rounded-pill"
+      ></p-button>
+    </div>
+  </div>
   
+
+  <!-- Date Range -->
+  <div class="mb-3">
+    <label for="dateRange" class="block font-bold mb-2">Date (From-To)</label>
+    <p-calendar
+      [(ngModel)]="selectedDate"
+      [showIcon]="true"
+      inputId="dateRange"
+      placeholder="Enter date"
+     
+      class="custom-calendar"
+    ></p-calendar>
+  </div>
+
+  <!-- Buttons -->
+  <div class="flex justify-content-between align-items-center " style="margin-top: 35px;">
+    <div class=" ">
+      <p-button
+      label="Cancel"
+     
+      class="p-button-outlined custom-button"
+      
+    ></p-button>
+   </div>
+
+   <div class=" ">
+    <p-button
+    label="Apply"
+    
+    class="p-button-outlined custom-button-add"
+     (onClick)="showReminder()"
+  ></p-button>
+ </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+</p-dialog>
+
+<!------------------------------------------------------------------------->
+
+
+
+<p-dialog
+  [(visible)]="displayReminder"
+   
+  [modal]="true"
+  [style]="{ width: '400px' }"
+  [closable]="true"
+  [dismissableMask]="true"
+>
+  <div class="reminder-body">
+    <img src="successPopup.svg" class="mb-2" />
+    <p>
+      A notification has been sent to 
+      <span class="highlight">Ahmed Ali</span> 
+      as a reminder that the plan will 
+      <span class="highlight">Expire in 7 days</span>.
+    </p>
+  </div>
+</p-dialog>
+
+<!-- Trigger button -->
+<!-- <button pButton type="button" label="Show Reminder" (click)="showReminder()"></button> -->
+<!--------------------------------------------------------------------------------------------------->

@@ -22,7 +22,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/add-new-plan/add-new-plan.component').then(m => m.AddNewPlanComponent),
     canActivate: [AdminGuard]
   },
- 
+  {
+    path: 'edit-plan/:id',
+    loadComponent: () => import('./components/edit-plan/edit-plan.component').then(m => m.EditPlanComponent),
+    canActivate: [AdminGuard]
+  },
  
   
    

@@ -1,0 +1,164 @@
+<div class="parent">
+    <div class="fixDiv"></div>
+    <div class="page">
+      <p-breadcrumb class="max-w-full" [model]="items">
+        <ng-template pTemplate="item" let-item>
+            <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+                <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+                <span>{{ item.label }}</span>
+            </a>
+        </ng-template>
+      </p-breadcrumb>
+
+      <p-toast></p-toast>
+      <div class="content">
+        <p-card >
+          <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+                  <div class="flex flex-column gap-2 w-50">
+                    <label class="label" for="name">Name of Plan</label>
+                    <input 
+                        pInputText 
+                        id="name" 
+                        aria-describedby="username-help" 
+                        [(ngModel)]="planName"
+                        placeholder="Name of plan"
+                        #planNameInput="ngModel"
+                        required
+                      />
+                      <small *ngIf="planNameInput.invalid && planNameInput.touched" class="p-error">
+                        Plan Name is required.
+                      </small>
+                    
+                </div>
+                <div class="flex flex-column gap-2 w-50">
+                  <label class="label"  >Duration of Plan</label>
+                  <p-dropdown 
+                  [options]="durations" 
+                  [(ngModel)]="selectedDuration" 
+                  optionLabel="name" 
+                  placeholder="Duration of plan "   
+                  #durationInput="ngModel"
+                  required
+                ></p-dropdown>
+                <small *ngIf="durationInput.invalid && durationInput.touched" class="p-error">
+                  Plan Duration is required.
+                </small>
+              </div>
+          </div>
+<!-------------------------------------------------->
+          <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+                  <div class="flex flex-column gap-2 w-50">
+                    <label class="label"   >Type of Plan</label>
+                    <p-dropdown 
+                    [options]="plans" 
+                    [(ngModel)]="selectedPlan" 
+                    optionLabel="name" 
+                    placeholder="Type of plan "   
+                    #planTypeInput="ngModel"
+                    required
+                  ></p-dropdown>
+                  <small *ngIf="planTypeInput.invalid && planTypeInput.touched" class="p-error">
+                    Plan Type is required.
+                  </small>
+                  
+                </div>
+                <div class="flex flex-column gap-2 w-50">
+                  <label class="label" for="price">Price</label>
+                  <input 
+                      type="number"
+                      pInputText 
+                      id="price" 
+                      aria-describedby="username-help" 
+                      [(ngModel)]="price" 
+                      placeholder="price"
+                      #priceInput="ngModel"
+                      required
+                    />
+                    <small *ngIf="priceInput.invalid && priceInput.touched" class="p-error">
+                      Price is required.
+                    </small>
+                
+              </div>
+          </div>
+<!-------------------------------------------------->
+
+        <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+              <div class="flex flex-column gap-2 w-50">
+                <label class="label" for="discount">Discount %</label>
+                <input 
+                type="number"
+                    pInputText 
+                    id="discount" 
+                    aria-describedby="username-help" 
+                    [(ngModel)]="discount" 
+                    placeholder="Ratio of discount"/>
+                
+            </div>
+            <div class="flex flex-column gap-2 w-50">
+              <label class="label" for="finalprice">Final Price (After Discount)</label>
+              <input 
+              type="number"
+                  pInputText 
+                  id="finalprice" 
+                  aria-describedby="username-help" 
+                  [(ngModel)]="finalPrice" 
+                  placeholder="Final Price"/>
+             
+          </div>
+        </div>
+<!-------------------------------------------------->
+
+          <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+            <div class="flex flex-column gap-2 w-50">
+              <label class="label" for="invitation">Invitation Number</label>
+              <input 
+              type="number"
+                  pInputText 
+                  id="invitation" 
+                  aria-describedby="username-help" 
+                  [(ngModel)]="invitationNo"
+                  placeholder="Invitation Number" />
+            
+          </div>
+          
+          </div>
+<!-------------------------------------------------->
+<label class="label" for="invitation">Features</label>
+<div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+        
+            <textarea 
+                rows="5"
+                cols="30" 
+                pInputTextarea 
+                [(ngModel)]="features"
+                placeholder="Write feature of plan">
+            </textarea>
+
+            </div>
+
+
+            <div class="flex justify-content-end align-items-center gap-4 mx-4 " style="margin-top: 35px;">
+              <div class=" ">
+                <p-button
+                label="Cancel"
+               
+                class="p-button-outlined custom-button"
+                
+              ></p-button>
+             </div>
+
+             <div class=" ">
+              <p-button
+              label="Update"
+              
+              class="p-button-outlined custom-button-add"
+             (click)="submitPlan()"
+            ></p-button>
+           </div>
+            </div>
+
+      </p-card>
+      </div>
+
+</div>
+</div>
