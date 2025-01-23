@@ -33,73 +33,56 @@ import { PlansService } from '../../services/plans.service';
 import { CalendarModule } from 'primeng/calendar';
  
 import { CheckboxModule } from 'primeng/checkbox';
- 
 
 @Component({
-  selector: 'app-manage-subscription',
+  selector: 'app-activities',
   standalone: true,
   imports: [CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
 
-  templateUrl: './manage-subscription.component.html',
-  styleUrl: './manage-subscription.component.css'
+  providers: [MessageService],
+
+  templateUrl: './activities.component.html',
+  styleUrl: './activities.component.css'
 })
-export class ManageSubscriptionComponent {
+export class ActivitiesComponent {
   items:any[]=[];
 
   globalFilter: string = '';
   subscriptions: any[] = [];
   paymentRecords: any[] = [];
-  status: { label: string; value: string; class: string; selected: boolean;classF:string }[] = [
-    { label: 'All', value: 'all', class: 'custom-button-add', selected: false ,classF:'custom-button' },
-    { label: 'Success', value: 'success', class: 'p-tag-success', selected: false ,classF:''},
-    { label: 'Failed', value: 'failed', class: 'p-tag-danger', selected: false,classF:'' },
-    { label: 'Pending', value: 'pending', class: 'p-tag-warning', selected: false,classF:'selected-pending' },
+
+  status: { label: string; value: string; class: string; selected: boolean;  }[] = [
+    { label: 'All', value: 'all', class: 'custom-button-add', selected: false   },
+    { label: 'Workshop', value: 'workshop', class: 'p-tag-purble', selected: false  },
+    { label: 'Course', value: 'course', class: 'p-tag-info', selected: false  },
+    { label: 'Consultant', value: 'consultant', class: 'p-tag-danger', selected: false  },
+    { label: 'Event', value: 'event', class: 'p-tag-success', selected: false  },
+
   ];
   
+
+  //////////////////////activities////////////////////
+  activityTabs = [
+    { label: 'All', icon: 'pi pi-list', value: 'all' },
+    { label: 'Courses', icon: 'pi pi-book', value: 'course' },
+    { label: 'Workshop', icon: 'pi pi-cog', value: 'workshop' },
+    { label: 'Events', icon: 'pi pi-calendar', value: 'event' },
+    { label: 'Consultant', icon: 'pi pi-users', value: 'consultant' }
+  ];
+
+  activities = [
+    { title: 'Learn German: Beginner Level', type: 'Course', typeClass: 'p-tag-info', startDate: new Date(2025, 1, 12), endDate: new Date(2025, 1, 20), seatsAvailable: '5 Seat leave', bookings: '30/35' },
+    { title: 'Learn German: Beginner Level', type: 'Workshop', typeClass: 'p-tag-purble', startDate: new Date(2025, 1, 12), endDate: new Date(2025, 1, 20), seatsAvailable: '5 Seat leave', bookings: '30/35' },
+    { title: 'Learn German: Beginner Level', type: 'Event', typeClass: 'p-tag-success', startDate: new Date(2025, 1, 12), endDate: new Date(2025, 1, 20), seatsAvailable: '5 Seat leave', bookings: '30/35' },
+    { title: 'Learn German: Beginner Level', type: 'Consultant', typeClass: 'p-tag-danger', startDate: new Date(2025, 1, 12), endDate: new Date(2025, 1, 20), seatsAvailable: '5 Seat leave', bookings: '30/35' },
+  ];
 
  
   
 
 
   constructor(private plansService: PlansService) {
-    this.subscriptions = [
-      {
-        name: 'Ahmed Ali',
-        email: 'Ahmed.Ali@gmail.com',
-        phone: '+49 128 45987564',
-        planType: 'Monthly',
-        startDate: new Date(2025, 1, 12),
-        endDate: new Date(2025, 2, 12),
-        status: '7 Days Left'
-      },
-      {
-        name: 'Ahmed Ali',
-        email: 'Ahmed.Ali@gmail.com',
-        phone: '+49 128 45987564',
-        planType: 'Semi-Annual',
-        startDate: new Date(2025, 1, 12),
-        endDate: new Date(2025, 2, 12),
-        status: '7 Days Left'
-      },
-      {
-        name: 'Ahmed Ali',
-        email: 'Ahmed.Ali@gmail.com',
-        phone: '+49 128 45987564',
-        planType: 'Annual',
-        startDate: new Date(2025, 1, 12),
-        endDate: new Date(2025, 2, 12),
-        status: '7 Days Left'
-      },
-      {
-        name: 'Ahmed Ali',
-        email: 'Ahmed.Ali@gmail.com',
-        phone: '+49 128 45987564',
-        planType: 'Free Trial Month',
-        startDate: new Date(2025, 1, 12),
-        endDate: new Date(2025, 2, 12),
-        status: '7 Days Left'
-      }
-    ];
+   
 
     this.paymentRecords = [
       {
@@ -158,7 +141,7 @@ export class ManageSubscriptionComponent {
     this.items = [
       { label: 'Community Club', routerLink: '/dashboard' },
 
-      { label: 'Manage Subscription', routerLink: '/manage-subscription' },
+      { label: 'Activities', routerLink: '/activities' },
       
     ];
 

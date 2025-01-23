@@ -162,3 +162,31 @@
 
 </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+<p-dialog
+  [(visible)]="displayReminder"
+   
+  [modal]="true"
+  [style]="{ width: '400px' }"
+  [closable]="true"
+  [dismissableMask]="true"
+>
+  <div class="reminder-body">
+    <img src="successPopup.svg" class="mb-2" />
+    <p>
+      A notification has been sent to 
+      <span class="highlight">Ahmed Ali</span> 
+      as a reminder that the plan will 
+      <span class="highlight">Expire in 7 days</span>.
+    </p>
+  </div>
+</p-dialog>

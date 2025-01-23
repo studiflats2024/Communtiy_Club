@@ -27,6 +27,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/edit-plan/edit-plan.component').then(m => m.EditPlanComponent),
     canActivate: [AdminGuard]
   },
+  {
+    path: 'activities',
+    loadComponent: () => import('./components/activities/activities.component').then(m => m.ActivitiesComponent),
+    canActivate: [AdminGuard]
+  },
  
   
    

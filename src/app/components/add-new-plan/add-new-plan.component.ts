@@ -103,6 +103,17 @@ features: string = '';
 
   // Mock submit function to simulate API interaction
   submitPlan(): void {
+
+
+    if (!this.planName || !this.selectedPlan?.name || !this.selectedDuration?.name || !this.price  ) {
+      // Show error toast for validation failure
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'Please fill in all required fields before submitting.',
+      });
+      return; 
+    }
    
 
     const formattedPlan = {
@@ -139,5 +150,12 @@ features: string = '';
     });
   
      
+  }
+
+
+  displayReminder: boolean = false;
+
+  showReminder() {
+    this.displayReminder = true;
   }
 }

@@ -1035,6 +1035,38 @@ background: #D7F8E7 !important;
   background: #FDF8EC !important;
 }
 
+ 
+  
+  .p-tag-info {
+
+    color: var(--primary-color-600, #1151B4) !important;
+
+    display: flex;
+    height: 40px;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+   
+
+    border-radius: 16px;
+background: var(--primary-color-100, #E7EEF8) !important;
+  }
+
+
+  .p-tag-purble {
+
+    color: var(--primary-color-600, #4F1681) !important;
+
+    display: flex;
+    height: 40px;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+   
+
+    border-radius: 16px;
+background: var(--primary-color-100, #F9F0FD) !important;
+  }
 
 
 
@@ -1154,3 +1186,5 @@ background: #D7F8E7 !important;
   width: 100%;
 }
 /************************************************************************************/
+
+ 

@@ -1,7 +1,7 @@
 <div class="side-bar  bottom-0 start-0 z-index py-3 z-2 px-2 top-90 col-lg-2" [class.hide]="!showSidebar">
   <!--main navigation-->
 
-  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/"   [routerLinkActiveOptions]="{ exact: true }">
+  <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/dashboard"   [routerLinkActiveOptions]="{ exact: true }">
       <img src="./navigation/dashboard.svg"> Dashboard
   </a>
 <!--
@@ -28,7 +28,7 @@
   <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active"   :routerLink="#">
       <img src="./navigation/UserPlus.svg"> Invite Friends
   </a>
-  <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active"   :routerLink="#">
+  <a tabindex="1"  class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active"   :routerLink="/activities">
     <img src="./navigation/note-favorite.svg"> Activity
 </a>
   <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="#">
