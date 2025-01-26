@@ -1,0 +1,194 @@
+<div class="parent">
+    <div class="fixDiv"></div>
+    <div class="page">
+      <p-breadcrumb class="max-w-full" [model]="items">
+        <ng-template pTemplate="item" let-item>
+            <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+                <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+                <span>{{ item.label }}</span>
+            </a>
+        </ng-template>
+      </p-breadcrumb>
+  
+      <p-toast></p-toast>
+      <div class="content">
+        <p-card >
+
+
+
+            <div class="">
+                <div class="head" style="margin-bottom: 50px;">
+                  <p class="title">Image Upload </p>
+                  
+                </div>
+              
+                <!-- File Upload (Browse and Drag/Drop) -->
+                <p-fileUpload
+                  mode="advanced"
+                  name="demo[]"
+                  accept="image/*"
+                  maxFileSize="5000000"
+                  (onSelect)="onImageSelect($event)">
+              
+                  <ng-template pTemplate="content">
+                    <div style=" width:100%;text-align: center; padding: 20px; margin-top: 10px; padding-bottom:0;">
+                      <!-- Cloud Icon -->
+                      <!-- <i class="pi pi-cloud-upload" style="font-size: 48px; color: #b3b3b3;"></i> -->
+                       <img src="cloud-add.svg"/>
+              
+                      <!-- Text -->
+                      <p class="choosep">Choose a file or drag & drop it here</p>
+              
+                      <!-- Supported Formats -->
+                      <p class="imgtypes">
+                        JPEG, PNG, PDG, and MP4 formats, up to 50MB
+                      </p>
+                    </div>
+                  </ng-template>
+                  <!-- <ng-template pTemplate="chooseButtonLabel">
+                    <span>Browse File</span>
+                  </ng-template> -->
+                </p-fileUpload>
+              
+                <!-- Galleria Display -->
+                <p-galleria
+                  [value]="images"
+                  [circular]="true"
+                  [showThumbnails]="false"
+                  [responsiveOptions]="responsiveOptions"
+                  [containerStyle]="{'max-width': '640px'}"
+                  [numVisible]="5">
+                  <ng-template pTemplate="item" let-item>
+                    <img [src]="item.src" [alt]="item.alt" style="width: 100%;">
+                  </ng-template>
+                  <ng-template pTemplate="thumbnail" let-item>
+                    <img [src]="item.src" [alt]="item.alt" style="width: 50px; height: 50px;">
+                  </ng-template>
+                </p-galleria>
+              
+                <!-- Drag and Drop to Reorder -->
+                <!-- <h5>Reorder Images</h5> -->
+                <div class="image-list">
+                  <div
+                    *ngFor="let img of images; let i = index"
+                    class="item"
+                    pDraggable="true"
+                    (onDragStart)="onDragStart($event, img)"
+                    (onDragEnd)="onDragEnd($event)">
+              
+                    <div pDroppable="true" (onDrop)="onDrop($event, i)" (onDragEnter)="onDragEnter($event, i)">
+                      <img class="image-item" [src]="img.src" [alt]="img.alt"  >
+                      <div class="bin" (click)="removeImage(i)"><img src="bin.svg"/></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+<!-------------------------------------------------------------------------------------------------------->
+<div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+    <div class="flex flex-column gap-2 w-50">
+      <label class="label"   >Activity Type</label>
+      <p-dropdown 
+      [options]="activityTypes" 
+      [(ngModel)]="selectedActivityType" 
+      placeholder="Select Activity Type" 
+      optionLabel="label"
+      placeholder="Choose Activity Type "   
+      #activityTypeInput="ngModel"
+      required>
+    </p-dropdown>
+    
+    
+    <small *ngIf="activityTypeInput.invalid && activityTypeInput.touched" class="p-error">
+      Activity Type is required.
+    </small>
+    
+  </div>
+  <div class="flex flex-column gap-2 w-50">
+    <label class="label" for="name">Activity Title</label>
+    <input 
+        pInputText 
+        id="name" 
+        aria-describedby="username-help" 
+        [(ngModel)]="title"
+        placeholder="Name of plan"
+        #activityNameInput="ngModel"
+        required
+      />
+      <small *ngIf="activityNameInput.invalid && activityNameInput.touched" class="p-error">
+        Title is required.
+      </small>
+    
+</div>
+</div>
+  <!-------------------------------------------------->
+  <label class="label" for="invitation">Discription</label>
+  <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+        
+            <textarea 
+                rows="5"
+                cols="30" 
+                pInputTextarea 
+                [(ngModel)]="discription"
+                placeholder="Write discription of Activity">
+            </textarea>
+  
+            </div>
+  <!-------------------------------------------------->
+
+  <div class="flex flex-column gap-2 w-100">
+    <label class="label" for="loc">Location</label>
+    <input 
+        pInputText 
+        id="loc" 
+        aria-describedby="username-help" 
+        [(ngModel)]="location"
+        placeholder="Location of Activity"
+        #locInput="ngModel"
+        required
+      />
+      <small *ngIf="locInput.invalid && locInput.touched" class="p-error">
+        Location is required.
+      </small>
+    
+</div>
+<!------------------------------------------------------------------------------------------------------------------------>
+         
+  <!-------------------------------------------------->
+  
+       
+  <!-------------------------------------------------->
+  
+         
+ <!-------------------------------------------------------------------------------------->
+  
+  
+            <div class="flex justify-content-end align-items-center gap-4 mx-4 " style="margin-top: 35px;">
+              <div class=" ">
+                <p-button
+                label="Cancel"
+               
+                class="p-button-outlined custom-button"
+                
+              ></p-button>
+             </div>
+  
+             <div class=" ">
+              <p-button
+              label="Add"
+              
+              class="p-button-outlined custom-button-add"
+              
+            ></p-button>
+           </div>
+            </div>
+  
+      </p-card>
+      </div>
+  
+  </div>
+  </div>
+  
+  
+  
+  

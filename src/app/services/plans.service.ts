@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse , HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse , HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -60,5 +60,17 @@ export class PlansService {
   updatePlan(planData: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(`${environment.apiUrl}/Plans/UpdatePlan`, planData, { headers });
+  }
+
+   /**
+   * Deletes a plan by its ID.
+   * @param planId The UUID of the plan to delete.
+   * @returns An Observable of the response.
+   */
+   deletePlan(planId: string): Observable<any> {
+   
+    const params = new HttpParams().set('Plan_ID', planId);
+
+    return this.http.delete(`${environment.apiUrl}/Plans/DeletePlan`, { params });
   }
 }

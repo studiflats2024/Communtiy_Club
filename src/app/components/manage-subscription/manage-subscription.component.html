@@ -71,9 +71,18 @@
           </span>
           <button class="edit-button">
             <!-- <i class="pi pi-pencil"></i> -->
-            <a [routerLink]="['/edit-plan', plan.id]">
+            <!-- <a [routerLink]="['/edit-plan', plan.id]">
               <img src="community/edit.svg" alt="Edit" />
-            </a>
+            </a> -->
+            <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
+            <p-toast />   
+
+   <p-overlayPanel #op>
+    <ul class="menu-list p-0 m-0 list-unstyled" style="width: 200px; padding: 16px 0;">
+      <li><a [routerLink]="['/edit-plan', plan.id]" style="cursor: pointer; text-decoration: none; color:#363636" >Edit</a></li>
+      <li><a style="cursor: pointer; text-decoration: none; color:#363636" (click)="onDeletePlan(plan.id)" >Delete</a></li><!--(click)="deleteItem(course)"-->
+    </ul>
+  </p-overlayPanel>
             
           </button>
         </div>

@@ -32,6 +32,12 @@ export const routes: Routes = [
     loadComponent: () => import('./components/activities/activities.component').then(m => m.ActivitiesComponent),
     canActivate: [AdminGuard]
   },
+
+  {
+    path: 'add-new-activity',
+    loadComponent: () => import('./components/add-new-activity/add-new-activity.component').then(m => m.AddNewActivityComponent),
+    canActivate: [AdminGuard]
+  },
  
   
    

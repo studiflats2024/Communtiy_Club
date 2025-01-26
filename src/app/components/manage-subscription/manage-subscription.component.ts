@@ -33,13 +33,16 @@ import { PlansService } from '../../services/plans.service';
 import { CalendarModule } from 'primeng/calendar';
  
 import { CheckboxModule } from 'primeng/checkbox';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+
+
  
 
 @Component({
   selector: 'app-manage-subscription',
   standalone: true,
-  imports: [CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
-
+  imports: [OverlayPanelModule,CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
+  providers: [MessageService ],
   templateUrl: './manage-subscription.component.html',
   styleUrl: './manage-subscription.component.css'
 })
@@ -61,7 +64,7 @@ export class ManageSubscriptionComponent {
   
 
 
-  constructor(private plansService: PlansService) {
+  constructor(private plansService: PlansService, private messageService: MessageService) {
     this.subscriptions = [
       {
         name: 'Ahmed Ali',
@@ -165,6 +168,31 @@ export class ManageSubscriptionComponent {
     this.loadPlans();
 
     
+  }
+
+
+  onDeletePlan(planId: string): void {
+    this.plansService.deletePlan(planId).subscribe({
+      next: (response) => {
+        console.log('Plan deleted successfully:', response);
+    this.loadPlans();
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Plan deleted successfully',
+        });
+
+      },
+      error: (error) => {
+        console.error('Error deleting plan:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to delete the plan',
+        });
+      },
+    });
   }
 
 

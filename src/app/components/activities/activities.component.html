@@ -20,10 +20,10 @@
 
           <div class=" ">
             <p-button
-            label="Add New Plan"
+            label="Add New Activity"
             icon="pi pi-plus"
             class="p-button-outlined custom-button-plan"
-            [routerLink]="'/add-new-plan'"
+            [routerLink]="'/add-new-activity'"
           ></p-button>
          </div>
 
@@ -81,6 +81,7 @@
                             <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
                             <th>Seats Available</th>
                             <th>Bookings</th>
+                            <th>Status</th>
                             <th>Action</th>
                           </tr>
                       </ng-template>
@@ -94,6 +95,12 @@
                             <td>{{ activity.endDate | date: 'MMM d, y' }}</td>
                             <td><i class="pi pi-users" style="color: #1151B4"></i> {{ activity.seatsAvailable }}</td>
                             <td><i class="pi pi-ticket" style="color: #1151B4"></i> {{ activity.bookings }}</td>
+                            <td>
+                              <span class="status-tag" [ngClass]="getSeverity(activity.status)">
+                                <i [class]="getIcon(activity.status)" class="status-icon"></i>
+                                {{ activity.status }}
+                              </span>
+                            </td>
                             <td>
                               <!-- <button pButton icon="pi pi-eye" class="p-button-text"></button>
                               <button pButton icon="pi pi-pencil" class="p-button-text"></button>
@@ -110,7 +117,15 @@
                                  
                                 </div>
                                 
-                              <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg"/></div>
+                              <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
+
+                              <p-overlayPanel #op>
+                                <ul class="menu-list">
+                                  <li><a (click)="viewParticipants(activity)">View Participants</a></li>
+                                  <li><a (click)="viewDetails(activity)">View Details</a></li>
+                                  <li><a (click)="deleteItem(activity)">Delete</a></li>
+                                </ul>
+                              </p-overlayPanel>
                               </div>
                             </td>
                           </tr>
@@ -151,57 +166,119 @@
   
                   </div>
               </ng-template>
-  <div class="plan-cards">
-    <p-card class="subscription-card" *ngFor="let plan of plans">
-        <div class="card-headerr">
-          <span class="plan-name">
-            <!-- <i class="pi pi-star" style="color: gold; margin-right: 8px;"></i> -->
-            <img src="community/starplan.svg" />
-            {{ plan.plan_Name }}
-          </span>
-          <button class="edit-button">
-            <!-- <i class="pi pi-pencil"></i> -->
-            <a [routerLink]="['/edit-plan', plan.id]">
-              <img src="community/edit.svg" alt="Edit" />
-            </a>
+ <div>
+  <div class="p-card p-3" style="border-radius: 16px;" >
+    <div class="flex justify-content-between align-items-center mb-4">
+      <!-- <h2>Subscription Alerts</h2> -->
+       <div class="card-header"> </div>
+      <div class="p-inputgroup w-50" style=" position: relative;">
+        <!-- <span class="p-inputgroup-addon">
+          <i class="pi pi-search"></i>
+        </span> -->
+        <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
+        <i class="pi pi-search search-icon"></i>
+        <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
+         <img src="filterplan.svg" (click)="openFilterDialog()"   style="margin-left: 24px; cursor: pointer;"/>
+      </div>
+    </div>
+  
+    <p-table
+      #dt
+      [value]="courses"
+      [paginator]="true"
+      [rows]="10"
+      [globalFilterFields]="['sessionNumber','courseTitle', 'seatsAvailable','startDate','endDate','status']"
+      [filterDelay]="300"
+      [resizableColumns]="true"
+      [tableStyle]="{ 'min-width': '900px' }"
+      [showCurrentPageReport]="true"
+      [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
+      (onPage)="pageChange($event)"
+      [rowsPerPageOptions]="[5, 10, 20]"
+    >
+      <ng-template pTemplate="header">
+        
+          <tr>
+            <th pSortableColumn="courseTitle">Course Title <p-sortIcon field="courseTitle"></p-sortIcon></th>
+            <th pSortableColumn="sessionNumber">Session Number <p-sortIcon field="sessionNumber"></p-sortIcon></th>
+            <th pSortableColumn="startDate">Start Date <p-sortIcon field="startDate"></p-sortIcon></th>
+            <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
+            <th>Seats Available</th>
+            <th>Bookings</th>
+            <th>Status</th>
+            <th>Action</th>
+
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-course>
+        <tr>
             
-          </button>
-        </div>
+
+            <td>{{ course.courseTitle }}</td>
+            <td>{{ course.sessionNumber }}</td>
+            <td>{{ course.startDate | date: 'MMM d, y' }}</td>
+            <td>{{ course.endDate | date: 'MMM d, y' }}</td>
       
-        <div class="card-price">
-          <span class="price">€{{ plan.plan_Price }}</span>
-          <span class="duration">/ {{ plan.plan_Duration }}</span>
-        </div>
-      
-        <ul class="card-features">
-          <li *ngFor="let feature of plan.plan_Features">
-            <i class="pi pi-check-circle"></i> {{ feature }}
-          </li>
-        </ul>
-      
-        <div class="card-footer">
-            <div class="footer-item">
-              <!-- <i class="pi pi-users"></i> -->
-               <img src="community/Usersplan.svg"/>
-              <div class="footer-text">Current Subscribers</div>
-              <div class="value">{{ plan.current_Subscripers }}</div>
+            <td><i class="pi pi-users" style="color: #1151B4"></i> {{ course.seatsAvailable }}</td>
+            <td><i class="pi pi-ticket" style="color: #1151B4"></i> {{ course.bookings }}</td>
+            <td>
+              <span class="status-tag" [ngClass]="getSeverity(course.status)">
+                <i [class]="getIcon(course.status)" class="status-icon"></i>
+                {{ course.status }}
+              </span>
+            </td>
+            <td>
+              <!-- <button pButton icon="pi pi-eye" class="p-button-text"></button>
+              <button pButton icon="pi pi-pencil" class="p-button-text"></button>
+              <button pButton icon="pi pi-ellipsis-v" class="p-button-text"></button> -->
+              <div class="flex justify-content-between align-items-center gab-1">
+                <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
+                <div >
+                  <img
+                    class="image-default"
+                    src="editActivity.svg"
+                    alt="Default Alert Icon"
+                    style="cursor: pointer;"
+                  />
+                 
+                </div>
+                
+              <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
+
+              <p-overlayPanel #op>
+                <ul class="menu-list">
+                  <li><a (click)="viewParticipants(course)">View Participants</a></li>
+                  <li><a (click)="viewDetails(course)">View Course Details</a></li>
+                  <li><a (click)="viewDetails(course)">Display on App Home</a></li>
+                  <li><a (click)="openPublishDialog()">Publish</a></li>
+                  <li><a (click)="deleteItem(course)">Delete</a></li>
+                </ul>
+              </p-overlayPanel>
+              </div>
+            </td>
+          </tr>
+      </ng-template>
+      <!-- <ng-template pTemplate="footer">
+        <tr>
+          <td colspan="7">
+            <div class="p-paginator-custom">
+              <p-paginator
+                [rows]="10"
+                [totalRecords]="40"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Show {rows} From {totalRecords}"
+                
+              ></p-paginator>
             </div>
-            <div style="width: 1px; height: 90px ;background-color: #E1E5EA;"></div>
-            <div class="footer-item">
-              <!-- <i class="pi pi-refresh"></i> -->
-               <img src="community/refreshplan.svg"/>
-              <div class="footer-text">Renewed Subscribers</div>
-              <div class="value">{{ plan.renewed_Subscripers }}</div>
-            </div>
-          </div>
-      </p-card>
-
-
-     
-
-
-     
+            
+          </td>
+        </tr>
+      </ng-template> -->
+    </p-table>
   </div>
+  
+</div>
                
               
           </p-tabPanel>
@@ -221,7 +298,7 @@
                 <div class="p-card p-3" style="border-radius: 16px;" >
                   <div class="flex justify-content-between align-items-center mb-4">
                     <!-- <h2>Subscription Alerts</h2> -->
-                     <div class="card-header">Payment Records</div>
+                     <div class="card-header"> </div>
                     <div class="p-inputgroup w-50" style=" position: relative;">
                       <!-- <span class="p-inputgroup-addon">
                         <i class="pi pi-search"></i>
@@ -235,10 +312,10 @@
                 
                   <p-table
                     #dt
-                    [value]="paymentRecords"
+                    [value]="courses"
                     [paginator]="true"
                     [rows]="10"
-                    [globalFilterFields]="['name', 'email', 'phone', 'planType']"
+                    [globalFilterFields]="['sessionNumber','courseTitle', 'seatsAvailable','startDate','endDate','status']"
                     [filterDelay]="300"
                     [resizableColumns]="true"
                     [tableStyle]="{ 'min-width': '900px' }"
@@ -248,119 +325,66 @@
                     [rowsPerPageOptions]="[5, 10, 20]"
                   >
                     <ng-template pTemplate="header">
-                      <tr>
-                        <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                        <th>Phone Number</th>
-                        <th pSortableColumn="startDate">Date <p-sortIcon field="startDate"></p-sortIcon></th>
-                        
-                        <th>Plan Type</th>
-                          
-                        <th>Amount</th>
-                        <th>Payment By</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
+                      
+                        <tr>
+                          <th pSortableColumn="courseTitle">Course Title <p-sortIcon field="courseTitle"></p-sortIcon></th>
+                          <th pSortableColumn="sessionNumber">Session Number <p-sortIcon field="sessionNumber"></p-sortIcon></th>
+                          <th pSortableColumn="startDate">Start Date <p-sortIcon field="startDate"></p-sortIcon></th>
+                          <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
+                          <th>Seats Available</th>
+                          <th>Bookings</th>
+                          <th>Status</th>
+                          <th>Action</th>
+              
+                        </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-payment>
+                    <ng-template pTemplate="body" let-course>
                       <tr>
-                        <td>
-                          <div>
-                            <strong>{{ payment.name }}</strong>
-                            <p>{{ payment.email }}</p>
-                          </div>
-                        </td>
-                        <td>{{ payment.phone }}</td>
-                        <!-- <td>{{ record.date | date: 'MMM d, yyyy' }}</td> -->
-                        <td>{{ payment.date | date: 'MMM d, yyyy' }}</td>
-
-                        
-                        <td>
-                          <!-- <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="p-tag">{{ subscription.planType }}</span> -->
-                          <span [ngClass]="getPlanBadgeClass(payment.planType)" class="badge">
-                            <i [ngClass]="getPlanIcon(payment.planType)" class="icon"></i>
-                            {{ payment.planType }}
-                          </span>
-                        
-                        </td>
-                        <td>{{ payment.amount ? '€' + payment.amount : '-' }}</td>
-                        <!-- <td>{{ payment.paymentBy }}</td> -------------------------------------------------------------------------------->
-                        <td class="text-center">
-                          <div class="payment-method">
-                            <ng-container [ngSwitch]="payment.paymentBy">
-                              <!-- Cash -->
-                              <div *ngSwitchCase="'Cash'" class="payment-icon">
-                                <img src="cashPay.svg" alt="Cash" />
-                                <!-- <span>Cash</span> -->
-                              </div>
-                        
-                              <!-- Stripe -->
-                              <div *ngSwitchCase="'Stripe'" class="payment-icon">
-                                <img src="stripePay.svg" alt="Stripe" />
-                                
-                              </div>
-                        
-                              <!-- MasterCard -->
-                              <div *ngSwitchCase="'MasterCard'" class="payment-icon">
-                                <img src="mastercardPay.svg" alt="MasterCard" />
-                                
-                              </div>
-                        
-                              <!-- Visa -->
-                              <div *ngSwitchCase="'Visa'" class="payment-icon">
-                                <img src="visaPay.svg" alt="Visa" />
-                                
-                              </div>
-                        
-                              <!-- PayPal -->
-                              <div *ngSwitchCase="'PayPal'" class="payment-icon">
-                                <img src="paypal.svg" alt="PayPal" />
-                                
-                              </div>
-                        
-                              <!-- Default case -->
-                              <div *ngSwitchDefault class="payment-icon">
-                                <span>{{ payment.paymentBy }}</span>
-                              </div>
-                            </ng-container>
-                          </div>
-                        </td>
-                        
-                        <!-------------------------------------------------------------------------------------------------------------------->
-
-                        <td>
-                          <span
-                            class="p-tag status-tag"
-                            [ngClass]="{
-                              'p-tag-success': payment.status === 'Success',
-                              'p-tag-danger': payment.status === 'Failed',
-                              'p-tag-warning': payment.status === 'Pending'
-                            }"
-                          >
-                            {{ payment.status }}
-                          </span>
-                        </td>
-                        
-
-                        <td >
-                          <div class="flex justify-content-between align-items-center gab-3">
-                            <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
-                            <div class=" ">
-                              <img
-                                class="image-default"
-                                src="viewPay.svg"
-                                alt="Default Alert Icon"
-                              />
+                          
+              
+                          <td>{{ course.courseTitle }}</td>
+                          <td>{{ course.sessionNumber }}</td>
+                          <td>{{ course.startDate | date: 'MMM d, y' }}</td>
+                          <td>{{ course.endDate | date: 'MMM d, y' }}</td>
+                    
+                          <td><i class="pi pi-users" style="color: #1151B4"></i> {{ course.seatsAvailable }}</td>
+                          <td><i class="pi pi-ticket" style="color: #1151B4"></i> {{ course.bookings }}</td>
+                          <td>
+                            <span class="status-tag" [ngClass]="getSeverity(course.status)">
+                              <i [class]="getIcon(course.status)" class="status-icon"></i>
+                              {{ course.status }}
+                            </span>
+                          </td>
+                          <td>
+                            <!-- <button pButton icon="pi pi-eye" class="p-button-text"></button>
+                            <button pButton icon="pi pi-pencil" class="p-button-text"></button>
+                            <button pButton icon="pi pi-ellipsis-v" class="p-button-text"></button> -->
+                            <div class="flex justify-content-between align-items-center gab-1">
+                              <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
+                              <div >
+                                <img
+                                  class="image-default"
+                                  src="editActivity.svg"
+                                  alt="Default Alert Icon"
+                                  style="cursor: pointer;"
+                                />
                                
+                              </div>
+                              
+                            <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
+              
+                            <p-overlayPanel #op>
+                              <ul class="menu-list">
+                                <li><a (click)="viewParticipants(course)">View Participants</a></li>
+                                <li><a (click)="viewDetails(course)">View Course Details</a></li>
+                                <li><a (click)="viewDetails(course)">Display on App Home</a></li>
+                                <li><a (click)="openPublishDialog()">Publish</a></li>
+                                <li><a (click)="deleteItem(course)">Delete</a></li>
+                              </ul>
+                            </p-overlayPanel>
                             </div>
-                            
-                          <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg"/></div>
-                          </div>
-                           
-  
-                          <!-- <button pButton icon="pi pi-bell" class="p-button-rounded p-button-info p-mr-2"></button> -->
-                          <!-- <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger"></button> -->
-                        </td>
-                      </tr>
+                          </td>
+                        </tr>
                     </ng-template>
                     <!-- <ng-template pTemplate="footer">
                       <tr>
@@ -403,7 +427,7 @@
               <div class="p-card p-3" style="border-radius: 16px;" >
                 <div class="flex justify-content-between align-items-center mb-4">
                   <!-- <h2>Subscription Alerts</h2> -->
-                   <div class="card-header">Subscription Alerts</div>
+                   <div class="card-header"> </div>
                   <div class="p-inputgroup w-50" style=" position: relative;">
                     <!-- <span class="p-inputgroup-addon">
                       <i class="pi pi-search"></i>
@@ -417,10 +441,10 @@
               
                 <p-table
                   #dt
-                  [value]="subscriptions"
+                  [value]="courses"
                   [paginator]="true"
                   [rows]="10"
-                  [globalFilterFields]="['name', 'email', 'phone', 'planType']"
+                  [globalFilterFields]="['sessionNumber','courseTitle', 'seatsAvailable','startDate','endDate','status']"
                   [filterDelay]="300"
                   [resizableColumns]="true"
                   [tableStyle]="{ 'min-width': '900px' }"
@@ -430,59 +454,66 @@
                   [rowsPerPageOptions]="[5, 10, 20]"
                 >
                   <ng-template pTemplate="header">
-                    <tr>
-                      <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                      <th>Phone Number</th>
-                      <th pSortableColumn="planType">Plan Type <p-sortIcon field="planType"></p-sortIcon></th>
-                      <th pSortableColumn="startDate">Start Date <p-sortIcon field="startDate"></p-sortIcon></th>
-                      <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
+                    
+                      <tr>
+                        <th pSortableColumn="courseTitle">Course Title <p-sortIcon field="courseTitle"></p-sortIcon></th>
+                        <th pSortableColumn="sessionNumber">Session Number <p-sortIcon field="sessionNumber"></p-sortIcon></th>
+                        <th pSortableColumn="startDate">Start Date <p-sortIcon field="startDate"></p-sortIcon></th>
+                        <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
+                        <th>Seats Available</th>
+                        <th>Bookings</th>
+                        <th>Status</th>
+                        <th>Action</th>
+            
+                      </tr>
                   </ng-template>
-                  <ng-template pTemplate="body" let-subscription>
+                  <ng-template pTemplate="body" let-course>
                     <tr>
-                      <td>
-                        <div>
-                          <strong>{{ subscription.name }}</strong>
-                          <p>{{ subscription.email }}</p>
-                        </div>
-                      </td>
-                      <td>{{ subscription.phone }}</td>
-                      <td>
-                        <!-- <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="p-tag">{{ subscription.planType }}</span> -->
-                        <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="badge">
-                          <i [ngClass]="getPlanIcon(subscription.planType)" class="icon"></i>
-                          {{ subscription.planType }}
-                        </span>
-                      
-                      </td>
-                      <td>{{ subscription.startDate | date: 'MMM d, yyyy' }}</td>
-                      <td>{{ subscription.endDate | date: 'MMM d, yyyy' }}</td>
-                      <td>
-                        <span class=""><img class="mr-2" src="alertStatus.svg"/>{{ subscription.status }}</span>
-                      </td>
-                      <td >
-                        <div class="flex justify-content-between align-items-center gab-1">
-                          <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
-                          <div >
-                            <img
-                              class="image-default"
-                              src="editActivity.svg"
-                              alt="Default Alert Icon"
-                              style="cursor: pointer;"
-                            />
-                           
+                        
+            
+                        <td>{{ course.courseTitle }}</td>
+                        <td>{{ course.sessionNumber }}</td>
+                        <td>{{ course.startDate | date: 'MMM d, y' }}</td>
+                        <td>{{ course.endDate | date: 'MMM d, y' }}</td>
+                  
+                        <td><i class="pi pi-users" style="color: #1151B4"></i> {{ course.seatsAvailable }}</td>
+                        <td><i class="pi pi-ticket" style="color: #1151B4"></i> {{ course.bookings }}</td>
+                        <td>
+                          <span class="status-tag" [ngClass]="getSeverity(course.status)">
+                            <i [class]="getIcon(course.status)" class="status-icon"></i>
+                            {{ course.status }}
+                          </span>
+                        </td>
+                        <td>
+                          <!-- <button pButton icon="pi pi-eye" class="p-button-text"></button>
+                          <button pButton icon="pi pi-pencil" class="p-button-text"></button>
+                          <button pButton icon="pi pi-ellipsis-v" class="p-button-text"></button> -->
+                          <div class="flex justify-content-between align-items-center gab-1">
+                            <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
+                            <div >
+                              <img
+                                class="image-default"
+                                src="editActivity.svg"
+                                alt="Default Alert Icon"
+                                style="cursor: pointer;"
+                              />
+                             
+                            </div>
+                            
+                          <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
+            
+                          <p-overlayPanel #op>
+                            <ul class="menu-list">
+                              <li><a (click)="viewParticipants(course)">View Participants</a></li>
+                              <li><a (click)="viewDetails(course)">View Course Details</a></li>
+                              <li><a (click)="viewDetails(course)">Display on App Home</a></li>
+                              <li><a (click)="openPublishDialog()">Publish</a></li>
+                              <li><a (click)="deleteItem(course)">Delete</a></li>
+                            </ul>
+                          </p-overlayPanel>
                           </div>
-                          
-                        <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg"/></div>
-                        </div>
-                         
-
-                        <!-- <button pButton icon="pi pi-bell" class="p-button-rounded p-button-info p-mr-2"></button> -->
-                        <!-- <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger"></button> -->
-                      </td>
-                    </tr>
+                        </td>
+                      </tr>
                   </ng-template>
                   <!-- <ng-template pTemplate="footer">
                     <tr>
@@ -525,7 +556,7 @@
               <div class="p-card p-3" style="border-radius: 16px;" >
                 <div class="flex justify-content-between align-items-center mb-4">
                   <!-- <h2>Subscription Alerts</h2> -->
-                   <div class="card-header">Subscription Alerts</div>
+                   <div class="card-header"> </div>
                   <div class="p-inputgroup w-50" style=" position: relative;">
                     <!-- <span class="p-inputgroup-addon">
                       <i class="pi pi-search"></i>
@@ -539,10 +570,10 @@
               
                 <p-table
                   #dt
-                  [value]="subscriptions"
+                  [value]="courses"
                   [paginator]="true"
                   [rows]="10"
-                  [globalFilterFields]="['name', 'email', 'phone', 'planType']"
+                  [globalFilterFields]="['sessionNumber','courseTitle', 'seatsAvailable','startDate','endDate','status']"
                   [filterDelay]="300"
                   [resizableColumns]="true"
                   [tableStyle]="{ 'min-width': '900px' }"
@@ -552,63 +583,66 @@
                   [rowsPerPageOptions]="[5, 10, 20]"
                 >
                   <ng-template pTemplate="header">
-                    <tr>
-                      <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                      <th>Phone Number</th>
-                      <th pSortableColumn="planType">Plan Type <p-sortIcon field="planType"></p-sortIcon></th>
-                      <th pSortableColumn="startDate">Start Date <p-sortIcon field="startDate"></p-sortIcon></th>
-                      <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
+                    
+                      <tr>
+                        <th pSortableColumn="courseTitle">Course Title <p-sortIcon field="courseTitle"></p-sortIcon></th>
+                        <th pSortableColumn="sessionNumber">Session Number <p-sortIcon field="sessionNumber"></p-sortIcon></th>
+                        <th pSortableColumn="startDate">Start Date <p-sortIcon field="startDate"></p-sortIcon></th>
+                        <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
+                        <th>Seats Available</th>
+                        <th>Bookings</th>
+                        <th>Status</th>
+                        <th>Action</th>
+            
+                      </tr>
                   </ng-template>
-                  <ng-template pTemplate="body" let-subscription>
+                  <ng-template pTemplate="body" let-course>
                     <tr>
-                      <td>
-                        <div>
-                          <strong>{{ subscription.name }}</strong>
-                          <p>{{ subscription.email }}</p>
-                        </div>
-                      </td>
-                      <td>{{ subscription.phone }}</td>
-                      <td>
-                        <!-- <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="p-tag">{{ subscription.planType }}</span> -->
-                        <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="badge">
-                          <i [ngClass]="getPlanIcon(subscription.planType)" class="icon"></i>
-                          {{ subscription.planType }}
-                        </span>
-                      
-                      </td>
-                      <td>{{ subscription.startDate | date: 'MMM d, yyyy' }}</td>
-                      <td>{{ subscription.endDate | date: 'MMM d, yyyy' }}</td>
-                      <td>
-                        <span class=""><img class="mr-2" src="alertStatus.svg"/>{{ subscription.status }}</span>
-                      </td>
-                      <td >
-                        <div class="flex justify-content-between align-items-center gab-1">
-                          <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
-                          <div class="image-container">
-                            <img
-                              class="image-default"
-                              src="alertUser.svg"
-                              alt="Default Alert Icon"
-                            />
-                            <img
-                              class="image-hover"
-                              src="alertUserHover.svg"
-                              alt="Hover Alert Icon"
-                               
-                            />
+                        
+            
+                        <td>{{ course.courseTitle }}</td>
+                        <td>{{ course.sessionNumber }}</td>
+                        <td>{{ course.startDate | date: 'MMM d, y' }}</td>
+                        <td>{{ course.endDate | date: 'MMM d, y' }}</td>
+                  
+                        <td><i class="pi pi-users" style="color: #1151B4"></i> {{ course.seatsAvailable }}</td>
+                        <td><i class="pi pi-ticket" style="color: #1151B4"></i> {{ course.bookings }}</td>
+                        <td>
+                          <span class="status-tag" [ngClass]="getSeverity(course.status)">
+                            <i [class]="getIcon(course.status)" class="status-icon"></i>
+                            {{ course.status }}
+                          </span>
+                        </td>
+                        <td>
+                          <!-- <button pButton icon="pi pi-eye" class="p-button-text"></button>
+                          <button pButton icon="pi pi-pencil" class="p-button-text"></button>
+                          <button pButton icon="pi pi-ellipsis-v" class="p-button-text"></button> -->
+                          <div class="flex justify-content-between align-items-center gab-1">
+                            <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
+                            <div >
+                              <img
+                                class="image-default"
+                                src="editActivity.svg"
+                                alt="Default Alert Icon"
+                                style="cursor: pointer;"
+                              />
+                             
+                            </div>
+                            
+                          <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
+            
+                          <p-overlayPanel #op>
+                            <ul class="menu-list">
+                              <li><a (click)="viewParticipants(course)">View Participants</a></li>
+                              <li><a (click)="viewDetails(course)">View Course Details</a></li>
+                              <li><a (click)="viewDetails(course)">Display on App Home</a></li>
+                              <li><a (click)="openPublishDialog()">Publish</a></li>
+                              <li><a (click)="openCancelDialog()">Delete</a></li>
+                            </ul>
+                          </p-overlayPanel>
                           </div>
-                          
-                        <div><img class="mr-2" style="cursor: pointer;" src="trashplan.svg"/></div>
-                        </div>
-                         
-
-                        <!-- <button pButton icon="pi pi-bell" class="p-button-rounded p-button-info p-mr-2"></button> -->
-                        <!-- <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger"></button> -->
-                      </td>
-                    </tr>
+                        </td>
+                      </tr>
                   </ng-template>
                   <!-- <ng-template pTemplate="footer">
                     <tr>
@@ -792,7 +826,7 @@ class="responsive-dialog"
     <div *ngFor="let type of status"  >
       <button
         type="button"
-        class="status-tag border-0"
+        class="activity border-0"
         [ngClass]="{
           'selected-success': type.selected && type.value === 'event',
           'p-tag-success': !type.selected && type.value === 'event',
@@ -800,13 +834,13 @@ class="responsive-dialog"
           'selected-failed': type.selected && type.value === 'consultant',
           'p-tag-danger': !type.selected && type.value === 'consultant',
   
-          'selected-pending': type.selected && type.value === 'workshop',
-          'p-tag-warning': !type.selected && type.value === 'workshop',
+          'selected-purble': type.selected && type.value === 'workshop',
+          'p-tag-purble': !type.selected && type.value === 'workshop',
   
           'selected-all': type.selected && type.value === 'all',
           'not-all': !type.selected && type.value === 'all',
 
-          '': type.selected && type.value === 'course',
+          'selected-info': type.selected && type.value === 'course',
           'p-tag-info': !type.selected && type.value === 'course',
   
         }"
@@ -869,4 +903,108 @@ class="responsive-dialog"
 
 </p-dialog>
 
-<!-------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------dialog for success publish---------------------------------------------------------------------->
+
+<p-dialog 
+    [(visible)]="showPublishDialog" 
+    [modal]="true" 
+    class="custom-header" 
+    [style]="{ width: '400px' }"
+  [closable]="true"
+  [dismissableMask]="true"
+      
+    [contentStyle]="{ 'text-align': 'center', 'padding': '1rem' }">
+  <div>
+    <img src="publishCourse.svg" alt="Warning Icon" width="50" height="50" />
+    <div class=" tx-success mt-3">Are you sure you want to Publish the course?</div>
+    <div class="dialog-buttons mt-4">
+       
+
+
+
+      <div class="flex justify-content-between align-items-center " style="margin-top: 35px;">
+        <div class=" ">
+          <p-button
+          label="No"
+         
+          class="p-button-outlined custom-button"
+          (click)="onCancel()"
+        ></p-button>
+       </div>
+      
+       <div class=" ">
+        <p-button
+        label="Yes"
+        
+        class="p-button-outlined custom-button-add"
+        (click)="onConfirm()"
+      ></p-button>
+      </div>
+      </div>
+
+
+ 
+    </div>
+  </div>
+</p-dialog>
+
+
+
+<!-----------------------------cancel consultant-------------------------------->
+<p-dialog 
+    [(visible)]="showCancelDialog" 
+    header="Cancel Consultant" 
+    [modal]="true" 
+    [closable]="true" 
+    [contentStyle]="{ 'padding': '1rem' }"
+    [style]="{ 'width': '600px' }">
+    <div class="session-item">
+      <div *ngFor="let session of sessions"  >
+        <div class="flex align-items-center gap-2">
+          <p-checkbox [(ngModel)]="session.selected" binary="true"></p-checkbox>
+          <span>{{ session.day }}</span>
+        </div>
+        <div class="flex align-items-center mt-2 gap-4">
+          <div class=" flex justify-content-start align-items-center gab-2 border-end pr-4">
+            <i class="pi pi-clock" style="color: #1151B4"></i>
+            <span>{{ session.time }}</span>
+          </div>
+           
+          <div class=" flex justify-content-start align-items-center gab-2 border-end pr-4">
+            <i class="pi pi-ticket" style="color: #1151B4"></i>
+             <span>{{ session.bookings }}</span>
+          </div>
+           
+          <span class="duration-text">{{ session.duration }}</span>
+        </div>
+        <hr *ngIf="session !== sessions[sessions.length - 1]" />
+      </div>
+
+      
+      <div class="flex justify-content-between align-items-center " style="margin-top: 35px;">
+        <div class=" ">
+          <p-button
+          label="Cancel"
+         
+          class="p-button-outlined custom-button"
+          (click)="onCancel()"
+        ></p-button>
+       </div>
+      
+       <div class=" ">
+        <p-button
+        label="Save"
+        
+        class="p-button-outlined custom-button-add"
+        (click)="onConfirm()"
+      ></p-button>
+      </div>
+      </div>
+    </div>
+ 
+</p-dialog>
+
+
+
+
+

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component,HostListener } from '@angular/core';
+import {ChangeDetectionStrategy, Component,HostListener,forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';  // Provides ngIf, ngFor
 import { FormsModule } from '@angular/forms';    // Provides ngModel, form directives
 
@@ -33,13 +33,18 @@ import { PlansService } from '../../services/plans.service';
 import { CalendarModule } from 'primeng/calendar';
  
 import { CheckboxModule } from 'primeng/checkbox';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+
+ 
+
+ 
 
 @Component({
   selector: 'app-activities',
   standalone: true,
-  imports: [CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
+  imports: [CheckboxModule,OverlayPanelModule, CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
 
-  providers: [MessageService],
+  providers: [MessageService ],
 
   templateUrl: './activities.component.html',
   styleUrl: './activities.component.css'
@@ -71,11 +76,61 @@ export class ActivitiesComponent {
   ];
 
   activities = [
-    { title: 'Learn German: Beginner Level', type: 'Course', typeClass: 'p-tag-info', startDate: new Date(2025, 1, 12), endDate: new Date(2025, 1, 20), seatsAvailable: '5 Seat leave', bookings: '30/35' },
-    { title: 'Learn German: Beginner Level', type: 'Workshop', typeClass: 'p-tag-purble', startDate: new Date(2025, 1, 12), endDate: new Date(2025, 1, 20), seatsAvailable: '5 Seat leave', bookings: '30/35' },
-    { title: 'Learn German: Beginner Level', type: 'Event', typeClass: 'p-tag-success', startDate: new Date(2025, 1, 12), endDate: new Date(2025, 1, 20), seatsAvailable: '5 Seat leave', bookings: '30/35' },
-    { title: 'Learn German: Beginner Level', type: 'Consultant', typeClass: 'p-tag-danger', startDate: new Date(2025, 1, 12), endDate: new Date(2025, 1, 20), seatsAvailable: '5 Seat leave', bookings: '30/35' },
+    { title: 'Learn German: Beginner Level', type: 'Course', typeClass: 'p-tag-info', startDate: new Date(2025, 1, 12), endDate: new Date(2025, 1, 20), seatsAvailable: '5 Seat leave', bookings: '30/35',status: 'Published' },
+    { title: 'Learn German: Beginner Level', type: 'Workshop', typeClass: 'p-tag-purble', startDate: new Date(2025, 1, 12), endDate: new Date(2025, 1, 20), seatsAvailable: '5 Seat leave', bookings: '30/35',status: 'Not Publish' },
+    { title: 'Learn German: Beginner Level', type: 'Event', typeClass: 'p-tag-success', startDate: new Date(2025, 1, 12), endDate: new Date(2025, 1, 20), seatsAvailable: '5 Seat leave', bookings: '30/35',status: 'Published' },
+    { title: 'Learn German: Beginner Level', type: 'Consultant', typeClass: 'p-tag-danger', startDate: new Date(2025, 1, 12), endDate: new Date(2025, 1, 20), seatsAvailable: '5 Seat leave', bookings: '30/35' ,status: 'Not Publish'},
   ];
+
+
+  courses = [
+    {
+      courseTitle: "Learn German: Beginner Level",
+      sessionNumber: "5 Sessions",
+      startDate: "Feb 12, 2025",
+      endDate: "Feb 20, 2025",
+      seatsAvailable: "5 Seat leave",
+      bookings: "30/35",
+      status: "Published",
+    },
+    {
+      courseTitle: "Learn German: Beginner Level",
+      sessionNumber: "5 Sessions",
+      startDate: "Feb 12, 2025",
+      endDate: "Feb 20, 2025",
+      seatsAvailable: "5 Seat leave",
+      bookings: "30/35",
+      status: "Not Publish",
+    },
+    {
+      courseTitle: "Learn German: Beginner Level",
+      sessionNumber: "5 Sessions",
+      startDate: "Feb 12, 2025",
+      endDate: "Feb 20, 2025",
+      seatsAvailable: "5 Seat leave",
+      bookings: "30/35",
+      status: "Published",
+    },
+    {
+      courseTitle: "Learn German: Beginner Level",
+      sessionNumber: "5 Sessions",
+      startDate: "Feb 12, 2025",
+      endDate: "Feb 20, 2025",
+      seatsAvailable: "5 Seat leave",
+      bookings: "30/35",
+      status: "Not Publish",
+    },
+    {
+      courseTitle: "Learn German: Beginner Level",
+      sessionNumber: "5 Sessions",
+      startDate: "Feb 12, 2025",
+      endDate: "Feb 20, 2025",
+      seatsAvailable: "5 Seat leave",
+      bookings: "30/35",
+      status: "Published",
+    },
+  ];
+  
 
  
   
@@ -145,7 +200,7 @@ export class ActivitiesComponent {
       
     ];
 
-    this.loadPlans();
+    
 
     
   }
@@ -190,20 +245,7 @@ export class ActivitiesComponent {
   }
 
   ////////////////////////plan list//////////////////////////
-  plans: any[] = []; // To store fetched plans
-  errorMessage: string = '';
-  loadPlans(): void {
-    this.plansService.getPlans().subscribe({
-      next: (data) => {
-        this.plans = data;
-        console.log('Plans fetched:', this.plans);
-      },
-      error: (error) => {
-        this.errorMessage = error;
-        console.error('Error fetching plans:', this.errorMessage);
-      }
-    });
-  }
+ 
 
 //////////////////////////////////////////////filter //////////////////////////////////////////
 
@@ -308,4 +350,82 @@ displayReminder: boolean = false;
 
 // Selected payment method
 selectedPayment: any = null;
+
+/////////////////////////////status activity ////////////////////////
+getSeverity(status: string): string {
+  switch (status) {
+    case 'Published':
+      return 'success';
+    case 'Not Publish':
+      return 'danger';
+    default:
+      return 'warning';
+  }
+}
+
+getIcon(status: string): string {
+  switch (status) {
+    case 'Published':
+      return 'pi pi-check-circle'; // PrimeIcons for success
+    case 'Not Publish':
+      return 'pi pi-times-circle'; // PrimeIcons for danger
+    default:
+      return 'pi pi-exclamation-circle'; // PrimeIcons for warning
+  }
+}
+
+
+viewParticipants(activity: any) {
+  console.log('View Participants:', activity);
+}
+
+viewDetails(activity: any) {
+  console.log('View Details:', activity);
+}
+
+deleteItem(activity: any) {
+  console.log('Delete Item:', activity);
+}
+
+
+//////////////////////////////////////////dialog success publish//////////////////////////////
+showPublishDialog: boolean = false;
+
+// Function to open the dialog
+openPublishDialog() {
+  this.showPublishDialog = true;
+}
+
+// Function to handle cancel action
+onCancel() {
+  this.showPublishDialog = false;
+}
+
+// Function to handle confirm action
+onConfirm() {
+  this.showPublishDialog = false;
+  console.log('Course published successfully!');
+  // Add your logic to publish the course here
+}
+
+///////////////////////////////////cancel consultant////////////////////////////////////////
+showCancelDialog: boolean = false;
+
+  // Example session data
+  sessions = [
+    { day: 'Saturday', time: '10:00 AM - 12:00 PM', bookings: '15 Booking', duration: 'Session duration: 30 min', selected: false },
+    { day: 'Saturday', time: '10:00 AM - 12:00 PM', bookings: '15 Booking', duration: 'Session duration: 30 min', selected: false },
+    { day: 'Saturday', time: '10:00 AM - 12:00 PM', bookings: '15 Booking', duration: 'Session duration: 30 min', selected: false }
+  ];
+
+  // Function to open the dialog
+  openCancelDialog() {
+    this.showCancelDialog = true;
+  }
+
+ 
+
+  toggleSessionSelection(index: number): void {
+    this.sessions[index].selected = !this.sessions[index].selected;
+  }
 }
