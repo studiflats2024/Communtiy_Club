@@ -1,194 +1,986 @@
 <div class="parent">
-    <div class="fixDiv"></div>
-    <div class="page">
-      <p-breadcrumb class="max-w-full" [model]="items">
-        <ng-template pTemplate="item" let-item>
-            <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
-                <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
-                <span>{{ item.label }}</span>
-            </a>
-        </ng-template>
-      </p-breadcrumb>
-  
-      <p-toast></p-toast>
-      <div class="content">
-        <p-card >
+  <div class="fixDiv"></div>
+  <div class="page">
+    <p-breadcrumb class="max-w-full" [model]="items">
+      <ng-template pTemplate="item" let-item>
+        <a
+          [routerLink]="item.routerLink"
+          class="p-menuitem-link"
+          routerLinkActive="text-primary font-semibold"
+        >
+          <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+          <span>{{ item.label }}</span>
+        </a>
+      </ng-template>
+    </p-breadcrumb>
 
+    <p-toast></p-toast>
+    <div class="content">
+      <p-card>
+        <div class="">
+          <div class="head" style="margin-bottom: 50px">
+            <p class="title">Image Upload</p>
+          </div>
 
+          <!-- File Upload (Browse and Drag/Drop) -->
+          <p-fileUpload
+            mode="advanced"
+            name="demo[]"
+            accept="image/*"
+            maxFileSize="5000000"
+            (onSelect)="onImageSelect($event)"
+          >
+            <ng-template pTemplate="content">
+              <div
+                style="
+                  width: 100%;
+                  text-align: center;
+                  padding: 20px;
+                  margin-top: 10px;
+                  padding-bottom: 0;
+                "
+              >
+                <!-- Cloud Icon -->
+                <!-- <i class="pi pi-cloud-upload" style="font-size: 48px; color: #b3b3b3;"></i> -->
+                <img src="cloud-add.svg" />
 
-            <div class="">
-                <div class="head" style="margin-bottom: 50px;">
-                  <p class="title">Image Upload </p>
-                  
-                </div>
-              
-                <!-- File Upload (Browse and Drag/Drop) -->
-                <p-fileUpload
-                  mode="advanced"
-                  name="demo[]"
-                  accept="image/*"
-                  maxFileSize="5000000"
-                  (onSelect)="onImageSelect($event)">
-              
-                  <ng-template pTemplate="content">
-                    <div style=" width:100%;text-align: center; padding: 20px; margin-top: 10px; padding-bottom:0;">
-                      <!-- Cloud Icon -->
-                      <!-- <i class="pi pi-cloud-upload" style="font-size: 48px; color: #b3b3b3;"></i> -->
-                       <img src="cloud-add.svg"/>
-              
-                      <!-- Text -->
-                      <p class="choosep">Choose a file or drag & drop it here</p>
-              
-                      <!-- Supported Formats -->
-                      <p class="imgtypes">
-                        JPEG, PNG, PDG, and MP4 formats, up to 50MB
-                      </p>
-                    </div>
-                  </ng-template>
-                  <!-- <ng-template pTemplate="chooseButtonLabel">
+                <!-- Text -->
+                <p class="choosep">Choose a file or drag & drop it here</p>
+
+                <!-- Supported Formats -->
+                <p class="imgtypes">
+                  JPEG, PNG, PDG, and MP4 formats, up to 50MB
+                </p>
+              </div>
+            </ng-template>
+            <!-- <ng-template pTemplate="chooseButtonLabel">
                     <span>Browse File</span>
                   </ng-template> -->
-                </p-fileUpload>
-              
-                <!-- Galleria Display -->
-                <p-galleria
-                  [value]="images"
-                  [circular]="true"
-                  [showThumbnails]="false"
-                  [responsiveOptions]="responsiveOptions"
-                  [containerStyle]="{'max-width': '640px'}"
-                  [numVisible]="5">
-                  <ng-template pTemplate="item" let-item>
-                    <img [src]="item.src" [alt]="item.alt" style="width: 100%;">
-                  </ng-template>
-                  <ng-template pTemplate="thumbnail" let-item>
-                    <img [src]="item.src" [alt]="item.alt" style="width: 50px; height: 50px;">
-                  </ng-template>
-                </p-galleria>
-              
-                <!-- Drag and Drop to Reorder -->
-                <!-- <h5>Reorder Images</h5> -->
-                <div class="image-list">
-                  <div
-                    *ngFor="let img of images; let i = index"
-                    class="item"
-                    pDraggable="true"
-                    (onDragStart)="onDragStart($event, img)"
-                    (onDragEnd)="onDragEnd($event)">
-              
-                    <div pDroppable="true" (onDrop)="onDrop($event, i)" (onDragEnter)="onDragEnter($event, i)">
-                      <img class="image-item" [src]="img.src" [alt]="img.alt"  >
-                      <div class="bin" (click)="removeImage(i)"><img src="bin.svg"/></div>
+          </p-fileUpload>
+
+          <!-- Galleria Display -->
+          <p-galleria
+            [value]="images"
+            [circular]="true"
+            [showThumbnails]="false"
+            [responsiveOptions]="responsiveOptions"
+            [containerStyle]="{ 'max-width': '640px' }"
+            [numVisible]="5"
+          >
+            <ng-template pTemplate="item" let-item>
+              <img [src]="item.src" [alt]="item.alt" style="width: 100%" />
+            </ng-template>
+            <ng-template pTemplate="thumbnail" let-item>
+              <img
+                [src]="item.src"
+                [alt]="item.alt"
+                style="width: 50px; height: 50px"
+              />
+            </ng-template>
+          </p-galleria>
+
+          <!-- Drag and Drop to Reorder -->
+          <!-- <h5>Reorder Images</h5> -->
+          <div class="image-list">
+            <div
+              *ngFor="let img of images; let i = index"
+              class="item"
+              pDraggable="true"
+              (onDragStart)="onDragStart($event, img)"
+              (onDragEnd)="onDragEnd($event)"
+            >
+              <div
+                pDroppable="true"
+                (onDrop)="onDrop($event, i)"
+                (onDragEnter)="onDragEnter($event, i)"
+              >
+                <img class="image-item" [src]="img.src" [alt]="img.alt" />
+                <div class="bin" (click)="removeImage(i)">
+                  <img src="bin.svg" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-------------------------------------------------------------------------------------------------------->
+        <div
+          class="flex justify-content-between align-items-center gap-4 mb-4 w-full"
+        >
+          <div class="flex flex-column gap-2 w-50">
+            <label class="label">Activity Type</label>
+            <p-dropdown
+              [options]="activityTypes"
+              [(ngModel)]="selectedActivityType"
+              placeholder="Select Activity Type"
+              optionLabel="label"
+              placeholder="Choose Activity Type "
+              #activityTypeInput="ngModel"
+              required
+            >
+            </p-dropdown>
+
+            <small
+              *ngIf="activityTypeInput.invalid && activityTypeInput.touched"
+              class="p-error"
+            >
+              Activity Type is required.
+            </small>
+          </div>
+          <div class="flex flex-column gap-2 w-50">
+            <label class="label" for="name">Activity Title</label>
+            <input
+              pInputText
+              id="name"
+              aria-describedby="username-help"
+              [(ngModel)]="title"
+              placeholder="Name of plan"
+              #activityNameInput="ngModel"
+              required
+            />
+            <small
+              *ngIf="activityNameInput.invalid && activityNameInput.touched"
+              class="p-error"
+            >
+              Title is required.
+            </small>
+          </div>
+        </div>
+        <!-------------------------------------------------->
+        <label class="label" for="invitation">Discription</label>
+        <div
+          class="flex justify-content-between align-items-center gap-4 mb-4 w-full"
+        >
+          <textarea
+            rows="5"
+            cols="30"
+            pInputTextarea
+            [(ngModel)]="discription"
+            placeholder="Write discription of Activity"
+          >
+          </textarea>
+        </div>
+        <!-------------------------------------------------->
+
+        <div class="flex flex-column gap-2 w-100">
+          <label class="label" for="loc">Location</label>
+          <input
+            pInputText
+            id="loc"
+            aria-describedby="username-help"
+            [(ngModel)]="location"
+            placeholder="Location of Activity"
+            #locInput="ngModel"
+            required
+          />
+          <small *ngIf="locInput.invalid && locInput.touched" class="p-error">
+            Location is required.
+          </small>
+        </div>
+        <!------------------------------------------------------------------------------------------------------------------------>
+        <div *ngIf="selectedActivityType?.value === 'course'" class="course">
+          <div
+            class="flex justify-content-between align-items-center gap-2 mb-4 w-full mt-4 fixSmall"
+          >
+            <!-- Seats Available -->
+            <div class="flex flex-column gap-2 w-50">
+              <label for="seats" class="label" style="width: 200px"
+                >Seats Available</label
+              >
+              <div class="p-col">
+                <input
+                  class="customSeatInput"
+                  style="width: 100% !important"
+                  id="seats"
+                  type="number"
+                  pInputText
+                  placeholder="Choose number of seats"
+                  [(ngModel)]="seatsAvailable"
+                />
+              </div>
+            </div>
+
+            <!-- Start Date -->
+            <div class="flex flex-column gap-2 w-50">
+              <label for="startDate" class="label" style="width: 200px"
+                >Start Date</label
+              >
+              <div class="p-col">
+                <p-calendar
+                  [(ngModel)]="startDate"
+                  id="startDate"
+                  placeholder="Select Start Date"
+                ></p-calendar>
+              </div>
+            </div>
+
+            <!-- End Date -->
+            <div class="flex flex-column gap-2 w-50">
+              <label for="endDate" class="label" style="width: 200px"
+                >End Date</label
+              >
+              <div class="p-col">
+                <p-calendar
+                  [(ngModel)]="endDate"
+                  id="endDate"
+                  placeholder="Select End Date"
+                ></p-calendar>
+              </div>
+            </div>
+          </div>
+          <!-- Display on App -->
+          <div
+            class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4"
+          >
+            <label class="label"
+              >Do you want to display this workshop on the app home
+              screen?</label
+            >
+
+            <div class="p-field-radiobutton">
+              <p-radioButton
+                name="display"
+                value="yes"
+                [(ngModel)]="displayOnApp"
+              ></p-radioButton>
+              <label>Yes, display</label>
+            </div>
+            <div class="p-field-radiobutton">
+              <p-radioButton
+                name="display"
+                value="no"
+                [(ngModel)]="displayOnApp"
+              ></p-radioButton>
+              <label>No, not display</label>
+            </div>
+          </div>
+
+          <!-- Manage Sessions -->
+          <div class="manageSession">
+            <div class="titleS">
+              Manage Sessions
+              <div class="disS">Please add course sessions</div>
+            </div>
+
+            <div
+              *ngFor="let session of sessions; let i = index"
+              class="session-item"
+              class="w-full"
+            >
+              <div class="w-full">
+                <div
+                  class="flex justify-content-between align-items-center gap-4 mb-4 w-full"
+                >
+                  <div class="label">Session {{ i + 1 }}</div>
+
+                  <p-button
+                    id="textP"
+                    label="Delete Session"
+                    [text]="true"
+                    (click)="deleteSession(i)"
+                  />
+                </div>
+
+                <div
+                  class="flex justify-content-between align-items-center gap-4 mb-4 w-full"
+                >
+                  <!-- Session Title -->
+                  <div class="flex flex-column gap-2 w-50">
+                    <label
+                      for="sessionTitle{{ i }}"
+                      class="p-col-fixed"
+                      style="width: 150px"
+                      >Session Title</label
+                    >
+                    <div class="p-col">
+                      <input
+                        class="w-full"
+                        id="sessionTitle{{ i }}"
+                        type="text"
+                        pInputText
+                        placeholder="Session Title"
+                        [(ngModel)]="session.title"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Date -->
+                  <div class="flex flex-column gap-2 w-50">
+                    <label
+                      for="sessionDate{{ i }}"
+                      class="p-col-fixed"
+                      style="width: 150px"
+                      >Date</label
+                    >
+                    <div class="p-col">
+                      <p-calendar
+                        [(ngModel)]="session.date"
+                        id="sessionDate{{ i }}"
+                        placeholder="Select Date"
+                      ></p-calendar>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="flex justify-content-between align-items-center gap-4 mb-4 w-full"
+                >
+                  <!-- Start Time -->
+                  <div class="flex flex-column gap-2 w-50">
+                    <label
+                      for="startTime{{ i }}"
+                      class="p-col-fixed"
+                      style="width: 150px"
+                      >Start Time</label
+                    >
+                    <div class="p-col">
+                      <p-calendar
+                        [(ngModel)]="session.startTime"
+                        id="startTime{{ i }}"
+                        [timeOnly]="true"
+                        placeholder="Start Time"
+                      ></p-calendar>
+                    </div>
+                  </div>
+
+                  <!-- End Time -->
+                  <div class="flex flex-column gap-2 w-50">
+                    <label
+                      for="endTime{{ i }}"
+                      class="p-col-fixed"
+                      style="width: 150px"
+                      >End Time</label
+                    >
+                    <div class="p-col">
+                      <p-calendar
+                        [(ngModel)]="session.endTime"
+                        id="endTime{{ i }}"
+                        [timeOnly]="true"
+                        placeholder="End Time"
+                      ></p-calendar>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4"
+                >
+                  <label class="label">Do you want to Add Video?</label>
+
+                  <div class="p-field-radiobutton">
+                    <p-radioButton
+                      name="display"
+                      value="yes"
+                      [(ngModel)]="addVideo"
+                    ></p-radioButton>
+                    <label>Yes, Add</label>
+                  </div>
+                  <div class="p-field-radiobutton">
+                    <p-radioButton
+                      name="display"
+                      value="no"
+                      [(ngModel)]="addVideo"
+                    ></p-radioButton>
+                    <label>No</label>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="addVideo === 'yes'"
+                  class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4"
+                >
+                  <div *ngIf="addVideo === 'yes'" class="w-full">
+                    <label class="label" for="videoLink">Video</label>
+                    <!-- <input 
+                        pInputText 
+                        id="videoLink" 
+                        aria-describedby="username-help" 
+                        [(ngModel)]="videoLink"
+                        class="w-full"
+                        placeholder="video"
+                        #vidInput="ngModel"
+                        required
+                      />
+                      <small *ngIf="vidInput.invalid && vidInput.touched" class="p-error">
+                        video is required.
+                      </small> -->
+                    <div class="input-icon-container w-full">
+                      <input
+                        pInputText
+                        id="videoLink"
+                        aria-describedby="username-help"
+                        [(ngModel)]="videoLink"
+                        class="w-full"
+                        placeholder="Video"
+                        #vidInput="ngModel"
+                        required
+                      />
+                      <i class="pi pi-video input-icon"></i>
+                      <!-- <small *ngIf="vidInput.invalid && vidInput.touched" class="p-error">
+                          video is required.
+                        </small> -->
                     </div>
                   </div>
                 </div>
               </div>
-
-<!-------------------------------------------------------------------------------------------------------->
-<div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
-    <div class="flex flex-column gap-2 w-50">
-      <label class="label"   >Activity Type</label>
-      <p-dropdown 
-      [options]="activityTypes" 
-      [(ngModel)]="selectedActivityType" 
-      placeholder="Select Activity Type" 
-      optionLabel="label"
-      placeholder="Choose Activity Type "   
-      #activityTypeInput="ngModel"
-      required>
-    </p-dropdown>
-    
-    
-    <small *ngIf="activityTypeInput.invalid && activityTypeInput.touched" class="p-error">
-      Activity Type is required.
-    </small>
-    
-  </div>
-  <div class="flex flex-column gap-2 w-50">
-    <label class="label" for="name">Activity Title</label>
-    <input 
-        pInputText 
-        id="name" 
-        aria-describedby="username-help" 
-        [(ngModel)]="title"
-        placeholder="Name of plan"
-        #activityNameInput="ngModel"
-        required
-      />
-      <small *ngIf="activityNameInput.invalid && activityNameInput.touched" class="p-error">
-        Title is required.
-      </small>
-    
-</div>
-</div>
-  <!-------------------------------------------------->
-  <label class="label" for="invitation">Discription</label>
-  <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
-        
-            <textarea 
-                rows="5"
-                cols="30" 
-                pInputTextarea 
-                [(ngModel)]="discription"
-                placeholder="Write discription of Activity">
-            </textarea>
-  
             </div>
-  <!-------------------------------------------------->
 
-  <div class="flex flex-column gap-2 w-100">
-    <label class="label" for="loc">Location</label>
-    <input 
-        pInputText 
-        id="loc" 
-        aria-describedby="username-help" 
-        [(ngModel)]="location"
-        placeholder="Location of Activity"
-        #locInput="ngModel"
-        required
-      />
-      <small *ngIf="locInput.invalid && locInput.touched" class="p-error">
-        Location is required.
-      </small>
-    
-</div>
-<!------------------------------------------------------------------------------------------------------------------------>
-         
-  <!-------------------------------------------------->
-  
-       
-  <!-------------------------------------------------->
-  
-         
- <!-------------------------------------------------------------------------------------->
-  
-  
-            <div class="flex justify-content-end align-items-center gap-4 mx-4 " style="margin-top: 35px;">
-              <div class=" ">
-                <p-button
-                label="Cancel"
-               
-                class="p-button-outlined custom-button"
+            <!-- Add New Session -->
+            <!-- <button pButton label="Add New Session" icon="pi pi-plus" (click)="addNewSession()"></button> -->
+            <p-button
+              id="textP"
+              label="Add New Session"
+              icon="pi pi-plus"
+              (click)="addNewSession()"
+              [text]="true"
+            />
+          </div>
+        </div>
+
+        <!-------------------------------------------------->
+
+        <div *ngIf="selectedActivityType?.value === 'workshop'" class="course">
+          <div
+            class="flex justify-content-between align-items-center gap-2 mb-4 w-full mt-4 fixSmall"
+          >
+            <!-- Seats Available -->
+            <div class="flex flex-column gap-2 w-50">
+              <label for="seats" class="label" style="width: 200px"
+                >Seats Available</label
+              >
+              <div class="p-col">
+                <input
+                  class="customSeatInput"
+                  style="width: 100% !important"
+                  id="seats"
+                  type="number"
+                  pInputText
+                  placeholder="Choose number of seats"
+                  [(ngModel)]="seatsAvailable"
+                />
+              </div>
+            </div>
+
+            <!-- Start Date -->
+            <div class="flex flex-column gap-2 w-50">
+              <label for="startDate" class="label" style="width: 200px"
+                >Start Date</label
+              >
+              <div class="p-col">
+                <p-calendar
+                  [(ngModel)]="startDate"
+                  id="startDate"
+                  placeholder="Select Start Date"
+                ></p-calendar>
+              </div>
+            </div>
+
+            <!-- End Date -->
+            <div class="flex flex-column gap-2 w-50">
+              <label for="endDate" class="label" style="width: 200px"
+                >End Date</label
+              >
+              <div class="p-col">
+                <p-calendar
+                  [(ngModel)]="endDate"
+                  id="endDate"
+                  placeholder="Select End Date"
+                ></p-calendar>
+              </div>
+            </div>
+          </div>
+          <!-- Display on App -->
+          <div
+            class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4"
+          >
+            <label class="label"
+              >Do you want to display this workshop on the app home
+              screen?</label
+            >
+
+            <div class="p-field-radiobutton">
+              <p-radioButton
+                name="display"
+                value="yes"
+                [(ngModel)]="displayOnApp"
+              ></p-radioButton>
+              <label>Yes, display</label>
+            </div>
+            <div class="p-field-radiobutton">
+              <p-radioButton
+                name="display"
+                value="no"
+                [(ngModel)]="displayOnApp"
+              ></p-radioButton>
+              <label>No, not display</label>
+            </div>
+          </div>
+
+          <!-- Manage Sessions -->
+          <div class="manageSession">
+            <div class="titleS">
+              Manage Sessions
+              <div class="disS">Please add course sessions</div>
+            </div>
+
+            <div
+              *ngFor="let session of sessions; let i = index"
+              class="session-item"
+              class="w-full"
+            >
+              <div class="w-full">
+                <div
+                  class="flex justify-content-between align-items-center gap-4 mb-4 w-full"
+                >
+                  <div class="label">Session {{ i + 1 }}</div>
+
+                  <p-button
+                    id="textP"
+                    label="Delete Session"
+                    [text]="true"
+                    (click)="deleteSession(i)"
+                  />
+                </div>
+
+                <div
+                  class="flex justify-content-between align-items-center gap-4 mb-4 w-full"
+                >
+                  <!-- Session Title -->
+                  <div class="flex flex-column gap-2 w-50">
+                    <label
+                      for="sessionTitle{{ i }}"
+                      class="p-col-fixed"
+                      style="width: 150px"
+                      >Session Title</label
+                    >
+                    <div class="p-col">
+                      <input
+                        class="w-full"
+                        id="sessionTitle{{ i }}"
+                        type="text"
+                        pInputText
+                        placeholder="Session Title"
+                        [(ngModel)]="session.title"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Date -->
+                  <div class="flex flex-column gap-2 w-50">
+                    <label
+                      for="sessionDate{{ i }}"
+                      class="p-col-fixed"
+                      style="width: 150px"
+                      >Date</label
+                    >
+                    <div class="p-col">
+                      <p-calendar
+                        [(ngModel)]="session.date"
+                        id="sessionDate{{ i }}"
+                        placeholder="Select Date"
+                      ></p-calendar>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="flex justify-content-between align-items-center gap-4 mb-4 w-full"
+                >
+                  <!-- Start Time -->
+                  <div class="flex flex-column gap-2 w-50">
+                    <label
+                      for="startTime{{ i }}"
+                      class="p-col-fixed"
+                      style="width: 150px"
+                      >Start Time</label
+                    >
+                    <div class="p-col">
+                      <p-calendar
+                        [(ngModel)]="session.startTime"
+                        id="startTime{{ i }}"
+                        [timeOnly]="true"
+                        placeholder="Start Time"
+                      ></p-calendar>
+                    </div>
+                  </div>
+
+                  <!-- End Time -->
+                  <div class="flex flex-column gap-2 w-50">
+                    <label
+                      for="endTime{{ i }}"
+                      class="p-col-fixed"
+                      style="width: 150px"
+                      >End Time</label
+                    >
+                    <div class="p-col">
+                      <p-calendar
+                        [(ngModel)]="session.endTime"
+                        id="endTime{{ i }}"
+                        [timeOnly]="true"
+                        placeholder="End Time"
+                      ></p-calendar>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- إضافة فيديو -->
+                <div
+                  class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4"
+                >
+                  <label class="label">Do you want to Add Video?</label>
+
+                  <div class="p-field-radiobutton">
+                    <p-radioButton
+                      name="display{{ i }}"
+                      value="yes"
+                      [(ngModel)]="session.addVideo"
+                    ></p-radioButton>
+                    <label>Yes, Add</label>
+                  </div>
+                  <div class="p-field-radiobutton">
+                    <p-radioButton
+                      name="display{{ i }}"
+                      value="no"
+                      [(ngModel)]="session.addVideo"
+                    ></p-radioButton>
+                    <label>No</label>
+                  </div>
+                </div>
+
+                <!-- إدخال رابط الفيديو -->
+                <div
+                  *ngIf="session.addVideo === 'yes'"
+                  class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4"
+                >
+                  <div class="w-full">
+                    <label class="label" for="videoLink{{ i }}">Video</label>
+                    <div class="input-icon-container w-full">
+                      <input
+                        pInputText
+                        id="videoLink{{ i }}"
+                        aria-describedby="username-help"
+                        [(ngModel)]="session.videoLink"
+                        class="w-full"
+                        placeholder="Video"
+                        required
+                      />
+                      <i class="pi pi-video input-icon"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4 ">
+                      <label class="label">Do you want to Add Video?</label>
+                     
+                        <div class="p-field-radiobutton">
+                          <p-radioButton name="display" value="yes" [(ngModel)]="addVideo"></p-radioButton>
+                          <label>Yes, Add</label>
+                        </div>
+                        <div class="p-field-radiobutton">
+                          <p-radioButton name="display" value="no" [(ngModel)]="addVideo"></p-radioButton>
+                          <label>No</label>
+                        </div>
+                    
+                    </div> -->
+
+                <!-- <div *ngIf="addVideo === 'yes'" class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4 ">
+                      <div  *ngIf="addVideo === 'yes'" class="w-full">
+                        <label class="label" for="videoLink">Video</label>
+                        
+                          <div class="input-icon-container w-full">
+                            <input 
+                              pInputText 
+                              id="videoLink" 
+                              aria-describedby="username-help" 
+                              [(ngModel)]="videoLink"
+                              class="w-full"
+                              placeholder="Video"
+                              #vidInput="ngModel"
+                              required
+                            />
+                            <i class="pi pi-video input-icon"></i>
+                          
+                          </div>
+                          
+                      </div>
+                      
+                    </div> -->
+              </div>
+            </div>
+
+            <!-- Add New Session -->
+            <!-- <button pButton label="Add New Session" icon="pi pi-plus" (click)="addNewSession()"></button> -->
+            <p-button
+              id="textP"
+              label="Add New Session"
+              icon="pi pi-plus"
+              (click)="addNewSession()"
+              [text]="true"
+            />
+          </div>
+        </div>
+        <!-------------------------------------------------->
+
+        <div *ngIf="selectedActivityType?.value === 'event'" class="course mt-4">
+          <div class="form-container">
+            <!-- Row 1 -->
+            <div class="flex justify-content-between gap-4 mb-4">
+              <!-- Event Date -->
+              <div class="flex flex-column gap-2 w-50">
+                <label class="label" for="eventDate">Event Date</label>
+                <p-calendar
+                  id="eventDate"
+                  [(ngModel)]="eventDate"
+                  placeholder="Choose Event Date"
+                  [showIcon]="true"
+                ></p-calendar>
+              </div>
+          
+              <!-- Seats Available -->
+              <div class="flex flex-column gap-2 w-50">
+                <label class="label" for="seatsAvailable">Seats Available</label>
+                <input
+                  pInputText
+                  id="seatsAvailable"
+                  [(ngModel)]="seatsAvailable"
+                  placeholder="Choose number of seats"
+                  class="w-full"
+                />
+              </div>
+            </div>
+          
+            <!-- Row 2 -->
+            <div class="flex justify-content-between gap-4 mb-4">
+              <!-- Start Time -->
+              <div class="flex flex-column gap-2 w-50">
+                <label class="label" for="startTime">Start Time</label>
+                <p-calendar
+                  id="startTime"
+                  [(ngModel)]="startTime"
+                  [timeOnly]="true"
+                  hourFormat="12"
+                  placeholder="Start Time"
+                  [showIcon]="true"
+                ></p-calendar>
+              </div>
+          
+              <!-- End Time -->
+              <div class="flex flex-column gap-2 w-50">
+                <label class="label" for="endTime">End Time</label>
+                <p-calendar
+                  id="endTime"
+                  [(ngModel)]="endTime"
+                  [timeOnly]="true"
+                  hourFormat="12"
+                  placeholder="End Time"
+                  [showIcon]="true"
+                ></p-calendar>
+              </div>
+            </div>
+          
+            <!-- Row 3 -->
+            <div class="flex align-items-center gap-4 mt-4">
+              <label class="label">Do you want to display this workshop on the app home screen?</label>
+              <div class="flex align-items-center gap-2">
+                <p-radioButton
+                  name="display"
+                  value="yes"
+                  [(ngModel)]="displayOnHomeScreen"
+                ></p-radioButton>
+                <label class="label">Yes, display</label>
+              </div>
+              <div class="flex align-items-center gap-2">
+                <p-radioButton
+                  name="display"
+                  value="no"
+                  [(ngModel)]="displayOnHomeScreen"
+                ></p-radioButton>
+                <label class="label">No, Not display</label>
+              </div>
+            </div>
+          </div>
+
+          <div
+          *ngIf="displayOnHomeScreen === 'yes'"
+          class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4"
+        >
+          <div class="w-full">
+            <label class="label" for="videoLink ">Video</label>
+            <div class="input-icon-container w-full">
+              <input
+                pInputText
+                id="videoLink "
+                aria-describedby="username-help"
+                [(ngModel)]="videoLink"
+                class="w-full"
+                placeholder="Video"
+                required
+              />
+              <i class="pi pi-video input-icon"></i>
+            </div>
+          </div>
+        </div>
+          
+        </div>
+        <!-------------------------------------------------------------------------------------->
+        <div *ngIf="selectedActivityType?.value === 'consultant'" class="course mt-4">
+          <div style="color: #000;
+
+          /* Global Tokens/Body/B-1/Medium */
+          font-family: Poppins;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 24px; /* 150% */"> Days</div>
+          <div  *ngFor="let day of days" class="day-container w-full">
+
+            <div class="fields-container day-container">
+                  <!-- Checkbox for selecting the day -->
+            <div class="checkbox-container">
+              <p-checkbox
+                [(ngModel)]="day.selected"
+                binary="true"
+                inputId="{{ day.name }}"
+              ></p-checkbox>
+              <label for="{{ day.name }}" class="ml-2">{{ day.name }}</label>
+            </div>
+          
+            <!-- Conditional fields -->
+            <div *ngIf="day.selected"  class="w-full" >
+              <!-- Start Time -->
+
+              <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+                <div class="flex flex-column gap-2 w-50">
+                  <label for="startTime-{{ day.name }}">Start Time</label>
+                  <p-calendar
+                    [(ngModel)]="day.startTime"
+                    id="startTime-{{ day.name }}"
+                    [timeOnly]="true"
+                    hourFormat="12"
+                    placeholder="Start Time"
+                  ></p-calendar>
+                </div>
+            
+                <!-- End Time -->
+                <div class="flex flex-column gap-2 w-50">
+                  <label for="endTime-{{ day.name }}">End Time</label>
+                  <p-calendar
+                    [(ngModel)]="day.endTime"
+                    id="endTime-{{ day.name }}"
+                    [timeOnly]="true"
+                    placeholder="End Time"
+                    hourFormat="12"
+                  ></p-calendar>
+                </div>
+              </div>
+              <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+                <div class="flex flex-column gap-2 w-50">
+                  <label class="label" for="du">Session Duration</label>
+                  <input
+                    pInputText
+                    id="du"
+                    aria-describedby="username-help"
+                    [(ngModel)]="location"
+                    placeholder="Session Durationy"
+                    #duInput="ngModel"
+                    required
+                  />
                 
-              ></p-button>
-             </div>
-  
-             <div class=" ">
-              <p-button
-              label="Add"
-              
-              class="p-button-outlined custom-button-add"
-              
-            ></p-button>
-           </div>
+                </div>
+            
+                <!-- Seats Available -->
+                <div class="flex flex-column gap-2 w-50">
+                  <label class="label" for="seats-{{ day.name }}">Seats Available</label>
+                  <input
+                    pInputText
+                    id="seats-{{ day.name }}"
+                    type="number"
+                    [(ngModel)]="day.seats"
+                    placeholder="Seats"
+                    readonly
+                  />
+                </div>
+              </div>
+
+            
+
+            
             </div>
-  
+            </div>
+           
+          </div>
+
+
+
+
+          <div class="flex align-items-center gap-4 mt-4">
+            <label class="label">Do you want to display this workshop on the app home screen?</label>
+            <div class="flex align-items-center gap-2">
+              <p-radioButton
+                name="display"
+                value="yes"
+                [(ngModel)]="displayOnHomeScreen"
+              ></p-radioButton>
+              <label class="label">Yes, display</label>
+            </div>
+            <div class="flex align-items-center gap-2">
+              <p-radioButton
+                name="display"
+                value="no"
+                [(ngModel)]="displayOnHomeScreen"
+              ></p-radioButton>
+              <label class="label">No, Not display</label>
+            </div>
+          </div>
+
+
+
+          <div
+          *ngIf="displayOnHomeScreen === 'yes'"
+          class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4"
+        >
+          <div class="w-full">
+            <label class="label" for="videoLink ">Video</label>
+            <div class="input-icon-container w-full">
+              <input
+                pInputText
+                id="videoLink "
+                aria-describedby="username-help"
+                [(ngModel)]="videoLink"
+                class="w-full"
+                placeholder="Video"
+                required
+              />
+              <i class="pi pi-video input-icon"></i>
+            </div>
+          </div>
+        </div>
+
+
+        </div>
+         
+        
+        <!----------------------------------------------------------------------------------------------->
+
+        <div
+          class="flex justify-content-end align-items-center gap-4 mx-4"
+          style="margin-top: 35px"
+        >
+          <div class=" ">
+            <p-button
+              label="Cancel"
+              class="p-button-outlined custom-button"
+            ></p-button>
+          </div>
+
+          <div class=" ">
+            <p-button
+              label="Add"
+              class="p-button-outlined custom-button-add"
+            ></p-button>
+          </div>
+        </div>
       </p-card>
-      </div>
-  
+    </div>
   </div>
-  </div>
-  
-  
-  
-  
+</div>

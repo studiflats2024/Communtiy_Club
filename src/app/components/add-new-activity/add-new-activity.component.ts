@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { NgClass } from '@angular/common';
 import { RatingModule } from 'primeng/rating';
-import { FormsModule } from '@angular/forms';
+import { FormsModule , ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -27,6 +27,9 @@ import { CardModule } from 'primeng/card';
 
 import { MultiSelectModule } from 'primeng/multiselect';
 import { PlansService } from '../../services/plans.service';
+ 
+ 
+
 
 
 @Component({
@@ -103,10 +106,10 @@ export class AddNewActivityComponent {
     { label: 'Course', value: 'course' },
     { label: 'Event', value: 'event' },
     { label: 'Workshop', value: 'workshop' },
-    { label: 'Consultant Sessions', value: 'consultant-sessions' },
+    { label: 'Consultant Sessions', value: 'consultant' },
   ];
 
-  selectedActivityType: string | null = null;
+  selectedActivityType: any; 
 
   location:string=''
 ////////////////////////////////////////////////////////////////////////external code should be removed/////////////////
@@ -151,6 +154,46 @@ discription:string=''
  
 
   
+/////////////////////////////add new course ////////////////////////////////////////////
+seatsAvailable: number | null = null;
+startDate: Date | null = null;
+endDate: Date | null = null;
+displayOnApp: string = 'no';
 
+sessions = [
+  { title: '', date: null, startTime: null, endTime: null, addVideo: 'no', videoLink: '' }
+];
+
+// إضافة سيشن جديد
+addNewSession() {
+  this.sessions.push({ title: '', date: null, startTime: null, endTime: null, addVideo: 'no', videoLink: '' });
+}
+
+// حذف سيشن
+deleteSession(index: number) {
+  this.sessions.splice(index, 1);
+}
+
+addVideo: string = 'no';  
+videoLink: string = '';
+
+
+///////////////////////////////////////////////event ///////////////////////////////////////////
+eventDate: Date | null = null;
+ 
+startTime: Date | null = null;
+endTime: Date | null = null;
+displayOnHomeScreen: string = 'no';
+
+/////////////////////////////////////////////////consultant///////////////////////////////////////////
+days = [
+  { name: 'Saturday', selected: false, startTime: null, endTime: null, seats: null },
+  { name: 'Sunday', selected: false, startTime: null, endTime: null, seats: null },
+  { name: 'Monday', selected: false, startTime: null, endTime: null, seats: null },
+  { name: 'Tuesday', selected: false, startTime: null, endTime: null, seats: null },
+  { name: 'Wednesday', selected: false, startTime: null, endTime: null, seats: null },
+  { name: 'Thursday', selected: false, startTime: null, endTime: null, seats: null },
+  { name: 'Friday', selected: false, startTime: null, endTime: null, seats: null },
+];
   
 }
