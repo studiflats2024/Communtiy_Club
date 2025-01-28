@@ -27,6 +27,8 @@ import { CardModule } from 'primeng/card';
 
 import { MultiSelectModule } from 'primeng/multiselect';
 import { PlansService } from '../../services/plans.service';
+import { ActivityService } from '../../services/activity.service';
+
  
  
 
@@ -45,7 +47,66 @@ export class AddNewActivityComponent {
 
 
 
-  images: any[] = [];
+  // images: any[] = [];
+  // draggedImage: any;
+
+  // responsiveOptions: any[] = [
+  //   {
+  //     breakpoint: '1024px',
+  //     numVisible: 5
+  //   },
+  //   {
+  //     breakpoint: '768px',
+  //     numVisible: 3
+  //   },
+  //   {
+  //     breakpoint: '560px',
+  //     numVisible: 1
+  //   }
+  // ];
+
+  // onImageSelect(event: any) {
+  //   for (let file of event.files) {
+  //     const reader = new FileReader();
+  //     reader.onload = (e: any) => {
+  //       this.images.push({
+  //         src: e.target.result,
+  //         alt: file.name,
+  //       });
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
+
+  // removeImage(index: number) {
+  //   this.images.splice(index, 1);
+  // }
+
+  // onDragStart(event: any, img: any) {
+  //   this.draggedImage = img;
+  // }
+
+  // onDrop(event: any, index: number) {
+  //   if (this.draggedImage) {
+  //     const draggedIndex = this.images.indexOf(this.draggedImage);
+  //     this.images.splice(draggedIndex, 1);  
+  //     this.images.splice(index, 0, this.draggedImage);  
+  //     this.draggedImage = null;  
+  //   }
+  // }
+
+  // onDragEnd(event: any) {
+  //   this.draggedImage = null;
+  // }
+
+  // onDragEnter(event: any, index: number) {
+   
+  // }
+
+    //////////////////////////photos///////////////////////////
+  // images: any[] = [];
+  images: string = '';
+
   draggedImage: any;
 
   responsiveOptions: any[] = [
@@ -63,35 +124,58 @@ export class AddNewActivityComponent {
     }
   ];
 
+  // onImageSelect(event: any) {
+  //   for (let file of event.files) {
+  //     const reader = new FileReader();
+  //     reader.onload = (e: any) => {
+  //       this.images.push(e.target.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
+  loading: boolean = false;
+
   onImageSelect(event: any) {
+    this.loading=true;
     for (let file of event.files) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.images.push({
-          src: e.target.result,
-          alt: file.name,
-        });
-      };
-      reader.readAsDataURL(file);
+      this.activityService.uploadImage(file).subscribe(
+        (response: any) => {
+          // Assuming the API returns a URL to the uploaded image
+          const imageUrl = response[0].file_Path;
+          console.log(imageUrl)
+          // this.images.push(imageUrl);
+          this.images=imageUrl;
+          console.log(this.images)
+          this.loading = false;
+        },
+        (error) => {
+          console.error('Error uploading file:', error);
+        }
+      );
     }
   }
 
-  removeImage(index: number) {
-    this.images.splice(index, 1);
+
+
+  // removeImage(index: number) {
+  //   this.images.splice(index, 1);
+  // }
+  removeImage() {
+    this.images='';
   }
 
   onDragStart(event: any, img: any) {
     this.draggedImage = img;
   }
 
-  onDrop(event: any, index: number) {
-    if (this.draggedImage) {
-      const draggedIndex = this.images.indexOf(this.draggedImage);
-      this.images.splice(draggedIndex, 1); // Remove from original position
-      this.images.splice(index, 0, this.draggedImage); // Insert at new position
-      this.draggedImage = null; // Reset
-    }
-  }
+  // onDrop(event: any, index: number) {
+  //   if (this.draggedImage) {
+  //     const draggedIndex = this.images.indexOf(this.draggedImage);
+  //     this.images.splice(draggedIndex, 1);
+  //     this.images.splice(index, 0, this.draggedImage);
+  //     this.draggedImage = null;
+  //   }
+  // }
 
   onDragEnd(event: any) {
     this.draggedImage = null;
@@ -100,6 +184,8 @@ export class AddNewActivityComponent {
   onDragEnter(event: any, index: number) {
     // Optional: Handle visual effects for drag over
   }
+
+/////////////////////////////////////////////////////////////////
 
 
   activityTypes = [
@@ -112,28 +198,17 @@ export class AddNewActivityComponent {
   selectedActivityType: any; 
 
   location:string=''
-////////////////////////////////////////////////////////////////////////external code should be removed/////////////////
+////////////////////////////////////////////////////////////////////////////////////////
   
   items: any[] = [];
   title:string=''
 
  
-//   durations: { name: string; value: number }[] = [];
-//   plans: { name: string; id: number }[] = [];
-
-  
-//   planName: string = '';
-// selectedDuration: any = null;
-// selectedPlan: any = null;
-// price: number =0;
-// discount: number =0;
-// finalPrice: number =0;
-// invitationNo: any;
-// features: string = '';
+ 
 discription:string=''
 
   
-  constructor(private messageService: MessageService,private plansService: PlansService) {}
+  constructor(private activityService:ActivityService,private messageService: MessageService,private plansService: PlansService) {}
   ngOnInit() {
 
  
@@ -151,22 +226,58 @@ discription:string=''
  
     
   }
+
+
+
+
+  onActivityTypeChange(event: any): void {
+    console.log('Selected Activity Type:', event.value);
+    this.resetCourseValues()
+    this.resetWorkshopData()
+    this.resetEventData()
+    this.clearConsultData()
+
+
+    
+
+    // Example logic based on the selected type
+    switch (event.value.value) {
+      case 'course':
+        console.log('Course selected. Perform course-specific logic.');
+        // Add your logic for 'course' here
+        break;
+      case 'event':
+        console.log('Event selected. Perform event-specific logic.');
+        // Add your logic for 'event' here
+        break;
+      case 'workshop':
+        console.log('Workshop selected. Perform workshop-specific logic.');
+        // Add your logic for 'workshop' here
+        break;
+      case 'consultant':
+        console.log('Consultant Sessions selected. Perform specific logic.');
+        // Add your logic for 'consultant_sessions' here
+        break;
+      default:
+        console.log('No valid activity type selected.');
+    }
+  }
  
 
   
 /////////////////////////////add new course ////////////////////////////////////////////
 seatsAvailable: number | null = null;
-startDate: Date | null = null;
-endDate: Date | null = null;
-displayOnApp: string = 'no';
+startDate: any;
+endDate: any;
+displayOnApp: any = 'no';
 
 sessions = [
-  { title: '', date: null, startTime: null, endTime: null, addVideo: 'no', videoLink: '' }
+  { session_Title: '', session_Date: null, start_Time: null, end_Time: null, session_Link: '',has_Published:true,addVideo: 'no' }
 ];
 
 // إضافة سيشن جديد
 addNewSession() {
-  this.sessions.push({ title: '', date: null, startTime: null, endTime: null, addVideo: 'no', videoLink: '' });
+  this.sessions.push({ session_Title: '', session_Date: null, start_Time: null, end_Time: null, session_Link: '' ,has_Published:true,addVideo: 'no' });
 }
 
 // حذف سيشن
@@ -179,21 +290,392 @@ videoLink: string = '';
 
 
 ///////////////////////////////////////////////event ///////////////////////////////////////////
-eventDate: Date | null = null;
+eventDate:any;
  
-startTime: Date | null = null;
-endTime: Date | null = null;
-displayOnHomeScreen: string = 'no';
+startTime: any;
+endTime: any;
+// displayOnHomeScreen: string = 'no';
 
 /////////////////////////////////////////////////consultant///////////////////////////////////////////
 days = [
-  { name: 'Saturday', selected: false, startTime: null, endTime: null, seats: null },
-  { name: 'Sunday', selected: false, startTime: null, endTime: null, seats: null },
-  { name: 'Monday', selected: false, startTime: null, endTime: null, seats: null },
-  { name: 'Tuesday', selected: false, startTime: null, endTime: null, seats: null },
-  { name: 'Wednesday', selected: false, startTime: null, endTime: null, seats: null },
-  { name: 'Thursday', selected: false, startTime: null, endTime: null, seats: null },
-  { name: 'Friday', selected: false, startTime: null, endTime: null, seats: null },
+  { name: 'Saturday', selected: false, startTime: null, endTime: null, seats: 0 ,duration:0},
+  { name: 'Sunday', selected: false, startTime: null, endTime: null, seats: 0,duration:0 },
+  { name: 'Monday', selected: false, startTime: null, endTime: null, seats: 0 ,duration:0},
+  { name: 'Tuesday', selected: false, startTime: null, endTime: null, seats: 0,duration:0 },
+  { name: 'Wednesday', selected: false, startTime: null, endTime: null, seats: 0,duration:0 },
+  { name: 'Thursday', selected: false, startTime: null, endTime: null, seats: 0,duration:0 },
+  { name: 'Friday', selected: false, startTime: null, endTime: null, seats: 0,duration:0 },
 ];
+
+sessionsDays:any[]= []
+
+updatesSessionsDays():void{
+  this.sessionsDays=[]
+  this.days.forEach((day)=>{
+    if(day.selected){
+      if (day.startTime && day.endTime && day.duration) {
+        // Convert start and end times to ISO format
+        let sTime: any = day.startTime;
+        let eTime: any = day.endTime;
+      
+        const startTime = new Date(sTime.getTime() - sTime.getTimezoneOffset() * 60000).toISOString();
+        const endTime = new Date(eTime.getTime() - eTime.getTimezoneOffset() * 60000).toISOString();
+      
+        // Calculate the difference between endTime and startTime in hours
+        const startHour = new Date(sTime).getHours();
+        const startMinute = new Date(sTime).getMinutes();
+        const endHour = new Date(eTime).getHours();
+        const endMinute = new Date(eTime).getMinutes();
+      
+        const totalWorkingMinutes = (endHour * 60 + endMinute) - (startHour * 60 + startMinute);
+        const workingHours = totalWorkingMinutes / 60; // Convert to hours
+      
+        // Calculate available seats
+        // const availableSeats = (workingHours * 60) / day.duration;
+        // Calculate available seats, rounding down to the nearest whole number
+        const availableSeats = Math.floor((workingHours * 60) / day.duration);
+        day.seats=availableSeats
+        console.log('Start Time:', startTime);
+        console.log('End Time:', endTime);
+        console.log('Working Hours:', workingHours);
+        console.log('Available Seats:', Math.floor(availableSeats)); // Round down to nearest whole seat
+      }
+      
+      this.sessionsDays.push({
+        session_Day: day.name,
+        session_Start_Time: day.startTime,
+        session_End_Time: day.endTime,
+        session_Duration: day.duration,
+        has_Published: true,
+      })
+    }
+  })
+}
+
+
+  
+
+//////////////////////////////////////////////////submit activities functions///////////////////////////////////////////
+
+///add course///
+removeLastPripertyFromSessions(){
+  this.sessions.forEach(session => {
+    const keys=Object.keys(session) as Array<keyof typeof session>;
+    const lastKey=keys[keys.length-1]
+    if(lastKey){
+      delete session[lastKey]
+    }
+  })
+
+  this.sessions.forEach((session: any) => {
+    // تعديل session_Date
+    if (session.session_Date) {
+      session.session_Date = new Date(
+        new Date(session.session_Date).getTime() - new Date(session.session_Date).getTimezoneOffset() * 60000
+      ).toISOString();
+    }
+  
+    // تعديل start_Time
+    if (session.start_Time) {
+      session.start_Time = new Date(
+        new Date(session.start_Time).getTime() - new Date(session.start_Time).getTimezoneOffset() * 60000
+      ).toISOString();
+    }
+  
+    // تعديل end_Time
+    if (session.end_Time) {
+      session.end_Time = new Date(
+        new Date(session.end_Time).getTime() - new Date(session.end_Time).getTimezoneOffset() * 60000
+      ).toISOString();
+    }
+  });
   
 }
+resetCourseValues(): void {
+  this.title = '';
+  this.discription = '';
+  this.location = '';
+  this.displayOnApp = 'no';
+  // this.images = '';
+  this.videoLink = '';
+  this.startDate = null;
+  this.endDate = null;
+  this.seatsAvailable = 0;
+
+  // Reset sessions array to its initial state
+  this.sessions = [
+    { 
+      session_Title: '', 
+      session_Date: null, 
+      start_Time: null, 
+      end_Time: null, 
+      session_Link: '', 
+      has_Published: true, 
+      addVideo: 'no' 
+    }
+  ];
+}
+
+
+addCourse(){
+
+  if(this.displayOnApp==='yes'){
+       this.displayOnApp=true
+  }else if(this.displayOnApp==='no'){
+    this.displayOnApp=false
+      
+  }
+
+  const startDate = new Date(this.startDate.getTime() - this.startDate.getTimezoneOffset() * 60000).toISOString();
+  const endDate = new Date(this.endDate.getTime() - this.endDate.getTimezoneOffset() * 60000).toISOString();
+
+
+this.removeLastPripertyFromSessions();
+console.log(this.sessions)
+  const courseData = {
+    course_Name: this.title,
+    course_Description: this.discription,
+    course_Location: this.location,
+    dispaly_Home: this.displayOnApp,
+    has_Published: false,
+    course_Image: this.images,
+    video_Link: this.videoLink,
+    course_Start_Date:startDate  ,
+    course_End_Date: endDate,
+    availiable_Seats: this.seatsAvailable,
+    sessions:this.sessions
+  };
+  console.log(courseData)
+  this.activityService.addNewCourse(courseData).subscribe({
+    next:(response)=>{
+      console.log('Course added successfully', response);
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+      this.resetCourseValues();
+    },
+    error:(error)=>{
+      console.error('Error adding course', error);
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+    }
+  })
+}
+
+///add workshop///
+addWorkshop() {
+
+
+  if(this.displayOnApp==='yes'){
+    this.displayOnApp=true
+}else if(this.displayOnApp==='no'){
+ this.displayOnApp=false
+   
+}
+
+const startDate = new Date(this.startDate.getTime() - this.startDate.getTimezoneOffset() * 60000).toISOString();
+const endDate = new Date(this.endDate.getTime() - this.endDate.getTimezoneOffset() * 60000).toISOString();
+
+
+this.removeLastPripertyFromSessions();
+
+
+  const  workshopData = {
+    workshop_Name: this.title,
+    workshop_Description:this.discription,
+    workshop_Location: this.location,
+    has_Published: false,
+    dispaly_Home: this.displayOnApp,
+    workshop_Image: this.images,
+    video_Link: this.videoLink,
+    workshop_Start_Date: startDate,
+    workshop_End_Date: endDate,
+    available_Seats: this.seatsAvailable,
+    sessions:this.sessions
+  };
+
+  console.log(workshopData)
+
+  this.activityService.addNewWorkshop(workshopData).subscribe({
+    next: (response) => {
+      console.log('Workshop added successfully', response);
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+      this.resetWorkshopData()
+
+    },
+    error: (error) => {
+      console.error('Error adding workshop', error);
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+    }
+  });
+}
+
+
+resetWorkshopData() {
+  this.title = '';
+  this.discription = '';
+  this.location = '';
+  this.displayOnApp = 'no'; // or `true` if default is true
+  // this.images = '';
+  this.videoLink = '';
+  this.startDate = null;
+  this.endDate = null;
+  this.seatsAvailable = 0; // or set a default value
+  this.sessions = [
+    {
+      session_Title: '',
+      session_Date: null,
+      start_Time: null,
+      end_Time: null,
+      session_Link: '',
+      has_Published: true,
+      addVideo: 'no'
+    }
+  ];
+}
+
+
+
+/////////add event ///
+addEvent() {
+
+  if(this.displayOnApp==='yes'){
+    this.displayOnApp=true
+}else if(this.displayOnApp==='no'){
+ this.displayOnApp=false
+   
+}
+
+const startTime = new Date(this.startTime.getTime() - this.startTime.getTimezoneOffset() * 60000).toISOString();
+const endTime = new Date(this.endTime.getTime() - this.endTime.getTimezoneOffset() * 60000).toISOString();
+const eventDate = new Date(this.eventDate.getTime() - this.eventDate.getTimezoneOffset() * 60000).toISOString();
+
+
+
+  const eventData = {
+    event_Name: this.title,
+    event_Description: this.discription,
+    event_Location: this.location,
+    dispaly_Home:  this.displayOnApp,
+    has_Published: false,
+    video_Link: this.videoLink,
+    event_Image:this.images,
+    event_Date: eventDate ,
+    event_Start_Time: startTime,
+    event_End_Time: endTime,
+    availabile_Seats:this.seatsAvailable
+  };
+
+
+  console.log(eventData)
+
+  this.activityService.addNewEvent(eventData).subscribe({
+    next: (response) => {
+      console.log('Event added successfully:', response);
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+
+      this.resetEventData()
+    },
+    error: (error) => {
+      console.error('Error adding event:', error);
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+    }
+  });
+}
+
+
+resetEventData() {
+  this.title = '';
+  this.discription = '';
+  this.location = '';
+  this.displayOnApp = 'no';
+  this.videoLink = '';
+  // this.images = '';
+  this.eventDate = null;
+  this.startTime = null;
+  this.endTime = null;
+  this.seatsAvailable = 0;
+}
+
+////add consultant///
+
+addConsult(): void {
+  this.updatesSessionsDays();
+console.log(this.sessionsDays);
+
+  if(this.displayOnApp==='yes'){
+    this.displayOnApp=true
+}else if(this.displayOnApp==='no'){
+ this.displayOnApp=false
+   
+}
+
+  const consultData = {
+    consult_Name: this.title,
+    consult_Description: this.discription,
+    consult_Location: this.location,
+    has_Published: false,
+    dispaly_Home: this.displayOnApp,
+    video_Link: this.videoLink,
+    consult_Image: this.images,
+    sessions:this.sessionsDays
+  };
+
+  this.activityService.addNewConsult(consultData).subscribe({
+    next: (response) => {
+      console.log('Consult added successfully', response);
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+      this.clearConsultData()
+   
+    },
+    error: (error) => {
+      console.error('Error adding consult', error);
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+    },
+  });
+}
+
+clearConsultData(): void {
+  this.title = '';
+  this.discription = '';
+  this.location = '';
+  this.displayOnApp = false;
+  this.videoLink = '';
+ 
+  this.sessionsDays = [];
+   
+}
+
+
+submitSelectedActivity(){
+  switch (this.selectedActivityType?.value) {
+    case 'course':
+      this.addCourse()
+      console.log('Course selected. Perform course-specific logic.');
+      // Add your logic for 'course' here
+      break;
+    case 'event':
+      this.addEvent()
+      console.log('Event selected. Perform event-specific logic.');
+      // Add your logic for 'event' here
+      break;
+    case 'workshop':
+      this.addWorkshop()
+      console.log('Workshop selected. Perform workshop-specific logic.');
+      // Add your logic for 'workshop' here
+      break;
+    case 'consultant':
+      this.addConsult()
+      console.log('Consultant Sessions selected. Perform specific logic.');
+      // Add your logic for 'consultant_sessions' here
+      break;
+    default:
+      console.log('No valid activity type selected.');
+  }
+}
+
+ 
+}
+
+

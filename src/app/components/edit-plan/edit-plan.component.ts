@@ -62,7 +62,7 @@ ngOnInit() {
   this.planID = this.route.snapshot.paramMap.get('id');
   console.log('Plan ID:', this.planID);
 
-
+this.calculateFinalPrice()
   this.items = [
     { label: 'Community Club', routerLink: '/dashboard' },
 
@@ -96,12 +96,13 @@ ngOnInit() {
   if (this.price && this.discount) {
     this.finalPrice = this.price - this.price * (this.discount / 100);
   } else {
-    this.finalPrice = 0;
+    this.finalPrice = this.price;
   }
 }
 
 // Mock submit function to simulate API interaction
 planID:any;
+trial:boolean=false;
 submitPlan(): void {
 
 
@@ -126,7 +127,9 @@ submitPlan(): void {
     plan_Price: this.price,
     plan_Discount: this.discount,
     plan_Fianl_Price: this.finalPrice,
-    plan_Features: this.features.split('\n') // Split features into an array
+    plan_Features: this.features.split('\n'), // Split features into an array
+    is_Trial:this.trial
+
   };
   
 

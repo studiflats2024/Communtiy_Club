@@ -13,6 +13,26 @@
       <p-toast></p-toast>
       <div class="content">
         <p-card >
+          <div class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4">
+            <label class="label">Is the plan free or paid?</label>
+            
+            <div class="p-field-radiobutton">
+              <p-radioButton
+                name="display"
+                [value]="true"
+                [(ngModel)]="trial"
+              ></p-radioButton>
+              <label>Free</label>
+            </div>
+            <div class="p-field-radiobutton">
+              <p-radioButton
+                name="display"
+                [value]="false"
+                [(ngModel)]="trial"
+              ></p-radioButton>
+              <label>Paid</label>
+            </div>
+            </div>
           <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
                   <div class="flex flex-column gap-2 w-50">
                     <label class="label" for="name">Name of Plan</label>
@@ -72,6 +92,7 @@
                       [(ngModel)]="price" 
                       placeholder="price"
                       #priceInput="ngModel"
+                      (ngModelChange)="calculateFinalPrice()"
                       required
                     />
                     <small *ngIf="priceInput.invalid && priceInput.touched" class="p-error">
@@ -86,12 +107,14 @@
               <div class="flex flex-column gap-2 w-50">
                 <label class="label" for="discount">Discount %</label>
                 <input 
-                type="number"
-                    pInputText 
-                    id="discount" 
-                    aria-describedby="username-help" 
-                    [(ngModel)]="discount" 
-                    placeholder="Ratio of discount"/>
+              type="number"
+                  pInputText 
+                  id="discount" 
+                  aria-describedby="username-help" 
+                  [(ngModel)]="discount" 
+                  placeholder="Ratio of discount"
+                  (ngModelChange)="calculateFinalPrice()"
+                  />
                 
             </div>
             <div class="flex flex-column gap-2 w-50">
@@ -102,7 +125,8 @@
                   id="finalprice" 
                   aria-describedby="username-help" 
                   [(ngModel)]="finalPrice" 
-                  placeholder="Final Price"/>
+                  placeholder="Final Price"
+                  readonly/>
              
           </div>
         </div>

@@ -42,6 +42,7 @@ import { PlansService } from '../../services/plans.service';
 export class AddNewPlanComponent {
   // Breadcrumb items for navigation
   items: any[] = [];
+  trial:boolean=false;
 
   // Dropdown options for duration and plans
   durations: { name: string; value: number }[] = [];
@@ -62,7 +63,7 @@ features: string = '';
   ngOnInit() {
 
  
-
+this.calculateFinalPrice()
 
     this.items = [
       { label: 'Community Club', routerLink: '/dashboard' },
@@ -97,7 +98,7 @@ features: string = '';
     if (this.price && this.discount) {
       this.finalPrice = this.price - this.price * (this.discount / 100);
     } else {
-      this.finalPrice = 0;
+      this.finalPrice = this.price;
     }
   }
 
@@ -124,7 +125,8 @@ features: string = '';
       plan_Price: this.price,
       plan_Discount: this.discount,
       plan_Fianl_Price: this.finalPrice,
-      plan_Features: this.features.split('\n') // Split features into an array
+      plan_Features: this.features.split('\n'), // Split features into an array
+      is_Trial:this.trial
     };
     
 
