@@ -29,82 +29,17 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { PlansService } from '../../services/plans.service';
 import { ActivityService } from '../../services/activity.service';
 
- 
- 
-
-
 
 @Component({
-  selector: 'app-add-new-activity',
+  selector: 'app-update-activity',
   standalone: true,
   imports: [CardModule,RadioButtonModule,CheckboxModule,ChipModule,InputNumberModule,ToastModule,MultiSelectModule,CalendarModule,DragDropModule,ButtonModule,GalleriaModule,FileUploadModule,InputTextareaModule,DropdownModule,InputTextModule,DialogModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
   providers: [MessageService],
-  
-  templateUrl: './add-new-activity.component.html',
-  styleUrl: './add-new-activity.component.css'
+  templateUrl: './update-activity.component.html',
+  styleUrl: './update-activity.component.css'
 })
-export class AddNewActivityComponent {
-
-
-
-  // images: any[] = [];
-  // draggedImage: any;
-
-  // responsiveOptions: any[] = [
-  //   {
-  //     breakpoint: '1024px',
-  //     numVisible: 5
-  //   },
-  //   {
-  //     breakpoint: '768px',
-  //     numVisible: 3
-  //   },
-  //   {
-  //     breakpoint: '560px',
-  //     numVisible: 1
-  //   }
-  // ];
-
-  // onImageSelect(event: any) {
-  //   for (let file of event.files) {
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       this.images.push({
-  //         src: e.target.result,
-  //         alt: file.name,
-  //       });
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
-
-  // removeImage(index: number) {
-  //   this.images.splice(index, 1);
-  // }
-
-  // onDragStart(event: any, img: any) {
-  //   this.draggedImage = img;
-  // }
-
-  // onDrop(event: any, index: number) {
-  //   if (this.draggedImage) {
-  //     const draggedIndex = this.images.indexOf(this.draggedImage);
-  //     this.images.splice(draggedIndex, 1);  
-  //     this.images.splice(index, 0, this.draggedImage);  
-  //     this.draggedImage = null;  
-  //   }
-  // }
-
-  // onDragEnd(event: any) {
-  //   this.draggedImage = null;
-  // }
-
-  // onDragEnter(event: any, index: number) {
-   
-  // }
-
-    //////////////////////////photos///////////////////////////
-  // images: any[] = [];
+export class UpdateActivityComponent {
+    // images: any[] = [];
   images: string = '';
 
   draggedImage: any;
@@ -207,11 +142,16 @@ export class AddNewActivityComponent {
  
 discription:string=''
 
-  
-  constructor(private activityService:ActivityService,private messageService: MessageService,private plansService: PlansService) {}
+activityId: any;
+activityType: string | null = null;
+  constructor(private route: ActivatedRoute,private activityService:ActivityService,private messageService: MessageService,private plansService: PlansService) {}
   ngOnInit() {
 
- 
+    this.activityId = this.route.snapshot.paramMap.get('id');
+    this.activityType = this.route.snapshot.paramMap.get('type');
+
+    console.log('Activity ID:', this.activityId);
+    console.log('Activity Type:', this.activityType);
 
 
     this.items = [
@@ -220,14 +160,220 @@ discription:string=''
       { label: 'Activities', routerLink: '/activities' },
 
 
-      { label: 'Add New Activity', routerLink: '/add-new-activity' },
+      { label: 'Update Activity', routerLink: `/update-activity/${this.activityId}/${this.activityType}` },
       
     ];
- 
+  this.getDetailsActivity() 
     
   }
 
+////////////////////////////////////get details depend on type/////////////////////////////////
+getDetailsActivity() {
+   
+  if(this.activityType==="Courses"){
+    this.fetchCourseDetails(this.activityId)
+     
+  }else if(this.activityType==="Events"){
+    this.fetchEventDetails(this.activityId)
+     
+     
+  }else if(this.activityType==="Workshops"){
+     
+    this.fetchWorkshopDetails(this.activityId)
+   
 
+  }else if(this.activityType==="Consultant"){
+    this.fetchConsultDetails(this.activityId)
+    
+     
+
+    
+  }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+activityDetails:any
+fetchCourseDetails(courseId: string): void {
+  this.activityService.getCourseDetails(courseId).subscribe({
+    next: (response) => {
+
+      this.activityDetails = response;
+      this.updateCourseDetails(response)
+      console.log('Course Details:', this.activityDetails);
+    },
+    error: (error) => {
+      console.log('Error fetching course details:', error);
+    },
+  });
+}
+//update//
+updateCourseDetails(courseDetails: any): void {
+  this.selectedActivityType={ label: 'Course', value: 'course' },
+   
+  this.title = courseDetails.course_Name || '';
+  this.discription = courseDetails.course_Description || '';
+  this.location = courseDetails.course_Location || '';
+  this.displayOnApp = courseDetails.dispaly_Home || false; // Convert to boolean if needed
+  this.videoLink = courseDetails.video_Link || '';
+  this.images = courseDetails.course_Image || '';
+
+  // Parse and format start and end dates
+  this.startDate = courseDetails.course_Start_Date
+    ? new Date(courseDetails.course_Start_Date)
+    : null;
+  this.endDate = courseDetails.course_End_Date
+    ? new Date(courseDetails.course_End_Date)
+    : null;
+
+  this.seatsAvailable = courseDetails.availabile_Seats || 0;
+
+  // Map the sessions
+  this.sessions = courseDetails.sessions.map((session: any) => ({
+    session_ID: session.session_ID || '',
+    session_Title: session.session_Title || '',
+    session_Date: session.session_Date
+      ? new Date(session.session_Date)
+      : null,
+    start_Time: session.start_Time || '',
+    end_Time: session.end_Time || '',
+    has_Published: session.has_Published || false,
+    session_Link: session.session_Link || '',
+    addVideo: session.addVideo || 'no', // Assuming `addVideo` is handled elsewhere
+  }));
+}
+
+/////////
+fetchConsultDetails(consultId: string): void {
+  this.activityService.getConsultDetails(consultId).subscribe({
+    next: (response) => {
+      this.activityDetails = response;
+      this.updateConsultDetails(response)
+      console.log('Consultant Details:', this.activityDetails);
+    },
+    error: (error) => {
+      console.log('Error fetching consultant details:', error);
+    },
+  });
+}
+
+//update//
+updateConsultDetails(consultDetails: any): void {
+
+  
+  this.selectedActivityType={ label: 'Consultant Sessions', value: 'consultant' },
+
+  this.title = consultDetails.consult_Name || '';
+  this.discription = consultDetails.consult_Description || '';
+  this.location = consultDetails.consult_Location || '';
+  this.displayOnApp = consultDetails.dispaly_Home || false;
+  this.videoLink = consultDetails.video_Link || '';
+  this.images = consultDetails.consult_Image || '';
+  
+  // Update sessionsDays with the data from the API
+  this.sessionsDays = consultDetails.sessions.map((session: any) => ({
+    session_ID: session.session_ID || '',
+    session_Day: session.session_Day || '',
+    session_Start_Time: session.session_Start_Time || '',
+    session_End_Time: session.session_End_Time || '',
+    session_Duration: session.session_Duration || 0,
+    has_Published: session.has_Published || false,
+    session_Available_Seats: session.seession_Available_Seats || 0
+  }));
+}
+
+//////////
+
+
+fetchEventDetails(eventId: string): void {
+  this.activityService.getEventDetails(eventId).subscribe({
+    next: (response) => {
+      this.activityDetails = response;
+      this.updateEventDetails(response);
+      console.log('Event Details:', this.activityDetails);
+    },
+    error: (error) => {
+      console.log('Error fetching event details:', error);
+    },
+  });
+}
+
+////update values///
+updateEventDetails(eventDetails: any): void {
+ 
+  this.selectedActivityType={ label: 'Event', value: 'event' },
+   
+
+
+
+  this.title = eventDetails.event_Name || '';
+  this.discription = eventDetails.event_Description || '';
+  this.location = eventDetails.event_Location || '';
+  this.displayOnApp = eventDetails.dispaly_Home ? 'yes' : 'no';
+  this.videoLink = eventDetails.video_Link || '';
+  this.images = eventDetails.event_Image || '';
+  this.eventDate = eventDetails.event_Date ? new Date(eventDetails.event_Date) : null;
+  this.startTime = eventDetails.event_Start_Time || null;
+  this.endTime = eventDetails.event_End_Time || null;
+  this.seatsAvailable = eventDetails.availabile_Seats || 0;
+}
+
+/////////
+
+fetchWorkshopDetails(workshopId: string): void {
+  this.activityService.getWorkshopDetails(workshopId).subscribe({
+    next: (response) => {
+      this.activityDetails = response;
+      this.updateWorkshopDetails(response);
+      console.log('Workshop Details:', this.activityDetails);
+    },
+    error: (error) => {
+      console.log('Error fetching workshop details:', error);
+    },
+  });
+}
+
+
+//update//
+updateWorkshopDetails(workshopDetails: any): void {
+
+
+ 
+  this.selectedActivityType={ label: 'Workshop', value: 'workshop' },
+  
+  this.title = workshopDetails.workshop_Name || '';
+  this.discription = workshopDetails.workshop_Description || '';
+  this.location = workshopDetails.workshop_Location || '';
+  this.displayOnApp = workshopDetails.dispaly_Home || false; // Convert to boolean if needed
+  this.videoLink = workshopDetails.video_Link || '';
+  this.images = workshopDetails.workshop_Image || '';
+
+  // Parse and format start and end dates
+  this.startDate = workshopDetails.workshop_Start_Date 
+    ? new Date(workshopDetails.workshop_Start_Date) 
+    : null;
+  this.endDate = workshopDetails.workshop_End_Date 
+    ? new Date(workshopDetails.workshop_End_Date) 
+    : null;
+
+  this.seatsAvailable = workshopDetails.availabile_Seats || 0;
+
+  // Map the sessions
+  this.sessions = workshopDetails.sessions.map((session: any) => ({
+    session_ID: session.session_ID || '',
+    session_Title: session.session_Title || '',
+    session_Date: session.session_Date 
+      ? new Date(session.session_Date) 
+      : null,
+    start_Time: session.start_Time || '',
+    end_Time: session.end_Time || '',
+    has_Published: session.has_Published || false,
+    session_Link: session.session_Link || '',
+    addVideo: session.addVideo || 'no', // Assuming addVideo is handled elsewhere
+  }));
+}
+
+/////////
+///////////////////////////////////////////////////////////////////////////////////////////
 
 
   onActivityTypeChange(event: any): void {
@@ -814,5 +960,3 @@ validateActivitiesFields():boolean{
 }
  
 }
-
-

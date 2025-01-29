@@ -34,7 +34,8 @@ import { CalendarModule } from 'primeng/calendar';
  
 import { CheckboxModule } from 'primeng/checkbox';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-
+import { ActivityService } from '../../services/activity.service';
+import { RouterModule } from '@angular/router';
  
 
  
@@ -42,7 +43,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 @Component({
   selector: 'app-activities',
   standalone: true,
-  imports: [CheckboxModule,OverlayPanelModule, CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
+  imports: [RouterModule,CheckboxModule,OverlayPanelModule, CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
 
   providers: [MessageService ],
 
@@ -136,7 +137,7 @@ export class ActivitiesComponent {
   
 
 
-  constructor(private plansService: PlansService) {
+  constructor(private messageService:MessageService,private activityService:ActivityService,private plansService: PlansService) {
    
 
     this.paymentRecords = [
@@ -201,7 +202,7 @@ export class ActivitiesComponent {
     ];
 
     
-
+  this.fetchActivities('All',1,2000)
     
   }
 
@@ -383,9 +384,7 @@ viewDetails(activity: any) {
   console.log('View Details:', activity);
 }
 
-deleteItem(activity: any) {
-  console.log('Delete Item:', activity);
-}
+ 
 
 
 //////////////////////////////////////////dialog success publish//////////////////////////////
@@ -428,4 +427,135 @@ showCancelDialog: boolean = false;
   toggleSessionSelection(index: number): void {
     this.sessions[index].selected = !this.sessions[index].selected;
   }
+
+
+  /////////////////////////fetching from api ///////////////////////////
+  fetchActivities(type:string, pageNumber:number, pageSize:number):void{
+     this.activityService.getPaginatedActivities(type,pageNumber,pageSize).subscribe({
+      next:(response)=>{
+        this.activities=response.data
+        console.log('Activities:', this.activities);
+      },
+      error:(error)=>{
+        console.log('Error fetching activities:', error);
+      }
+     })
+  }
+
+
+  activeIndex: number = 0;
+  onTabChange(index: number): void {
+    console.log('Active tab index changed:', index);
+    this.activeIndex = index;
+    if(index===0){
+      this.fetchActivities('All',1,200);
+    }else if(index===1){
+      this.fetchActivities('Course',1,200);
+    }else if(index===2){
+      this.fetchActivities('Workshop',1,200);
+      
+    }else if(index===3){
+       
+      this.fetchActivities('Event',1,200);
+      
+    }else if(index===4){
+      this.fetchActivities('Consult',1,200);
+     
+    }
+  }
+
+
+
+  ////////////////////////////////////////////apis delete//////////////////////
+  deleteConsultById(consultId: string): void {
+    this.activityService.deleteConsult(consultId).subscribe({
+      next: (response) => {
+        console.log('Consult deleted successfully:', response);
+        this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+        this.onTabChange(4)
+      },
+      error: (error) => {
+        console.error('Error deleting consult:', error);
+        this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+      }
+    });
+  }
+
+
+  deleteCourseById(courseId: string): void {
+    this.activityService.deleteCourse(courseId).subscribe({
+      next: (response) => {
+        console.log('Course deleted successfully:', response);
+        this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+        this.onTabChange(1)
+      },
+      error: (error) => {
+        console.error('Error deleting course:', error);
+        this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+      }
+    });
+  }
+
+
+  deleteEventById(eventId: string): void {
+    this.activityService.deleteEvent(eventId).subscribe({
+      next: (response) => {
+        console.log('Event deleted successfully:', response);
+        this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+        this.onTabChange(3)
+      },
+      error: (error) => {
+        console.error('Error deleting event:', error);
+        this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+      }
+    });
+  }
+
+
+  deleteWorkshopById(workshopId: string): void {
+    this.activityService.deleteWorkshop(workshopId).subscribe({
+      next: (response) => {
+        console.log('Workshop deleted successfully:', response);
+        this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+        this.onTabChange(2)
+      },
+      error: (error) => {
+        console.error('Error deleting workshop:', error);
+        this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+      }
+    });
+  }
+
+
+
+  deleteItem(activity: any) {
+    console.log('Delete Item:', activity);
+    if(activity.activity_Type==="Courses"){
+      this.deleteCourseById(activity.activity_ID)
+   
+    }else if(activity.activity_Type==="Events"){
+      this.deleteEventById(activity.activity_ID)
+       
+    }else if(activity.activity_Type==="Workshops"){
+      this.deleteWorkshopById(activity.activity_ID)
+     
+
+    }else if(activity.activity_Type==="Consultant"){
+      this.deleteConsultById(activity.activity_ID)
+       
+
+      
+    }
+  }
+
+
+
+  ////////////////////////////update activity//////////////////
+
+ 
 }
+

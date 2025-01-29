@@ -60,4 +60,71 @@ export class ActivityService {
         return this.http.post<any>(url, consultData);
       }
   
+      /////////////////////////////////////////////activity list//////////////////////////////
+        getPaginatedActivities(type:string,pageNumber:number,pageSize:number):Observable<any>{
+          const params = new HttpParams().set('_Type', type);
+
+          const headers = new HttpHeaders({
+            Accept: 'text/plain',
+            'Content-Type': 'application/json',
+          });
+      
+          const body = {
+            pageNumber: pageNumber,
+            pageSize: pageSize,
+          };
+      
+          return this.http.post(`${environment.apiUrl}/Gateway/GetPaginatedActivites`, body, { params, headers });
+        }
+
+
+        ///////////////activities delete apis/////////////////////////////
+        deleteConsult(consultId: string): Observable<any> {
+          const params = new HttpParams().set('Consult_ID', consultId);
+      
+          return this.http.delete(`${environment.apiUrl}/Consults/DeleteConsult`, { params });
+        }
+
+        deleteCourse(courseId: string): Observable<any> {
+          const params = new HttpParams().set('Course_ID', courseId);
+      
+          return this.http.delete(`${environment.apiUrl}/Courses/DeleteCourse`, { params });
+        }
+
+        deleteEvent(eventId: string): Observable<any> {
+          const params = new HttpParams().set('Event_ID', eventId);
+      
+          return this.http.delete(`${environment.apiUrl}/Events/DeleteEvent`, { params });
+        }
+
+        deleteWorkshop(workshopId: string): Observable<any> {
+          const params = new HttpParams().set('Workshop_ID', workshopId);
+      
+          return this.http.delete(`${environment.apiUrl}/Workshops/DeleteWorkshop`, { params });
+        }
+
+
+
+        ///////////////////////////////////Details apis activity///////////////////////////////
+
+
+        getCourseDetails(courseId: string): Observable<any> {
+          const url = `${environment.apiUrl}/Courses/GetCourse_Details?ID=${courseId}`;
+          return this.http.get<any>(url);
+        }
+
+        getConsultDetails(consultId: string): Observable<any> {
+          const url = `${environment.apiUrl}/Consults/GetConsult_Details?ID=${consultId}`;
+          return this.http.get<any>(url);
+        }
+
+        getEventDetails(eventId: string): Observable<any> {
+          const url = `${environment.apiUrl}/Events/GetEventDetails?ID=${eventId}`;
+          return this.http.get<any>(url);
+        }
+
+        getWorkshopDetails(workshopId: string): Observable<any> {
+          const url = `${environment.apiUrl}/Workshops/GetWorkshop_Details?ID=${workshopId}`;
+          return this.http.get<any>(url);
+        }
 }

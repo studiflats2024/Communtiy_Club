@@ -38,6 +38,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/add-new-activity/add-new-activity.component').then(m => m.AddNewActivityComponent),
     canActivate: [AdminGuard]
   },
+  {
+    path: 'update-activity/:id/:type',
+    loadComponent: () => import('./components/update-activity/update-activity.component').then(m => m.UpdateActivityComponent),
+    canActivate: [AdminGuard]
+  },
  
   
    
