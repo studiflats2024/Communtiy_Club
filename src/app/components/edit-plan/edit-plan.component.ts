@@ -55,12 +55,49 @@ finalPrice: number =0;
 invitationNo: any;
 features: string = '';
 
+planData:any;
 
-constructor(private route: ActivatedRoute,private messageService: MessageService,private plansService: PlansService) {}
+constructor(private router: Router,private route: ActivatedRoute,private messageService: MessageService,private plansService: PlansService) {}
 ngOnInit() {
+    // Initialize dropdown options
+    this.durations = [
+      { name: 'Year', value: 1 },
+      { name: '6 Months', value: 3 },
+      { name: '3 Months', value: 3 },
+
+      { name: 'Month', value: 6 },
+     
+    ];
+
+    this.plans = [
+      { name: 'Most Popular', id: 1 },
+      { name: 'Most Value', id: 2 },
+     
+    ];
 
   this.planID = this.route.snapshot.paramMap.get('id');
   console.log('Plan ID:', this.planID);
+
+  const storedPlan = localStorage.getItem('planData'); // الحصول على البيانات من localStorage
+  if (storedPlan) {
+    this.planData = JSON.parse(storedPlan); // تحويل النص إلى كائن
+    const planData = JSON.parse(storedPlan);
+    console.log('Plan Data:', this.planData);
+    localStorage.removeItem('planData');
+
+
+      // Bind the data to the respective variables
+      this.planName = planData.plan_Name || '';
+      this.selectedDuration = this.durations.find((d) => d.name === planData.plan_Duration) || null;
+      this.selectedPlan = this.plans.find((p) => p.name === planData.plan_Type) || null;
+      this.price = planData.plan_Price || 0;
+      this.discount = planData.plan_Discount || 0;
+      this.finalPrice = planData.plan_Final_Price || 0;
+      this.invitationNo = planData.invitation_NOs || '';
+      this.features = planData.plan_Features.join(', ') || '';
+  } else {
+    console.log('No plan data found in localStorage');
+  }
 
 this.calculateFinalPrice()
   this.items = [
@@ -73,21 +110,7 @@ this.calculateFinalPrice()
     
   ];
 
-      // Initialize dropdown options
-      this.durations = [
-        { name: 'Year', value: 1 },
-        { name: '6 Months', value: 3 },
-        { name: '3 Months', value: 3 },
-
-        { name: 'Month', value: 6 },
-       
-      ];
-  
-      this.plans = [
-        { name: 'Most Popular', id: 1 },
-        { name: 'Most Value', id: 2 },
-       
-      ];
+     
   
 }
 

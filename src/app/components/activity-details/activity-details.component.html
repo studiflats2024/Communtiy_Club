@@ -1,0 +1,74 @@
+<div class="parent">
+    <div class="fixDiv"></div>
+    <div class="page">
+      <p-breadcrumb class="max-w-full" [model]="items">
+        <ng-template pTemplate="item" let-item>
+          <a
+            [routerLink]="item.routerLink"
+            class="p-menuitem-link"
+            routerLinkActive="text-primary font-semibold"
+          >
+            <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+            <span>{{ item.label }}</span>
+          </a>
+        </ng-template>
+      </p-breadcrumb>
+  
+      <p-toast></p-toast>
+      <div class="content">
+        <p-card>
+
+
+
+
+            <div class="container">
+                <div class="custom-tabview">
+                  <div class="tab-menu">
+                    <button
+                      class="tab-button"
+                      [class.active]="activeTab === 'basic-info'"
+                      (click)="activeTab = 'basic-info'"
+                    >
+                      Basic Information
+                    </button>
+                    <button
+                      class="tab-button"
+                      [class.active]="activeTab === 'sessions'"
+                      (click)="activeTab = 'sessions'"
+                    >
+                      Sessions
+                    </button>
+                    <button
+                      class="tab-button"
+                      [class.active]="activeTab === 'reviews'"
+                      (click)="activeTab = 'reviews'"
+                    >
+                      Reviews
+                    </button>
+                  </div>
+                  <div class="tab-content">
+                      <div class="basic-info">
+                        <img src="community/defaultImg.png" style="height: 299px;"/>
+                        <div class="info-container">
+                            <div class="status-badges">
+                              <p-badge value="Course" styleClass="course-badge"></p-badge>
+                              <p-badge value="Published"  i class="pi pi-check-circle" styleClass="published-badge"></p-badge>
+                            </div>
+                          </div>
+                          
+                      </div>
+                      <div class="sessions"></div>
+                      <div class="reviews"></div>
+
+
+                  </div>
+                </div>
+              </div>
+              
+              
+             
+        </p-card>
+      </div>
+    </div>
+  </div>
+  

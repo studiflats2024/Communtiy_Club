@@ -169,7 +169,10 @@ export class ManageSubscriptionComponent {
 
     
   }
-
+  storePlanInLocalStorage(plan: any): void {
+    localStorage.setItem('planData', JSON.stringify(plan)); // تخزين البيانات كـ JSON
+  }
+  
 
   onDeletePlan(planId: string): void {
     this.plansService.deletePlan(planId).subscribe({

@@ -79,7 +79,7 @@
 
    <p-overlayPanel #op>
     <ul class="menu-list p-0 m-0 list-unstyled" style="width: 200px; padding: 16px 0;">
-      <li><a [routerLink]="['/edit-plan', plan.id]" style="cursor: pointer; text-decoration: none; color:#363636" >Edit</a></li>
+      <li><a [routerLink]="['/edit-plan', plan.id]"  (click)="storePlanInLocalStorage(plan)" style="cursor: pointer; text-decoration: none; color:#363636" >Edit</a></li>
       <li><a style="cursor: pointer; text-decoration: none; color:#363636" (click)="onDeletePlan(plan.id)" >Delete</a></li><!--(click)="deleteItem(course)"-->
     </ul>
   </p-overlayPanel>

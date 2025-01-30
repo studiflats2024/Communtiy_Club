@@ -215,7 +215,7 @@
       <td>
         <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
       </td>
-      <td>{{ activity.activity_Type }}</td>
+      <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
       <td>{{ activity.activity_Name }}</td>
       <td>{{ activity.activity_Seats }}</td>
       <td>{{ activity.activity_Location | slice:10 }}...</td>
@@ -249,7 +249,7 @@
           <p-overlayPanel #op>
             <ul class="menu-list">
               <li><a (click)="viewParticipants(activity)">View Participants</a></li>
-              <li><a (click)="viewDetails(activity)">View Details</a></li>
+              <li><a (click)="viewDetails(activity)" [routerLink]="'/activity-details/1'" style="text-decoration: none; color:#bbb" >View Details</a></li>
               <li><a (click)="deleteItem(activity)">Delete</a></li>
             </ul>
           </p-overlayPanel>
@@ -395,7 +395,9 @@
           <td>
             <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
           </td>
-          <td>{{ activity.activity_Type }}</td>
+          <!-- <td>{{ activity.activity_Type }}</td> -->
+      <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
+
           <td>{{ activity.activity_Name }}</td>
           <td>{{ activity.activity_Seats }}</td>
           <td>{{ activity.activity_Location | slice:10 }}...</td>
@@ -575,7 +577,9 @@
                         <td>
                           <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
                         </td>
-                        <td>{{ activity.activity_Type }}</td>
+                        <!-- <td>{{ activity.activity_Type }}</td> -->
+      <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
+
                         <td>{{ activity.activity_Name }}</td>
                         <td>{{ activity.activity_Seats }}</td>
                         <td>{{ activity.activity_Location | slice:10 }}...</td>
@@ -757,7 +761,9 @@
                       <td>
                         <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
                       </td>
-                      <td>{{ activity.activity_Type }}</td>
+                      <!-- <td>{{ activity.activity_Type }}</td> -->
+      <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
+
                       <td>{{ activity.activity_Name }}</td>
                       <td>{{ activity.activity_Seats }}</td>
                       <td>{{ activity.activity_Location | slice:10 }}...</td>
@@ -939,7 +945,9 @@
                       <td>
                         <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
                       </td>
-                      <td>{{ activity.activity_Type }}</td>
+                      <!-- <td>{{ activity.activity_Type }}</td> -->
+      <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
+
                       <td>{{ activity.activity_Name }}</td>
                       <td>{{ activity.activity_Seats }}</td>
                       <td>{{ activity.activity_Location | slice:10 }}...</td>

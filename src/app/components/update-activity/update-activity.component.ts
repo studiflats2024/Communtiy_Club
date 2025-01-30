@@ -279,6 +279,30 @@ updateConsultDetails(consultDetails: any): void {
     has_Published: session.has_Published || false,
     session_Available_Seats: session.seession_Available_Seats || 0
   }));
+
+
+  //compare days array with sessionsDays and update the days
+  this.days.forEach((day)=>{
+     const matchingSession=this.sessionsDays.find(
+      (session)=> session.session_Day.toLowerCase() === day.name.toLowerCase()
+     );
+     if(matchingSession){
+      day.selected = true;
+      day.startTime = matchingSession.session_Start_Time || null;
+      day.endTime = matchingSession.session_End_Time || null;
+      day.duration = matchingSession.session_Duration || 0;
+      day.seats = matchingSession.session_Available_Seats || 0;
+     } else {
+      day.selected = false;
+      day.startTime = null;
+      day.endTime = null;
+      day.duration = 0;
+      day.seats = 0;
+    }
+
+  });
+
+   
 }
 
 //////////
@@ -455,94 +479,161 @@ days = [
 
 sessionsDays:any[]= []
 
-// updatesSessionsDays():void{
-//   this.sessionsDays=[]
-//   this.days.forEach((day)=>{
-//     if(day.selected){
+ 
+
+
+
+// updatesSessionsDays(): void {
+//   this.sessionsDays = [];
+//   this.days.forEach((day) => {
+//     if (day.selected) {
 //       if (day.startTime && day.endTime && day.duration) {
-        
-//         let sTime: any = day.startTime;
-//         let eTime: any = day.endTime;
-      
-//         const startTime = new Date(sTime.getTime() - sTime.getTimezoneOffset() * 60000).toISOString();
-//         const endTime = new Date(eTime.getTime() - eTime.getTimezoneOffset() * 60000).toISOString();
-      
- 
-//         const startHour = new Date(sTime).getHours();
-//         const startMinute = new Date(sTime).getMinutes();
-//         const endHour = new Date(eTime).getHours();
-//         const endMinute = new Date(eTime).getMinutes();
-      
+//         const formatTime = (time: Date): string => {
+//           const options: Intl.DateTimeFormatOptions = {
+//             hour: '2-digit',
+//             minute: '2-digit',
+//             hour12: true, 
+//           };
+//           return new Date(time).toLocaleTimeString('en-US', options);
+//         };
+
+//         const formattedStartTime = formatTime(day.startTime);
+//         const formattedEndTime = formatTime(day.endTime);
+
+         
+//         const startHour = new Date(day.startTime).getHours();
+//         const startMinute = new Date(day.startTime).getMinutes();
+//         const endHour = new Date(day.endTime).getHours();
+//         const endMinute = new Date(day.endTime).getMinutes();
 //         const totalWorkingMinutes = (endHour * 60 + endMinute) - (startHour * 60 + startMinute);
-//         const workingHours = totalWorkingMinutes / 60;  
-      
- 
+//         const workingHours = totalWorkingMinutes / 60; // Convert to hours
 //         const availableSeats = Math.floor((workingHours * 60) / day.duration);
-//         day.seats=availableSeats
-//         console.log('Start Time:', startTime);
-//         console.log('End Time:', endTime);
-//         console.log('Working Hours:', workingHours);
-//         console.log('Available Seats:', Math.floor(availableSeats)); 
+
+//         day.seats = availableSeats;
+
+        
+//         this.sessionsDays.push({
+//           session_Day: day.name,
+//           session_Start_Time: formattedStartTime,  
+//           session_End_Time: formattedEndTime,     
+//           session_Duration: day.duration,
+//           has_Published: true,
+//         });
+
+//         console.log('Start Time:', formattedStartTime);
+//         console.log('End Time:', formattedEndTime);
+//         console.log('Available Seats:', availableSeats);
 //       }
- 
-      
-//       this.sessionsDays.push({
-//         session_Day: day.name,
-//         session_Start_Time: day.startTime,
-//         session_End_Time: day.endTime,
-//         session_Duration: day.duration,
-//         has_Published: true,
-//       })
 //     }
-//   })
+//   });
 // }
+
+  
+calculateSeatsAfterFormat(startTime: string, endTime: string, duration: number): number {
+  try {
+    // تحويل الوقت المُمَنوَت إلى دقائق
+    const parseFormattedTime = (time: string): number => {
+      const [hour, minute, period] = time.match(/(\d+):(\d+)\s?(AM|PM)/i) || [];
+      if (!hour || !minute || !period) {
+        throw new Error('Invalid time format');
+      }
+
+      let hourInt = parseInt(hour);
+      if (period.toUpperCase() === 'PM' && hourInt < 12) hourInt += 12;
+      if (period.toUpperCase() === 'AM' && hourInt === 12) hourInt = 0;
+
+      return hourInt * 60 + parseInt(minute); // تحويل الوقت إلى دقائق
+    };
+
+    // تحويل startTime و endTime إلى دقائق
+    const startMinutes = parseFormattedTime(startTime);
+    const endMinutes = parseFormattedTime(endTime);
+
+    // حساب الدقائق الكلية للعمل
+    const totalWorkingMinutes = endMinutes - startMinutes;
+
+    if (totalWorkingMinutes <= 0) {
+      throw new Error('End time must be greater than start time');
+    }
+
+    // حساب المقاعد
+    const availableSeats = Math.floor(totalWorkingMinutes / duration);
+
+    return availableSeats;
+  } catch (error:any) {
+    console.error('Error calculating seats:', error.message);
+    return 0; // إرجاع صفر في حالة وجود خطأ
+  }
+}
+
 
 updatesSessionsDays(): void {
   this.sessionsDays = [];
+
+  const isFormattedTime = (time: any): boolean => {
+    const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/i; // Regular expression to match 12-hour format
+    return typeof time === 'string' && timeRegex.test(time);
+  };
+
+  const formatTime = (time: any): string => {
+    if (isFormattedTime(time)) {
+      // إذا كان الوقت بالفعل بصيغة 12:00 AM أو ما شابه
+      return time;
+    } else  {
+      // إذا كان كائن من نوع Date
+      const options: Intl.DateTimeFormatOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true, // تنسيق 12 ساعة
+      };
+      return time.toLocaleTimeString('en-US', options);
+    }
+    // throw new Error('Invalid time format');
+  };
+
   this.days.forEach((day) => {
     if (day.selected) {
       if (day.startTime && day.endTime && day.duration) {
-        const formatTime = (time: Date): string => {
-          const options: Intl.DateTimeFormatOptions = {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true, // Ensures the output is in 12-hour format (e.g., 10:30 am)
-          };
-          return new Date(time).toLocaleTimeString('en-US', options);
-        };
+        try {
+          const formattedStartTime = formatTime(day.startTime);
+          const formattedEndTime = formatTime(day.endTime);
 
-        const formattedStartTime = formatTime(day.startTime);
-        const formattedEndTime = formatTime(day.endTime);
+          // حساب المقاعد
+          if (!isFormattedTime(day.startTime) && !isFormattedTime(day.endTime)) {
+            const startHour = new Date(day.startTime).getHours();
+            const startMinute = new Date(day.startTime).getMinutes();
+            const endHour = new Date(day.endTime).getHours();
+            const endMinute = new Date(day.endTime).getMinutes();
+            const totalWorkingMinutes = (endHour * 60 + endMinute) - (startHour * 60 + startMinute);
+            const workingHours = totalWorkingMinutes / 60; // تحويل إلى ساعات
+            const availableSeats = Math.floor((workingHours * 60) / day.duration);
+            day.seats = availableSeats;
+          }else{
+            const availableSeats = this.calculateSeatsAfterFormat(formattedStartTime,formattedEndTime, day.duration);
+            day.seats = availableSeats;
 
-        // Calculate available seats (unchanged logic)
-        const startHour = new Date(day.startTime).getHours();
-        const startMinute = new Date(day.startTime).getMinutes();
-        const endHour = new Date(day.endTime).getHours();
-        const endMinute = new Date(day.endTime).getMinutes();
-        const totalWorkingMinutes = (endHour * 60 + endMinute) - (startHour * 60 + startMinute);
-        const workingHours = totalWorkingMinutes / 60; // Convert to hours
-        const availableSeats = Math.floor((workingHours * 60) / day.duration);
+          }
 
-        day.seats = availableSeats;
+          // إضافة البيانات إلى sessionsDays
+          this.sessionsDays.push({
+            session_Day: day.name,
+            session_Start_Time: formattedStartTime, // استخدم الوقت المنسق
+            session_End_Time: formattedEndTime,     // استخدم الوقت المنسق
+            session_Duration: day.duration,
+            has_Published: true,
+          });
 
-        // Add the formatted data to sessionsDays
-        this.sessionsDays.push({
-          session_Day: day.name,
-          session_Start_Time: formattedStartTime, // Use formatted time
-          session_End_Time: formattedEndTime,     // Use formatted time
-          session_Duration: day.duration,
-          has_Published: true,
-        });
-
-        console.log('Start Time:', formattedStartTime);
-        console.log('End Time:', formattedEndTime);
-        console.log('Available Seats:', availableSeats);
+          console.log('Start Time:', formattedStartTime);
+          console.log('End Time:', formattedEndTime);
+          console.log('Available Seats:', day.seats || 0);
+        } catch (error:any) {
+          console.error(`Error processing time for ${day.name}:`, error.message);
+        }
       }
     }
   });
 }
 
-  
 
 //////////////////////////////////////////////////submit activities functions///////////////////////////////////////////
 
@@ -569,26 +660,80 @@ removeLastPripertyFromSessions(){
   // const endTime = formatTime(this.endTime);    
   
   // console.log('Start Time:', startTime);  
-  // console.log('End Time:', endTime);     
+  // console.log('End Time:', endTime);   
+  
+  const isFormattedTime = (time: string | Date): boolean => {
+    const timeFormatRegex = /^(0[1-9]|1[0-2]):[0-5][0-9]\s(?:AM|PM)$/; // Regex for hh:mm AM/PM
+    return typeof time === 'string' && timeFormatRegex.test(time);
+  };
+
+  const isISODate = (date: string | Date): boolean => {
+    const isoFormatRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/; // Regex for ISO 8601 format
+    return typeof date === 'string' && isoFormatRegex.test(date);
+  };
 
   this.sessions.forEach((session: any) => {
     // تعديل session_Date
-    if (session.session_Date) {
+    // if (session.session_Date) {
+    //   session.session_Date = new Date(
+    //     new Date(session.session_Date).getTime() - new Date(session.session_Date).getTimezoneOffset() * 60000
+    //   ).toISOString();
+    // }
+  
+   
+    // if (session.start_Time) {
+    //   session.start_Time =formatTime(session.start_Time)
+      
+    // }
+  
+     
+    // if (session.end_Time) {
+    //   session.end_Time = formatTime(session.end_Time)
+    // }
+    ////////////////////////////////////////////////////////////////////////////////
+
+    if (session.session_Date && !isISODate(session.session_Date)) {
       session.session_Date = new Date(
         new Date(session.session_Date).getTime() - new Date(session.session_Date).getTimezoneOffset() * 60000
       ).toISOString();
     }
-  
-    // تعديل start_Time
-    if (session.start_Time) {
-      session.start_Time =formatTime(session.start_Time)
+
+    // const isISODate = (dateString: string): boolean => {
+    //   return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(dateString);
+    // };
+    
+    // const parseDate = (isoString: string): Date => {
+    //   return new Date(isoString);
+    // };
+
+    // if (session.session_Date) {
+    //   if (typeof session.session_Date === 'string') {
+    //     if (!isISODate(session.session_Date)) {
+        
+    //       session.session_Date = new Date(
+    //         new Date(session.session_Date).getTime() - new Date(session.session_Date).getTimezoneOffset() * 60000
+    //       ).toISOString();
+    //     } else {
       
-    }
-  
-    // تعديل end_Time
-    if (session.end_Time) {
-      session.end_Time = formatTime(session.end_Time)
-    }
+    //       session.session_Date = parseDate(session.session_Date);
+    //     }
+    //   } else {
+ 
+    //     session.session_Date = new Date(
+    //       session.session_Date.getTime() - session.session_Date.getTimezoneOffset() * 60000
+    //     ).toISOString();
+    //   }
+    // }
+    
+     // Check and format start_Time
+  if (session.start_Time && !isFormattedTime(session.start_Time)) {
+    session.start_Time = formatTime(session.start_Time);
+  }
+
+  // Check and format end_Time
+  if (session.end_Time && !isFormattedTime(session.end_Time)) {
+    session.end_Time = formatTime(session.end_Time);
+  }
   });
   
 }
@@ -618,7 +763,7 @@ resetCourseValues(): void {
 }
 
 
-addCourse(){
+updateCourse(){
 
   if(this.displayOnApp==='yes'){
        this.displayOnApp=true
@@ -634,6 +779,7 @@ addCourse(){
 this.removeLastPripertyFromSessions();
 console.log(this.sessions)
   const courseData = {
+    course_ID:this.activityId,
     course_Name: this.title,
     course_Description: this.discription,
     course_Location: this.location,
@@ -647,11 +793,11 @@ console.log(this.sessions)
     sessions:this.sessions
   };
   console.log(courseData)
-  this.activityService.addNewCourse(courseData).subscribe({
+  this.activityService.updateCourse(courseData).subscribe({
     next:(response)=>{
       console.log('Course added successfully', response);
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
-      this.resetCourseValues();
+      // this.resetCourseValues();
     },
     error:(error)=>{
       console.error('Error adding course', error);
@@ -662,7 +808,7 @@ console.log(this.sessions)
 }
 
 ///add workshop///
-addWorkshop() {
+updateWorkshop() {
 
 
   if(this.displayOnApp==='yes'){
@@ -680,6 +826,7 @@ this.removeLastPripertyFromSessions();
 
 
   const  workshopData = {
+    workshop_ID:this.activityId,
     workshop_Name: this.title,
     workshop_Description:this.discription,
     workshop_Location: this.location,
@@ -695,11 +842,11 @@ this.removeLastPripertyFromSessions();
 
   console.log(workshopData)
 
-  this.activityService.addNewWorkshop(workshopData).subscribe({
+  this.activityService.updateWorkshop(workshopData).subscribe({
     next: (response) => {
       console.log('Workshop added successfully', response);
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
-      this.resetWorkshopData()
+      // this.resetWorkshopData()
 
     },
     error: (error) => {
@@ -737,7 +884,7 @@ resetWorkshopData() {
 
 
 /////////add event ///
-addEvent() {
+updateEvent() {
 
   if(this.displayOnApp==='yes'){
     this.displayOnApp=true
@@ -755,19 +902,33 @@ const formatTime = (time: Date): string => {
   return new Date(time).toLocaleTimeString('en-US', options);
 };
 
-const startTime = formatTime(this.startTime); // Formatted start time
-const endTime = formatTime(this.endTime);     // Formatted end time
+const isFormattedTime = (time: string | Date): boolean => {
+  const timeFormatRegex = /^(0[1-9]|1[0-2]):[0-5][0-9]\s(?:AM|PM)$/; // Regex for hh:mm AM/PM
+  return typeof time === 'string' && timeFormatRegex.test(time);
+};
 
-console.log('Start Time:', startTime); // For debugging
-console.log('End Time:', endTime);     // For debugging
+if (this.startTime && !isFormattedTime(this.startTime)) {
+  this.startTime = formatTime(this.startTime);
+}
 
-// const startTime = new Date(this.startTime.getTime() - this.startTime.getTimezoneOffset() * 60000).toISOString();
-// const endTime = new Date(this.endTime.getTime() - this.endTime.getTimezoneOffset() * 60000).toISOString();
+
+if (this.endTime && !isFormattedTime(this.endTime)) {
+  this.endTime = formatTime(this.endTime);
+}
+
+// const startTime = formatTime(this.startTime);  
+// const endTime = formatTime(this.endTime);      
+
+// console.log('Start Time:', startTime); 
+// console.log('End Time:', endTime);      
+
+ 
 const eventDate = new Date(this.eventDate.getTime() - this.eventDate.getTimezoneOffset() * 60000).toISOString();
 
 
 
   const eventData = {
+    event_ID: this.activityId,
     event_Name: this.title,
     event_Description: this.discription,
     event_Location: this.location,
@@ -776,20 +937,20 @@ const eventDate = new Date(this.eventDate.getTime() - this.eventDate.getTimezone
     video_Link: this.videoLink,
     event_Image:this.images,
     event_Date: eventDate ,
-    event_Start_Time: startTime,
-    event_End_Time: endTime,
+    event_Start_Time: this.startTime,
+    event_End_Time: this.endTime,
     availabile_Seats:this.seatsAvailable
   };
 
 
   console.log(eventData)
 
-  this.activityService.addNewEvent(eventData).subscribe({
+  this.activityService.updateEvent(eventData).subscribe({
     next: (response) => {
       console.log('Event added successfully:', response);
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
 
-      this.resetEventData()
+      // this.resetEventData()
     },
     error: (error) => {
       console.error('Error adding event:', error);
@@ -815,7 +976,7 @@ resetEventData() {
 
 ////add consultant///
 
-addConsult(): void {
+updateConsult(): void {
   this.updatesSessionsDays();
 console.log(this.sessionsDays);
 
@@ -827,6 +988,7 @@ console.log(this.sessionsDays);
 }
 
   const consultData = {
+    consult_ID:this.activityId,
     consult_Name: this.title,
     consult_Description: this.discription,
     consult_Location: this.location,
@@ -837,11 +999,11 @@ console.log(this.sessionsDays);
     sessions:this.sessionsDays
   };
 
-  this.activityService.addNewConsult(consultData).subscribe({
+  this.activityService.updateConsultDetails(consultData).subscribe({
     next: (response) => {
       console.log('Consult added successfully', response);
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
-      this.clearConsultData()
+      // this.clearConsultData()
    
     },
     error: (error) => {
@@ -873,22 +1035,22 @@ submitSelectedActivity(){
 
   switch (this.selectedActivityType?.value) {
     case 'course':
-      this.addCourse()
+      this.updateCourse()
       console.log('Course selected. Perform course-specific logic.');
       // Add your logic for 'course' here
       break;
     case 'event':
-      this.addEvent()
+      this.updateEvent()
       console.log('Event selected. Perform event-specific logic.');
       // Add your logic for 'event' here
       break;
     case 'workshop':
-      this.addWorkshop()
+      this.updateWorkshop()
       console.log('Workshop selected. Perform workshop-specific logic.');
       // Add your logic for 'workshop' here
       break;
     case 'consultant':
-      this.addConsult()
+      this.updateConsult()
       console.log('Consultant Sessions selected. Perform specific logic.');
       // Add your logic for 'consultant_sessions' here
       break;

@@ -430,6 +430,22 @@ showCancelDialog: boolean = false;
 
 
   /////////////////////////fetching from api ///////////////////////////
+  getActivityClass(activityType: string): string {
+    switch (activityType) {
+      case 'Courses':
+        return 'p-tag-success'; // Green for success
+      case 'Workshops':
+        return 'p-tag-purble'; // Purple for workshops
+      case 'Events':
+        return 'p-tag-info'; // Blue for events
+      case 'Consultant':
+        return 'p-tag-danger'; // Red for consultant
+      default:
+        return ''; // Default class (if any)
+    }
+  }
+
+  
   fetchActivities(type:string, pageNumber:number, pageSize:number):void{
      this.activityService.getPaginatedActivities(type,pageNumber,pageSize).subscribe({
       next:(response)=>{

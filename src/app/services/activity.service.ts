@@ -127,4 +127,25 @@ export class ActivityService {
           const url = `${environment.apiUrl}/Workshops/GetWorkshop_Details?ID=${workshopId}`;
           return this.http.get<any>(url);
         }
+
+
+        /////////////////////////////////////////update activity api ////////////////////////////
+        updateConsultDetails(consultDetails: any): Observable<any> {
+          const url = `${environment.apiUrl}/Consults/UpdateConsult`;
+          return this.http.post(url, consultDetails);
+        }
+
+        updateCourse(courseData: any): Observable<any> {
+          return this.http.post(`${environment.apiUrl}/Courses/UpdateCourse`, courseData);
+        }
+
+        updateWorkshop(workshopDetails: any): Observable<any> {
+          const url = `${environment.apiUrl}/Workshops/UpdateWorkshop`;
+          return this.http.post<any>(url, workshopDetails);
+        }
+
+        updateEvent(eventDetails: any): Observable<any> {
+          const url = `${environment.apiUrl}/Events/UpdateEvent`;
+          return this.http.post<any>(url, eventDetails);
+        }
 }

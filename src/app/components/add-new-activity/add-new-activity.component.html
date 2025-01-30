@@ -885,6 +885,8 @@ class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4"
                     [timeOnly]="true"
                     hourFormat="12"
                     placeholder="Start Time"
+                    (ngModelChange)="updatesSessionsDays()"
+
                   ></p-calendar>
                 </div>
             
@@ -897,6 +899,8 @@ class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4"
                     [timeOnly]="true"
                     placeholder="End Time"
                     hourFormat="12"
+                    (ngModelChange)="updatesSessionsDays()"
+
                   ></p-calendar>
                 </div>
               </div>
@@ -999,6 +1003,8 @@ class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4"
             <p-button
               label="Cancel"
               class="p-button-outlined custom-button"
+              [routerLink]="['/activities']"
+
             ></p-button>
           </div>
 
