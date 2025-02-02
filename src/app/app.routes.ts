@@ -48,6 +48,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/activity-details/activity-details.component').then(m => m.ActivityDetailsComponent),
     canActivate: [AdminGuard]
   },
+  {
+    path: 'transactions',
+    loadComponent: () => import('./components/transactions/transactions.component').then(m => m.TransactionsComponent),
+    canActivate: [AdminGuard]
+  },
  
   
    

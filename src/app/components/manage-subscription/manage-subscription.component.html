@@ -28,9 +28,11 @@
          </div>
 
           </div>
-           
+          <p-toast></p-toast>
+         
   
         <p-tabView styleClass="tabview-custom">
+            
           <p-tabPanel>
               <ng-template pTemplate="header">
                   <div class="flex align-items-center gap-2">
@@ -157,7 +159,7 @@
                     [value]="paymentRecords"
                     [paginator]="true"
                     [rows]="10"
-                    [globalFilterFields]="['name', 'email', 'phone', 'planType']"
+                    [globalFilterFields]="['name', 'email', 'phone_No', 'plan_Type']"
                     [filterDelay]="300"
                     [resizableColumns]="true"
                     [tableStyle]="{ 'min-width': '900px' }"
@@ -188,16 +190,16 @@
                             <p>{{ payment.email }}</p>
                           </div>
                         </td>
-                        <td>{{ payment.phone }}</td>
+                        <td>{{ payment.phone_No }}</td>
                         <!-- <td>{{ record.date | date: 'MMM d, yyyy' }}</td> -->
                         <td>{{ payment.date | date: 'MMM d, yyyy' }}</td>
 
                         
                         <td>
                           <!-- <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="p-tag">{{ subscription.planType }}</span> -->
-                          <span [ngClass]="getPlanBadgeClass(payment.planType)" class="badge">
-                            <i [ngClass]="getPlanIcon(payment.planType)" class="icon"></i>
-                            {{ payment.planType }}
+                          <span [ngClass]="getPlanBadgeClass(payment.plan_Type)" class="badge">
+                            <i [ngClass]="getPlanIcon(payment.plan_Type)" class="icon"></i>
+                            {{ payment.plan_Type }}
                           </span>
                         
                         </td>
@@ -205,7 +207,7 @@
                         <!-- <td>{{ payment.paymentBy }}</td> -------------------------------------------------------------------------------->
                         <td class="text-center">
                           <div class="payment-method">
-                            <ng-container [ngSwitch]="payment.paymentBy">
+                            <ng-container [ngSwitch]="payment.payment_By">
                               <!-- Cash -->
                               <div *ngSwitchCase="'Cash'" class="payment-icon">
                                 <img src="cashPay.svg" alt="Cash" />
@@ -250,12 +252,13 @@
                           <span
                             class="p-tag status-tag"
                             [ngClass]="{
-                              'p-tag-success': payment.status === 'Success',
-                              'p-tag-danger': payment.status === 'Failed',
-                              'p-tag-warning': payment.status === 'Pending'
+                              'p-tag-success': payment.payment_Status === 'Success',
+                              'p-tag-danger': payment.payment_Status === 'Failed',
+                              'p-tag-warning': payment.payment_Status === 'Pending'
+                              
                             }"
                           >
-                            {{ payment.status }}
+                            {{ payment.payment_Status }}
                           </span>
                         </td>
                         
@@ -272,7 +275,16 @@
                                
                             </div>
                             
-                          <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg"/></div>
+                            <div>
+                              <img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
+                            </div>
+                            <p-overlayPanel #op>
+                              <ul class="menu-list">
+                                <li><a    style="cursor: pointer;" >View Member Profile</a></li>
+                                <li><a (click)="markInvoiceAsPaid(payment.payment_ID)" style="cursor: pointer;">Marked as paid</a></li>
+                                <li><a (click)="markInvoiceAsUnPaid(payment.payment_ID)" style="cursor: pointer;">Not Paid</a></li>
+                              </ul>
+                            </p-overlayPanel>
                           </div>
                            
   
@@ -330,16 +342,16 @@
                     <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
                     <i class="pi pi-search search-icon"></i>
                     <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
-                     <img src="filterplan.svg" (click)="openFilterDialog()"   style="margin-left: 24px; cursor: pointer;"/>
+                     <img src="filterplan.svg" (click)="openFilterAlertDialog()"   style="margin-left: 24px; cursor: pointer;"/>
                   </div>
                 </div>
               
                 <p-table
                   #dt
-                  [value]="subscriptions"
+                  [value]="subscriptionAlerts"
                   [paginator]="true"
                   [rows]="10"
-                  [globalFilterFields]="['name', 'email', 'phone', 'planType']"
+                  [globalFilterFields]="['name', 'email', 'phone_No', 'plan_Type']"
                   [filterDelay]="300"
                   [resizableColumns]="true"
                   [tableStyle]="{ 'min-width': '900px' }"
@@ -367,31 +379,31 @@
                           <p>{{ subscription.email }}</p>
                         </div>
                       </td>
-                      <td>{{ subscription.phone }}</td>
+                      <td>{{ subscription.phone_No }}</td>
                       <td>
                         <!-- <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="p-tag">{{ subscription.planType }}</span> -->
-                        <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="badge">
-                          <i [ngClass]="getPlanIcon(subscription.planType)" class="icon"></i>
-                          {{ subscription.planType }}
+                        <span [ngClass]="getPlanBadgeClass(subscription.plan_Type)" class="badge">
+                          <i [ngClass]="getPlanIcon(subscription.plan_Type)" class="icon"></i>
+                          {{ subscription.plan_Type }}
                         </span>
                       
                       </td>
-                      <td>{{ subscription.startDate | date: 'MMM d, yyyy' }}</td>
-                      <td>{{ subscription.endDate | date: 'MMM d, yyyy' }}</td>
+                      <td>{{ subscription.start_Date | date: 'MMM d, yyyy' }}</td>
+                      <td>{{ subscription.end_Date | date: 'MMM d, yyyy' }}</td>
                       <td>
                         <span class=""><img class="mr-2" src="alertStatus.svg"/>{{ subscription.status }}</span>
                       </td>
                       <td >
                         <div class="flex justify-content-between align-items-center gab-1">
                           <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
-                          <div class="image-container">
+                          <div class="image-container " (click)="sendAlert(subscription?.subscripe_ID)"  >
                             <img
-                              class="image-default"
+                              class="image-default icon-container"
                               src="alertUser.svg"
                               alt="Default Alert Icon"
                             />
                             <img
-                              class="image-hover"
+                              class="image-hover icon-container"
                               src="alertUserHover.svg"
                               alt="Hover Alert Icon"
                                
@@ -461,7 +473,7 @@
 
   <!-- <p-button (onClick)="openFilterDialog()" label="Show" /> -->
   <p-dialog 
-  [(visible)]="displayFilter" 
+  [(visible)]="displayFilterAlert" 
   header="Filter" 
   [closable]="true" 
   [modal]="true" 
@@ -490,9 +502,21 @@
 
   <!-- Date Range -->
   <div class="mb-3">
-    <label for="dateRange" class="block font-bold mb-2">Date (From-To)</label>
+    <label for="dateRange" class="block font-bold mb-2">Date (From)</label>
     <p-calendar
-      [(ngModel)]="selectedDate"
+      [(ngModel)]="alertfrom"
+      [showIcon]="true"
+      inputId="dateRange"
+      placeholder="Enter date"
+      
+      class="custom-calendar"
+    ></p-calendar>
+  </div>
+   <!-- Date Range -->
+   <div class="mb-3">
+    <label for="dateRange" class="block font-bold mb-2">Date (To)</label>
+    <p-calendar
+      [(ngModel)]="alertTo"
       [showIcon]="true"
       inputId="dateRange"
       placeholder="Enter date"
@@ -517,7 +541,7 @@
     label="Apply"
     
     class="p-button-outlined custom-button-add"
-     (onClick)="showReminder()"
+     (onClick)="filterAlert()"
   ></p-button>
  </div>
   </div>
@@ -658,9 +682,21 @@ class="responsive-dialog"
 
 <!-- Date Range -->
 <div class="mb-3">
-  <label for="dateRange" class="block font-bold mb-2">Date (From-To)</label>
+  <label for="dateRange" class="block font-bold mb-2">Date (From)</label>
   <p-calendar
-    [(ngModel)]="selectedDate"
+    [(ngModel)]="payfrom"
+    [showIcon]="true"
+    inputId="dateRange"
+    placeholder="Enter date"
+    
+    class="custom-calendar"
+  ></p-calendar>
+</div>
+<!-- Date Range -->
+<div class="mb-3">
+  <label for="dateRange" class="block font-bold mb-2">Date (To)</label>
+  <p-calendar
+    [(ngModel)]="payTo"
     [showIcon]="true"
     inputId="dateRange"
     placeholder="Enter date"
@@ -685,7 +721,7 @@ class="responsive-dialog"
   label="Apply"
   
   class="p-button-outlined custom-button-add"
-   (onClick)="showReminder()"
+   (onClick)="filterPay()"
 ></p-button>
 </div>
 </div>

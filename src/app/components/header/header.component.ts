@@ -21,23 +21,15 @@ export class HeaderComponent {
   // Define route titles based on your routes
   routeTitles: { [key: string]: string } = {
     '/login': 'Login',
-    // '/workers-requests': 'Worker Requests',
-    // '/apartment-list': 'Apartment List',
-    // '/worker-details': 'Worker Details',
     '/dashboard': 'Community Club',
-
-    // '/staff-list': 'Staff List',
-    // '/staff-details': 'Staff Details',
-    // '/create-staff': 'Create Staff',
-    // '/staff-jobs': 'Assigned jobs',
-    // '/update-staff': 'Update Staff',
-
-    // '/issues-list': 'Issues List',
-    // '/create-issue': 'Create Issue',
-    // '/issue-details': 'Issue Details',
-    // '/update-issue': 'Update Issue',
-
-
+    '/manage-subscription': 'Manage Subscription',
+    '/add-new-plan': 'Add New Plan',
+    '/edit-plan/:id': 'Edit Plan',
+    '/activities': 'Activities',
+    '/add-new-activity': 'Add New Activity',
+    '/update-activity/:id/:type': 'Update Activity',
+    '/activity-details/:id': 'Activity Details',
+    '/transactions': 'Transactions'
   };
 
   // Method to update the header title based on the route

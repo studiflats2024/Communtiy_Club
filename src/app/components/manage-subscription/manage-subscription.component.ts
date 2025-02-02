@@ -34,6 +34,8 @@ import { CalendarModule } from 'primeng/calendar';
  
 import { CheckboxModule } from 'primeng/checkbox';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { GatewayService } from '../../services/gateway.service';
+
 
 
  
@@ -64,7 +66,7 @@ export class ManageSubscriptionComponent {
   
 
 
-  constructor(private plansService: PlansService, private messageService: MessageService) {
+  constructor( private gatewayService:GatewayService,private plansService: PlansService, private messageService: MessageService) {
     this.subscriptions = [
       {
         name: 'Ahmed Ali',
@@ -166,6 +168,8 @@ export class ManageSubscriptionComponent {
     ];
 
     this.loadPlans();
+    this.fetchRecords();
+    this.fetchSubscriptionAlerts()
 
     
   }
@@ -208,7 +212,9 @@ export class ManageSubscriptionComponent {
       case 'Annual':
         return 'badge-annual'; // كلاس خاص بـ Annual
       case 'Free Trial Month':
-        return 'badge-free-trial'; // كلاس خاص بـ Free Trial Month
+        return 'badge-free-trial'; 
+        case 'Test 101':
+          return 'badge-free-trial'; // كلاس خاص بـ Free Trial Month
       default:
         return 'badge-default'; // كلاس افتراضي
     }
@@ -223,7 +229,9 @@ export class ManageSubscriptionComponent {
       case 'Annual':
         return 'pi pi-star'; // أيقونة خاصة بـ Annual
       case 'Free Trial Month':
-        return 'pi pi-gift'; // أيقونة خاصة بـ Free Trial Month
+        return 'pi pi-gift';
+        case 'Test 101':
+          return 'pi pi-gift';  
       default:
         return 'pi pi-question'; // أيقونة افتراضية
     }
@@ -272,36 +280,58 @@ selectedDate: Date | null = null;
 
 togglePlanType(type: any): void {
   // إذا كنت تريد السماح باختيار زر واحد فقط:
-  // this.planTypes.forEach((t) => (t.selected = false));  
-  // type.selected = true;  
+  this.planTypes.forEach((t) => (t.selected = false));  
+  type.selected = true;  
+  this.payType=type.label;
 
   // إذا كنت تريد السماح باختيار أزرار متعددة، قم بإزالة التعليق:
-  type.selected = !type.selected;
+  // type.selected = !type.selected;
+   
+  //  if (type.label === 'All') {
+  //   this.planTypes.forEach((t) => {
+  //     if (t.label !== 'All') {
+  //       t.selected = false;
+  //     }
+  //   });
+  // } 
+  // else {
+ 
+  //   const allStatus = this.planTypes.find((t) => t.label === 'All');
+  //   if (allStatus) {
+  //     allStatus.selected = false;
+  //   }
+  // }
 }
 
 toggleStatus(type: any): void {
-  // Toggle selection
-  type.selected = !type.selected;
 
-  // If 'All' is selected, deselect others
-  if (type.value === 'all') {
-    this.status.forEach((t) => {
-      if (t.value !== 'all') {
-        t.selected = false;
-      }
-    });
-  } else {
-    // If any other status is selected, deselect 'All'
-    const allStatus = this.status.find((t) => t.value === 'all');
-    if (allStatus) {
-      allStatus.selected = false;
-    }
-  }
+  this.status.forEach((t) => (t.selected = false));  
+  type.selected = true;  
+  this.payStatus=type.label;
+  
+  // type.selected = !type.selected;
+ 
+  // if (type.value === 'all') {
+  //   this.status.forEach((t) => {
+  //     if (t.value !== 'all') {
+  //       t.selected = false;
+  //     }
+  //   });
+  // } else {
+   
+  //   const allStatus = this.status.find((t) => t.value === 'all');
+  //   if (allStatus) {
+  //     allStatus.selected = false;
+  //   }
+  // }
 }
 
 
 openFilterDialog(): void {
   this.displayFilter = true;
+}
+openFilterAlertDialog(){
+  this.displayFilterAlert=true
 }
 
 closeFilterDialog(): void {
@@ -339,9 +369,20 @@ applyFilters(): void {
 // }
 /////////////filter success////////////////////////////////////
 displayReminder: boolean = false;
-
+payFilter:boolean=false;
   showReminder() {
+    this.displayFilter=false
+    this.displayFilterAlert=false
     this.displayReminder = true;
+  }
+
+  filterPay(){
+    this.fetchRecords()
+    this.payFilter=true;
+  }
+  filterAlert(){
+    this.fetchSubscriptionAlerts()
+    this.payFilter=true;
   }
 
 ///////////////////////////payment dropdown/////////////////////////
@@ -349,11 +390,158 @@ displayReminder: boolean = false;
  paymentMethods = [
   { name: 'VISA', value: 'visa', image: 'visaDrop.svg' },
   { name: 'Stripe', value: 'stripe', image: 'stripePay.svg' },
-  { name: 'MasterCard', value: 'mastercard', image: 'mastercardPay.svg' },
+  { name: 'MasterCard', value: 'mastercard', image: 'cardPay.svg' },
   { name: 'PayPal', value: 'paypal', image: 'paypal.svg' },
-  { name: 'Cash', value: 'cash', image: 'cashPay.svg' }
+  { name: 'Cash', value: 'cash', image: 'cashPay.svg' },
+  { name: 'Online', value: 'online', image: 'community/payOnline.png' }
+
 ];
 
 // Selected payment method
 selectedPayment: any = null;
+
+//////////////////////////////integration of payment section /////////////////////////////////////////////////////////
+payType:any='All';
+payStatus:any=null
+paymentBy:any=null
+payfrom:any=null
+payTo:any=null
+paySearchword:any=null
+fetchRecords(): void {
+  const pageNumber = 1;  
+  const pageSize = 2000;  
+  const type = this.payType;
+  const status = this.payStatus; 
+  const paymentBy = this.selectedPayment?.name; 
+   
+  const searchWord = this.paySearchword; 
+  
+  if(this.payfrom){
+    this.payfrom = new Date(this.payfrom).toISOString();
+  console.log("Formatted From:",this.payfrom);
+    
+    }
+    if(this.payTo){
+      this.payTo = new Date(this.payTo).toISOString();
+  
+      console.log("Formatted To:", this.payTo);
+  
+      
+      }
+
+      const from = this.payfrom; 
+      const to = this.payTo; 
+
+  this.gatewayService
+    .getPaymentRecords(pageNumber, pageSize, type, status, paymentBy, from, to, searchWord)
+    .subscribe(
+      (data) => {
+        console.log(data)
+        this.paymentRecords = data.data; // Store the fetched records in a local variable
+        console.log('Payment Records:', this.paymentRecords); // Log the fetched data
+        if(this.payFilter){
+          this.showReminder()
+        }
+      },
+      (error) => {
+        console.error('Error fetching payment records:', error); // Handle errors
+      }
+    );
+}
+
+
+
+markInvoiceAsPaid(invId: string): void {
+  this.gatewayService.setInvoicePaid(invId).subscribe(
+    (response) => {
+      console.log('Invoice marked as paid:', response);
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+      this.fetchRecords()
+    },
+    (error) => {
+      console.error('Error marking invoice as paid:', error);
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+    }
+  );
+}
+
+markInvoiceAsUnPaid(invId: string): void {
+  this.gatewayService.setInvoiceUnPaid(invId).subscribe(
+    (response) => {
+      console.log('Invoice marked as unpaid:', response);
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+      this.fetchRecords()
+      
+    },
+    (error) => {
+      console.error('Error marking invoice as unpaid:', error);
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+    }
+  );
+}
+
+
+//////////////////////////////get subscription alert/////////////////////////////
+subscriptionAlerts:any 
+alertType:any=null;
+alertfrom:any=null;
+alertTo:any=null;
+fetchSubscriptionAlerts(): void {
+  const pageNumber = 1;  
+  const pageSize = 2000;  
+  const type = this.payType;
+   
+  const searchWord = this.paySearchword;
+  if(this.alertfrom){
+    this.alertfrom = new Date(this.alertfrom).toISOString();
+      console.log("Formatted From:", this.alertfrom);
+  }
+  if(this.alertTo){
+    this.alertTo = new Date(this.alertTo).toISOString();
+      console.log("Formatted To:", this.alertTo);
+    }
+
+    const from = this.alertfrom; 
+    const to = this.alertTo; 
+  
+
+  this.gatewayService
+    .getSubscriptionAlerts(pageNumber, pageSize, type, from, to, searchWord)
+    .subscribe(
+      (response) => {
+        this.subscriptionAlerts = response.data || [];
+        console.log(response)
+        console.log('Subscription Alerts:', response);
+        if(this.payFilter){
+          this.showReminder()
+        }
+      },
+      (error) => {
+      
+        console.error('Error fetching subscription alerts:', error);
+      }
+    );
+}
+displayFilterAlert:boolean=false;
+
+
+ 
+sendAlert(subscribeId: string) {
+  this.gatewayService.sendSubscriptionAlert(subscribeId).subscribe(
+    response => {
+      console.log('Alert sent successfully', response);
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+
+    },
+    error => {
+      console.error('Error sending alert', error);
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+    }
+  );
+}
+ 
+
 }
