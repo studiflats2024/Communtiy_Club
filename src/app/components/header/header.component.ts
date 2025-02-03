@@ -29,7 +29,11 @@ export class HeaderComponent {
     '/add-new-activity': 'Add New Activity',
     '/update-activity/:id/:type': 'Update Activity',
     '/activity-details/:id': 'Activity Details',
-    '/transactions': 'Transactions'
+    '/transactions': 'Transactions',
+    '/members': 'Members',
+    '/member-details/:id': 'Member Details',
+    '/add-member': 'Add Member' 
+
   };
 
   // Method to update the header title based on the route

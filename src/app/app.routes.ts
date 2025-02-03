@@ -53,6 +53,21 @@ export const routes: Routes = [
     loadComponent: () => import('./components/transactions/transactions.component').then(m => m.TransactionsComponent),
     canActivate: [AdminGuard]
   },
+  {
+    path: 'members',
+    loadComponent: () => import('./components/members/members.component').then(m => m.MembersComponent),
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'member-details/:id',
+    loadComponent: () => import('./components/members-details/members-details.component').then(m => m.MembersDetailsComponent),
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'add-member',
+    loadComponent: () => import('./components/add-member/add-member.component').then(m => m.AddMemberComponent),
+    canActivate: [AdminGuard]
+  },
  
   
    
