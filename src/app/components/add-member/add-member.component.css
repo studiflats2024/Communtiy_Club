@@ -1240,4 +1240,9 @@ background: #D7F8E7 !important;
 }
 
 
+.fixW ::ng-deep .p-button{
+  width: inherit !important;
+}
+
+
 /************************************************************************************/

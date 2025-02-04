@@ -258,7 +258,7 @@ header="Filter"
 [closable]="true" 
 [modal]="true" 
 
-[style]="{  overflow: 'visible', width: '300px' }"
+[style]="{  overflow: 'visible', width: '25rem' }"
 
 
 class="responsive-dialog"
@@ -297,13 +297,13 @@ class="responsive-dialog"
         <p-radioButton
       [value]="paid"
       [(ngModel)]="selectedPlan"
-    ></p-radioButton><span class="paid">Paid</span>
+    ></p-radioButton><span class="paid ml-2">Paid</span>
      </div>
      <div>
         <p-radioButton
       [value]="paid"
       [(ngModel)]="selectedPlan"
-    ></p-radioButton><span class="paid">Un Paid</span>
+    ></p-radioButton><span class="paid ml-2">Un Paid</span>
      </div>
 </div>
 
@@ -318,16 +318,17 @@ class="responsive-dialog"
     <p-button
     label="Cancel"
    
-    class="p-button-outlined custom-button"
-    
+    class="p-button-outlined custom-button fixW"
+    [ngStyle]="{ width: '100%' }"
   ></p-button>
  </div>
 
  <div class=" ">
   <p-button
   label="Apply"
+  [ngStyle]="{ width: '100%' }"
   
-  class="p-button-outlined custom-button-add"
+  class="p-button-outlined custom-button-add fixW"
    (onClick)="filterPay()"
 ></p-button>
 </div>

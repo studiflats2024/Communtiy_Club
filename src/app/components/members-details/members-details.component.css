@@ -1,3 +1,58 @@
+
+.sub-info{
+  color: var(--Colors-Primary-Shade-Shade-7, #475467);
+text-align: center;
+
+/* Global Tokens/Body/B-2 */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 21px; /* 150% */
+}
+
+
+.label-info{
+  color: var(--Colors-Primary-Shade-Shade-7, #475467);
+
+/* Global Tokens/Body/B-1 */
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 150% */
+}
+.tx-info{
+  color: var(--Colors-Base-Main-Text, #0A0C0F);
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 36px; /* 225% */
+}
+
+
+.plan-duration{
+  color: var(--Colors-Primary-Shade-Shade-4, #8392A9);
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px;
+}
+.plan-price{
+  color: var(--Colors-Primary-700, #1151B4);
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+}
+
 .parent{
     display:flex;
     width: 100%;
@@ -49,12 +104,12 @@
   line-height: 20.463px; /* 112.5% */
   }
   
-  /* :host ::ng-deep .p-tabview .p-tabview-nav {
+  :host ::ng-deep .p-tabview .p-tabview-nav {
     background: #F5F9FF !important;
 }
 :host ::ng-deep .p-tabview .p-tabview-panels {
     background: #F5F9FF !important;
-} */
+}
    :host ::ng-deep .p-tabview-nav a{
     text-decoration: none;
     color: var(--Neutral-Neutral40, #605D62) !important;
@@ -65,7 +120,7 @@
   font-weight: 400 !important;
   line-height: 24px; /* 133.333% */
   text-transform: capitalize;
-  /* background: #F5F9FF; */
+  background: #F5F9FF;
    }
    /* :host ::ng-deep .p-tabview-nav a:hover{
     text-decoration: none;
@@ -93,7 +148,7 @@
     border-color:  var(--Primary-40, #1151B4);
     color: #1151B4 !important;
     font-weight: 600 !important;
-    /* background: #F5F9FF; */
+    background: #F5F9FF;
   }
   :host ::ng-deep .p-card .p-card-body {
     padding: 0 0 !important;
@@ -460,8 +515,8 @@ flex-wrap: wrap;
   
 
     /* display: flex; */
-width: 350px;
-height: 536px;
+/* width: 350px;
+height: 536px; */
 padding: 24px 16px;
 /* flex-direction: column;
 align-items: flex-start; */

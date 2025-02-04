@@ -28,7 +28,7 @@ export class HeaderComponent {
     '/activities': 'Activities',
     '/add-new-activity': 'Add New Activity',
     '/update-activity/:id/:type': 'Update Activity',
-    '/activity-details/:id': 'Activity Details',
+    '/activity-details/:id/:type': 'Activity Details',
     '/transactions': 'Transactions',
     '/members': 'Members',
     '/member-details/:id': 'Member Details',
@@ -44,7 +44,7 @@ export class HeaderComponent {
 
   //   this.headerTitle = this.routeTitles[routeKey] || 'Dashboard';
   // }
-  updateTitle(url: string): void {
+  updateTitlee(url: string): void {
     // Remove query parameters by splitting at `?` and taking the first part
     const pathWithoutQuery = url.split('?')[0];
 
@@ -57,6 +57,29 @@ export class HeaderComponent {
     // Set the header title based on the route or default to 'Dashboard'
     this.headerTitle = this.routeTitles[routeKey] || 'Community Club';
   }
+
+
+  updateTitle(url: string): void {
+    // Remove query parameters (everything after '?') from the URL
+    const pathWithoutQuery = url.split('?')[0];
+  
+    // Iterate over all route titles to find a match
+    for (const [key, value] of Object.entries(this.routeTitles)) {
+      // Convert dynamic segments (e.g., :id, :type) to regex patterns
+      const routeRegex = new RegExp(`^${key.replace(/:\w+/g, '[^/]+')}$`);
+  
+      // Check if the current URL matches the route pattern
+      if (routeRegex.test(pathWithoutQuery)) {
+        this.headerTitle = value; // Set the matching title
+        return;
+      }
+    }
+  
+    // Default title if no match is found
+    this.headerTitle = 'Community Club';
+  }
+  
+  
 
 
 

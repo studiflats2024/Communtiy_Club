@@ -65,8 +65,55 @@ export class MembersDetailsComponent {
 
 activities:any[]=[]
 invitations:any[]=[]
+paymentRecords:any[]=[]
   constructor( private gatewayService:GatewayService,private plansService: PlansService, private messageService: MessageService) {
-  
+    this.paymentRecords = [
+      {
+        name: 'Ahmed Ali',
+        email: 'Ahmed.Ali@gmail.com',
+        phone_No: '+49 128 45987564',
+        date: 'Feb 12, 2025',
+        plan_Type: 'Annual',
+        amount: 480,
+        payment_By: 'Cash',
+        paymentByIcon: 'assets/icons/cash.svg',
+        payment_Status: 'Success',
+      },
+      {
+        name: 'Ahmed Ali',
+        email: 'Ahmed.Ali@gmail.com',
+        phone_No: '+49 128 45987564',
+        date: 'Feb 12, 2025',
+        plan_Type: 'Free Trial Month',
+        amount: null,
+        payment_By: 'Stripe',
+        paymentByIcon: 'assets/icons/stripe.svg',
+        payment_Status: 'Failed',
+      },
+      {
+        name: 'Ahmed Ali',
+        email: 'Ahmed.Ali@gmail.com',
+        phone_No: '+49 128 45987564',
+        date: 'Feb 12, 2025',
+        plan_Type: 'Monthly',
+        amount: 480,
+        payment_By: 'MasterCard',
+        paymentByIcon: 'assets/icons/cardPay.svg',
+        payment_Status: 'Pending',
+      },
+      {
+        name: 'Ahmed Ali',
+        email: 'Ahmed.Ali@gmail.com',
+        phone_No: '+49 128 45987564',
+        date: 'Feb 12, 2025',
+        plan_Type: 'Free Trial Month',
+        amount: null,
+        payment_By: 'Visa',
+        paymentByIcon: 'assets/icons/visa.svg',
+        payment_Status: 'Success',
+      },
+    ];
+
    this. activities = [
       {
         title: 'Orientation Session',

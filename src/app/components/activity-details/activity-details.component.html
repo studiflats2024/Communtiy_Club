@@ -48,45 +48,94 @@
                   </div>
                   <div class="tab-content">
                       <div class="basic-info" style=" padding-bottom:  24px !important;   border-bottom: 1px solid var(--Colors-Primary-100, #E7EEF8);">
-                        <img src="community/defaultImg.png" style="height: 299px; width: 100%;"/>
+                        <img [src]="images || 'community/defaultImg.png'" style="height: 299px; width: 100%;"/>
                         <div class="info-container"  >
                             <div class="status-badges">
                                
-                                <div class="type">Course</div>
-                                <div class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>Published</div>
+                                <!-- <div class="type">{{ activityType }}</div> -->
+                                <div [ngClass]="getActivityClass(activityType)" class="type">
+                                  {{ activityType }}
+                                </div>
+                                
+                                <div *ngIf="published" class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>Published</div>
+                                <div *ngIf="!published" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>Not Published</div>
+
                             </div>
-                            <div class="title">Learn German: Beginner Level</div>
-                            <div class="dis">Discover the fundamentals of the German language and learn how to express yourself confidently in everyday situations! This course is designed to introduce German in a simple and engaging way, focusing on essential skills such as reading, writing, speaking, and listening.</div>
+                            <div class="title">{{ title }}</div>
+                            <div class="dis">{{ discription }}</div>
                             <div class="details">
-                              <div><img class="mr-2" src="seats.svg"/>5 Seat leave</div>
-                              <div><img class="mr-2" src="startDate.svg"/>12 Feb , 2025</div>
-                              <div><img class="mr-2" src="endDate.svg"/>20 Feb , 2025</div>
+                              <div *ngIf="activityType !== 'Consultant'"><img class="mr-2" src="seats.svg"/>{{ seatsAvailable }} Seat leave</div>
+                              <div *ngIf="activityType !== 'Events' && activityType !== 'Consultant'" ><img class="mr-2" src="startDate.svg"/>{{ startDate | date: 'mediumDate' }}</div>
+                              <div *ngIf="activityType !== 'Events' && activityType !== 'Consultant'"><img class="mr-2" src="endDate.svg"/>{{ endDate | date: 'mediumDate' }}</div>
+                              <div *ngIf="eventDate"><img src="dateSession.svg" /> {{ eventDate | date: 'mediumDate' }}</div>
+                              <div *ngIf="startTime">
+                                <i class="pi pi-clock mr-2" style="color:#1151B4"></i> {{ startTime   }}
+                              </div>
+                              <div *ngIf="endTime">
+                                <!-- <i class="pi pi-clock"></i> {{ endTime | date: 'hh:mm a' }} -->
+                                <i class="pi pi-clock mr-2" style="color:#1151B4"></i> {{ endTime   }}
+
+                              </div>
+                              
+                              <div *ngIf="location">
+                                <!-- <i class="pi pi-clock"></i> {{ endTime | date: 'hh:mm a' }} -->
+                                <i class="pi pi-map-marker mr-2" style="color:#1151B4"></i> {{location  }}
+
+                              </div>
                               <div><img class="mr-2" src="booking.svg"/>30 booking / 35</div>
+                              
+                              <div *ngIf="videoLink"><img class="mr-2" src="videoSession.svg"/>{{videoLink}}</div>
                             </div>
                           </div>
                           
                       </div>
-                      <div class="sessions mt-4">
-                        <div class="title" style=" padding-bottom: 10px !important;   border-bottom: 1px solid var(--Colors-Primary-100, #E7EEF8);">Session 1 -Beginner- Learning the alphabet and correct pronunciation.</div>
-                        <div class="w-full">
-                          <div class="details w-75 mb-3">
-                            <div><img class="mr-2" src="dateSession.svg"/>20 Feb , 2025</div>
-                            <div><i class="pi pi-clock mr-2" style="color:#1151B4"></i>30 booking / 35</div>
+
+
+                      <div *ngIf="activityType === 'Courses' || activityType === 'Workshops'">
+                        <div class="sessions mt-4"   *ngFor="let session of sessions">
+                          <div class="flex justify-content-between align-items-center w-full pb-2" style="   border-bottom: 1px solid var(--Colors-Primary-100, #E7EEF8);">
+                            <div class="title" style=" padding-bottom: 10px !important; ">{{ session.session_Title }}</div>
+                            <div *ngIf="session.has_Published" class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>Published</div>
+                            <div *ngIf="!session.has_Published" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>Not Published</div>
                           </div>
-                          <div class="details w-75">
-                            <div><img class="mr-2" src="videoSession.svg"/>https://example.com</div>
-                     
+                          <div class="w-full">
+                            <div class="details w-75 mb-3">
+                              <div><img class="mr-2" src="dateSession.svg"/>{{ session.session_Date | date: 'mediumDate' }}</div>
+                              <div><i class="pi pi-clock mr-2" style="color:#1151B4"></i> {{ session.start_Time }} - {{ session.end_Time }}</div>
+                              <div><i class="pi pi-clock mr-2" style="color:#1151B4"></i>30 booking / 35</div>
+                            </div>
+                            <div class="details w-75">
+                              <div *ngIf="session.session_Link" ><img class="mr-2" src="videoSession.svg"/>{{session.session_Link}}</div><!--*ngIf="session.session_Link"-->
+                       
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div class="sessions mt-4">
-                            <div class="w-full" style=" padding-bottom: 10px !important;   border-bottom: 1px solid var(--Colors-Primary-100, #E7EEF8);"><img src="check.svg" class="mr-2"/>Sunday</div>
-                            <div class="details w-75 mb-3">
-                              <div><img class="mr-2" src="dateSession.svg"/>20 Feb , 2025</div>
-                              <div><i class="pi pi-clock mr-2" style="color:#1151B4"></i>30 booking / 35</div>
-                              <div><img class="mr-2" src="videoSession.svg"/>https://example.com</div>
-                            </div>
+                      
+
+                    <div *ngIf="activityType === 'Consultant'">
+                      <div class="sessions mt-4" *ngFor="let day of sessionsDays">
+                        <!-- <div class="w-full" style=" padding-bottom: 10px !important;   border-bottom: 1px solid var(--Colors-Primary-100, #E7EEF8);"><img src="check.svg" class="mr-2"/>{{ day.session_Day }}</div> -->
+                        <div class="flex justify-content-between align-items-center  w-full pb-2 " style="border-bottom: 1px solid var(--Colors-Primary-100, #E7EEF8);">
+                          <div class="w-full" style=" padding-bottom: 10px !important;  "><img src="check.svg" class="mr-2"/>{{ day.session_Day }}</div>
+
+                          <div *ngIf="day.has_Published" class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>Published</div>
+                          <div *ngIf="!day.has_Published" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>Not Published</div>
+                         </div>
+                        <div class="details w-75 mb-3 w-full">
+                         
+
+                          <div><i class="pi pi-clock mr-2" style="color:#1151B4"></i> {{ day.session_Start_Time }} - {{ day.session_End_Time }}</div>
+
+                          <div><i class="pi pi-clock mr-2" style="color:#1151B4"></i>30 booking / 35</div>
+
+                          <div><img class="mr-2" src="seats.svg"/>{{ day.session_Available_Seats }} Seat leave</div>
+
+                          <!-- <div><img class="mr-2" src="videoSession.svg"/>https://example.com</div> -->
+                        </div>
                       </div>
+                    </div>
+                      
 
 
                   </div>

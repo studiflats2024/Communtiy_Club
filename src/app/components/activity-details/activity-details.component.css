@@ -1069,6 +1069,74 @@ line-height: 24px; /* 150% */
 background: var(--primary-color-100, #E7EEF8);
 color:#1151B4
   }
+
+  .type-success{
+    display: flex;
+width: 111px;
+height: 40px;
+padding: 8px 16px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+
+border-radius: 8px;
+background: #E9F9F1;
+
+color: #16814A;
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+  }
+
+  .type-danger{
+    display: flex;
+width: 111px;
+height: 40px;
+padding: 8px 16px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+
+border-radius: 8px;
+background: #FEF1F5;
+
+color: #B4114A;
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+  }
+
+.type-purble{
+  display: flex;
+width: 104px;
+height: 40px;
+padding: 8px 16px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+border-radius: 8px;
+background: #F9F0FD;
+
+color: #4F1681;
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+}
+
+
+
 .title{
   color: var(--Colors-Base-Main-Text, #0A0C0F);
 font-family: Poppins;
