@@ -210,26 +210,26 @@
 
   <!-- Table Body -->
   <ng-template pTemplate="body" let-activity>
-    <tr>
+    <tr >
       <!-- <td>{{ activity.activity_ID }}</td> -->
-      <td>
+      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">
         <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
       </td>
-      <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
-      <td>{{ activity.activity_Name }}</td>
-      <td>{{ activity.activity_Seats }}</td>
-      <td>{{ activity.activity_Location | slice:10 }}...</td>
-      <td>{{ activity.activity_Date }}</td>
-      <td>{{ activity.activity_Rating }}</td>
-      <td>{{ activity.rating_Count }}</td>
+      <td   [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]"><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
+      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
+      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
+      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:10 }}...</td>
+      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td>
+      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
+      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td>
       <!-- <td>
         <i
           [ngClass]="activity.activity_Is_Wish ? 'pi pi-heart-fill' : 'pi pi-heart'"
           [style.color]="activity.activity_Is_Wish ? 'red' : 'gray'"
         ></i>
       </td> -->
-      <td>{{ activity.activity_Time || 'N/A' }}</td>
-      <td>{{ activity.date | date: 'MMM d, y' }}</td>
+      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Time || 'N/A' }}</td>
+      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.date | date: 'MMM d, y' }}</td>
 
 
       <td>
@@ -248,9 +248,9 @@
           </div>
           <p-overlayPanel #op>
             <ul class="menu-list">
-              <li><a (click)="viewParticipants(activity)">View Participants</a></li>
-              <li><a (click)="viewDetails(activity)"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]" style="text-decoration: none; color:#bbb" >View Details</a></li>
-              <li><a (click)="deleteItem(activity)">Delete</a></li>
+              <li><a (click)="viewParticipants(activity)" [routerLink]="'/participants'" style="text-decoration: none; cursor: pointer;color:#1151B4 ">View Participants</a></li>
+              <li><a (click)="viewDetails(activity)"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]" style="text-decoration: none; cursor: pointer; color:#363636" >View Details</a></li>
+              <li><a (click)="deleteItem(activity)" style="text-decoration: none; cursor: pointer; color:#363636">Delete</a></li>
             </ul>
           </p-overlayPanel>
         </div>

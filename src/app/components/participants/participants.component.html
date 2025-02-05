@@ -1,0 +1,465 @@
+ <!-- <div class="row">
+  <div class="col-lg-2 col-md-0 col-sm-0 "></div>
+  <div class="col-lg-10 col-md-12 col-sm-12">
+    helloooooooooo
+  </div>
+
+ </div> -->
+ <div class="parent">
+    <div class="fixDiv"></div>
+    <div class="page">
+        <div class="tabview-header-container">
+        <p-breadcrumb class="max-w-full" [model]="items">
+            <ng-template pTemplate="item" let-item>
+                <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+                    <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+                    <span>{{ item.label }}</span>
+                </a>
+            </ng-template>
+          </p-breadcrumb>
+
+          <div class=" ">
+            <p-button
+            label="Add New Plan"
+            icon="pi pi-plus"
+            class="p-button-outlined custom-button-plan"
+            [routerLink]="'/add-new-plan'"
+          ></p-button>
+         </div>
+
+          </div>
+          <p-toast></p-toast>
+         
+  
+        <p-tabView styleClass="tabview-custom">
+         
+  
+  <!---------------------------------------------------------------------------------------------------------------->
+  
+  <!----------------------------------------------------------------------------------------------------->
+
+          <p-tabPanel header="Header III">
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center gap-2">
+  
+                    <span class=" white-space-nowrap m-0">
+                      Participants
+                    </span>
+                    <!-- <p-badge [value]="rejectedWorkers.length" /> -->
+                </div>
+            </ng-template>
+
+
+            <div>
+              <div class="p-card p-3" style="border-radius: 16px;" >
+                <div class="flex justify-content-between align-items-center mb-4">
+                  <!-- <h2>Subscription Alerts</h2> -->
+                   <div class="card-header"> </div>
+                  <div class="p-inputgroup w-50" style=" position: relative;">
+                    <!-- <span class="p-inputgroup-addon">
+                      <i class="pi pi-search"></i>
+                    </span> -->
+                    <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
+                    <i class="pi pi-search search-icon"></i>
+                    <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
+                     <img src="filterplan.svg" (click)="openFilterAlertDialog()"   style="margin-left: 24px; cursor: pointer;"/>
+                  </div>
+                </div>
+              
+                <p-table
+                  #dt
+                  [value]="participants"
+                  [paginator]="true"
+                  [rows]="10"
+                  [globalFilterFields]="['name','email', 'number', 'booking_date', 'status']"
+                  [filterDelay]="300"
+                  [resizableColumns]="true"
+                  [tableStyle]="{ 'min-width': '900px' }"
+                  [showCurrentPageReport]="true"
+                  [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
+                  (onPage)="pageChange($event)"
+                  [rowsPerPageOptions]="[5, 10, 20]"
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="name">Participants Name <p-sortIcon field="name"></p-sortIcon></th>
+                      <th pSortableColumn="number">Phone Number<p-sortIcon field="number"></p-sortIcon></th>
+ 
+                      <th pSortableColumn="booking-date">Booking Date<p-sortIcon field="booking-date"></p-sortIcon></th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-participant>
+                    <tr>
+                      <td>
+                        <div>
+                          <strong>{{ participant.name }}</strong>
+                          <p>{{ participant.email }}</p>
+                        </div>
+                      </td>
+                      <td>{{ participant.number }}</td>
+                      
+ 
+                      <td>{{ participant.booking_date | date: 'MMM d, yyyy' }}</td>
+                     
+
+                      
+                      <td>
+                        <span
+                          class="p-tag status-tag"
+                          [ngClass]="{
+                            'p-tag-success': participant.status === 'Success',
+                            'p-tag-danger': participant.status === 'Failed',
+                            'p-tag-warning': participant.status === 'Pending'
+                            
+                          }"
+                        >
+                          {{ participant.status }}
+                        </span>
+                      </td>
+                      <td >
+                        <div class="flex justify-content-start align-items-center gab-1">
+                          <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
+                          <div class="image-container "    >
+                            <img
+                              class="image-default icon-container"
+                              src="alertUser.svg"
+                              alt="Default Alert Icon"
+                            />
+                            <img
+                              class="image-hover icon-container"
+                              src="alertUserHover.svg"
+                              alt="Hover Alert Icon"
+                               
+                            />
+                          </div>
+                          
+                        <div><img class="mr-2" style="cursor: pointer;" src="trashplan.svg"/></div>
+                        </div>
+                         
+
+                        <!-- <button pButton icon="pi pi-bell" class="p-button-rounded p-button-info p-mr-2"></button> -->
+                        <!-- <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger"></button> -->
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <!-- <ng-template pTemplate="footer">
+                    <tr>
+                      <td colspan="7">
+                        <div class="p-paginator-custom">
+                          <p-paginator
+                            [rows]="10"
+                            [totalRecords]="40"
+                            [rowsPerPageOptions]="[10, 25, 50]"
+                            [showCurrentPageReport]="true"
+                            currentPageReportTemplate="Show {rows} From {totalRecords}"
+                            
+                          ></p-paginator>
+                        </div>
+                        
+                      </td>
+                    </tr>
+                  </ng-template> -->
+                </p-table>
+              </div>
+              
+            </div>
+  
+        </p-tabPanel>
+      </p-tabView>
+
+        <!-- The button -->
+         <!-- <div class="mt-3">
+            <p-button
+            label="Add New Plan"
+            icon="pi pi-plus"
+            class="p-button-outlined custom-button"
+          ></p-button>
+         </div> -->
+     
+    <!-- </div> -->
+  
+    </div>
+  
+   </div>
+  
+  
+  
+  
+  
+   
+  
+  
+  
+  
+  
+  <!------------------------dialog for filter on Alert------------------->
+
+  <!-- <p-button (onClick)="openFilterDialog()" label="Show" /> -->
+  <p-dialog 
+  [(visible)]="modelValue" 
+  header="Filter" 
+  [closable]="true" 
+  [modal]="true" 
+
+  [style]="{  overflow: 'visible' }"
+ 
+
+  class="responsive-dialog"
+  [contentStyle]="{ padding: '1rem', overflow: 'visible' }"
+>
+  <!-- Plan Type -->
+  <div class="mb-3">
+    <label for="planType" class="block font-bold mb-2">Plan Type</label>
+    <div class="flex flex-wrap gap-3">
+      <p-button
+        *ngFor="let type of planTypes"
+        [label]="type.label"
+        [ngClass]="{ 'p-button-outlined custom-button': type.selected, 'p-button-outlined custom-button-add': !type.selected }"
+        (click)="togglePlanType(type)"
+        [style]="{ width: 'auto',padding:'8px 16px'  }"
+        class="rounded-pill"
+      ></p-button>
+    </div>
+  </div>
+  
+
+  <!-- Date Range -->
+  <div class="mb-3">
+    <label for="dateRange" class="block font-bold mb-2">Date (From)</label>
+    <p-calendar
+      [(ngModel)]="modelValue"
+      [showIcon]="true"
+      inputId="dateRange"
+      placeholder="Enter date"
+      
+      class="custom-calendar"
+    ></p-calendar>
+  </div>
+   <!-- Date Range -->
+   <div class="mb-3">
+    <label for="dateRange" class="block font-bold mb-2">Date (To)</label>
+    <p-calendar
+      [(ngModel)]="modelValue"
+      [showIcon]="true"
+      inputId="dateRange"
+      placeholder="Enter date"
+      
+      class="custom-calendar"
+    ></p-calendar>
+  </div>
+
+  <!-- Buttons -->
+  <div class="flex justify-content-between align-items-center " style="margin-top: 35px;">
+    <div class=" ">
+      <p-button
+      label="Cancel"
+     
+      class="p-button-outlined custom-button"
+      
+    ></p-button>
+   </div>
+
+   <div class=" ">
+    <p-button
+    label="Apply"
+    
+    class="p-button-outlined custom-button-add"
+    
+  ></p-button>
+ </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+</p-dialog>
+
+<!------------------------------------------------------------------------->
+
+
+
+<p-dialog
+  [(visible)]="displayReminder"
+   
+  [modal]="true"
+  [style]="{ width: '400px' }"
+  [closable]="true"
+  [dismissableMask]="true"
+>
+  <div class="reminder-body">
+    <img src="successPopup.svg" class="mb-2" />
+    <p>
+      A notification has been sent to 
+      <span class="highlight">Ahmed Ali</span> 
+      as a reminder that the plan will 
+      <span class="highlight">Expire in 7 days</span>.
+    </p>
+  </div>
+</p-dialog>
+
+<!-- Trigger button -->
+<!-- <button pButton type="button" label="Show Reminder" (click)="showReminder()"></button> -->
+
+
+<!--------------------------------------------------payment dialog filter------------------------------------------------->
+
+
+
+<p-dialog 
+[(visible)]="displayFilter" 
+header="Filter" 
+[closable]="true" 
+[modal]="true" 
+
+[style]="{  overflow: 'visible' }"
+
+
+class="responsive-dialog"
+[contentStyle]="{ padding: '1rem', overflow: 'visible' }"
+>
+<!-- Plan Type -->
+<div class="mb-3">
+  <label for="planType" class="block font-bold mb-2">Plan Type</label>
+  <div class="flex flex-wrap gap-3">
+    <p-button
+      *ngFor="let type of planTypes"
+      [label]="type.label"
+      [ngClass]="{ 'p-button-outlined custom-button': type.selected, 'p-button-outlined custom-button-add': !type.selected }"
+      (click)="togglePlanType(type)"
+      [style]="{ width: 'auto',padding:'8px 16px'  }"
+      class="rounded-pill"
+    ></p-button>
+  </div>
+</div>
+
+
+ 
+
+
+<div class="mb-3">
+  <label for="planType" class="block font-bold mb-2">Status</label>
+  
+  <div class="flex justify-content-start gap-2 align-items-center">
+    <div *ngFor="let type of status"  >
+      <button
+        type="button"
+        class="status-tag border-0"
+        [ngClass]="{
+          'selected-success': type.selected && type.value === 'success',
+          'p-tag-success': !type.selected && type.value === 'success',
+  
+          'selected-failed': type.selected && type.value === 'failed',
+          'p-tag-danger': !type.selected && type.value === 'failed',
+  
+          'selected-pending': type.selected && type.value === 'pending',
+          'p-tag-warning': !type.selected && type.value === 'pending',
+  
+          'selected-all': type.selected && type.value === 'all',
+          'not-all': !type.selected && type.value === 'all'
+  
+        }"
+        (click)="toggleStatus(type)"
+      >
+        {{ type.label }}
+      </button>
+    </div>
+  </div>
+   
+  
+  
+</div>
+
+<div class="mb-3">
+ 
+  <label for="planType" class="block font-bold mb-2">Payment by</label>
+
+  <p-dropdown 
+  [options]="paymentMethods" 
+  [(ngModel)]="selectedPayment" 
+  placeholder="Select Payment Method" 
+  [filter]="true"
+  optionLabel="name">
+<!-- <ng-template let-payment pTemplate="selectedItem">
+  <div class="p-dropdown-item">
+    <img [src]="payment.image" alt="{{ payment.name }}" width="20" class="mr-2" />
+    <span>{{ payment.name }}</span>
+  </div>
+</ng-template> -->
+<ng-template let-payment pTemplate="item">
+  <div class="p-dropdown-item">
+    <img [src]="payment.image" alt="{{ payment.name }}" width="70px" height="100%" class="mr-2" />
+    <!-- <span>{{ payment.name }}</span> -->
+  </div>
+</ng-template>
+</p-dropdown>
+
+
+</div>
+
+
+<!-- Date Range -->
+<div class="mb-3">
+  <label for="dateRange" class="block font-bold mb-2">Date (From)</label>
+  <p-calendar
+    [(ngModel)]="modelValue"
+    [showIcon]="true"
+    inputId="dateRange"
+    placeholder="Enter date"
+    
+    class="custom-calendar"
+  ></p-calendar>
+</div>
+<!-- Date Range -->
+<div class="mb-3">
+  <label for="dateRange" class="block font-bold mb-2">Date (To)</label>
+  <p-calendar
+    [(ngModel)]="modelValue"
+    [showIcon]="true"
+    inputId="dateRange"
+    placeholder="Enter date"
+    
+    class="custom-calendar"
+  ></p-calendar>
+</div>
+
+<!-- Buttons -->
+<div class="flex justify-content-between align-items-center " style="margin-top: 35px;">
+  <div class=" ">
+    <p-button
+    label="Cancel"
+   
+    class="p-button-outlined custom-button"
+    
+  ></p-button>
+ </div>
+
+ <div class=" ">
+  <p-button
+  label="Apply"
+  
+  class="p-button-outlined custom-button-add"
+   
+></p-button>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</p-dialog>
+
+<!-------------------------------------------------------------------------------------------------------------->

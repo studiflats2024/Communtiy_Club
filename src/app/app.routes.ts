@@ -68,6 +68,16 @@ export const routes: Routes = [
     loadComponent: () => import('./components/add-member/add-member.component').then(m => m.AddMemberComponent),
     canActivate: [AdminGuard]
   },
+  {
+    path: 'invite-friends',
+    loadComponent: () => import('./components/invite-friends/invite-friends.component').then(m => m.InviteFriendsComponent),
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'participants',
+    loadComponent: () => import('./components/participants/participants.component').then(m => m.ParticipantsComponent),
+    canActivate: [AdminGuard]
+  },
  
   
    
