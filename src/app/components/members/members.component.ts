@@ -130,9 +130,23 @@ export class MembersComponent {
      ];
  
       
- 
+ this.loadMembers(1,2000)
      
    }
+
+
+   loadMembers(page: number, size: number): void {
+    this.gatewayService.getAllMembers(page, size).subscribe({
+      next: (response) => {
+        this.members = response.data; // Assuming response contains a `data` array
+ 
+        console.log('Members:', this.members);
+      },
+      error: (error) => {
+        console.error('Error fetching members:', error);
+      },
+    });
+  }
    
    
  
@@ -299,16 +313,16 @@ export class MembersComponent {
    }
  
    filterPay(){
-     this.fetchRecords()
+     
      this.payFilter=true;
    }
    filterAlert(){
-     this.fetchSubscriptionAlerts()
+     
      this.payFilter=true;
    }
  
  ///////////////////////////payment dropdown/////////////////////////
-  // List of payment methods
+   
   paymentMethods = [
    { name: 'VISA', value: 'visa', image: 'visaDrop.svg' },
    { name: 'Stripe', value: 'stripe', image: 'stripePay.svg' },
@@ -319,149 +333,32 @@ export class MembersComponent {
  
  ];
  
- // Selected payment method
+ 
  selectedPayment: any = null;
  
- //////////////////////////////integration of payment section /////////////////////////////////////////////////////////
+ 
  payType:any='All';
  payStatus:any=null
  paymentBy:any=null
  payfrom:any=null
  payTo:any=null
  paySearchword:any=null
- fetchRecords(): void {
-   const pageNumber = 1;  
-   const pageSize = 2000;  
-   const type = this.payType;
-   const status = this.payStatus; 
-   const paymentBy = this.selectedPayment?.name; 
-    
-   const searchWord = this.paySearchword; 
-   
-   if(this.payfrom){
-     this.payfrom = new Date(this.payfrom).toISOString();
-   console.log("Formatted From:",this.payfrom);
-     
-     }
-     if(this.payTo){
-       this.payTo = new Date(this.payTo).toISOString();
-   
-       console.log("Formatted To:", this.payTo);
-   
-       
-       }
- 
-       const from = this.payfrom; 
-       const to = this.payTo; 
- 
-   this.gatewayService
-     .getPaymentRecords(pageNumber, pageSize, type, status, paymentBy, from, to, searchWord)
-     .subscribe(
-       (data) => {
-         console.log(data)
-        //  this.paymentRecords = data.data;  
-        //  console.log('Payment Records:', this.paymentRecords);  
-         if(this.payFilter){
-           this.showReminder()
-         }
-       },
-       (error) => {
-         console.error('Error fetching payment records:', error); // Handle errors
-       }
-     );
- }
+  
  
  
  
- markInvoiceAsPaid(invId: string): void {
-   this.gatewayService.setInvoicePaid(invId).subscribe(
-     (response) => {
-       console.log('Invoice marked as paid:', response);
-       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
-       this.fetchRecords()
-     },
-     (error) => {
-       console.error('Error marking invoice as paid:', error);
-       this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
- 
-     }
-   );
- }
- 
- markInvoiceAsUnPaid(invId: string): void {
-   this.gatewayService.setInvoiceUnPaid(invId).subscribe(
-     (response) => {
-       console.log('Invoice marked as unpaid:', response);
-       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
-       this.fetchRecords()
-       
-     },
-     (error) => {
-       console.error('Error marking invoice as unpaid:', error);
-       this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
- 
-     }
-   );
- }
  
  
- //////////////////////////////get subscription alert/////////////////////////////
+ 
+ 
  subscriptionAlerts:any 
  alertType:any=null;
  alertfrom:any=null;
  alertTo:any=null;
- fetchSubscriptionAlerts(): void {
-   const pageNumber = 1;  
-   const pageSize = 2000;  
-   const type = this.payType;
-    
-   const searchWord = this.paySearchword;
-   if(this.alertfrom){
-     this.alertfrom = new Date(this.alertfrom).toISOString();
-       console.log("Formatted From:", this.alertfrom);
-   }
-   if(this.alertTo){
-     this.alertTo = new Date(this.alertTo).toISOString();
-       console.log("Formatted To:", this.alertTo);
-     }
  
-     const from = this.alertfrom; 
-     const to = this.alertTo; 
-   
- 
-   this.gatewayService
-     .getSubscriptionAlerts(pageNumber, pageSize, type, from, to, searchWord)
-     .subscribe(
-       (response) => {
-         this.subscriptionAlerts = response.data || [];
-         console.log(response)
-         console.log('Subscription Alerts:', response);
-         if(this.payFilter){
-           this.showReminder()
-         }
-       },
-       (error) => {
-       
-         console.error('Error fetching subscription alerts:', error);
-       }
-     );
- }
  displayFilterAlert:boolean=false;
  
  
   
- sendAlert(subscribeId: string) {
-   this.gatewayService.sendSubscriptionAlert(subscribeId).subscribe(
-     response => {
-       console.log('Alert sent successfully', response);
-       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
- 
-     },
-     error => {
-       console.error('Error sending alert', error);
-       this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
- 
-     }
-   );
- }
+  
 }

@@ -34,7 +34,8 @@ export class HeaderComponent {
     '/member-details/:id': 'Member Details',
     '/add-member': 'Add Member' , 
      '/invite-friends': 'Invite Friends', 
-     '/participants': 'Participants'
+     '/participants': 'Participants',
+     '/users':'Users'
   };
 
   // Method to update the header title based on the route

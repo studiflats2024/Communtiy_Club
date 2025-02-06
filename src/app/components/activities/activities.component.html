@@ -372,7 +372,7 @@
       <ng-template pTemplate="header">
         <tr>
           <!-- <th pSortableColumn="activity_ID">ID <p-sortIcon field="activity_ID"></p-sortIcon></th> -->
-          <th pSortableColumn="activity_Media">Image</th>
+          <th  pSortableColumn="activity_Media">Image</th>
           <th pSortableColumn="activity_Type">Type <p-sortIcon field="activity_Type"></p-sortIcon></th>
           <th pSortableColumn="activity_Name">Name <p-sortIcon field="activity_Name"></p-sortIcon></th>
           <th pSortableColumn="activity_Seats">Seats <p-sortIcon field="activity_Seats"></p-sortIcon></th>
@@ -398,20 +398,20 @@
           <!-- <td>{{ activity.activity_Type }}</td> -->
       <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
 
-          <td>{{ activity.activity_Name }}</td>
-          <td>{{ activity.activity_Seats }}</td>
-          <td>{{ activity.activity_Location | slice:10 }}...</td>
-          <td>{{ activity.activity_Date }}</td>
-          <td>{{ activity.activity_Rating }}</td>
-          <td>{{ activity.rating_Count }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:10 }}...</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td>
           <!-- <td>
             <i
               [ngClass]="activity.activity_Is_Wish ? 'pi pi-heart-fill' : 'pi pi-heart'"
               [style.color]="activity.activity_Is_Wish ? 'red' : 'gray'"
             ></i>
           </td> -->
-          <td>{{ activity.activity_Time || 'N/A' }}</td>
-          <td>{{ activity.date | date: 'MMM d, y' }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Time || 'N/A' }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.date | date: 'MMM d, y' }}</td>
     
     
           <td>
@@ -429,8 +429,8 @@
               </div>
               <p-overlayPanel #op>
                 <ul class="menu-list">
-                  <li><a (click)="viewParticipants(activity)">View Participants</a></li>
-                  <li><a (click)="viewDetails(activity)">View Details</a></li>
+                  <li><a (click)="viewParticipants(activity)"  [routerLink]="'/participants'">View Participants</a></li>
+                  <li><a (click)="viewDetails(activity)" [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
                   <li><a (click)="deleteItem(activity)">Delete</a></li>
                 </ul>
               </p-overlayPanel>
@@ -580,12 +580,12 @@
                         <!-- <td>{{ activity.activity_Type }}</td> -->
       <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
 
-                        <td>{{ activity.activity_Name }}</td>
-                        <td>{{ activity.activity_Seats }}</td>
-                        <td>{{ activity.activity_Location | slice:10 }}...</td>
-                        <td>{{ activity.activity_Date }}</td>
-                        <td>{{ activity.activity_Rating }}</td>
-                        <td>{{ activity.rating_Count }}</td>
+                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
+                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
+                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:10 }}...</td>
+                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td>
+                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
+                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td>
                         <!-- <td>
                           <i
                             [ngClass]="activity.activity_Is_Wish ? 'pi pi-heart-fill' : 'pi pi-heart'"
@@ -611,8 +611,8 @@
                             </div>
                             <p-overlayPanel #op>
                               <ul class="menu-list">
-                                <li><a (click)="viewParticipants(activity)">View Participants</a></li>
-                                <li><a (click)="viewDetails(activity)">View Details</a></li>
+                                <li><a (click)="viewParticipants(activity)" [routerLink]="'/participants'">View Participants</a></li>
+                                <li><a (click)="viewDetails(activity)" [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
                                 <li><a (click)="deleteItem(activity)">Delete</a></li>
                               </ul>
                             </p-overlayPanel>
@@ -795,9 +795,13 @@
                           </div>
                           <p-overlayPanel #op>
                             <ul class="menu-list">
-                              <li><a (click)="viewParticipants(activity)">View Participants</a></li>
-                              <li><a (click)="viewDetails(activity)">View Details</a></li>
-                              <li><a (click)="deleteItem(activity)">Delete</a></li>
+                              <li><a (click)="viewParticipants(activity)" [routerLink]="'/participants'" style="cursor: pointer; text-decoration: none; color:#363636 " >View Participants</a></li>
+                              <li><a (click)="viewDetails(activity)" [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]" style="cursor: pointer; text-decoration: none; color:#363636 ">View Details</a></li>
+                              <li><a style="cursor: pointer; text-decoration: none; color:#363636 " >Display on App Home</a></li>
+                              <li><a style="cursor: pointer; text-decoration: none; color:#363636 " >Puplish</a></li>
+                              <li><a style="cursor: pointer; text-decoration: none; color:#363636 ">Cancel Event</a></li>
+                              <li><a style="cursor: pointer; text-decoration: none; color:#363636 ">Postpone Event</a></li>
+                              <li><a (click)="deleteItem(activity)" style="cursor: pointer; text-decoration: none; color:#363636 ">Delete</a></li>
                             </ul>
                           </p-overlayPanel>
                         </div>
@@ -979,8 +983,8 @@
                           </div>
                           <p-overlayPanel #op>
                             <ul class="menu-list">
-                              <li><a (click)="viewParticipants(activity)">View Participants</a></li>
-                              <li><a (click)="viewDetails(activity)">View Details</a></li>
+                              <li><a (click)="viewParticipants(activity)" [routerLink]="'/participants'">View Participants</a></li>
+                              <li><a (click)="viewDetails(activity)" [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
                               <li><a (click)="deleteItem(activity)">Delete</a></li>
                             </ul>
                           </p-overlayPanel>

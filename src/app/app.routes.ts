@@ -78,6 +78,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/participants/participants.component').then(m => m.ParticipantsComponent),
     canActivate: [AdminGuard]
   },
+  {
+    path: 'users',
+    loadComponent: () => import('./components/users/users.component').then(m => m.UsersComponent),
+    canActivate: [AdminGuard]
+  },
  
   
    

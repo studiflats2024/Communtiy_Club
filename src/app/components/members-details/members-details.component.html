@@ -78,29 +78,31 @@
                     <div class="flex flex-column w-full ">
  
                        <div class="flex justify-content-between align-items-center w-full  pb-5 border-bottom">
-                          <div class="flex justify-content-start align-items-center gap-2 w-full">
+                          <div class="flex justify-content-start align-items-center gap-2 w-full flex-wrap">
                             <img src="community/memberImg.png"/>
                             <div class="flex flex-column">
-                              <div class="data">Ahmed Ali</div>
-                              <div class="sub-info"><i class="pi pi-envelope mr-1" style="color:#1151B4"></i> <span class="mr-2">Ahmed.ali&#64;gmail.com</span><i class="pi pi-phone mr-1" style="color:#1151B4"></i><span>+49 128 45987564</span></div>
+                              <div class="data">{{memberDetails?.name}}</div>
+                              <div class="sub-info"><i class="pi pi-envelope mr-1" style="color:#1151B4"></i> <span class="mr-2">{{memberDetails?.email}}</span><i class="pi pi-phone mr-1" style="color:#1151B4"></i><span>+49 128 45987564</span></div>
                             </div>
                           </div>
-                          <div class=""><span class="status-tag p-tag-success">Active</span></div>
+                          <div *ngIf="memberDetails?.status==='Active'" class=""><span class="status-tag p-tag-success">{{memberDetails?.status}}</span></div>
+                          <div *ngIf="memberDetails?.status==='Expired'" class=""><span class="status-tag p-tag-danger">{{memberDetails?.status}}</span></div>
+
 
                        </div>
-                        <div class="flex justify-content-between align-items-center w-full my-4"  >
+                        <div class="flex justify-content-between align-items-center w-full my-4 flex-wrap"  >
                              <div class="flex flex-column border-end" style="width: 30%;">
                                  <div class="label-info"><i class="pi pi-map-marker mr-1" style="color:#1151B4"></i><span>Location</span></div>
-                                 <div class="tx-info">Berliner Allee 201, 13088 Berlin</div>
+                                 <div class="tx-info">{{memberDetails?.location}}</div>
                              </div>
                              <div class="flex flex-column border-end" style="width: 30%;">
                               <div  class="label-info"><i class="pi pi-home mr-1" style="color:#1151B4"></i><span>Apartment Name</span></div>
 
-                                <div class="tx-info">Berliner Allee 201, 13088 Berlin</div>
+                                <div class="tx-info">{{memberDetails?.apartment_Name}}</div>
                              </div>
                              <div class="flex flex-column" style="width: 30%;">
                               <div  class="label-info"><i class="fa fa-hashtag mr-1" style="color:#1151B4"></i><span>Agency Code</span></div>
-                                 <div class="tx-info">AV125964</div>
+                                 <div class="tx-info">{{memberDetails?.agency_Code}}</div>
                              </div>
                         </div>
                     </div>
@@ -113,14 +115,14 @@
                         <span class="plan-name">
                     
                           <img src="community/starplan.svg" />
-                          Annual Plan
+                          {{memberDetails?.plan_Name}}
                         </span>
-                        <span><span class="plan-price">€400 </span> <span class="plan-duration">/ year</span> </span>
+                        <span><span class="plan-price">€{{memberDetails?.price}}</span> <span class="plan-duration">/ {{memberDetails?.plan_Duration}}</span> </span>
                          
                       </div>
                     
                     
-                      <div class="flex justify-content-between align-items-center w-full my-4"  >
+                      <div class="flex justify-content-between align-items-center w-full my-4 flex-wrap"  >
                         <div class="flex flex-column border-end" style="width: 30%;">
                             <div class="label-info"><i class="pi pi-credit-card mr-1" style="color:#1151B4"></i><span>Payment Method</span></div>
                             <div class="tx-info"><img src="stripePay.svg"/></div>
@@ -128,11 +130,11 @@
                         <div class="flex flex-column border-end" style="width: 30%;">
                          <div  class="label-info"><i class="pi pi-calendar mr-1" style="color:#1151B4"></i><span>Start Date</span></div>
 
-                           <div class="tx-info">November 28 , 2025</div>
+                           <div class="tx-info">{{memberDetails?.start_Date}}</div>
                         </div>
                         <div class="flex flex-column" style="width: 30%;">
                          <div  class="label-info"><i class="pi pi-calendar mr-1" style="color:#1151B4"></i><span>Renewal Date</span></div>
-                            <div class="tx-info">November 28 , 2025</div>
+                            <div class="tx-info">{{memberDetails?.renewel_Date}}</div>
                         </div>
                    </div>
                     </p-card>
@@ -147,7 +149,7 @@
                                 <div class="flex align-items-center gap-2">
                 
                                     <span class=" white-space-nowrap m-0">
-                                      Attended Activities
+                                      Activities
                                     </span>
                                     <!-- <p-badge [value]="pendingWorkers.length" /> -->
                                 </div>
@@ -165,7 +167,7 @@
                                     <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
                                     <i class="pi pi-search search-icon"></i>
                                     <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
-                                     <img src="filterplan.svg" (click)="openFilterDialog()"   style="margin-left: 24px; cursor: pointer;"/>
+                                     <!-- <img src="filterplan.svg" (click)="openFilterDialog()"   style="margin-left: 24px; cursor: pointer;"/> -->
                                   </div>
                                 </div>
                               
@@ -174,7 +176,7 @@
                                   [value]="activities"
                                   [paginator]="true"
                                   [rows]="5"
-                                  [globalFilterFields]="['title', 'type', 'date', 'status']"
+                                  [globalFilterFields]="['activity_Name', 'activity_Type', 'date', 'attendance']"
                                   [filterDelay]="300"
                                   [resizableColumns]="true"
                                   [tableStyle]="{ 'min-width': '900px' }"
@@ -201,11 +203,11 @@
                                           <strong>{{ member.name }}</strong>
                                           <p>{{ member.email }}</p>
                                         </div> -->
-                                        {{activity.title}}
+                                        {{activity.activity_Name}}
                                       </td>
                                     
                    
-                                      <td ><span [ngClass]="getActivityClass(activity.type)"> {{ activity.type }}</span> </td>
+                                      <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
               
                                       
               
@@ -220,13 +222,13 @@
                                         <span
                                           class="p-tag status-tag"
                                           [ngClass]="{
-                                            'p-tag-success': activity.status === 'Success',
-                                            'p-tag-danger': activity.status === 'Failed',
-                                            'p-tag-warning': activity.status === 'Pending'
+                                            'p-tag-success': activity.attendance === 'Attended',
+                                            'p-tag-danger': activity.attendance === 'Not Attended',
+                                            
                                             
                                           }"
                                         >
-                                          {{ activity.status }}
+                                          {{ activity.attendance }}
                                         </span>
                                       </td>
                                       
@@ -263,7 +265,7 @@
                                   <div class="flex align-items-center gap-2">
               
                                       <span class=" white-space-nowrap m-0">
-                                          Invited Friends
+                                          Invitation History
                                       </span>
                                       <!-- <p-badge [value]="pendingWorkers.length" /> -->
                                   </div>
@@ -290,7 +292,7 @@
                                   [value]="invitations"
                                   [paginator]="true"
                                   [rows]="5"
-                                  [globalFilterFields]="['name', 'email', 'phone_No', 'number','date','status']"
+                                  [globalFilterFields]="['name', 'email', 'phone', 'invitiation_No','invitation_Date','attendance']"
                                   [filterDelay]="300"
                                   [resizableColumns]="true"
                                   [tableStyle]="{ 'min-width': '900px' }"
@@ -318,7 +320,7 @@
                                           <p>{{ invite.email }}</p>
                                           </div>
                                       </td>
-                                      <td>{{ invite.phone_No }}</td>
+                                      <td>{{ invite.phone }}</td>
                           
                                       
               
@@ -326,8 +328,8 @@
                                       
                               
                                   
-                                      <td>{{ invite.date | date: 'MMM d, yyyy' }}</td>
-                                      <td>{{ invite.number }}</td>
+                                      <td>{{ invite.invitation_Date | date: 'MMM d, yyyy' }}</td>
+                                      <td>{{ invite.invitiation_No }}</td>
               
                                       <!-------------------------------------------------------------------------------------------------------------------->
               
@@ -335,13 +337,13 @@
                                           <span
                                           class="p-tag status-tag"
                                           [ngClass]="{
-                                              'p-tag-success': invite.status === 'Success',
-                                              'p-tag-danger': invite.status === 'Failed',
-                                              'p-tag-warning': invite.status === 'Pending'
+                                              'p-tag-success': invite.attendance === 'Attended',
+                                              'p-tag-danger': invite.attendance === 'Not Attended',
+                                               
                                               
                                           }"
                                           >
-                                          {{ invite.status }}
+                                          {{ invite.attendance }}
                                           </span>
                                       </td>
                                       
@@ -393,7 +395,7 @@
                           <!-- <span class="p-inputgroup-addon">
                             <i class="pi pi-search"></i>
                           </span> -->
-                          <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
+                          <input type="text"  class="search-input" pInputText placeholder="      Search by code,plans ,Dates ans status" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
                           <i class="pi pi-search search-icon"></i>
                           <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
                            <img src="filterplan.svg" (click)="openFilterDialog()"   style="margin-left: 24px; cursor: pointer;"/>
@@ -405,7 +407,7 @@
                         [value]="paymentRecords"
                         [paginator]="true"
                         [rows]="10"
-                        [globalFilterFields]="['name', 'email', 'phone_No', 'plan_Type']"
+                        [globalFilterFields]="['inv_Code', 'amount', 'payment_Date', 'plan_Type','status']"
                         [filterDelay]="300"
                         [resizableColumns]="true"
                         [tableStyle]="{ 'min-width': '900px' }"
@@ -416,29 +418,28 @@
                       >
                         <ng-template pTemplate="header">
                           <tr>
-                            <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                            <th>Phone Number</th>
-                            <th pSortableColumn="startDate">Date <p-sortIcon field="startDate"></p-sortIcon></th>
-                            
-                            <th>Plan Type</th>
-                              
-                            <th>Amount</th>
+                     
+
+                            <th  pSortableColumn="inv_Code">Invoice Code</th>
+                        
+                            <th pSortableColumn="plan_Type">Plan Type<p-sortIcon field="plan_Type"></p-sortIcon></th>
+                            <th pSortableColumn="payment_Date">Payment Date<p-sortIcon field="payment_Date"></p-sortIcon></th>  
+                            <th pSortableColumn="amount">Amount<p-sortIcon field="amount"></p-sortIcon></th>
+                            <th pSortableColumn="start_Date">Start Date<p-sortIcon field="start_Date"></p-sortIcon></th>
+
+                            <th pSortableColumn="renewal_Date">Renewal Date<p-sortIcon field="renewal_Date"></p-sortIcon></th>
+
                             <th>Payment By</th>
                             <th>Status</th>
-                            <th>Action</th>
+                        
                           </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-payment>
                           <tr>
-                            <td>
-                              <div>
-                                <strong>{{ payment.name }}</strong>
-                                <p>{{ payment.email }}</p>
-                              </div>
-                            </td>
-                            <td>{{ payment.phone_No }}</td>
+                            <td>{{payment.inv_Code}}</td>
+                           
                             <!-- <td>{{ record.date | date: 'MMM d, yyyy' }}</td> -->
-                            <td>{{ payment.date | date: 'MMM d, yyyy' }}</td>
+                             
     
                             
                             <td>
@@ -449,7 +450,11 @@
                               </span>
                             
                             </td>
+                            <td>{{ payment.payment_Date| date: 'MMM d, yyyy' }}</td>
+                            
                             <td>{{ payment.amount ? '€' + payment.amount : '-' }}</td>
+                            <td>{{payment.payment_Date | date: 'MMM d, yyyy'}}</td>
+                            <td>{{ payment.renewal_Date| date: 'MMM d, yyyy' }}</td>
                             <!-- <td>{{ payment.paymentBy }}</td> -------------------------------------------------------------------------------->
                             <td class="text-center">
                               <div class="payment-method">
@@ -486,7 +491,7 @@
                             
                                   <!-- Default case -->
                                   <div *ngSwitchDefault class="payment-icon">
-                                    <span>{{ payment.paymentBy }}</span>
+                                    <span>{{ payment.payment_By }}</span>
                                   </div>
                                 </ng-container>
                               </div>
@@ -498,45 +503,18 @@
                               <span
                                 class="p-tag status-tag"
                                 [ngClass]="{
-                                  'p-tag-success': payment.payment_Status === 'Success',
-                                  'p-tag-danger': payment.payment_Status === 'Failed',
-                                  'p-tag-warning': payment.payment_Status === 'Pending'
+                                  'p-tag-success': payment.status === 'Success',
+                                  'p-tag-danger': payment.status === 'Failed',
+                                  'p-tag-warning': payment.status === 'Pending'
                                   
                                 }"
                               >
-                                {{ payment.payment_Status }}
+                                {{ payment.status }}
                               </span>
                             </td>
                             
     
-                            <td >
-                              <div class="flex justify-content-between align-items-center gab-3">
-                                <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
-                                <div class=" ">
-                                  <img
-                                    class="image-default"
-                                    src="viewPay.svg"
-                                    alt="Default Alert Icon"
-                                  />
-                                   
-                                </div>
-                                
-                                <div>
-                                  <img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
-                                </div>
-                                <p-overlayPanel #op>
-                                  <ul class="menu-list">
-                                    <li><a    style="cursor: pointer;" >View Member Profile</a></li>
-                                    <li><a (click)="markInvoiceAsPaid(payment.payment_ID)" style="cursor: pointer;">Marked as paid</a></li>
-                                    <li><a (click)="markInvoiceAsUnPaid(payment.payment_ID)" style="cursor: pointer;">Not Paid</a></li>
-                                  </ul>
-                                </p-overlayPanel>
-                              </div>
-                               
-      
-                              <!-- <button pButton icon="pi pi-bell" class="p-button-rounded p-button-info p-mr-2"></button> -->
-                              <!-- <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger"></button> -->
-                            </td>
+                        
                           </tr>
                         </ng-template>
                         <!-- <ng-template pTemplate="footer">

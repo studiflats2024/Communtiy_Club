@@ -66,7 +66,7 @@ export class MembersDetailsComponent {
 activities:any[]=[]
 invitations:any[]=[]
 paymentRecords:any[]=[]
-  constructor( private gatewayService:GatewayService,private plansService: PlansService, private messageService: MessageService) {
+  constructor(private route: ActivatedRoute, private gatewayService:GatewayService,private plansService: PlansService, private messageService: MessageService) {
     this.paymentRecords = [
       {
         name: 'Ahmed Ali',
@@ -264,11 +264,14 @@ paymentRecords:any[]=[]
     
   }
 
-
+  subscription_ID:any;
   ngOnInit() {
 
     // this.adjustDialogStyle(window.innerWidth);
-
+    this.subscription_ID = this.route.snapshot.paramMap.get('id');
+    if( this.subscription_ID){
+       this.fetchMemberDetails(this.subscription_ID)
+    }
 
     this.items = [
       { label: 'Community Club', routerLink: '/dashboard' },
@@ -283,6 +286,23 @@ paymentRecords:any[]=[]
      
 
     
+  }
+
+  memberDetails:any
+  
+  fetchMemberDetails(subscriptionId: string): void {
+    this.gatewayService.getMemberDetails(subscriptionId).subscribe({
+      next: (response) => {
+        this.memberDetails = response;
+        this.activities=this.memberDetails?._Activities
+        this.invitations=this.memberDetails?._Invitations
+        this.paymentRecords=this.memberDetails?._Invoices
+        console.log('Member Details:', this.memberDetails);
+      },
+      error: (error) => {
+        console.error('Error fetching member details:', error);
+      },
+    });
   }
   
   

@@ -79,30 +79,43 @@
                   >
                     <ng-template pTemplate="header">
                       <tr>
+                         <th >Image</th>
                         <th pSortableColumn="name">Member Name <p-sortIcon field="name"></p-sortIcon></th>
-                        <th>Phone Number</th>
+                        <!-- <th>Phone Number</th> -->
                         <th>Plan Type</th>
                         <th>Payment By</th>
                         <th pSortableColumn="startDate"> Join Date <p-sortIcon field="startDate"></p-sortIcon></th>
+                        <th pSortableColumn="startDate"> Renewel Date <p-sortIcon field="startDate"></p-sortIcon></th>
+
                         <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-member>
                       <tr>
+                        <td> <img
+                          *ngIf="member.photo; else placeholder"
+                          [src]="member.photo"
+                          alt="Member Photo"
+                          style="width: 50px; height: 50px;"
+                        />
+                        <ng-template #placeholder>
+                          <img src="community/memberImg.png" alt="Default Photo" style="width: 50px; height: 50px;" />
+                        </ng-template></td>
+
                         <td>
                           <div>
                             <strong>{{ member.name }}</strong>
                             <p>{{ member.email }}</p>
                           </div>
                         </td>
-                        <td>{{ member.phone_No }}</td>
+                        <!-- <td>{{ member.phone_No }}</td> -->
      
                         <td>
                             <!-- <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="p-tag">{{ subscription.planType }}</span> -->
-                            <span [ngClass]="getPlanBadgeClass(member.plan_Type)" class="badge">
-                              <i [ngClass]="getPlanIcon(member.plan_Type)" class="icon"></i>
-                              {{ member.plan_Type }}
+                            <span [ngClass]="getPlanBadgeClass(member.plan_Name)" class="badge">
+                              <i [ngClass]="getPlanIcon(member.plan_Name)" class="icon"></i>
+                              {{ member.plan_Name}}
                             </span>
                           
                           </td>
@@ -114,7 +127,7 @@
                         <!-- <td>{{ payment.paymentBy }}</td> -------------------------------------------------------------------------------->
                         <td class="text-center">
                           <div class="payment-method">
-                            <ng-container [ngSwitch]="member.payment_By">
+                            <ng-container [ngSwitch]="member.payment_Method">
                               <!-- Cash -->
                               <div *ngSwitchCase="'Cash'" class="payment-icon">
                                 <img src="cashPay.svg" alt="Cash" />
@@ -147,21 +160,23 @@
                         
                               <!-- Default case -->
                               <div *ngSwitchDefault class="payment-icon">
-                                <span>{{ member.paymentBy }}</span>
+                                <span>{{ member.payment_Method }}</span>
                               </div>
                             </ng-container>
                           </div>
                         </td>
-                        <td>{{ member.date | date: 'MMM d, yyyy' }}</td>
+                        <td>{{ member.start_Date | date: 'MMM d, yyyy' }}</td>
+                        <td>{{ member.renewel_Date | date: 'MMM d, yyyy' }}</td>
+
                         <!-------------------------------------------------------------------------------------------------------------------->
 
                         <td>
                           <span
                             class="p-tag status-tag"
                             [ngClass]="{
-                              'p-tag-success': member.status === 'Success',
-                              'p-tag-danger': member.status === 'Failed',
-                              'p-tag-warning': member.status === 'Pending'
+                              'p-tag-success': member.status === 'Active',
+                              'p-tag-danger': member.status === 'Expired',
+                               
                               
                             }"
                           >
@@ -175,7 +190,7 @@
                             <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
                             <div class=" ">
                               <img
-                              [routerLink]="['/member-details', 1]"
+                              [routerLink]="['/member-details', member.subscription_ID]"
                                 class="image-default"
                                 src="viewPay.svg"
                                 alt="Default Alert Icon"
@@ -188,9 +203,9 @@
                             </div>
                             <p-overlayPanel #op>
                               <ul class="menu-list">
-                                <li><a  [routerLink]="['/member-details', 1]"  style="cursor: pointer;" >View Member Profile</a></li>
-                                <li><a (click)="markInvoiceAsPaid(member.payment_ID)" style="cursor: pointer;">Marked as paid</a></li>
-                                <li><a (click)="markInvoiceAsUnPaid(member.payment_ID)" style="cursor: pointer;">Not Paid</a></li>
+                                <li><a  [routerLink]="['/member-details', member.subscription_ID]"  style="cursor: pointer; text-decoration: none; color:#363636" >View Member Profile</a></li>
+                                <li><a style="cursor: pointer;">Edit</a></li>
+                                <li><a style="cursor: pointer;">Delete</a></li>
                               </ul>
                             </p-overlayPanel>
                           </div>
@@ -277,7 +292,7 @@
         *ngFor="let type of planTypes"
         [label]="type.label"
         [ngClass]="{ 'p-button-outlined custom-button': type.selected, 'p-button-outlined custom-button-add': !type.selected }"
-        (click)="togglePlanType(type)"
+         
         [style]="{ width: 'auto',padding:'8px 16px'  }"
         class="rounded-pill"
       ></p-button>

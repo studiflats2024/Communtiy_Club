@@ -72,10 +72,45 @@ export class GatewayService {
 
 
   sendSubscriptionAlert(subscribeId: string): Observable<any> {
-    const url = `${environment.apiUrl}/Gateway/SendSubscriptionAlert?Subscripe_ID=${subscribeId}`;
+    const url = `${environment.apiUrl}/Gateway/SendSubscriptionAlert?Subscrip
+    e_ID=${subscribeId}`;
     return this.http.post(url, {});
   }
   
+
+
+  /**
+   * Fetch all members with pagination.
+   * @param pageNumber The page number to fetch.
+   * @param pageSize The number of records per page.
+   * @returns An Observable of the API response.
+   */
+  getAllMembers(pageNumber: number, pageSize: number): Observable<any> {
+    // Add query parameters for pagination
+    const url = `${environment.apiUrl}/Gateway/GetAllMembers`;
+    const params = new HttpParams()
+      .set('PageNumber', pageNumber.toString())
+      .set('PageSize', pageSize.toString());
+
+    // Make the GET request with parameters
+    return this.http.get<any>(url, { params });
+  }
+
+
+
+
+    /**
+   * Fetch member details by Subscription_ID.
+   * @param subscriptionId The subscription ID to fetch details for.
+   * @returns An Observable of the member details.
+   */
+    getMemberDetails(subscriptionId: string): Observable<any> {
+    const url = `${environment.apiUrl}/Gateway/GetMemberDetails`;
+
+      const params = new HttpParams().set('Subscription_ID', subscriptionId);
+  
+      return this.http.get<any>(url, { params });
+    }
   
 }
 
