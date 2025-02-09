@@ -218,7 +218,7 @@
       <td   [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]"><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
       <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
       <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
-      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:10 }}...</td>
+      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
       <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td>
       <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
       <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td>
@@ -400,7 +400,7 @@
 
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
-          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:10 }}...</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td>
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td>
@@ -582,7 +582,7 @@
 
                         <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
                         <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
-                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:10 }}...</td>
+                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
                         <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td>
                         <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
                         <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td>
@@ -766,7 +766,7 @@
 
                       <td>{{ activity.activity_Name }}</td>
                       <td>{{ activity.activity_Seats }}</td>
-                      <td>{{ activity.activity_Location | slice:10 }}...</td>
+                      <td>{{ activity.activity_Location | slice:0:10 }}...</td>
                       <td>{{ activity.activity_Date }}</td>
                       <td>{{ activity.activity_Rating }}</td>
                       <td>{{ activity.rating_Count }}</td>
@@ -954,7 +954,7 @@
 
                       <td>{{ activity.activity_Name }}</td>
                       <td>{{ activity.activity_Seats }}</td>
-                      <td>{{ activity.activity_Location | slice:10 }}...</td>
+                      <td>{{ activity.activity_Location | slice:0:10 }}...</td>
                       <td>{{ activity.activity_Date }}</td>
                       <td>{{ activity.activity_Rating }}</td>
                       <td>{{ activity.rating_Count }}</td>
@@ -1340,5 +1340,7 @@ class="responsive-dialog"
 
 
 
+
+<!--------------------------------------popup action event---------------->
 
 

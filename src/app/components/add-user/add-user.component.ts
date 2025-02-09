@@ -28,36 +28,37 @@ import { CardModule } from 'primeng/card';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { PlansService } from '../../services/plans.service';
 
-
-
-
 @Component({
-  selector: 'app-add-new-plan',
+  selector: 'app-add-user',
   standalone: true,
   imports: [CardModule,RadioButtonModule,CheckboxModule,ChipModule,InputNumberModule,ToastModule,MultiSelectModule,CalendarModule,DragDropModule,ButtonModule,GalleriaModule,FileUploadModule,InputTextareaModule,DropdownModule,InputTextModule,DialogModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
   providers: [MessageService],
-  templateUrl: './add-new-plan.component.html',
-  styleUrl: './add-new-plan.component.css'
+  templateUrl: './add-user.component.html',
+  styleUrl: './add-user.component.css'
 })
-export class AddNewPlanComponent {
-  // Breadcrumb items for navigation
+export class AddUserComponent {
+    // Breadcrumb items for navigation
   items: any[] = [];
   trial:boolean=false;
 
   // Dropdown options for duration and plans
   durations: { name: string; value: number }[] = [];
+  roles: { name: string; id: number }[] = [];
   plans: { name: string; id: number }[] = [];
+
 
   // Form field bindings
   planName: string = '';
 selectedDuration: any = null;
 selectedPlan: any = null;
+selectedRole: any = null;
+
 price: number =0;
 discount: number =0;
 finalPrice: number =0;
 invitationNo: any;
 features: string = '';
-
+userEmail:string=''
   
   constructor(private messageService: MessageService,private plansService: PlansService) {}
   ngOnInit() {
@@ -68,10 +69,10 @@ this.calculateFinalPrice()
     this.items = [
       { label: 'Community Club', routerLink: '/dashboard' },
 
-      { label: 'Manage Subscriptions', routerLink: '/manage-subscription' },
+      { label: 'Users', routerLink: '/users' },
 
 
-      { label: 'Add New Plan', routerLink: '/add-new-plan' },
+      { label: 'Add New User', routerLink: '/add-new-user' },
       
     ];
 
@@ -85,9 +86,11 @@ this.calculateFinalPrice()
          
         ];
     
-        this.plans = [
-          { name: 'Most Popular', id: 1 },
-          { name: 'Most Value', id: 2 },
+        this.roles = [
+          { name: 'Community Admin', id: 1 },
+          { name: 'Instructor', id: 2 },
+          { name: 'Accounted', id: 3 },
+
          
         ];
     
@@ -106,15 +109,15 @@ this.calculateFinalPrice()
   submitPlan(): void {
 
 
-    if (!this.planName || !this.selectedPlan?.name || !this.selectedDuration?.name || (!this.trial && !this.price)  ) {
-      // Show error toast for validation failure
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Validation Error',
-        detail: 'Please fill in all required fields before submitting.',
-      });
-      return; 
-    }
+    // if (!this.planName || !this.selectedPlan?.name || !this.selectedDuration?.name || (!this.trial && !this.price)  ) {
+      
+    //   this.messageService.add({
+    //     severity: 'error',
+    //     summary: 'Validation Error',
+    //     detail: 'Please fill in all required fields before submitting.',
+    //   });
+    //   return; 
+    // }
    
 
     const formattedPlan = {
@@ -131,25 +134,25 @@ this.calculateFinalPrice()
     
 
     // Call the service to send the data
-    this.plansService.addNewPlan(formattedPlan).subscribe({
-      next: (response) => {
-        console.log('Plan added successfully:', response);
-         // Show success toast
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: response.message
-    });
-      },
-      error: (error) => {
-        console.error('Error adding plan:', error);
-        this.messageService.add({
-          severity: 'Error',
-          summary: 'error',
-          detail: error.message
-        });
-      }
-    });
+    // this.plansService.addNewPlan(formattedPlan).subscribe({
+    //   next: (response) => {
+    //     console.log('Plan added successfully:', response);
+        
+    // this.messageService.add({
+    //   severity: 'success',
+    //   summary: 'Success',
+    //   detail: response.message
+    // });
+    //   },
+    //   error: (error) => {
+    //     console.error('Error adding plan:', error);
+    //     this.messageService.add({
+    //       severity: 'Error',
+    //       summary: 'error',
+    //       detail: error.message
+    //     });
+    //   }
+    // });
   
      
   }

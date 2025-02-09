@@ -83,6 +83,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/users/users.component').then(m => m.UsersComponent),
     canActivate: [AdminGuard]
   },
+  {
+    path: 'add-new-user',
+    loadComponent: () => import('./components/add-user/add-user.component').then(m => m.AddUserComponent),
+    canActivate: [AdminGuard]
+  },
  
   
    

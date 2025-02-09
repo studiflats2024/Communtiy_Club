@@ -451,7 +451,7 @@ margin-top: 20px;
 flex-wrap: wrap;
   }
 
-  .subscription-card ::ng-deep .p-card {
+  .subscription-card-year ::ng-deep .p-card {
     border: 1px solid #eaeaea;
     border-radius: 16px;
     
@@ -472,7 +472,93 @@ background: #FFF;
 /* Global Tokens/E1 */
 box-shadow: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
   }
+  .subscription-card-free ::ng-deep .p-card {
+    border: 1px solid #eaeaea;
+    border-radius: 16px;
+    
+    position: relative;
+    background: #ffffff;
   
+
+    /* display: flex; */
+width: 350px;
+height: 536px;
+padding: 24px 16px;
+/* flex-direction: column;
+align-items: flex-start; */
+border-radius: 16px;
+border-top: 3px solid var(--Colors-Warning-600, #EFBF4D);
+background: #FFF;
+
+/* Global Tokens/E1 */
+box-shadow: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
+  }
+
+  .subscription-card-month ::ng-deep .p-card {
+    border: 1px solid #eaeaea;
+    border-radius: 16px;
+    
+    position: relative;
+    background: #ffffff;
+  
+
+    /* display: flex; */
+width: 350px;
+height: 536px;
+padding: 24px 16px;
+/* flex-direction: column;
+align-items: flex-start; */
+border-radius: 16px;
+border-top: 3px solid var(--Colors-Sucess-700, #1CA65F);
+background: #FFF;
+
+/* Global Tokens/E1 */
+box-shadow: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
+  }
+
+  .subscription-card-3months ::ng-deep .p-card {
+    border: 1px solid #eaeaea;
+    border-radius: 16px;
+    
+    position: relative;
+    background: #ffffff;
+  
+
+    /* display: flex; */
+width: 350px;
+height: 536px;
+padding: 24px 16px;
+/* flex-direction: column;
+align-items: flex-start; */
+border-radius: 16px;
+border-top: 3px solid var(--Colors-Primary-700, #1151B4);
+background: #FFF;
+
+/* Global Tokens/E1 */
+box-shadow: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
+  }
+
+  .subscription-card-6months ::ng-deep .p-card {
+    border: 1px solid #eaeaea;
+    border-radius: 16px;
+    
+    position: relative;
+    background: #ffffff;
+  
+
+    /* display: flex; */
+width: 350px;
+height: 536px;
+padding: 24px 16px;
+/* flex-direction: column;
+align-items: flex-start; */
+border-radius: 16px;
+border-top: 3px solid var(--Colors-Primary-700, #1151B4);
+background: #FFF;
+
+/* Global Tokens/E1 */
+box-shadow: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
+  }
   .card-headerr {
     display: flex;
     justify-content: space-between;
@@ -1173,7 +1259,9 @@ background: #D7F8E7 !important;
 }
 
 /* Customize the calendar appearance */
-.custom-calendar {
+.custom-calendar ::ng-deep .p-datepicker {
+  max-height: 130px; /* Adjust this height as needed */
+  overflow-y: auto;
   width: 100%; /* Optional: Make the calendar take full width */
 }
 

@@ -28,7 +28,7 @@
                   <div class="flex align-items-center gap-2">
   
                       <span class=" white-space-nowrap m-0">
-                        Tenants
+                       Invite Friends
                       </span>
                      
                   </div>
@@ -38,7 +38,7 @@
                 <div class="p-card p-3" style="border-radius: 16px;" >
                   <div class="flex justify-content-between align-items-center mb-4">
                      
-                     <div class="card-header">Tenants Records</div>
+                     <div class="card-header"> </div>
                     <div class="p-inputgroup w-50" style=" position: relative;">
                       
                       <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
@@ -52,7 +52,7 @@
                     [value]="friends"
                     [paginator]="true"
                     [rows]="10"
-                    [globalFilterFields]="['name', 'email', 'phone_No', 'friend_email','friend_phone','invite_date','invite_No','status']"
+                    [globalFilterFields]="['name', 'email', 'phone', 'email_Friend','friend_phone','invitation_Date','invitiation_No','attendance']"
                     [filterDelay]="300"
                     [resizableColumns]="true"
                     [tableStyle]="{ 'min-width': '900px' }"
@@ -64,13 +64,13 @@
                     <ng-template pTemplate="header">
                       <tr>
                         <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                        <th pSortableColumn="phone_No">Phone Number<p-sortIcon field="phone_No"></p-sortIcon></th>
+                        <th pSortableColumn="phone">Phone Number<p-sortIcon field="phone"></p-sortIcon></th>
                          
                         <th>Friend's Email</th>
                         <th> Friend's Phone</th>
-                        <th pSortableColumn="invite-date"> invitation Date <p-sortIcon field="invite-date"></p-sortIcon></th>
-                        <th pSortableColumn="invite-No"> invitation number<p-sortIcon field="invite-No"></p-sortIcon></th>
-                        <th>Status</th>
+                        <th pSortableColumn="invitation_Date"> invitation Date <p-sortIcon field="invitation_Date"></p-sortIcon></th>
+                        <th pSortableColumn="invitiation_No"> invitation number<p-sortIcon field="invitiation_No"></p-sortIcon></th>
+                        <th pSortableColumn="attendance">Status<p-sortIcon field="attendance"></p-sortIcon></th>
 
                         <th>Actions</th>
                       </tr>
@@ -83,9 +83,9 @@
                             <p>{{ friend.email }}</p>
                           </div>
                         </td>
-                        <td>{{ friend.phone_No }}</td>
+                        <td>{{ friend.phone }}</td>
      
-                        <td>{{friend.friend_email}}</td>
+                        <td>{{friend.email_Friend}}</td>
                         <td>{{friend.friend_phone}}</td>
 
                         
@@ -93,20 +93,20 @@
                         
                         
                  
-                        <td>{{ friend.invite_date | date: 'MMM d, yyyy' }}</td>
-                        <td>{{ friend.invite_No | date: 'MMM d, yyyy' }}</td>
+                        <td>{{ friend.invitation_Date | date: 'MMM d, yyyy'}}</td>
+                        <td>{{ friend.invitiation_No  }}</td>
 
                         <td>
                             <span
                               class="p-tag status-tag"
                               [ngClass]="{
-                                'p-tag-success': friend.status === 'Success',
-                                'p-tag-danger': friend.status === 'Failed',
-                                'p-tag-warning': friend.status === 'Pending'
+                                'p-tag-success': friend.attendance === 'Attended',
+                                'p-tag-danger': friend.attendance === 'Not Attended',
+                                
                                 
                               }"
                             >
-                              {{ friend.status }}
+                              {{ friend.attendance }}
                             </span>
                           </td>
 

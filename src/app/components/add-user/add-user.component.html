@@ -1,0 +1,193 @@
+<div class="parent">
+    <div class="fixDiv"></div>
+    <div class="page">
+      <p-breadcrumb class="max-w-full" [model]="items">
+        <ng-template pTemplate="item" let-item>
+            <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+                <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+                <span>{{ item.label }}</span>
+            </a>
+        </ng-template>
+      </p-breadcrumb>
+  
+      <p-toast></p-toast>
+      <div class="content">
+        <p-card >
+   
+  
+          <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+                  <div class="flex flex-column gap-2 w-50">
+                    <label class="label" for="name">First Name</label>
+                    <input 
+                        pInputText 
+                        id="name" 
+                        aria-describedby="username-help" 
+                        [(ngModel)]="planName"
+                        placeholder="Name of plan"
+                        #planNameInput="ngModel"
+                        required
+                      />
+                      <small *ngIf="planNameInput.invalid && planNameInput.touched" class="p-error">
+                     Name is required.
+                      </small>
+                    
+                </div>
+                <div class="flex flex-column gap-2 w-50">
+                    <label class="label" for="name">Last Name</label>
+                    <input 
+                        pInputText 
+                        id="name" 
+                        aria-describedby="username-help" 
+                        [(ngModel)]="planName"
+                        placeholder="Name of plan"
+                        #planNameInput="ngModel"
+                        
+                      />
+                     
+                    
+                </div>
+          </div>
+  <!-------------------------------------------------->
+          <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+            <div class="flex flex-column gap-2 w-50">
+                <label class="label" for="email">Email</label>
+                <input 
+                  pInputText 
+                  id="email" 
+                  type="email" 
+                  aria-describedby="email-help" 
+                  [(ngModel)]="userEmail" 
+                  placeholder="Enter your email" 
+                  #emailInput="ngModel" 
+                  required 
+                  email
+                />
+                <small *ngIf="emailInput.invalid && emailInput.touched" class="p-error">
+                    <span *ngIf="emailInput.errors?.['required']">Email is required.</span>
+                    <span *ngIf="emailInput.errors?.['email']">Invalid email format.</span>
+                  </small>
+              </div>
+              
+                  <div class="flex flex-column gap-2 w-50">
+                    <label class="label"   >Role</label>
+                    <p-dropdown 
+                    [options]="roles" 
+                    [(ngModel)]="selectedRole" 
+                    optionLabel="name" 
+                    placeholder="Type of Role"   
+                    #roleTypeInput="ngModel"
+                    required
+                  ></p-dropdown>
+                  <small *ngIf="roleTypeInput.invalid && roleTypeInput.touched" class="p-error">
+                    Role Type is required.
+                  </small>
+                  
+                </div>
+               
+          </div>
+  <!-------------------------------------------------->
+  
+        <div *ngIf="!trial" class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+              <div  class="flex flex-column gap-2 w-50">
+                <label class="label" for="discount">Discount %</label>
+                <input 
+                type="number"
+                    pInputText 
+                    id="discount" 
+                    aria-describedby="username-help" 
+                    [(ngModel)]="discount" 
+                    placeholder="Ratio of discount"
+                    (ngModelChange)="calculateFinalPrice()"
+                    />
+                
+            </div>
+            <div class="flex flex-column gap-2 w-50">
+              <label class="label" for="finalprice">Final Price (After Discount)</label>
+              <input 
+              type="number"
+                  pInputText 
+                  id="finalprice" 
+                  aria-describedby="username-help" 
+                  [(ngModel)]="finalPrice" 
+                  placeholder="Final Price"
+                  readonly/>
+             
+          </div>
+        </div>
+  <!-------------------------------------------------->
+  
+          <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+            <div class="flex flex-column gap-2 w-50">
+              <label class="label" for="invitation">Invitation Number</label>
+              <input 
+              type="number"
+                  pInputText 
+                  id="invitation" 
+                  aria-describedby="username-help" 
+                  [(ngModel)]="invitationNo"
+                  placeholder="Invitation Number" />
+            
+          </div>
+          
+          </div>
+  <!-------------------------------------------------->
+  <label class="label" for="invitation">Features</label>
+  <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
+        
+            <textarea 
+                rows="5"
+                cols="30" 
+                pInputTextarea 
+                [(ngModel)]="features"
+                placeholder="Write feature of plan">
+            </textarea>
+  
+            </div>
+  
+  
+            <div class="flex justify-content-end align-items-center gap-4 mx-4 " style="margin-top: 35px;">
+              <div class=" ">
+                <p-button
+                label="Cancel"
+               [routerLink]="'/manage-subscription'"
+                class="p-button-outlined custom-button"
+                
+              ></p-button>
+             </div>
+  
+             <div class=" ">
+              <p-button
+              label="Add"
+              
+              class="p-button-outlined custom-button-add"
+             (click)="submitPlan()"
+            ></p-button>
+           </div>
+            </div>
+  
+      </p-card>
+      </div>
+  
+  </div>
+  </div>
+  
+  
+  
+  <p-dialog
+    [(visible)]="displayReminder"
+     
+    [modal]="true"
+    [style]="{ width: '400px' }"
+    [closable]="true"
+    [dismissableMask]="true"
+  >
+    <div class="reminder-body">
+      <img src="successPopup.svg" class="mb-2" />
+      <p>
+        A notification has been sent to 
+        <span class="highlight">Ahmed Ali</span> 
+        as a reminder that the plan will 
+        <span class="highlight">Expire in 7 days</span>.
+      </p>
+    </div>
+  </p-dialog>

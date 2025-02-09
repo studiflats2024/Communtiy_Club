@@ -75,103 +75,103 @@ export class InviteFriendsComponent {
       {
         name: 'Alice Johnson',
         email: 'alice.johnson@example.com',
-        phone_No: '+49 176 12345678',
-        friend_email: 'friend.alice@example.com',
+        phone: '+49 176 12345678',
+        email_Friend: 'friend.alice@example.com',
         friend_phone: '+49 176 98765432',
-        invite_date: new Date(2024, 1, 12), // Feb 12, 2024
-        invite_No: 'INV-1001',
-        status: 'Success'
+        invitation_Date: new Date(2024, 1, 12), // Feb 12, 2024
+        invitiation_No: 'INV-1001',
+        attendance: 'Attended'
       },
       {
-        name: 'Bob Williams',
-        email: 'bob.williams@example.com',
-        phone_No: '+49 176 23456789',
-        friend_email: 'friend.bob@example.com',
-        friend_phone: '+49 176 87654321',
-        invite_date: new Date(2024, 1, 15), // Feb 15, 2024
-        invite_No: 'INV-1002',
-        status: 'Pending'
+        name: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        phone: '+49 176 12345678',
+        email_Friend: 'friend.alice@example.com',
+        friend_phone: '+49 176 98765432',
+        invitation_Date: new Date(2024, 1, 12), // Feb 12, 2024
+        invitiation_No: 'INV-1001',
+        attendance: 'Not Attended'
       },
       {
-        name: 'Clara Smith',
-        email: 'clara.smith@example.com',
-        phone_No: '+49 176 34567890',
-        friend_email: 'friend.clara@example.com',
-        friend_phone: '+49 176 76543210',
-        invite_date: new Date(2024, 1, 18), // Feb 18, 2024
-        invite_No: 'INV-1003',
-        status: 'Failed'
+        name: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        phone: '+49 176 12345678',
+        email_Friend: 'friend.alice@example.com',
+        friend_phone: '+49 176 98765432',
+        invitation_Date: new Date(2024, 1, 12), // Feb 12, 2024
+        invitiation_No: 'INV-1001',
+        attendance: 'Attended'
       },
       {
-        name: 'David Brown',
-        email: 'david.brown@example.com',
-        phone_No: '+49 176 45678901',
-        friend_email: 'friend.david@example.com',
-        friend_phone: '+49 176 54321098',
-        invite_date: new Date(2024, 1, 22), // Feb 22, 2024
-        invite_No: 'INV-1004',
-        status: 'Success'
+        name: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        phone: '+49 176 12345678',
+        email_Friend: 'friend.alice@example.com',
+        friend_phone: '+49 176 98765432',
+        invitation_Date: new Date(2024, 1, 12), // Feb 12, 2024
+        invitiation_No: 'INV-1001',
+        attendance: 'Not Attended'
       },
       {
-        name: 'Emily Davis',
-        email: 'emily.davis@example.com',
-        phone_No: '+49 176 56789012',
-        friend_email: 'friend.emily@example.com',
-        friend_phone: '+49 176 65432109',
-        invite_date: new Date(2024, 1, 25), // Feb 25, 2024
-        invite_No: 'INV-1005',
-        status: 'Pending'
+        name: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        phone: '+49 176 12345678',
+        email_Friend: 'friend.alice@example.com',
+        friend_phone: '+49 176 98765432',
+        invitation_Date: new Date(2024, 1, 12), // Feb 12, 2024
+        invitiation_No: 'INV-1001',
+        attendance: 'Attended'
       },
       {
-        name: 'Frank Harris',
-        email: 'frank.harris@example.com',
-        phone_No: '+49 176 67890123',
-        friend_email: 'friend.frank@example.com',
-        friend_phone: '+49 176 32165498',
-        invite_date: new Date(2024, 1, 28), // Feb 28, 2024
-        invite_No: 'INV-1006',
-        status: 'Failed'
+        name: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        phone: '+49 176 12345678',
+        email_Friend: 'friend.alice@example.com',
+        friend_phone: '+49 176 98765432',
+        invitation_Date: new Date(2024, 1, 12), // Feb 12, 2024
+        invitiation_No: 'INV-1001',
+        attendance: 'Not Attended'
       },
       {
-        name: 'Grace Wilson',
-        email: 'grace.wilson@example.com',
-        phone_No: '+49 176 78901234',
-        friend_email: 'friend.grace@example.com',
-        friend_phone: '+49 176 36925814',
-        invite_date: new Date(2024, 2, 2), // March 2, 2024
-        invite_No: 'INV-1007',
-        status: 'Success'
+        name: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        phone: '+49 176 12345678',
+        email_Friend: 'friend.alice@example.com',
+        friend_phone: '+49 176 98765432',
+        invitation_Date: new Date(2024, 1, 12), // Feb 12, 2024
+        invitiation_No: 'INV-1001',
+        attendance: 'Attended'
       },
       {
-        name: 'Henry Martinez',
-        email: 'henry.martinez@example.com',
-        phone_No: '+49 176 89012345',
-        friend_email: 'friend.henry@example.com',
-        friend_phone: '+49 176 25896314',
-        invite_date: new Date(2024, 2, 5), // March 5, 2024
-        invite_No: 'INV-1008',
-        status: 'Pending'
+        name: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        phone: '+49 176 12345678',
+        email_Friend: 'friend.alice@example.com',
+        friend_phone: '+49 176 98765432',
+        invitation_Date: new Date(2024, 1, 12), // Feb 12, 2024
+        invitiation_No: 'INV-1001',
+        attendance: 'Not Attended'
       },
       {
-        name: 'Ivy Clark',
-        email: 'ivy.clark@example.com',
-        phone_No: '+49 176 90123456',
-        friend_email: 'friend.ivy@example.com',
-        friend_phone: '+49 176 78965412',
-        invite_date: new Date(2024, 2, 8), // March 8, 2024
-        invite_No: 'INV-1009',
-        status: 'Failed'
+        name: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        phone: '+49 176 12345678',
+        email_Friend: 'friend.alice@example.com',
+        friend_phone: '+49 176 98765432',
+        invitation_Date: new Date(2024, 1, 12), // Feb 12, 2024
+        invitiation_No: 'INV-1001',
+        attendance: 'Attended'
       },
       {
-        name: 'Jack Lewis',
-        email: 'jack.lewis@example.com',
-        phone_No: '+49 176 01234567',
-        friend_email: 'friend.jack@example.com',
-        friend_phone: '+49 176 14785236',
-        invite_date: new Date(2024, 2, 11), // March 11, 2024
-        invite_No: 'INV-1010',
-        status: 'Success'
-      }
+        name: 'Alice Johnson',
+        email: 'alice.johnson@example.com',
+        phone: '+49 176 12345678',
+        email_Friend: 'friend.alice@example.com',
+        friend_phone: '+49 176 98765432',
+        invitation_Date: new Date(2024, 1, 12), // Feb 12, 2024
+        invitiation_No: 'INV-1001',
+        attendance: 'Not Attended'
+      },
     ];
     
     
@@ -193,12 +193,22 @@ export class InviteFriendsComponent {
     ];
 
      
-
+// this.loadInvitations(1,2000)
     
   }
   
   
-
+  loadInvitations(page: number, size: number): void {
+    this.gatewayService.getAllInvitations(page, size).subscribe(
+      (response) => {
+        this.friends = response.data|| []; // Assuming `items` contains the data
+      console.log(response)
+      },
+      (error) => {
+        console.error('Error fetching invitations:', error);
+      }
+    );
+  }
   
 
   getPlanBadgeClass(planType: string): string {

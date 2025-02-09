@@ -112,6 +112,24 @@ export class GatewayService {
       return this.http.get<any>(url, { params });
     }
   
+    
+
+
+
+
+  /**
+   * Fetch all invitations with pagination.
+   * @param pageNumber - The page number.
+   * @param pageSize - The number of records per page.
+   * @returns Observable<any>
+   */
+  getAllInvitations(pageNumber: number, pageSize: number): Observable<any> {
+    const params = new HttpParams()
+      .set('PageNumber', pageNumber.toString())
+      .set('PageSize', pageSize.toString());
+
+    return this.http.get(`${environment.apiUrl}/Gateway/GetAllInvitations`, { params });
+  }
 }
 
 

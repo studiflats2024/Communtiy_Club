@@ -79,7 +79,10 @@
                               
                               <div *ngIf="location">
                                 <!-- <i class="pi pi-clock"></i> {{ endTime | date: 'hh:mm a' }} -->
-                                <i class="pi pi-map-marker mr-2" style="color:#1151B4"></i> {{location  }}
+                                <i class="pi pi-map-marker mr-2" style="color:#1151B4"></i> 
+                                <a [href]="location" target="_blank" rel="noopener noreferrer" class="cursor:pointer; text-decoration:none;">
+                                  {{ location | slice:0:30 }}
+                                </a>
 
                               </div>
                               <div><img class="mr-2" src="booking.svg"/>30 booking / 35</div>

@@ -64,11 +64,30 @@
                   </div>
               </ng-template>
   <div class="plan-cards">
-    <p-card class="subscription-card" *ngFor="let plan of plans">
+    <p-card   [ngClass]="{
+      'subscription-card-year': plan.plan_Duration === 'Year' &&!plan.is_Trial,
+      'subscription-card-6months': plan.plan_Duration === '6 Months' &&!plan.is_Trial,
+      'subscription-card-3months': plan.plan_Duration === '3 Months' &&!plan.is_Trial,
+      'subscription-card-month': plan.plan_Duration === 'Month' &&!plan.is_Trial,
+      'subscription-card-free': plan.is_Trial
+
+       }"
+        *ngFor="let plan of plans">
         <div class="card-headerr">
           <span class="plan-name">
             <!-- <i class="pi pi-star" style="color: gold; margin-right: 8px;"></i> -->
-            <img src="community/starplan.svg" />
+            <img *ngIf="plan.plan_Duration === 'Year' &&!plan.is_Trial" src="community/starplan.svg" />
+            <!-- <img  *ngIf="plan.plan_Duration === '6 Months'"  src="months.svg" /> -->
+            <img  *ngIf="plan.plan_Duration === '3 Months' &&!plan.is_Trial"  src="months.svg" />
+            <img  *ngIf="plan.plan_Duration === '6 Months' &&!plan.is_Trial"  src="months.svg" />
+            <img  *ngIf="plan.plan_Duration === 'Month' &&!plan.is_Trial"  src="month.svg" />
+
+            <img  *ngIf="plan.is_Trial"  src="freePlan.svg" />
+
+
+
+            
+
             {{ plan.plan_Name }}
           </span>
           <button class="edit-button">
@@ -89,9 +108,14 @@
           </button>
         </div>
       
-        <div class="card-price">
+        <div *ngIf="!plan.is_Trial" class="card-price">
           <span class="price">€{{ plan.plan_Fianl_Price }}</span>
           <span class="duration">/ {{ plan.plan_Duration }}</span>
+        </div>
+        <div *ngIf="plan.is_Trial" class="card-price">
+          <span class="price">Free</span>
+          <!-- <span class="duration">/ {{ plan.plan_Duration }}</span> -->
+           
         </div>
       
         <ul class="card-features">
@@ -508,7 +532,7 @@
       [showIcon]="true"
       inputId="dateRange"
       placeholder="Enter date"
-      
+     
       class="custom-calendar"
     ></p-calendar>
   </div>
@@ -520,7 +544,7 @@
       [showIcon]="true"
       inputId="dateRange"
       placeholder="Enter date"
-      
+    
       class="custom-calendar"
     ></p-calendar>
   </div>
