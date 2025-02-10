@@ -63,202 +63,116 @@
                     </div>
                   
                     <p-table
-                      #dt
-                      [value]="activities"
-                      [paginator]="true"
-                      [rows]="10"
-                      [globalFilterFields]="['activity_Type', 'activity_Name', 'activity_Seats']"
-                      [filterDelay]="300"
-                      [resizableColumns]="true"
-                      [tableStyle]="{ 'min-width': '900px' }"
-                      [showCurrentPageReport]="true"
-                      [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
-                      (onPage)="pageChange($event)"
-                      [rowsPerPageOptions]="[5, 10, 20]"
-                    >
-                      <!-- <ng-template pTemplate="header">
-                        <tr>
-                            <th pSortableColumn="title">Title <p-sortIcon field="title"></p-sortIcon></th>
-                            <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon></th>
-                            <th pSortableColumn="startDate">Start Date <p-sortIcon field="startDate"></p-sortIcon></th>
-                            <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
-                            <th>Seats Available</th>
-                            <th>Bookings</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                          </tr>
-                      </ng-template>
-                      <ng-template pTemplate="body" let-activity>
-                        <tr>
-                            <td>{{ activity.title }}</td>
-                            <td>
-                              <span [ngClass]="activity.typeClass" class="p-tag">{{ activity.type }}</span>
-                            </td>
-                            <td>{{ activity.startDate | date: 'MMM d, y' }}</td>
-                            <td>{{ activity.endDate | date: 'MMM d, y' }}</td>
-                            <td><i class="pi pi-users" style="color: #1151B4"></i> {{ activity.seatsAvailable }}</td>
-                            <td><i class="pi pi-ticket" style="color: #1151B4"></i> {{ activity.bookings }}</td>
-                            <td>
-                              <span class="status-tag" [ngClass]="getSeverity(activity.status)">
-                                <i [class]="getIcon(activity.status)" class="status-icon"></i>
-                                {{ activity.status }}
-                              </span>
-                            </td>
-                            <td>
-                              
-                              <div class="flex justify-content-between align-items-center gab-1">
-                                 
-                                <div >
-                                  <img
-                                    class="image-default"
-                                    src="editActivity.svg"
-                                    alt="Default Alert Icon"
-                                    style="cursor: pointer;"
-                                  />
-                                 
-                                </div>
-                                
-                              <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
+      #dt
+      [value]="activities"
+      [paginator]="true"
+      [rows]="10"
+      [globalFilterFields]="['activity_Type', 'activity_Name', 'activity_Seats']"
 
-                              <p-overlayPanel #op>
-                                <ul class="menu-list">
-                                  <li><a (click)="viewParticipants(activity)">View Participants</a></li>
-                                  <li><a (click)="viewDetails(activity)">View Details</a></li>
-                                  <li><a (click)="deleteItem(activity)">Delete</a></li>
-                                </ul>
-                              </p-overlayPanel>
-                              </div>
-                            </td>
-                          </tr>
-                      </ng-template> -->
-                    <!------------------------------------------------------------>
-                      <!-- <ng-template pTemplate="header">
-                        <tr>
-                          <th pSortableColumn="activity_Name">Title <p-sortIcon field="activity_Name"></p-sortIcon></th>
-                          <th pSortableColumn="activity_Type">Type <p-sortIcon field="activity_Type"></p-sortIcon></th>
-                          <th pSortableColumn="activity_Date">Start Date <p-sortIcon field="activity_Date"></p-sortIcon></th>
-                          <th pSortableColumn="date">End Date <p-sortIcon field="date"></p-sortIcon></th>
-                          <th>Seats Available</th>
-                          <th>Bookings</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </ng-template>
-                      <ng-template pTemplate="body" let-activity>
-                        <tr>
-                          <td>{{ activity.activity_Name }}</td>
-                          <td>
-                            <span [ngClass]="activity.activity_Type" class="p-tag">{{ activity.activity_Type }}</span>
-                          </td>
-                          <td>{{ activity.activity_Date | date: 'MMM d, y' }}</td>
-                          <td>{{ activity.date | date: 'MMM d, y' }}</td>
-                          <td><i class="pi pi-users" style="color: #1151B4"></i> {{ activity.activity_Seats }}</td>
-                          <td><i class="pi pi-ticket" style="color: #1151B4"></i> {{ activity.rating_Count }}</td>
-                          <td>
-                            <span class="status-tag" [ngClass]="getSeverity(activity.activity_Is_Wish ? 'Active' : 'Inactive')">
-                              <i [class]="getIcon(activity.activity_Is_Wish ? 'Active' : 'Inactive')" class="status-icon"></i>
-                              {{ activity.activity_Is_Wish ? 'Active' : 'Inactive' }}
-                            </span>
-                          </td>
-                          <td>
-                            <div class="flex justify-content-between align-items-center gab-1">
-                              <div>
-                                <img
-                                  class="image-default"
-                                  src="editActivity.svg"
-                                  alt="Default Alert Icon"
-                                  style="cursor: pointer;"
-                                />
-                              </div>
-                              <div>
-                                <img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
-                              </div>
-                              <p-overlayPanel #op>
-                                <ul class="menu-list">
-                                  <li><a (click)="viewParticipants(activity)">View Participants</a></li>
-                                  <li><a (click)="viewDetails(activity)">View Details</a></li>
-                                  <li><a (click)="deleteItem(activity)">Delete</a></li>
-                                </ul>
-                              </p-overlayPanel>
-                            </div>
-                          </td>
-                        </tr>
-                      </ng-template> -->
+      [filterDelay]="300"
+      [resizableColumns]="true"
+      [tableStyle]="{ 'min-width': '900px' }"
+      [showCurrentPageReport]="true"
+      [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
+      (onPage)="pageChange($event)"
+      [rowsPerPageOptions]="[5, 10, 20]"
+    >
+     
+      <ng-template pTemplate="header">
+        <tr>
+          <!-- <th pSortableColumn="activity_ID">ID <p-sortIcon field="activity_ID"></p-sortIcon></th> -->
+          <th  pSortableColumn="activity_Media">Image</th>
+          <th pSortableColumn="activity_Type">Type <p-sortIcon field="activity_Type"></p-sortIcon></th>
+          <th pSortableColumn="activity_Name">Name <p-sortIcon field="activity_Name"></p-sortIcon></th>
+ 
+          <th pSortableColumn="activity_Location">Location <p-sortIcon field="activity_Location"></p-sortIcon></th>
+          <!-- <th pSortableColumn="activity_Date">Date <p-sortIcon field="activity_Date"></p-sortIcon></th> -->
+          <th pSortableColumn="start_Date">Start Date <p-sortIcon field="start_Date"></p-sortIcon></th>
 
-                    <!------------------------------------------------------------>
+          <th pSortableColumn="end_Date">End Date <p-sortIcon field="end_Date"></p-sortIcon></th>
+
+          <!-- <th pSortableColumn="activity_Rating">Rating <p-sortIcon field="activity_Rating"></p-sortIcon></th>
+          <th pSortableColumn="rating_Count">Rating Count <p-sortIcon field="rating_Count"></p-sortIcon></th> -->
+      
+          <th pSortableColumn="activity_Time">Time <p-sortIcon field="activity_Time"></p-sortIcon></th>
+          <th pSortableColumn="activity_Seats">Seats <p-sortIcon field="activity_Seats"></p-sortIcon></th>
+          <th pSortableColumn="bookings">Booking <p-sortIcon field="bookings"></p-sortIcon></th>
+          <th pSortableColumn="status">status <p-sortIcon field="status"></p-sortIcon></th>
+
+          <!-- <th pSortableColumn="date">Created Date <p-sortIcon field="date"></p-sortIcon></th> -->
+          <th>Actions</th>
 
 
-                       <!-- Table Header -->
-  <ng-template pTemplate="header">
-    <tr>
-      <!-- <th pSortableColumn="activity_ID">ID <p-sortIcon field="activity_ID"></p-sortIcon></th> -->
-      <th pSortableColumn="activity_Media">Image</th>
-      <th pSortableColumn="activity_Type">Type <p-sortIcon field="activity_Type"></p-sortIcon></th>
-      <th pSortableColumn="activity_Name">Name <p-sortIcon field="activity_Name"></p-sortIcon></th>
-      <th pSortableColumn="activity_Seats">Seats <p-sortIcon field="activity_Seats"></p-sortIcon></th>
-      <th pSortableColumn="activity_Location">Location <p-sortIcon field="activity_Location"></p-sortIcon></th>
-      <th pSortableColumn="activity_Date">Date <p-sortIcon field="activity_Date"></p-sortIcon></th>
-      <th pSortableColumn="activity_Rating">Rating <p-sortIcon field="activity_Rating"></p-sortIcon></th>
-      <th pSortableColumn="rating_Count">Rating Count <p-sortIcon field="rating_Count"></p-sortIcon></th>
-      <!-- <th pSortableColumn="activity_Is_Wish">Wishlisted <p-sortIcon field="activity_Is_Wish"></p-sortIcon></th> -->
-      <th pSortableColumn="activity_Time">Time <p-sortIcon field="activity_Time"></p-sortIcon></th>
-      <th pSortableColumn="date">Created Date <p-sortIcon field="date"></p-sortIcon></th>
-      <th>Actions</th>
 
-    </tr>
-  </ng-template>
+    
+        </tr>
+      </ng-template>
+    
+      <!-- Table Body -->
+      <ng-template pTemplate="body" let-activity>
+        <tr>
+          <!-- <td>{{ activity.activity_ID }}</td> -->
+          <td>
+            <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
+          </td>
+          <!-- <td>{{ activity.activity_Type }}</td> -->
+      <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
 
-  <!-- Table Body -->
-  <ng-template pTemplate="body" let-activity>
-    <tr >
-      <!-- <td>{{ activity.activity_ID }}</td> -->
-      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">
-        <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
-      </td>
-      <td   [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]"><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
-      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
-      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
-      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
-      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td>
-      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
-      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td>
-      <!-- <td>
-        <i
-          [ngClass]="activity.activity_Is_Wish ? 'pi pi-heart-fill' : 'pi pi-heart'"
-          [style.color]="activity.activity_Is_Wish ? 'red' : 'gray'"
-        ></i>
-      </td> -->
-      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Time || 'N/A' }}</td>
-      <td  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.date | date: 'MMM d, y' }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
+      
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
+          <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td> -->
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.start_Date }}</td>
+
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.end_Date }}</td>
+
+<!-- 
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td> -->
+         
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Time || 'N/A' }}</td>
+          <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.date | date: 'MMM d, y' }}</td> -->
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.bookings|| 'N/A' }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">
+            <div *ngIf="activity.status==='Published'" class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>{{ activity.status}}</div>
+            <div *ngIf="activity.status==='Not Published'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
+            
+            </td>
+          
+    
+          <td>
+            <div class="flex justify-content-between align-items-center gab-1">
+              <div [routerLink]="['/update-activity', activity.activity_ID, activity.activity_Type]">
+                <img
+                  class="image-default"
+                  src="editActivity.svg"
+                  alt="Default Alert Icon"
+                  style="cursor: pointer;"
+                />
+              </div>
+              <div>
+                <img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
+              </div>
+              <p-overlayPanel #op>
+                <ul class="menu-list">
+                  <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;" [routerLink]="'/participants'">View Participants</a></li>
+
+                  <li><a (click)="displayHome(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li><a (click)="togglePublish(activity.activity_ID,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                  <li><a (click)="togglePublish(activity.activity_ID,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
 
 
-      <td>
-        <div class="flex justify-content-between align-items-center gab-1">
-          <div  [routerLink]="['/update-activity', activity.activity_ID, activity.activity_Type]">
-            <img
-              class="image-default"
-              src="editActivity.svg"
-              alt="Default Alert Icon"
-              style="cursor: pointer;"
-              
-            />
-          </div>
-          <div>
-            <img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
-          </div>
-          <p-overlayPanel #op>
-            <ul class="menu-list">
-              <li><a (click)="viewParticipants(activity)" [routerLink]="'/participants'" style="text-decoration: none; cursor: pointer;color:#1151B4 ">View Participants</a></li>
-              <li><a (click)="viewDetails(activity)"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]" style="text-decoration: none; cursor: pointer; color:#363636" >View Details</a></li>
-              <li><a (click)="deleteItem(activity)" style="text-decoration: none; cursor: pointer; color:#363636">Delete</a></li>
-            </ul>
-          </p-overlayPanel>
-        </div>
-      </td>
-
-    </tr>
-  </ng-template>
-                    </p-table>
+                  <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
+                  <li><a (click)="deleteItem(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Delete</a></li>
+                </ul>
+              </p-overlayPanel>
+            </div>
+          </td>
+    
+        </tr>
+      </ng-template>
+    </p-table>
                   </div>
                   
                 </div>
@@ -308,66 +222,6 @@
       (onPage)="pageChange($event)"
       [rowsPerPageOptions]="[5, 10, 20]"
     >
-      <!-- <ng-template pTemplate="header">
-        
-          <tr>
-            <th pSortableColumn="courseTitle">Course Title <p-sortIcon field="courseTitle"></p-sortIcon></th>
-            <th pSortableColumn="sessionNumber">Session Number <p-sortIcon field="sessionNumber"></p-sortIcon></th>
-            <th pSortableColumn="startDate">Start Date <p-sortIcon field="startDate"></p-sortIcon></th>
-            <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
-            <th>Seats Available</th>
-            <th>Bookings</th>
-            <th>Status</th>
-            <th>Action</th>
-
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-course>
-        <tr>
-            
-
-            <td>{{ course.courseTitle }}</td>
-            <td>{{ course.sessionNumber }}</td>
-            <td>{{ course.startDate | date: 'MMM d, y' }}</td>
-            <td>{{ course.endDate | date: 'MMM d, y' }}</td>
-      
-            <td><i class="pi pi-users" style="color: #1151B4"></i> {{ course.seatsAvailable }}</td>
-            <td><i class="pi pi-ticket" style="color: #1151B4"></i> {{ course.bookings }}</td>
-            <td>
-              <span class="status-tag" [ngClass]="getSeverity(course.status)">
-                <i [class]="getIcon(course.status)" class="status-icon"></i>
-                {{ course.status }}
-              </span>
-            </td>
-            <td>
-              
-              <div class="flex justify-content-between align-items-center gab-1">
-                 
-                <div >
-                  <img
-                    class="image-default"
-                    src="editActivity.svg"
-                    alt="Default Alert Icon"
-                    style="cursor: pointer;"
-                  />
-                 
-                </div>
-                
-              <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
-
-              <p-overlayPanel #op>
-                <ul class="menu-list">
-                  <li><a (click)="viewParticipants(course)">View Participants</a></li>
-                  <li><a (click)="viewDetails(course)">View Course Details</a></li>
-                  <li><a (click)="viewDetails(course)">Display on App Home</a></li>
-                  <li><a (click)="openPublishDialog()">Publish</a></li>
-                  <li><a (click)="deleteItem(course)">Delete</a></li>
-                </ul>
-              </p-overlayPanel>
-              </div>
-            </td>
-          </tr>
-      </ng-template> -->
      
       <ng-template pTemplate="header">
         <tr>
@@ -375,15 +229,26 @@
           <th  pSortableColumn="activity_Media">Image</th>
           <th pSortableColumn="activity_Type">Type <p-sortIcon field="activity_Type"></p-sortIcon></th>
           <th pSortableColumn="activity_Name">Name <p-sortIcon field="activity_Name"></p-sortIcon></th>
-          <th pSortableColumn="activity_Seats">Seats <p-sortIcon field="activity_Seats"></p-sortIcon></th>
+ 
           <th pSortableColumn="activity_Location">Location <p-sortIcon field="activity_Location"></p-sortIcon></th>
-          <th pSortableColumn="activity_Date">Date <p-sortIcon field="activity_Date"></p-sortIcon></th>
-          <th pSortableColumn="activity_Rating">Rating <p-sortIcon field="activity_Rating"></p-sortIcon></th>
-          <th pSortableColumn="rating_Count">Rating Count <p-sortIcon field="rating_Count"></p-sortIcon></th>
-          <!-- <th pSortableColumn="activity_Is_Wish">Wishlisted <p-sortIcon field="activity_Is_Wish"></p-sortIcon></th> -->
+          <!-- <th pSortableColumn="activity_Date">Date <p-sortIcon field="activity_Date"></p-sortIcon></th> -->
+          <th pSortableColumn="start_Date">Start Date <p-sortIcon field="start_Date"></p-sortIcon></th>
+
+          <th pSortableColumn="end_Date">End Date <p-sortIcon field="end_Date"></p-sortIcon></th>
+
+          <!-- <th pSortableColumn="activity_Rating">Rating <p-sortIcon field="activity_Rating"></p-sortIcon></th>
+          <th pSortableColumn="rating_Count">Rating Count <p-sortIcon field="rating_Count"></p-sortIcon></th> -->
+      
           <th pSortableColumn="activity_Time">Time <p-sortIcon field="activity_Time"></p-sortIcon></th>
-          <th pSortableColumn="date">Created Date <p-sortIcon field="date"></p-sortIcon></th>
+          <th pSortableColumn="activity_Seats">Seats <p-sortIcon field="activity_Seats"></p-sortIcon></th>
+          <th pSortableColumn="bookings">Booking <p-sortIcon field="bookings"></p-sortIcon></th>
+          <th pSortableColumn="status">status <p-sortIcon field="status"></p-sortIcon></th>
+
+          <!-- <th pSortableColumn="date">Created Date <p-sortIcon field="date"></p-sortIcon></th> -->
           <th>Actions</th>
+
+
+
     
         </tr>
       </ng-template>
@@ -399,20 +264,27 @@
       <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
 
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
-          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
+      
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
-          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td>
+          <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td> -->
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.start_Date }}</td>
+
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.end_Date }}</td>
+
+<!-- 
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
-          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td>
-          <!-- <td>
-            <i
-              [ngClass]="activity.activity_Is_Wish ? 'pi pi-heart-fill' : 'pi pi-heart'"
-              [style.color]="activity.activity_Is_Wish ? 'red' : 'gray'"
-            ></i>
-          </td> -->
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td> -->
+         
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Time || 'N/A' }}</td>
-          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.date | date: 'MMM d, y' }}</td>
-    
+          <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.date | date: 'MMM d, y' }}</td> -->
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.bookings|| 'N/A' }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">
+            <div *ngIf="activity.status==='Published'" class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>{{ activity.status}}</div>
+            <div *ngIf="activity.status==='Not Published'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
+            
+            </td>
+          
     
           <td>
             <div class="flex justify-content-between align-items-center gab-1">
@@ -429,9 +301,15 @@
               </div>
               <p-overlayPanel #op>
                 <ul class="menu-list">
-                  <li><a (click)="viewParticipants(activity)"  [routerLink]="'/participants'">View Participants</a></li>
-                  <li><a (click)="viewDetails(activity)" [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
-                  <li><a (click)="deleteItem(activity)">Delete</a></li>
+                  <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;" [routerLink]="'/participants'">View Participants</a></li>
+
+                  <li><a (click)="displayHome(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li><a (click)="togglePublish(activity.activity_ID,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                  <li><a (click)="togglePublish(activity.activity_ID,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
+
+
+                  <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
+                  <li><a (click)="deleteItem(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Delete</a></li>
                 </ul>
               </p-overlayPanel>
             </div>
@@ -475,153 +353,116 @@
                   </div>
                 
                   <p-table
-                    #dt
-                    [value]="activities"
-                    [paginator]="true"
-                    [rows]="10"
-                    [globalFilterFields]="['activity_Type', 'activity_Name', 'activity_Seats']"
+      #dt
+      [value]="activities"
+      [paginator]="true"
+      [rows]="10"
+      [globalFilterFields]="['activity_Type', 'activity_Name', 'activity_Seats']"
 
-                    [filterDelay]="300"
-                    [resizableColumns]="true"
-                    [tableStyle]="{ 'min-width': '900px' }"
-                    [showCurrentPageReport]="true"
-                    [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
-                    (onPage)="pageChange($event)"
-                    [rowsPerPageOptions]="[5, 10, 20]"
-                  >
-                    <!-- <ng-template pTemplate="header">
-                      
-                        <tr>
-                          <th pSortableColumn="courseTitle">Course Title <p-sortIcon field="courseTitle"></p-sortIcon></th>
-                          <th pSortableColumn="sessionNumber">Session Number <p-sortIcon field="sessionNumber"></p-sortIcon></th>
-                          <th pSortableColumn="startDate">Start Date <p-sortIcon field="startDate"></p-sortIcon></th>
-                          <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
-                          <th>Seats Available</th>
-                          <th>Bookings</th>
-                          <th>Status</th>
-                          <th>Action</th>
-              
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-course>
-                      <tr>
-                          
-              
-                          <td>{{ course.courseTitle }}</td>
-                          <td>{{ course.sessionNumber }}</td>
-                          <td>{{ course.startDate | date: 'MMM d, y' }}</td>
-                          <td>{{ course.endDate | date: 'MMM d, y' }}</td>
-                    
-                          <td><i class="pi pi-users" style="color: #1151B4"></i> {{ course.seatsAvailable }}</td>
-                          <td><i class="pi pi-ticket" style="color: #1151B4"></i> {{ course.bookings }}</td>
-                          <td>
-                            <span class="status-tag" [ngClass]="getSeverity(course.status)">
-                              <i [class]="getIcon(course.status)" class="status-icon"></i>
-                              {{ course.status }}
-                            </span>
-                          </td>
-                          <td>
-                             
-                            <div class="flex justify-content-between align-items-center gab-1">
+      [filterDelay]="300"
+      [resizableColumns]="true"
+      [tableStyle]="{ 'min-width': '900px' }"
+      [showCurrentPageReport]="true"
+      [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
+      (onPage)="pageChange($event)"
+      [rowsPerPageOptions]="[5, 10, 20]"
+    >
+     
+      <ng-template pTemplate="header">
+        <tr>
+          <!-- <th pSortableColumn="activity_ID">ID <p-sortIcon field="activity_ID"></p-sortIcon></th> -->
+          <th  pSortableColumn="activity_Media">Image</th>
+          <th pSortableColumn="activity_Type">Type <p-sortIcon field="activity_Type"></p-sortIcon></th>
+          <th pSortableColumn="activity_Name">Name <p-sortIcon field="activity_Name"></p-sortIcon></th>
  
-                              <div >
-                                <img
-                                  class="image-default"
-                                  src="editActivity.svg"
-                                  alt="Default Alert Icon"
-                                  style="cursor: pointer;"
-                                />
-                               
-                              </div>
-                              
-                            <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
-              
-                            <p-overlayPanel #op>
-                              <ul class="menu-list">
-                                <li><a (click)="viewParticipants(course)">View Participants</a></li>
-                                <li><a (click)="viewDetails(course)">View Course Details</a></li>
-                                <li><a (click)="viewDetails(course)">Display on App Home</a></li>
-                                <li><a (click)="openPublishDialog()">Publish</a></li>
-                                <li><a (click)="deleteItem(course)">Delete</a></li>
-                              </ul>
-                            </p-overlayPanel>
-                            </div>
-                          </td>
-                        </tr>
-                    </ng-template> -->
-             
+          <th pSortableColumn="activity_Location">Location <p-sortIcon field="activity_Location"></p-sortIcon></th>
+          <!-- <th pSortableColumn="activity_Date">Date <p-sortIcon field="activity_Date"></p-sortIcon></th> -->
+          <th pSortableColumn="start_Date">Start Date <p-sortIcon field="start_Date"></p-sortIcon></th>
 
-                    <ng-template pTemplate="header">
-                      <tr>
-                        <!-- <th pSortableColumn="activity_ID">ID <p-sortIcon field="activity_ID"></p-sortIcon></th> -->
-                        <th pSortableColumn="activity_Media">Image</th>
-                        <th pSortableColumn="activity_Type">Type <p-sortIcon field="activity_Type"></p-sortIcon></th>
-                        <th pSortableColumn="activity_Name">Name <p-sortIcon field="activity_Name"></p-sortIcon></th>
-                        <th pSortableColumn="activity_Seats">Seats <p-sortIcon field="activity_Seats"></p-sortIcon></th>
-                        <th pSortableColumn="activity_Location">Location <p-sortIcon field="activity_Location"></p-sortIcon></th>
-                        <th pSortableColumn="activity_Date">Date <p-sortIcon field="activity_Date"></p-sortIcon></th>
-                        <th pSortableColumn="activity_Rating">Rating <p-sortIcon field="activity_Rating"></p-sortIcon></th>
-                        <th pSortableColumn="rating_Count">Rating Count <p-sortIcon field="rating_Count"></p-sortIcon></th>
-                        <!-- <th pSortableColumn="activity_Is_Wish">Wishlisted <p-sortIcon field="activity_Is_Wish"></p-sortIcon></th> -->
-                        <th pSortableColumn="activity_Time">Time <p-sortIcon field="activity_Time"></p-sortIcon></th>
-                        <th pSortableColumn="date">Created Date <p-sortIcon field="date"></p-sortIcon></th>
-                        <th>Actions</th>
-                  
-                      </tr>
-                    </ng-template>
-                  
-                    <!-- Table Body -->
-                    <ng-template pTemplate="body" let-activity>
-                      <tr>
-                        <!-- <td>{{ activity.activity_ID }}</td> -->
-                        <td>
-                          <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
-                        </td>
-                        <!-- <td>{{ activity.activity_Type }}</td> -->
+          <th pSortableColumn="end_Date">End Date <p-sortIcon field="end_Date"></p-sortIcon></th>
+
+          <!-- <th pSortableColumn="activity_Rating">Rating <p-sortIcon field="activity_Rating"></p-sortIcon></th>
+          <th pSortableColumn="rating_Count">Rating Count <p-sortIcon field="rating_Count"></p-sortIcon></th> -->
+      
+          <th pSortableColumn="activity_Time">Time <p-sortIcon field="activity_Time"></p-sortIcon></th>
+          <th pSortableColumn="activity_Seats">Seats <p-sortIcon field="activity_Seats"></p-sortIcon></th>
+          <th pSortableColumn="bookings">Booking <p-sortIcon field="bookings"></p-sortIcon></th>
+          <th pSortableColumn="status">status <p-sortIcon field="status"></p-sortIcon></th>
+
+          <!-- <th pSortableColumn="date">Created Date <p-sortIcon field="date"></p-sortIcon></th> -->
+          <th>Actions</th>
+
+
+
+    
+        </tr>
+      </ng-template>
+    
+      <!-- Table Body -->
+      <ng-template pTemplate="body" let-activity>
+        <tr>
+          <!-- <td>{{ activity.activity_ID }}</td> -->
+          <td>
+            <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
+          </td>
+          <!-- <td>{{ activity.activity_Type }}</td> -->
       <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
 
-                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
-                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
-                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
-                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td>
-                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
-                        <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td>
-                        <!-- <td>
-                          <i
-                            [ngClass]="activity.activity_Is_Wish ? 'pi pi-heart-fill' : 'pi pi-heart'"
-                            [style.color]="activity.activity_Is_Wish ? 'red' : 'gray'"
-                          ></i>
-                        </td> -->
-                        <td>{{ activity.activity_Time || 'N/A' }}</td>
-                        <td>{{ activity.date | date: 'MMM d, y' }}</td>
-                  
-                  
-                        <td>
-                          <div class="flex justify-content-between align-items-center gab-1">
-                            <div [routerLink]="['/update-activity', activity.activity_ID, activity.activity_Type]">
-                              <img
-                                class="image-default"
-                                src="editActivity.svg"
-                                alt="Default Alert Icon"
-                                style="cursor: pointer;"
-                              />
-                            </div>
-                            <div>
-                              <img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
-                            </div>
-                            <p-overlayPanel #op>
-                              <ul class="menu-list">
-                                <li><a (click)="viewParticipants(activity)" [routerLink]="'/participants'">View Participants</a></li>
-                                <li><a (click)="viewDetails(activity)" [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
-                                <li><a (click)="deleteItem(activity)">Delete</a></li>
-                              </ul>
-                            </p-overlayPanel>
-                          </div>
-                        </td>
-                  
-                      </tr>
-                    </ng-template>
-                  </p-table>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
+      
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
+          <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td> -->
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.start_Date }}</td>
+
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.end_Date }}</td>
+
+<!-- 
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td> -->
+         
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Time || 'N/A' }}</td>
+          <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.date | date: 'MMM d, y' }}</td> -->
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.bookings|| 'N/A' }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">
+            <div *ngIf="activity.status==='Published'" class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>{{ activity.status}}</div>
+            <div *ngIf="activity.status==='Not Published'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
+            
+            </td>
+          
+    
+          <td>
+            <div class="flex justify-content-between align-items-center gab-1">
+              <div [routerLink]="['/update-activity', activity.activity_ID, activity.activity_Type]">
+                <img
+                  class="image-default"
+                  src="editActivity.svg"
+                  alt="Default Alert Icon"
+                  style="cursor: pointer;"
+                />
+              </div>
+              <div>
+                <img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
+              </div>
+              <p-overlayPanel #op>
+                <ul class="menu-list">
+                  <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;" [routerLink]="'/participants'">View Participants</a></li>
+
+                  <li><a (click)="displayHome(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li><a (click)="togglePublish(activity.activity_ID,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                  <li><a (click)="togglePublish(activity.activity_ID,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
+
+
+                  <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
+                  <li><a (click)="deleteItem(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Delete</a></li>
+                </ul>
+              </p-overlayPanel>
+            </div>
+          </td>
+    
+        </tr>
+      </ng-template>
+    </p-table>
                 </div>
                 
               </div>
@@ -658,158 +499,118 @@
                 </div>
               
                 <p-table
-                  #dt
-                  [value]="activities"
-                  [paginator]="true"
-                  [rows]="10"
-                  [globalFilterFields]="['activity_Type', 'activity_Name', 'activity_Seats']"
+                #dt
+                [value]="activities"
+                [paginator]="true"
+                [rows]="10"
+                [globalFilterFields]="['activity_Type', 'activity_Name', 'activity_Seats']"
+          
+                [filterDelay]="300"
+                [resizableColumns]="true"
+                [tableStyle]="{ 'min-width': '900px' }"
+                [showCurrentPageReport]="true"
+                [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
+                (onPage)="pageChange($event)"
+                [rowsPerPageOptions]="[5, 10, 20]"
+              >
+               
+                <ng-template pTemplate="header">
+                  <tr>
+                    <!-- <th pSortableColumn="activity_ID">ID <p-sortIcon field="activity_ID"></p-sortIcon></th> -->
+                    <th  pSortableColumn="activity_Media">Image</th>
+                    <th pSortableColumn="activity_Type">Type <p-sortIcon field="activity_Type"></p-sortIcon></th>
+                    <th pSortableColumn="activity_Name">Name <p-sortIcon field="activity_Name"></p-sortIcon></th>
+           
+                    <th pSortableColumn="activity_Location">Location <p-sortIcon field="activity_Location"></p-sortIcon></th>
+                    <!-- <th pSortableColumn="activity_Date">Date <p-sortIcon field="activity_Date"></p-sortIcon></th> -->
+                    <th pSortableColumn="start_Date">Start Date <p-sortIcon field="start_Date"></p-sortIcon></th>
+          
+                    <th pSortableColumn="end_Date">End Date <p-sortIcon field="end_Date"></p-sortIcon></th>
+          
+                    <!-- <th pSortableColumn="activity_Rating">Rating <p-sortIcon field="activity_Rating"></p-sortIcon></th>
+                    <th pSortableColumn="rating_Count">Rating Count <p-sortIcon field="rating_Count"></p-sortIcon></th> -->
+                
+                    <th pSortableColumn="activity_Time">Time <p-sortIcon field="activity_Time"></p-sortIcon></th>
+                    <th pSortableColumn="activity_Seats">Seats <p-sortIcon field="activity_Seats"></p-sortIcon></th>
+                    <th pSortableColumn="bookings">Booking <p-sortIcon field="bookings"></p-sortIcon></th>
+                    <th pSortableColumn="status">status <p-sortIcon field="status"></p-sortIcon></th>
+          
+                    <!-- <th pSortableColumn="date">Created Date <p-sortIcon field="date"></p-sortIcon></th> -->
+                    <th>Actions</th>
+          
+          
+          
+              
+                  </tr>
+                </ng-template>
+              
+                <!-- Table Body -->
+                <ng-template pTemplate="body" let-activity>
+                  <tr>
+                    <!-- <td>{{ activity.activity_ID }}</td> -->
+                    <td>
+                      <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
+                    </td>
+                    <!-- <td>{{ activity.activity_Type }}</td> -->
+                <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
+          
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
+                
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
+                    <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td> -->
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.start_Date }}</td>
+          
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.end_Date }}</td>
+          
+          <!-- 
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td> -->
+                   
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Time || 'N/A' }}</td>
+                    <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.date | date: 'MMM d, y' }}</td> -->
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.bookings|| 'N/A' }}</td>
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">
+                      <div *ngIf="activity.status==='Published'" class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>{{ activity.status}}</div>
+                      <div *ngIf="activity.status==='NotPublished'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
+                      <div *ngIf="activity.status==='Postponed'" style="width:auto" class="type-warning"><i class=" pi pi-pause-circle" style="color:#BE8B11"></i>{{ activity.status}}</div>
 
-                  [filterDelay]="300"
-                  [resizableColumns]="true"
-                  [tableStyle]="{ 'min-width': '900px' }"
-                  [showCurrentPageReport]="true"
-                  [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
-                  (onPage)="pageChange($event)"
-                  [rowsPerPageOptions]="[5, 10, 20]"
-                >
-                  <!-- <ng-template pTemplate="header">
+                      
+                      </td>
                     
-                      <tr>
-                        <th pSortableColumn="courseTitle">Course Title <p-sortIcon field="courseTitle"></p-sortIcon></th>
-                        <th pSortableColumn="sessionNumber">Session Number <p-sortIcon field="sessionNumber"></p-sortIcon></th>
-                        <th pSortableColumn="startDate">Start Date <p-sortIcon field="startDate"></p-sortIcon></th>
-                        <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
-                        <th>Seats Available</th>
-                        <th>Bookings</th>
-                        <th>Status</th>
-                        <th>Action</th>
-            
-                      </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-course>
-                    <tr>
-                        
-            
-                        <td>{{ course.courseTitle }}</td>
-                        <td>{{ course.sessionNumber }}</td>
-                        <td>{{ course.startDate | date: 'MMM d, y' }}</td>
-                        <td>{{ course.endDate | date: 'MMM d, y' }}</td>
-                  
-                        <td><i class="pi pi-users" style="color: #1151B4"></i> {{ course.seatsAvailable }}</td>
-                        <td><i class="pi pi-ticket" style="color: #1151B4"></i> {{ course.bookings }}</td>
-                        <td>
-                          <span class="status-tag" [ngClass]="getSeverity(course.status)">
-                            <i [class]="getIcon(course.status)" class="status-icon"></i>
-                            {{ course.status }}
-                          </span>
-                        </td>
-                        <td>
-             
-                          <div class="flex justify-content-between align-items-center gab-1">
-  
-                            <div >
-                              <img
-                                class="image-default"
-                                src="editActivity.svg"
-                                alt="Default Alert Icon"
-                                style="cursor: pointer;"
-                              />
-                             
-                            </div>
-                            
-                          <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
-            
-                          <p-overlayPanel #op>
-                            <ul class="menu-list">
-                              <li><a (click)="viewParticipants(course)">View Participants</a></li>
-                              <li><a (click)="viewDetails(course)">View Course Details</a></li>
-                              <li><a (click)="viewDetails(course)">Display on App Home</a></li>
-                              <li><a (click)="openPublishDialog()">Publish</a></li>
-                              <li><a (click)="deleteItem(course)">Delete</a></li>
-                            </ul>
-                          </p-overlayPanel>
-                          </div>
-                        </td>
-                      </tr>
-                  </ng-template> -->
-                  
-
-
-                  <ng-template pTemplate="header">
-                    <tr>
-                      <!-- <th pSortableColumn="activity_ID">ID <p-sortIcon field="activity_ID"></p-sortIcon></th> -->
-                      <th pSortableColumn="activity_Media">Image</th>
-                      <th pSortableColumn="activity_Type">Type <p-sortIcon field="activity_Type"></p-sortIcon></th>
-                      <th pSortableColumn="activity_Name">Name <p-sortIcon field="activity_Name"></p-sortIcon></th>
-                      <th pSortableColumn="activity_Seats">Seats <p-sortIcon field="activity_Seats"></p-sortIcon></th>
-                      <th pSortableColumn="activity_Location">Location <p-sortIcon field="activity_Location"></p-sortIcon></th>
-                      <th pSortableColumn="activity_Date">Date <p-sortIcon field="activity_Date"></p-sortIcon></th>
-                      <th pSortableColumn="activity_Rating">Rating <p-sortIcon field="activity_Rating"></p-sortIcon></th>
-                      <th pSortableColumn="rating_Count">Rating Count <p-sortIcon field="rating_Count"></p-sortIcon></th>
-                      <!-- <th pSortableColumn="activity_Is_Wish">Wishlisted <p-sortIcon field="activity_Is_Wish"></p-sortIcon></th> -->
-                      <th pSortableColumn="activity_Time">Time <p-sortIcon field="activity_Time"></p-sortIcon></th>
-                      <th pSortableColumn="date">Created Date <p-sortIcon field="date"></p-sortIcon></th>
-                      <th>Actions</th>
-                
-                    </tr>
-                  </ng-template>
-                
-                  <!-- Table Body -->
-                  <ng-template pTemplate="body" let-activity>
-                    <tr>
-                      <!-- <td>{{ activity.activity_ID }}</td> -->
-                      <td>
-                        <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
-                      </td>
-                      <!-- <td>{{ activity.activity_Type }}</td> -->
-      <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
-
-                      <td>{{ activity.activity_Name }}</td>
-                      <td>{{ activity.activity_Seats }}</td>
-                      <td>{{ activity.activity_Location | slice:0:10 }}...</td>
-                      <td>{{ activity.activity_Date }}</td>
-                      <td>{{ activity.activity_Rating }}</td>
-                      <td>{{ activity.rating_Count }}</td>
-                      <!-- <td>
-                        <i
-                          [ngClass]="activity.activity_Is_Wish ? 'pi pi-heart-fill' : 'pi pi-heart'"
-                          [style.color]="activity.activity_Is_Wish ? 'red' : 'gray'"
-                        ></i>
-                      </td> -->
-                      <td>{{ activity.activity_Time || 'N/A' }}</td>
-                      <td>{{ activity.date | date: 'MMM d, y' }}</td>
-                
-                
-                      <td>
-                        <div class="flex justify-content-between align-items-center gab-1">
-                          <div [routerLink]="['/update-activity', activity.activity_ID, activity.activity_Type]">
-                            <img
-                              class="image-default"
-                              src="editActivity.svg"
-                              alt="Default Alert Icon"
-                              style="cursor: pointer;"
-                            />
-                          </div>
-                          <div>
-                            <img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
-                          </div>
-                          <p-overlayPanel #op>
-                            <ul class="menu-list">
-                              <li><a (click)="viewParticipants(activity)" [routerLink]="'/participants'" style="cursor: pointer; text-decoration: none; color:#363636 " >View Participants</a></li>
-                              <li><a (click)="viewDetails(activity)" [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]" style="cursor: pointer; text-decoration: none; color:#363636 ">View Details</a></li>
-                              <li><a style="cursor: pointer; text-decoration: none; color:#363636 " >Display on App Home</a></li>
-                              <li><a style="cursor: pointer; text-decoration: none; color:#363636 " >Puplish</a></li>
-                              <li><a style="cursor: pointer; text-decoration: none; color:#363636 ">Cancel Event</a></li>
-                              <li><a style="cursor: pointer; text-decoration: none; color:#363636 ">Postpone Event</a></li>
-                              <li><a (click)="deleteItem(activity)" style="cursor: pointer; text-decoration: none; color:#363636 ">Delete</a></li>
-                            </ul>
-                          </p-overlayPanel>
+              
+                    <td>
+                      <div class="flex justify-content-between align-items-center gab-1">
+                        <div [routerLink]="['/update-activity', activity.activity_ID, activity.activity_Type]">
+                          <img
+                            class="image-default"
+                            src="editActivity.svg"
+                            alt="Default Alert Icon"
+                            style="cursor: pointer;"
+                          />
                         </div>
-                      </td>
-                
-                    </tr>
-                  </ng-template>
-                </p-table>
+                        <div>
+                          <img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
+                        </div>
+                        <p-overlayPanel #op>
+                          <ul class="menu-list">
+                            <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;" [routerLink]="'/participants'">View Participants</a></li>
+          
+                            <li><a (click)="displayHome(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                            <li><a (click)="togglePublish(activity.activity_ID,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                            <li><a (click)="togglePublish(activity.activity_ID,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
+          
+          
+                            <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
+                            <li><a (click)="deleteItem(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Delete</a></li>
+                          </ul>
+                        </p-overlayPanel>
+                      </div>
+                    </td>
+              
+                  </tr>
+                </ng-template>
+              </p-table>
               </div>
               
             </div>
@@ -846,156 +647,116 @@
                 </div>
               
                 <p-table
-                  #dt
-                  [value]="activities"
-                  [paginator]="true"
-                  [rows]="10"
-                  [globalFilterFields]="['activity_Type', 'activity_Name', 'activity_Seats']"
-
-                  [filterDelay]="300"
-                  [resizableColumns]="true"
-                  [tableStyle]="{ 'min-width': '900px' }"
-                  [showCurrentPageReport]="true"
-                  [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
-                  (onPage)="pageChange($event)"
-                  [rowsPerPageOptions]="[5, 10, 20]"
-                >
-                  <!-- <ng-template pTemplate="header">
-                    
-                      <tr>
-                        <th pSortableColumn="courseTitle">Course Title <p-sortIcon field="courseTitle"></p-sortIcon></th>
-                        <th pSortableColumn="sessionNumber">Session Number <p-sortIcon field="sessionNumber"></p-sortIcon></th>
-                        <th pSortableColumn="startDate">Start Date <p-sortIcon field="startDate"></p-sortIcon></th>
-                        <th pSortableColumn="endDate">End Date <p-sortIcon field="endDate"></p-sortIcon></th>
-                        <th>Seats Available</th>
-                        <th>Bookings</th>
-                        <th>Status</th>
-                        <th>Action</th>
-            
-                      </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-course>
-                    <tr>
-                        
-            
-                        <td>{{ course.courseTitle }}</td>
-                        <td>{{ course.sessionNumber }}</td>
-                        <td>{{ course.startDate | date: 'MMM d, y' }}</td>
-                        <td>{{ course.endDate | date: 'MMM d, y' }}</td>
-                  
-                        <td><i class="pi pi-users" style="color: #1151B4"></i> {{ course.seatsAvailable }}</td>
-                        <td><i class="pi pi-ticket" style="color: #1151B4"></i> {{ course.bookings }}</td>
-                        <td>
-                          <span class="status-tag" [ngClass]="getSeverity(course.status)">
-                            <i [class]="getIcon(course.status)" class="status-icon"></i>
-                            {{ course.status }}
-                          </span>
-                        </td>
-                        <td>
-                    
-                          <div class="flex justify-content-between align-items-center gab-1">
- 
-                            <div >
-                              <img
-                                class="image-default"
-                                src="editActivity.svg"
-                                alt="Default Alert Icon"
-                                style="cursor: pointer;"
-                              />
-                             
-                            </div>
-                            
-                          <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
-            
-                          <p-overlayPanel #op>
-                            <ul class="menu-list">
-                              <li><a (click)="viewParticipants(course)">View Participants</a></li>
-                              <li><a (click)="viewDetails(course)">View Course Details</a></li>
-                              <li><a (click)="viewDetails(course)">Display on App Home</a></li>
-                              <li><a (click)="openPublishDialog()">Publish</a></li>
-                              <li><a (click)="openCancelDialog()">Delete</a></li>
-                            </ul>
-                          </p-overlayPanel>
-                          </div>
-                        </td>
-                      </tr>
-                  </ng-template> -->
-         
-
-
-                  <ng-template pTemplate="header">
-                    <tr>
-                      <!-- <th pSortableColumn="activity_ID">ID <p-sortIcon field="activity_ID"></p-sortIcon></th> -->
-                      <th pSortableColumn="activity_Media">Image</th>
-                      <th pSortableColumn="activity_Type">Type <p-sortIcon field="activity_Type"></p-sortIcon></th>
-                      <th pSortableColumn="activity_Name">Name <p-sortIcon field="activity_Name"></p-sortIcon></th>
-                      <th pSortableColumn="activity_Seats">Seats <p-sortIcon field="activity_Seats"></p-sortIcon></th>
-                      <th pSortableColumn="activity_Location">Location <p-sortIcon field="activity_Location"></p-sortIcon></th>
-                      <th pSortableColumn="activity_Date">Date <p-sortIcon field="activity_Date"></p-sortIcon></th>
-                      <th pSortableColumn="activity_Rating">Rating <p-sortIcon field="activity_Rating"></p-sortIcon></th>
-                      <th pSortableColumn="rating_Count">Rating Count <p-sortIcon field="rating_Count"></p-sortIcon></th>
-                      <!-- <th pSortableColumn="activity_Is_Wish">Wishlisted <p-sortIcon field="activity_Is_Wish"></p-sortIcon></th> -->
-                      <th pSortableColumn="activity_Time">Time <p-sortIcon field="activity_Time"></p-sortIcon></th>
-                      <th pSortableColumn="date">Created Date <p-sortIcon field="date"></p-sortIcon></th>
-                      <th>Actions</th>
+                #dt
+                [value]="activities"
+                [paginator]="true"
+                [rows]="10"
+                [globalFilterFields]="['activity_Type', 'activity_Name', 'activity_Seats']"
+          
+                [filterDelay]="300"
+                [resizableColumns]="true"
+                [tableStyle]="{ 'min-width': '900px' }"
+                [showCurrentPageReport]="true"
+                [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
+                (onPage)="pageChange($event)"
+                [rowsPerPageOptions]="[5, 10, 20]"
+              >
+               
+                <ng-template pTemplate="header">
+                  <tr>
+                    <!-- <th pSortableColumn="activity_ID">ID <p-sortIcon field="activity_ID"></p-sortIcon></th> -->
+                    <th  pSortableColumn="activity_Media">Image</th>
+                    <th pSortableColumn="activity_Type">Type <p-sortIcon field="activity_Type"></p-sortIcon></th>
+                    <th pSortableColumn="activity_Name">Name <p-sortIcon field="activity_Name"></p-sortIcon></th>
+           
+                    <th pSortableColumn="activity_Location">Location <p-sortIcon field="activity_Location"></p-sortIcon></th>
+                    <!-- <th pSortableColumn="activity_Date">Date <p-sortIcon field="activity_Date"></p-sortIcon></th> -->
+                    <th pSortableColumn="start_Date">Start Date <p-sortIcon field="start_Date"></p-sortIcon></th>
+          
+                    <th pSortableColumn="end_Date">End Date <p-sortIcon field="end_Date"></p-sortIcon></th>
+          
+                    <!-- <th pSortableColumn="activity_Rating">Rating <p-sortIcon field="activity_Rating"></p-sortIcon></th>
+                    <th pSortableColumn="rating_Count">Rating Count <p-sortIcon field="rating_Count"></p-sortIcon></th> -->
                 
-                    </tr>
-                  </ng-template>
+                    <th pSortableColumn="activity_Time">Time <p-sortIcon field="activity_Time"></p-sortIcon></th>
+                    <th pSortableColumn="activity_Seats">Seats <p-sortIcon field="activity_Seats"></p-sortIcon></th>
+                    <th pSortableColumn="bookings">Booking <p-sortIcon field="bookings"></p-sortIcon></th>
+                    <th pSortableColumn="status">status <p-sortIcon field="status"></p-sortIcon></th>
+          
+                    <!-- <th pSortableColumn="date">Created Date <p-sortIcon field="date"></p-sortIcon></th> -->
+                    <th>Actions</th>
+          
+          
+          
+              
+                  </tr>
+                </ng-template>
+              
+                <!-- Table Body -->
+                <ng-template pTemplate="body" let-activity>
+                  <tr>
+                    <!-- <td>{{ activity.activity_ID }}</td> -->
+                    <td>
+                      <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
+                    </td>
+                    <!-- <td>{{ activity.activity_Type }}</td> -->
+                <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
+          
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
                 
-                  <!-- Table Body -->
-                  <ng-template pTemplate="body" let-activity>
-                    <tr>
-                      <!-- <td>{{ activity.activity_ID }}</td> -->
-                      <td>
-                        <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
+                    <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td> -->
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.start_Date }}</td>
+          
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.end_Date }}</td>
+          
+          <!-- 
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.rating_Count }}</td> -->
+                   
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Time || 'N/A' }}</td>
+                    <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.date | date: 'MMM d, y' }}</td> -->
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.bookings|| 'N/A' }}</td>
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">
+                      <div *ngIf="activity.status==='Published'" class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>{{ activity.status}}</div>
+                      <div *ngIf="activity.status==='Not Published'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
+                      
                       </td>
-                      <!-- <td>{{ activity.activity_Type }}</td> -->
-      <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
-
-                      <td>{{ activity.activity_Name }}</td>
-                      <td>{{ activity.activity_Seats }}</td>
-                      <td>{{ activity.activity_Location | slice:0:10 }}...</td>
-                      <td>{{ activity.activity_Date }}</td>
-                      <td>{{ activity.activity_Rating }}</td>
-                      <td>{{ activity.rating_Count }}</td>
-                      <!-- <td>
-                        <i
-                          [ngClass]="activity.activity_Is_Wish ? 'pi pi-heart-fill' : 'pi pi-heart'"
-                          [style.color]="activity.activity_Is_Wish ? 'red' : 'gray'"
-                        ></i>
-                      </td> -->
-                      <td>{{ activity.activity_Time || 'N/A' }}</td>
-                      <td>{{ activity.date | date: 'MMM d, y' }}</td>
-                
-                
-                      <td>
-                        <div class="flex justify-content-between align-items-center gab-1">
-                          <div [routerLink]="['/update-activity', activity.activity_ID, activity.activity_Type]">
-                            <img
-                              class="image-default"
-                              src="editActivity.svg"
-                              alt="Default Alert Icon"
-                              style="cursor: pointer;"
-                            />
-                          </div>
-                          <div>
-                            <img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
-                          </div>
-                          <p-overlayPanel #op>
-                            <ul class="menu-list">
-                              <li><a (click)="viewParticipants(activity)" [routerLink]="'/participants'">View Participants</a></li>
-                              <li><a (click)="viewDetails(activity)" [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
-                              <li><a (click)="deleteItem(activity)">Delete</a></li>
-                            </ul>
-                          </p-overlayPanel>
+                    
+              
+                    <td>
+                      <div class="flex justify-content-between align-items-center gab-1">
+                        <div [routerLink]="['/update-activity', activity.activity_ID, activity.activity_Type]">
+                          <img
+                            class="image-default"
+                            src="editActivity.svg"
+                            alt="Default Alert Icon"
+                            style="cursor: pointer;"
+                          />
                         </div>
-                      </td>
-                
-                    </tr>
-                  </ng-template>
-
-
-                </p-table>
+                        <div>
+                          <img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
+                        </div>
+                        <p-overlayPanel #op>
+                          <ul class="menu-list">
+                            <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;" [routerLink]="'/participants'">View Participants</a></li>
+          
+                            <li><a (click)="displayHome(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                            <li><a (click)="togglePublish(activity.activity_ID,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                            <li><a (click)="togglePublish(activity.activity_ID,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
+          
+          
+                            <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
+                            <li><a (click)="deleteItem(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Delete</a></li>
+                          </ul>
+                        </p-overlayPanel>
+                      </div>
+                    </td>
+              
+                  </tr>
+                </ng-template>
+              </p-table>
               </div>
               
             </div>

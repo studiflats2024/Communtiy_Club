@@ -130,6 +130,33 @@ export class GatewayService {
 
     return this.http.get(`${environment.apiUrl}/Gateway/GetAllInvitations`, { params });
   }
+
+
+  reviewPublish(id: string, publish: boolean): Observable<any> {
+    const params = new HttpParams()
+      .set('ID', id)
+      .set('Publish', publish.toString());
+
+    return this.http.post(`${environment.apiUrl}/Gateway/ReviewPublish`, {}, { params });
+  }
+
+
+
+  getAllTransactions(pageNo: number, pageSize: number): Observable<any> {
+    const params = new HttpParams()
+      .set('Page_No', pageNo.toString())
+      .set('Page_Size', pageSize.toString());
+
+    return this.http.get(`${environment.apiUrl}/Gateway/GetAllTransactions`, { params });
+  }
+
+  addMemberToPlan(planId: string, memberId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('Plan_ID', planId)
+      .set('Member_ID', memberId);
+
+    return this.http.post(`${environment.apiUrl}/Gateway/AddMemberToPlan`, null, { params });
+  }
 }
 
 

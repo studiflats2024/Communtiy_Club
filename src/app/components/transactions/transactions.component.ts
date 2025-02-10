@@ -75,7 +75,7 @@ export class TransactionsComponent {
   {
     name: 'Ahmed Ali',
     email: 'Ahmed.Ali@gmail.com',
-    phone_No: '+49 128 45987564',
+    phone: '+49 128 45987564',
     plan_Type: 'Monthly',
     scan_Time: '10:00 AM',
     scan_Date: new Date('2025-03-12'),
@@ -86,7 +86,7 @@ export class TransactionsComponent {
   {
     name: 'Ahmed Ali',
     email: 'Ahmed.Ali@gmail.com',
-    phone_No: '+49 128 45987564',
+    phone: '+49 128 45987564',
     plan_Type: 'Free Trial Month',
     scan_Time: '09:30 AM',
     scan_Date: new Date('2025-03-12'),
@@ -97,7 +97,7 @@ export class TransactionsComponent {
   {
     name: 'Ahmed Ali',
     email: 'Ahmed.Ali@gmail.com',
-    phone_No: '+49 128 45987564',
+    phone: '+49 128 45987564',
     plan_Type: 'Invitation',
     scan_Time: '11:25 AM',
     scan_Date: new Date('2025-03-12'),
@@ -108,7 +108,7 @@ export class TransactionsComponent {
   {
     name: 'Ahmed Ali',
     email: 'Ahmed.Ali@gmail.com',
-    phone_No: '+49 128 45987564',
+    phone: '+49 128 45987564',
     plan_Type: 'Semi-Annual',
     scan_Time: '02:30 PM',
     scan_Date: new Date('2025-03-12'),
@@ -119,7 +119,7 @@ export class TransactionsComponent {
   {
     name: 'Ahmed Ali',
     email: 'Ahmed.Ali@gmail.com',
-    phone_No: '+49 128 45987564',
+    phone: '+49 128 45987564',
     plan_Type: 'Annual',
     scan_Time: '03:00 PM',
     scan_Date: new Date('2025-03-12'),
@@ -145,12 +145,22 @@ export class TransactionsComponent {
       ];
   
       
-  
+  // this.loadTransactions(1,2000)
       
     }
    
     
-  
+    loadTransactions(pageNo: number, pageSize: number): void {
+      this.gatewayService.getAllTransactions(pageNo, pageSize).subscribe(
+        (response) => {
+          this.transactions = response.data;
+          console.log('Transactions:', response);
+        },
+        (error) => {
+          console.error('Error fetching transactions:', error);
+        }
+      );
+    }
    
   
    

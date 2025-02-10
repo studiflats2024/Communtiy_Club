@@ -62,7 +62,7 @@
                     [value]="transactions"
                     [paginator]="true"
                     [rows]="10"
-                    [globalFilterFields]="['name', 'email', 'phone_No', 'plan_Type']"
+                    [globalFilterFields]="['name', 'email', 'phone', 'plan_Type']"
                     [filterDelay]="300"
                     [resizableColumns]="true"
                     [tableStyle]="{ 'min-width': '900px' }"
@@ -80,7 +80,7 @@
                         <th>Plan Type</th>
                         <th>Scan Time</th>
                         <th>Scan Date</th>
-                        <th>Amount</th>
+                        <!-- <th>Amount</th> -->
                        
                         <th>Status</th>
                         <th>Action</th>
@@ -94,7 +94,7 @@
                             <p>{{ transaction.email }}</p>
                           </div>
                         </td>
-                        <td>{{ transaction.phone_No }}</td>
+                        <td>{{ transaction.phone }}</td>
                         <!-- <td>{{ record.date | date: 'MMM d, yyyy' }}</td> -->
                         <!-- <td>{{ payment.date | date: 'MMM d, yyyy' }}</td> -->
 
@@ -109,7 +109,7 @@
                         </td>
                         <td>{{ transaction.scan_Time }}</td>
                         <td>{{ transaction.scan_Date | date: 'MMM d, yyyy' }}</td>
-                        <td>{{ transaction.amount ? '€' + transaction.amount : '-' }}</td>
+                        <!-- <td>{{ transaction.amount ? '€' + transaction.amount : '-' }}</td> -->
                         <!-- <td>{{ payment.paymentBy }}</td> -------------------------------------------------------------------------------->
                         
                         

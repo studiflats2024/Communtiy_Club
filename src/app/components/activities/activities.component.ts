@@ -206,6 +206,23 @@ export class ActivitiesComponent {
     
   }
 
+displayHome(activity:any){
+
+}
+togglePublish(id:any,publish:any){
+  this.activityService.reviewPublish(id, publish).subscribe(
+    (response) => {
+      console.log('Response:', response);
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+
+    },
+    (error) => {
+      console.error('Error:', error);
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+    }
+  );
+}
 
   getPlanBadgeClass(planType: string): string {
     switch (planType) {

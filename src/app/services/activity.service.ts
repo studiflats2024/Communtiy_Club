@@ -148,4 +148,13 @@ export class ActivityService {
           const url = `${environment.apiUrl}/Events/UpdateEvent`;
           return this.http.post<any>(url, eventDetails);
         }
+
+        ///////////////////////////////actions////////////////////////////
+        reviewPublish(id: string, publish: boolean): Observable<any> {
+          const params = new HttpParams()
+            .set('ID', id)
+            .set('Publish', publish.toString());
+      
+          return this.http.post(`${environment.apiUrl}/Gateway/ReviewPublish`, {}, { params });
+        }
 }

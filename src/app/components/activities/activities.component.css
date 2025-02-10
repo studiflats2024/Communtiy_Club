@@ -1288,5 +1288,94 @@ line-height: 24px; /* 150% */
   overflow-y: auto;
   width: 100%; /* Optional: Make the calendar take full width */
 }
+.type ,.status{
+ 
+  color: var(--Colors-Primary-700, #1151B4);
 
+  /* Global Tokens/Body/B-2/Medium */
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px; /* 150% */
+
+display: flex;
+height: 32px;
+padding: 8px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+
+border-radius: 16px;
+background: #F7F9FD;
+color:#1151B4;
+}
+
+.type-success{
+  display: flex;
+width: 111px;
+height: 40px;
+padding: 8px 16px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+
+border-radius: 8px;
+background: #E9F9F1;
+
+color: #16814A;
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+}
+
+.type-danger{
+  
+color: #B4114A;
+
+color: var(--Colors-Error-700, #C1111A);
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+
+
+display: flex;
+height: 32px;
+padding: 8px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+
+border-radius: 16px;
+background: #FDE8E9;
+}
+
+.type-warning{
+  display: flex;
+height: 32px;
+padding: 8px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+
+border-radius: 16px;
+background: var(--Colors-Warning-100, #FDF8EC);
+
+color: var(--Colors-Warning-700, #BE8B11);
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+}
  

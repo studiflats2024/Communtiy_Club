@@ -150,7 +150,7 @@ submitPlan(): void {
     plan_Price: this.price,
     plan_Discount: this.discount,
     plan_Fianl_Price: this.finalPrice,
-    plan_Features: this.features.split('\n'), // Split features into an array
+    plan_Features: this.features.split(','), // Split features into an array
     is_Trial:this.trial
 
   };
