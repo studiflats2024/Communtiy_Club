@@ -171,9 +171,8 @@ export class AddMemberComponent {
       
     ];
 
-     
-
-    
+     this.fetchMembersUsers(1,2000)
+     this.loadPlans()
   }
   
   
@@ -294,8 +293,12 @@ toggleStatus(type: any): void {
 openFilterDialog(): void {
   this.displayFilter = true;
 }
-openFilterAlertDialog(){
-  this.displayFilterAlert=true
+displayAddMember:boolean=false
+
+tenant_ID:any;
+openAddMemberDialog(tenantId:any){
+  this.tenant_ID=tenantId;
+  this.displayAddMember=true
 }
 
 closeFilterDialog(): void {
@@ -510,40 +513,70 @@ sendAlert(subscribeId: string) {
 //////////////////////////////////////dialog ////////////////////////////////////
 selectedPlan: any;
   
-pricingPlans = [
-  {
-    name: 'Free Trial Month',
-    price: 0,
-    duration: 'Free',
-    icon: 'pi pi-calendar',
-    selected: false
-  },
-  {
-    name: 'Monthly',
-    price: 50,
-    duration: 'month',
-    icon: 'pi pi-user',
-    selected: false
-  },
-  {
-    name: 'Semi-Annual',
-    price: 270,
-    duration: '6-month',
-    icon: 'pi pi-calendar-times',
-    selected: false
-  },
-  {
-    name: 'Annual',
-    price: 480,
-    duration: 'Year',
-    icon: 'pi pi-star',
-    selected: false
-  }
-];
+pricingPlans:any[] = [];
 
 selectPlan(plan: any) {
-  this.pricingPlans.forEach((p) => (p.selected = false));
+  this.pricingPlans.forEach((p:any) => (p.selected = false));
   plan.selected = true;
   this.selectedPlan = plan;
+}
+
+
+  ////////////////////////plan list//////////////////////////
+  plans: any[] = []; // To store fetched plans
+  errorMessage: string = '';
+  loadPlans(): void {
+    this.plansService.getPlans().subscribe({
+      next: (data) => {
+        this.plans = data;
+        this.pricingPlans=data.map((plan:any)=>({...plan,selected:false}))
+        console.log('Plans fetched:', this.pricingPlans);
+      },
+      error: (error) => {
+        this.errorMessage = error;
+        console.error('Error fetching plans:', this.errorMessage);
+      }
+    });
+  }
+
+
+responseMessage:any
+plan_ID:any
+addMember() {
+  // if (!this.planId || !this.memberId) {
+  //   this.responseMessage = 'Plan ID and Member ID are required.';
+  //   return;
+  // }
+
+this.plan_ID=this.selectedPlan?.id
+  this.gatewayService.addMemberToPlan(this.plan_ID, this.tenant_ID).subscribe(
+    (response) => {
+      this.responseMessage = 'Member added successfully!';
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+       this.displayAddMember=false
+      console.log('Success:', response);
+    },
+    (error) => {
+      this.responseMessage = 'Failed to add member.';
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+
+      console.error('Error:', error);
+    }
+  );
+}
+
+fetchMembersUsers(pageNo:any,pageSize:any) {
+ 
+  this.gatewayService.getAllMembersUsers(pageNo, pageSize).subscribe(
+    (response) => {
+      this.tenants = response?.data || []; // Adjust based on API response structure
+      console.log(response)
+       
+    },
+    (error) => {
+      console.error('Error fetching members users:', error);
+       
+    }
+  );
 }
 }

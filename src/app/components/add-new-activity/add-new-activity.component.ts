@@ -447,7 +447,7 @@ removeLastPripertyFromSessions(){
   
 }
 resetCourseValues(): void {
-  this.title = '';
+  // this.title = '';
   this.discription = '';
   this.location = '';
   this.displayOnApp = 'no';
@@ -497,7 +497,7 @@ console.log(this.sessions)
     video_Link: this.videoLink,
     course_Start_Date:startDate  ,
     course_End_Date: endDate,
-    availiable_Seats: this.seatsAvailable,
+    availabile_Seats: this.seatsAvailable,
     sessions:this.sessions
   };
   console.log(courseData)
@@ -543,7 +543,7 @@ this.removeLastPripertyFromSessions();
     video_Link: this.videoLink,
     workshop_Start_Date: startDate,
     workshop_End_Date: endDate,
-    available_Seats: this.seatsAvailable,
+    availabile_Seats: this.seatsAvailable,
     sessions:this.sessions
   };
 
@@ -566,7 +566,7 @@ this.removeLastPripertyFromSessions();
 
 
 resetWorkshopData() {
-  this.title = '';
+  // this.title = '';
   this.discription = '';
   this.location = '';
   this.displayOnApp = 'no'; // or `true` if default is true
@@ -655,7 +655,7 @@ const eventDate = new Date(this.eventDate.getTime() - this.eventDate.getTimezone
 
 
 resetEventData() {
-  this.title = '';
+  // this.title = '';
   this.discription = '';
   this.location = '';
   this.displayOnApp = 'no';
@@ -707,7 +707,7 @@ console.log(this.sessionsDays);
 }
 
 clearConsultData(): void {
-  this.title = '';
+  // this.title = '';
   this.discription = '';
   this.location = '';
   this.displayOnApp = false;

@@ -157,4 +157,42 @@ export class ActivityService {
       
           return this.http.post(`${environment.apiUrl}/Gateway/ReviewPublish`, {}, { params });
         }
+
+        publishActivity(activityId: string, type: string, publish: boolean): Observable<any> {
+          const params = new HttpParams()
+            .set('Activity_ID', activityId)
+            .set('_Type', type)
+            .set('Publish', publish.toString());
+      
+          return this.http.post(`${environment.apiUrl}/Gateway/Publish_Activity`, null, { params });
+        }
+
+
+
+  displayHomeActivity(activityId: string, type: string, display: boolean): Observable<any> {
+    const params = new HttpParams()
+      .set('Activity_ID', activityId)
+      .set('_Type', type)
+      .set('Display', display.toString());
+
+    return this.http.post(`${environment.apiUrl}/Gateway/DisplayHome_Activity`, null, { params });
+  }
+
+
+  cancelEvent(activityId: string, reason: string): Observable<any> {
+    const params = new HttpParams()
+      .set('Activity_ID', activityId)
+      .set('Reason', reason);
+
+    return this.http.post(`${environment.apiUrl}/Gateway/Cancel_Evnet`, null, { params });
+  }
+
+  postponeEvent(eventId: string, reason: string, toDate: string): Observable<any> {
+    const params = new HttpParams()
+      .set('Event_ID', eventId)
+      .set('Reason', reason)
+      .set('To', toDate);
+
+    return this.http.post(`${environment.apiUrl}/Gateway/Postpone_Evnet`, null, { params });
+  }
 }

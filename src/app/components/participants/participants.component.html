@@ -71,7 +71,7 @@
                   [value]="participants"
                   [paginator]="true"
                   [rows]="10"
-                  [globalFilterFields]="['name','email', 'number', 'booking_date', 'status']"
+                  [globalFilterFields]="['name','email', 'phone', 'booking_Date', 'status']"
                   [filterDelay]="300"
                   [resizableColumns]="true"
                   [tableStyle]="{ 'min-width': '900px' }"
@@ -83,9 +83,9 @@
                   <ng-template pTemplate="header">
                     <tr>
                       <th pSortableColumn="name">Participants Name <p-sortIcon field="name"></p-sortIcon></th>
-                      <th pSortableColumn="number">Phone Number<p-sortIcon field="number"></p-sortIcon></th>
+                      <th pSortableColumn="phone">Phone Number<p-sortIcon field="phone"></p-sortIcon></th>
  
-                      <th pSortableColumn="booking-date">Booking Date<p-sortIcon field="booking-date"></p-sortIcon></th>
+                      <th pSortableColumn="booking-Date">Booking Date<p-sortIcon field="booking-Date"></p-sortIcon></th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -98,10 +98,10 @@
                           <p>{{ participant.email }}</p>
                         </div>
                       </td>
-                      <td>{{ participant.number }}</td>
+                      <td>{{ participant.phone }}</td>
                       
  
-                      <td>{{ participant.booking_date | date: 'MMM d, yyyy' }}</td>
+                      <td>{{ participant.booking_Date | date: 'MMM d, yyyy' }}</td>
                      
 
                       
@@ -121,7 +121,7 @@
                       <td >
                         <div class="flex justify-content-start align-items-center gab-1">
                           <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
-                          <div class="image-container "    >
+                          <div class="image-container "  (click)="sendAlert(participant.id)"  >
                             <img
                               class="image-default icon-container"
                               src="alertUser.svg"

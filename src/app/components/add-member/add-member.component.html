@@ -52,7 +52,7 @@
                     [value]="tenants"
                     [paginator]="true"
                     [rows]="10"
-                    [globalFilterFields]="['name', 'email', 'phone_No', 'apart_No','contract-SD','contract-ED']"
+                    [globalFilterFields]="['guest_Name', 'guest_Email', 'guest_Phone', 'guest_Apartment','guest_Contract_Start','guest_Contract_End']"
                     [filterDelay]="300"
                     [resizableColumns]="true"
                     [tableStyle]="{ 'min-width': '900px' }"
@@ -63,11 +63,11 @@
                   >
                     <ng-template pTemplate="header">
                       <tr>
-                        <th pSortableColumn="name">Member Name <p-sortIcon field="name"></p-sortIcon></th>
-                        <th pSortableColumn="phone_No">Phone Number<p-sortIcon field="phone_No"></p-sortIcon></th>
+                        <th pSortableColumn="guest_Name">Member Name <p-sortIcon field="guest_Name"></p-sortIcon></th>
+                        <th pSortableColumn="guest_Phone">Phone Number<p-sortIcon field="guest_Phone"></p-sortIcon></th>
                         <th>Apartment Name</th>
-                        <th pSortableColumn="contract_SD"> Contract Start Date <p-sortIcon field="contract_SD"></p-sortIcon></th>
-                        <th pSortableColumn="contract_ED"> Contract End Date <p-sortIcon field="contract_ED"></p-sortIcon></th>
+                        <th pSortableColumn="guest_Contract_Start"> Contract Start Date <p-sortIcon field="guest_Contract_Start"></p-sortIcon></th>
+                        <th pSortableColumn="guest_Contract_End"> Contract End Date <p-sortIcon field="guest_Contract_End"></p-sortIcon></th>
                         <th>Actions</th>
                       </tr>
                     </ng-template>
@@ -75,20 +75,24 @@
                       <tr>
                         <td>
                           <div>
-                            <strong>{{ tenant.name }}</strong>
-                            <p>{{ tenant.email }}</p>
+                            <strong>{{ tenant.guest_Name }}</strong>
+                            <p>{{ tenant.guest_Email }}</p>
                           </div>
                         </td>
-                        <td>{{ tenant.phone_No }}</td>
+                        <td>{{ tenant.guest_Phone }}</td>
      
-                        <td>{{tenant.apart_No}}</td>
+                        <td>{{tenant.guest_Apartment || '__'}}</td>
                         
 
                         
                         
                  
-                        <td>{{ tenant.contract_SD | date: 'MMM d, yyyy' }}</td>
-                        <td>{{ tenant.contract_ED | date: 'MMM d, yyyy' }}</td>
+                        <td>{{ tenant.guest_Contract_Start ? (tenant.guest_Contract_Start | date: 'MMM d, yyyy') : '__' }}</td>
+
+                        <td>{{ tenant.guest_Contract_End ? (tenant.guest_Contract_End | date: 'MMM d, yyyy') : '__' }}</td>
+
+
+
 
                         <!-------------------------------------------------------------------------------------------------------------------->
 
@@ -101,7 +105,7 @@
                               <p-overlayPanel #op>
                                 <ul class="menu-list">
                                   <li><a style="cursor: pointer;" >View Tenant Profile</a></li>
-                                  <li><a style="cursor: pointer;" (click)="openFilterAlertDialog()" >Add Type Of Plan</a></li>
+                                  <li><a style="cursor: pointer;" (click)="openAddMemberDialog(tenant.guest_ID)" >Add Type Of Plan</a></li>
                                   <li><a style="cursor: pointer;"  >Delete</a></li>
                                 </ul>
                               </p-overlayPanel>
@@ -142,16 +146,17 @@
   <!------------------------dialog for filter on Alert------------------->
  
   <p-dialog 
-  [(visible)]="displayFilterAlert" 
+  [(visible)]="displayAddMember" 
   header="Filter" 
   [closable]="true" 
   [modal]="true" 
 
-  [style]="{  overflow: 'visible' ,width: '43rem'}"
+  [style]="{ width: '50rem'}"
  
 
   class="responsive-dialog"
-  [contentStyle]="{ padding: '1rem', overflow: 'visible' }"
+  [contentStyle]="{ padding: '1rem' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
 >
   
   
@@ -174,16 +179,25 @@
             ></p-radioButton>
         </div>
       <div >
-        <span [ngClass]="getPlanBadgeClass(plan.name)" class="badge">
-          <i [ngClass]="getPlanIcon(plan.name)" class="icon"></i>
-          {{ plan.name }}
+        <!-- <span [ngClass]="getPlanBadgeClass(plan.plan_Type)" class="badge"> -->
+        <span  >
+
+          <!-- <i [ngClass]="getPlanIcon(plan.plan_Type)" class="icon"></i> -->
+          <img *ngIf="plan.plan_Duration === 'Year' &&!plan.is_Trial" src="community/starplan.svg" style="width: 20px; height: 20px;" />
+          <!-- <img  *ngIf="plan.plan_Duration === '6 Months'"  src="months.svg" /> -->
+          <img  *ngIf="plan.plan_Duration === '3 Months' &&!plan.is_Trial"  src="months.svg" style="width: 20px; height: 20px;"/>
+          <img  *ngIf="plan.plan_Duration === '6 Months' &&!plan.is_Trial"  src="months.svg" style="width: 20px; height: 20px;"/>
+          <img  *ngIf="plan.plan_Duration === 'Month' &&!plan.is_Trial"  src="month.svg" style="width: 20px; height: 20px;"/>
+
+          <img  *ngIf="plan.is_Trial"  src="freePlan.svg" style="width: 20px; height: 20px;"/>
+          {{ plan?.plan_Name}}
         </span>
       </div>
       
     </div>
-    <div class="mt-2 flex justify-content-start plan-price" *ngIf="plan.price === 0" >Free</div>
-    <div class=" mt-2 flex justify-content-start" *ngIf="plan.price > 0">
-       <span class="plan-price">€{{ plan.price }} </span> <span class="plan-duration">/ {{ plan.duration }}</span> 
+    <div class="mt-2 flex justify-content-start plan-price" *ngIf="plan.plan_Price === 0" >Free</div>
+    <div class=" mt-2 flex justify-content-start" *ngIf="plan.plan_Price > 0">
+       <span class="plan-price">€{{ plan?.plan_Fianl_Price }} </span> <span class="plan-duration">/ {{ plan?.plan_Duration }}</span> 
     </div>
   </div>
 </div>
@@ -195,7 +209,7 @@
     <div class=" ">
       <p-button
       label="Cancel"
-     
+     (click)="displayAddMember=false"
       class="p-button-outlined custom-button"
       
     ></p-button>
@@ -204,7 +218,7 @@
    <div class=" ">
     <p-button
     label="Apply"
-    (click)="openFilterDialog()"
+    (click)="addMember()"
     class="p-button-outlined custom-button-add"
       
   ></p-button>
@@ -333,13 +347,6 @@ class="responsive-dialog"
 ></p-button>
 </div>
 </div>
-
-
-
-
-
-
-
 
 
 

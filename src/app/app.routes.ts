@@ -74,7 +74,7 @@ export const routes: Routes = [
     canActivate: [AdminGuard]
   },
   {
-    path: 'participants',
+    path: 'participants/:id/:type',
     loadComponent: () => import('./components/participants/participants.component').then(m => m.ParticipantsComponent),
     canActivate: [AdminGuard]
   },

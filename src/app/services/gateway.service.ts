@@ -72,8 +72,7 @@ export class GatewayService {
 
 
   sendSubscriptionAlert(subscribeId: string): Observable<any> {
-    const url = `${environment.apiUrl}/Gateway/SendSubscriptionAlert?Subscrip
-    e_ID=${subscribeId}`;
+    const url = `${environment.apiUrl}/Gateway/SendSubscriptionAlert?Subscripe_ID=${subscribeId}`;
     return this.http.post(url, {});
   }
   
@@ -156,6 +155,41 @@ export class GatewayService {
       .set('Member_ID', memberId);
 
     return this.http.post(`${environment.apiUrl}/Gateway/AddMemberToPlan`, null, { params });
+  }
+
+  publishActivity(activityId: string, type: string, publish: boolean): Observable<any> {
+    const params = new HttpParams()
+      .set('Activity_ID', activityId)
+      .set('_Type', type)
+      .set('Publish', publish.toString());
+
+    return this.http.post(`${environment.apiUrl}/Gateway/Publish_Activity`, null, { params });
+  }
+
+  getAllMembersUsers(pageNo: number, pageSize: number): Observable<any> {
+    const params = new HttpParams()
+      .set('Page_No', pageNo.toString())
+      .set('Page_Size', pageSize.toString());
+
+    return this.http.get(`${environment.apiUrl}/Gateway/GetAllMembers_Users`, { params });
+  }
+
+
+
+  getAllParticipantsActivity(pageNo: number, pageSize: number, type?: string, id?: string): Observable<any> {
+    let params = new HttpParams()
+      .set('Page_No', pageNo.toString())
+      .set('Page_Size', pageSize.toString());
+
+    if (type) {
+      params = params.set('Type', type);
+    }
+
+    if (id) {
+      params = params.set('ID', id);
+    }
+
+    return this.http.get(`${environment.apiUrl}/Gateway/GetAllParticipants_Activity`, { params });
   }
 }
 

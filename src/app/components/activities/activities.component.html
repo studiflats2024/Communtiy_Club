@@ -156,11 +156,13 @@
               </div>
               <p-overlayPanel #op>
                 <ul class="menu-list">
-                  <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;" [routerLink]="'/participants'">View Participants</a></li>
+                  <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
-                  <li><a (click)="displayHome(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                  <li><a (click)="togglePublish(activity.activity_ID,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
-                  <li><a (click)="togglePublish(activity.activity_ID,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
+                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+
+                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
 
 
                   <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
@@ -301,11 +303,14 @@
               </div>
               <p-overlayPanel #op>
                 <ul class="menu-list">
-                  <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;" [routerLink]="'/participants'">View Participants</a></li>
+                  <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
-                  <li><a (click)="displayHome(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                  <li><a (click)="togglePublish(activity.activity_ID,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
-                  <li><a (click)="togglePublish(activity.activity_ID,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
+
+                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+
+                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
 
 
                   <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
@@ -446,11 +451,14 @@
               </div>
               <p-overlayPanel #op>
                 <ul class="menu-list">
-                  <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;" [routerLink]="'/participants'">View Participants</a></li>
+                  <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
-                  <li><a (click)="displayHome(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                  <li><a (click)="togglePublish(activity.activity_ID,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
-                  <li><a (click)="togglePublish(activity.activity_ID,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
+
+                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+
+                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
 
 
                   <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
@@ -533,6 +541,8 @@
                     <th pSortableColumn="activity_Time">Time <p-sortIcon field="activity_Time"></p-sortIcon></th>
                     <th pSortableColumn="activity_Seats">Seats <p-sortIcon field="activity_Seats"></p-sortIcon></th>
                     <th pSortableColumn="bookings">Booking <p-sortIcon field="bookings"></p-sortIcon></th>
+                    <th pSortableColumn="postponed_To">postpone date <p-sortIcon field="postponed_To"></p-sortIcon></th>
+
                     <th pSortableColumn="status">status <p-sortIcon field="status"></p-sortIcon></th>
           
                     <!-- <th pSortableColumn="date">Created Date <p-sortIcon field="date"></p-sortIcon></th> -->
@@ -570,9 +580,15 @@
                     <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.date | date: 'MMM d, y' }}</td> -->
                     <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Seats }}</td>
                     <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.bookings|| 'N/A' }}</td>
+                    <td *ngIf="activity.status==='Postponed'" [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.postponed_To | date: 'MMM d, y' }}</td>
+                    <td *ngIf="activity.status!=='Postponed'" [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">__</td>
+
+
                     <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">
                       <div *ngIf="activity.status==='Published'" class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>{{ activity.status}}</div>
                       <div *ngIf="activity.status==='NotPublished'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
+                      <div *ngIf="activity.status==='Cancelled'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
+
                       <div *ngIf="activity.status==='Postponed'" style="width:auto" class="type-warning"><i class=" pi pi-pause-circle" style="color:#BE8B11"></i>{{ activity.status}}</div>
 
                       
@@ -594,14 +610,23 @@
                         </div>
                         <p-overlayPanel #op>
                           <ul class="menu-list">
-                            <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;" [routerLink]="'/participants'">View Participants</a></li>
+                            <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
+
           
-                            <li><a (click)="displayHome(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                            <li><a (click)="togglePublish(activity.activity_ID,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
-                            <li><a (click)="togglePublish(activity.activity_ID,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
+                            <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+
+                            <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                            <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
           
           
                             <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
+
+                            <li><a (click)="showReason(activity.activity_ID,'cancel')" style="text-decoration: none;color:#363636; cursor: pointer;"  >Cancel Event</a></li>
+
+                            <li><a (click)="showReason(activity.activity_ID,'postpone')" style="text-decoration: none;color:#363636; cursor: pointer;" >Postpone Event</a></li>
+
+
                             <li><a (click)="deleteItem(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Delete</a></li>
                           </ul>
                         </p-overlayPanel>
@@ -740,11 +765,14 @@
                         </div>
                         <p-overlayPanel #op>
                           <ul class="menu-list">
-                            <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;" [routerLink]="'/participants'">View Participants</a></li>
+                            <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
+
           
-                            <li><a (click)="displayHome(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                            <li><a (click)="togglePublish(activity.activity_ID,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
-                            <li><a (click)="togglePublish(activity.activity_ID,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
+                            <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+
+                            <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                            <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
           
           
                             <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
@@ -1105,3 +1133,27 @@ class="responsive-dialog"
 <!--------------------------------------popup action event---------------->
 
 
+<p-dialog header="Type Reason" [modal]="true" [(visible)]="visibleReason" [style]="{ width: '25rem' }">
+  <span class="p-text-secondary block mb-5">Type Your Reason.</span>
+  <div class="flex align-items-center gap-3 mb-3">
+      <label class="font-semibold w-6rem">Reason</label>
+      <input type="text" pInputText [(ngModel)]="reason" />
+  </div>
+
+  <div *ngIf="showDate" class="flex align-items-center gap-3 mb-3">
+    <label class="font-semibold w-6rem">To Date</label>
+    <p-calendar
+    [(ngModel)]="toDate"
+    [showIcon]="true"
+    inputId="dateRange"
+    placeholder="Enter date"
+    
+    class="custom-calendar"
+  ></p-calendar>
+  </div>
+   
+  <div class="flex justify-content-end gap-2">
+      <p-button label="Cancel " class=" custom-button" severity="secondary" (onClick)="visibleReason = false" />
+      <p-button label="Save" class=" custom-button-add" (onClick)="eventAction()" />
+  </div>
+</p-dialog>

@@ -205,21 +205,50 @@ export class ActivitiesComponent {
   this.fetchActivities('All',1,2000)
     
   }
+  
 
-displayHome(activity:any){
+displayHome(id:any,type:any,publish:any){
 
-}
-togglePublish(id:any,publish:any){
-  this.activityService.reviewPublish(id, publish).subscribe(
+  this.activityService.displayHomeActivity(id, type, publish).subscribe(
     (response) => {
-      console.log('Response:', response);
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
-
+      console.log('Success:', response);
     },
     (error) => {
-      console.error('Error:', error);
       this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+      console.error('Error:', error);
+    }
+  );
 
+}
+togglePublish(id:any,type:any,publish:any){
+  this.activityService.publishActivity(id, type, publish).subscribe(
+    (response) => {
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+      console.log('Success:', response);
+
+
+
+      if(this.activeIndex===0){
+        this.fetchActivities('All',1,2000);
+      }else if(this.activeIndex===1){
+        this.fetchActivities('Course',1,2000);
+      }else if(this.activeIndex===2){
+        this.fetchActivities('Workshop',1,2000);
+        
+      }else if(this.activeIndex===3){
+         
+        this.fetchActivities('Event',1,2000);
+        
+      }else if(this.activeIndex===4){
+        this.fetchActivities('Consult',1,2000);
+       
+      }
+      
+    },
+    (error) => {
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+      console.error('Error:', error);
     }
   );
 }
@@ -481,18 +510,18 @@ showCancelDialog: boolean = false;
     console.log('Active tab index changed:', index);
     this.activeIndex = index;
     if(index===0){
-      this.fetchActivities('All',1,200);
+      this.fetchActivities('All',1,2000);
     }else if(index===1){
-      this.fetchActivities('Course',1,200);
+      this.fetchActivities('Course',1,2000);
     }else if(index===2){
-      this.fetchActivities('Workshop',1,200);
+      this.fetchActivities('Workshop',1,2000);
       
     }else if(index===3){
        
-      this.fetchActivities('Event',1,200);
+      this.fetchActivities('Event',1,2000);
       
     }else if(index===4){
-      this.fetchActivities('Consult',1,200);
+      this.fetchActivities('Consult',1,2000);
      
     }
   }
@@ -589,6 +618,61 @@ showCancelDialog: boolean = false;
 
   ////////////////////////////update activity//////////////////
 
- 
+ visibleReason:boolean=false;
+ reason:string=''
+ activityType:string=''
+ activityID:any
+ toDate:any;
+ showDate:boolean=false;
+ showReason(id:any,action:string){
+   this.visibleReason=true;
+  this.activityType=action;
+  this.activityID=id
+
+  if(action==='postpone'){
+    this.showDate=true;
+  }else if(action==='cancel'){
+    this.showDate=false;
+
+  }
+ }
+
+ eventAction(){
+  if(this.activityType==='cancel'){
+    this.activityService.cancelEvent(this.activityID, this.reason).subscribe(
+      (response) => {
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+        this.visibleReason = false
+      this.fetchActivities('Event',1,2000);
+        
+        console.log('Success:', response);
+      },
+      (error) => {
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+        
+        console.error('Error:', error);
+      }
+    );
+  }else if(this.activityType==='postpone'){
+    this.activityService.postponeEvent(this.activityID, this.reason, this.toDate).subscribe(
+      (response) => {
+        this.showDate=false
+        this.visibleReason = false
+      this.fetchActivities('Event',1,2000);
+
+        console.log('Success:', response);
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+
+      },
+      (error) => {
+        this.showDate=false
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+        
+        console.error('Error:', error);
+      }
+    );
+  }
+ }
+
 }
 
