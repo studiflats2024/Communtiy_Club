@@ -94,7 +94,7 @@ ngOnInit() {
       this.discount = planData.plan_Discount || 0;
       this.finalPrice = planData.plan_Final_Price || 0;
       this.invitationNo = planData.invitation_NOs || '';
-      this.features = planData.plan_Features.join(', ') || '';
+      this.features = planData.plan_Features.join('\n') || '';
   } else {
     console.log('No plan data found in localStorage');
   }
@@ -150,7 +150,7 @@ submitPlan(): void {
     plan_Price: this.price,
     plan_Discount: this.discount,
     plan_Fianl_Price: this.finalPrice,
-    plan_Features: this.features.split(','), // Split features into an array
+    plan_Features: this.features.split('\n'), // Split features into an array
     is_Trial:this.trial
 
   };

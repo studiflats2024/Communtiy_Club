@@ -222,6 +222,20 @@ displayHome(id:any,type:any,publish:any){
 
 }
 togglePublish(id:any,type:any,publish:any){
+
+  if(type==='Courses'){
+     type='Course'
+  }else if(type==='Events'){
+    type='Event'
+
+  }else if(type==='Workshops'){
+    type='Workshop'
+    
+  }else if(type="Consultant"){
+     
+    type='Consult'
+    
+  } 
   this.activityService.publishActivity(id, type, publish).subscribe(
     (response) => {
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });

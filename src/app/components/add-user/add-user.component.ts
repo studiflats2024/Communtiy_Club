@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { NgClass } from '@angular/common';
 import { RatingModule } from 'primeng/rating';
@@ -27,16 +27,52 @@ import { CardModule } from 'primeng/card';
 
 import { MultiSelectModule } from 'primeng/multiselect';
 import { PlansService } from '../../services/plans.service';
+// import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import intlTelInput from 'intl-tel-input';
+import { PasswordModule } from 'primeng/password';
 
 @Component({
   selector: 'app-add-user',
   standalone: true,
-  imports: [CardModule,RadioButtonModule,CheckboxModule,ChipModule,InputNumberModule,ToastModule,MultiSelectModule,CalendarModule,DragDropModule,ButtonModule,GalleriaModule,FileUploadModule,InputTextareaModule,DropdownModule,InputTextModule,DialogModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
+  imports: [PasswordModule,CardModule,RadioButtonModule,CheckboxModule,ChipModule,InputNumberModule,ToastModule,MultiSelectModule,CalendarModule,DragDropModule,ButtonModule,GalleriaModule,FileUploadModule,InputTextareaModule,DropdownModule,InputTextModule,DialogModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
   providers: [MessageService],
   templateUrl: './add-user.component.html',
   styleUrl: './add-user.component.css'
 })
-export class AddUserComponent {
+export class AddUserComponent implements AfterViewInit {
+
+
+
+  phoneNumber:any
+  password:any
+  ConfirmPass:any
+  about:any
+
+
+  ngAfterViewInit() {
+    // Initialize phone input
+    this.initializeIntlTelInput('#phone');
+    this.initializeIntlTelInput('#whatsapp');
+  }
+
+  initializeIntlTelInput(selector: string) {
+    const input = document.querySelector(selector) as HTMLInputElement;
+    if (input) {
+      intlTelInput(input, {
+        initialCountry: 'de',   
+        separateDialCode: true,  
+        utilsScript: "../../../../node_modules/intl-tel-input/build/js/utils.js",
+      });
+
+
+
+     
+    }
+  }
+
+  
+
+  ///////////////////////////////////////////////////
     // Breadcrumb items for navigation
   items: any[] = [];
   trial:boolean=false;

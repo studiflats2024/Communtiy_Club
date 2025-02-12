@@ -214,6 +214,9 @@ updateCourseDetails(courseDetails: any): void {
   this.discription = courseDetails.course_Description || '';
   this.location = courseDetails.course_Location || '';
   this.displayOnApp = courseDetails.dispaly_Home || false; // Convert to boolean if needed
+  if(courseDetails.video_Link!==''){
+      this.addVideo='yes'
+  }
   this.videoLink = courseDetails.video_Link || '';
   this.images = courseDetails.course_Image || '';
 
@@ -266,6 +269,9 @@ updateConsultDetails(consultDetails: any): void {
   this.discription = consultDetails.consult_Description || '';
   this.location = consultDetails.consult_Location || '';
   this.displayOnApp = consultDetails.dispaly_Home || false;
+  if(consultDetails.video_Link!==''){
+    this.addVideo='yes'
+}
   this.videoLink = consultDetails.video_Link || '';
   this.images = consultDetails.consult_Image || '';
   
@@ -333,6 +339,9 @@ updateEventDetails(eventDetails: any): void {
   this.discription = eventDetails.event_Description || '';
   this.location = eventDetails.event_Location || '';
   this.displayOnApp = eventDetails.dispaly_Home ? 'yes' : 'no';
+  if(eventDetails.video_Link!==''){
+    this.addVideo='yes'
+}
   this.videoLink = eventDetails.video_Link || '';
   this.images = eventDetails.event_Image || '';
   this.eventDate = eventDetails.event_Date ? new Date(eventDetails.event_Date) : null;
@@ -368,6 +377,9 @@ updateWorkshopDetails(workshopDetails: any): void {
   this.discription = workshopDetails.workshop_Description || '';
   this.location = workshopDetails.workshop_Location || '';
   this.displayOnApp = workshopDetails.dispaly_Home || false; // Convert to boolean if needed
+  if(workshopDetails.video_Link!==''){
+    this.addVideo='yes'
+}
   this.videoLink = workshopDetails.video_Link || '';
   this.images = workshopDetails.workshop_Image || '';
 
@@ -789,7 +801,7 @@ console.log(this.sessions)
     video_Link: this.videoLink,
     course_Start_Date:startDate  ,
     course_End_Date: endDate,
-    availiable_Seats: this.seatsAvailable,
+    availabile_Seats: this.seatsAvailable,
     sessions:this.sessions
   };
   console.log(courseData)
@@ -836,7 +848,7 @@ this.removeLastPripertyFromSessions();
     video_Link: this.videoLink,
     workshop_Start_Date: startDate,
     workshop_End_Date: endDate,
-    available_Seats: this.seatsAvailable,
+    availabile_Seats: this.seatsAvailable,
     sessions:this.sessions
   };
 

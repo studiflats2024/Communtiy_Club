@@ -88,6 +88,12 @@ export const routes: Routes = [
     loadComponent: () => import('./components/add-user/add-user.component').then(m => m.AddUserComponent),
     canActivate: [AdminGuard]
   },
+
+  {
+    path: 'edit-user/:id',
+    loadComponent: () => import('./components/edit-user/edit-user.component').then(m => m.EditUserComponent),
+    canActivate: [AdminGuard]
+  },
  
   
    

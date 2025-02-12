@@ -137,7 +137,11 @@
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">
             <div *ngIf="activity.status==='Published'" class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>{{ activity.status}}</div>
             <div *ngIf="activity.status==='Not Published'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
-            
+            <div *ngIf="activity.status==='NotPublished'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
+
+            <div *ngIf="activity.status==='Cancelled'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
+
+            <div *ngIf="activity.status==='Postponed'" style="width:auto" class="type-warning"><i class=" pi pi-pause-circle" style="color:#BE8B11"></i>{{ activity.status}}</div>
             </td>
           
     
@@ -587,6 +591,8 @@
                     <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">
                       <div *ngIf="activity.status==='Published'" class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>{{ activity.status}}</div>
                       <div *ngIf="activity.status==='NotPublished'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
+                      <div *ngIf="activity.status==='Not Published'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
+
                       <div *ngIf="activity.status==='Cancelled'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>{{ activity.status}}</div>
 
                       <div *ngIf="activity.status==='Postponed'" style="width:auto" class="type-warning"><i class=" pi pi-pause-circle" style="color:#BE8B11"></i>{{ activity.status}}</div>

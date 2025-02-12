@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { NgClass } from '@angular/common';
 import { RatingModule } from 'primeng/rating';
@@ -27,37 +27,73 @@ import { CardModule } from 'primeng/card';
 
 import { MultiSelectModule } from 'primeng/multiselect';
 import { PlansService } from '../../services/plans.service';
-
-
-
+// import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import intlTelInput from 'intl-tel-input';
+import { PasswordModule } from 'primeng/password';
 
 @Component({
-  selector: 'app-add-new-plan',
+  selector: 'app-edit-user',
   standalone: true,
-  imports: [CardModule,RadioButtonModule,CheckboxModule,ChipModule,InputNumberModule,ToastModule,MultiSelectModule,CalendarModule,DragDropModule,ButtonModule,GalleriaModule,FileUploadModule,InputTextareaModule,DropdownModule,InputTextModule,DialogModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
+  imports: [PasswordModule,CardModule,RadioButtonModule,CheckboxModule,ChipModule,InputNumberModule,ToastModule,MultiSelectModule,CalendarModule,DragDropModule,ButtonModule,GalleriaModule,FileUploadModule,InputTextareaModule,DropdownModule,InputTextModule,DialogModule,CommonModule,FormsModule,BreadcrumbModule,NgClass,RatingModule ],
   providers: [MessageService],
-  templateUrl: './add-new-plan.component.html',
-  styleUrl: './add-new-plan.component.css'
+  templateUrl: './edit-user.component.html',
+  styleUrl: './edit-user.component.css'
 })
-export class AddNewPlanComponent {
-  // Breadcrumb items for navigation
+export class EditUserComponent {
+
+
+  phoneNumber:any
+  password:any
+  ConfirmPass:any
+  about:any
+
+
+  ngAfterViewInit() {
+    // Initialize phone input
+    this.initializeIntlTelInput('#phone');
+    this.initializeIntlTelInput('#whatsapp');
+  }
+
+  initializeIntlTelInput(selector: string) {
+    const input = document.querySelector(selector) as HTMLInputElement;
+    if (input) {
+      intlTelInput(input, {
+        initialCountry: 'de',   
+        separateDialCode: true,  
+        utilsScript: "../../../../node_modules/intl-tel-input/build/js/utils.js",
+      });
+
+
+
+     
+    }
+  }
+
+  
+
+  ///////////////////////////////////////////////////
+    // Breadcrumb items for navigation
   items: any[] = [];
   trial:boolean=false;
 
   // Dropdown options for duration and plans
   durations: { name: string; value: number }[] = [];
+  roles: { name: string; id: number }[] = [];
   plans: { name: string; id: number }[] = [];
+
 
   // Form field bindings
   planName: string = '';
 selectedDuration: any = null;
 selectedPlan: any = null;
+selectedRole: any = null;
+
 price: number =0;
 discount: number =0;
 finalPrice: number =0;
 invitationNo: any;
 features: string = '';
-
+userEmail:string=''
   
   constructor(private messageService: MessageService,private plansService: PlansService) {}
   ngOnInit() {
@@ -68,10 +104,10 @@ this.calculateFinalPrice()
     this.items = [
       { label: 'Community Club', routerLink: '/dashboard' },
 
-      { label: 'Manage Subscriptions', routerLink: '/manage-subscription' },
+      { label: 'Users', routerLink: '/users' },
 
 
-      { label: 'Add New Plan', routerLink: '/add-new-plan' },
+      { label: 'Update User', routerLink: '/edit-user' },
       
     ];
 
@@ -85,9 +121,11 @@ this.calculateFinalPrice()
          
         ];
     
-        this.plans = [
-          { name: 'Most Popular', id: 1 },
-          { name: 'Most Value', id: 2 },
+        this.roles = [
+          { name: 'Community Admin', id: 1 },
+          { name: 'Instructor', id: 2 },
+          { name: 'Accounted', id: 3 },
+
          
         ];
     
@@ -106,15 +144,15 @@ this.calculateFinalPrice()
   submitPlan(): void {
 
 
-    if (!this.planName || !this.selectedPlan?.name || !this.selectedDuration?.name || (!this.trial && !this.price)  ) {
-      // Show error toast for validation failure
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Validation Error',
-        detail: 'Please fill in all required fields before submitting.',
-      });
-      return; 
-    }
+    // if (!this.planName || !this.selectedPlan?.name || !this.selectedDuration?.name || (!this.trial && !this.price)  ) {
+      
+    //   this.messageService.add({
+    //     severity: 'error',
+    //     summary: 'Validation Error',
+    //     detail: 'Please fill in all required fields before submitting.',
+    //   });
+    //   return; 
+    // }
    
 
     const formattedPlan = {
@@ -125,31 +163,31 @@ this.calculateFinalPrice()
       plan_Price: this.price,
       plan_Discount: this.discount,
       plan_Fianl_Price: this.finalPrice,
-      plan_Features: this.features.split('\n'), // Split features into an array
+      plan_Features: this.features.split(','), // Split features into an array
       is_Trial:this.trial
     };
     
 
     // Call the service to send the data
-    this.plansService.addNewPlan(formattedPlan).subscribe({
-      next: (response) => {
-        console.log('Plan added successfully:', response);
-         // Show success toast
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: response.message
-    });
-      },
-      error: (error) => {
-        console.error('Error adding plan:', error);
-        this.messageService.add({
-          severity: 'Error',
-          summary: 'error',
-          detail: error.message
-        });
-      }
-    });
+    // this.plansService.addNewPlan(formattedPlan).subscribe({
+    //   next: (response) => {
+    //     console.log('Plan added successfully:', response);
+        
+    // this.messageService.add({
+    //   severity: 'success',
+    //   summary: 'Success',
+    //   detail: response.message
+    // });
+    //   },
+    //   error: (error) => {
+    //     console.error('Error adding plan:', error);
+    //     this.messageService.add({
+    //       severity: 'Error',
+    //       summary: 'error',
+    //       detail: error.message
+    //     });
+    //   }
+    // });
   
      
   }
