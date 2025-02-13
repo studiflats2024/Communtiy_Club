@@ -94,6 +94,12 @@ export const routes: Routes = [
     loadComponent: () => import('./components/edit-user/edit-user.component').then(m => m.EditUserComponent),
     canActivate: [AdminGuard]
   },
+
+  {
+    path: 'user-profile/:id',
+    loadComponent: () => import('./components/user-profile/user-profile.component').then(m => m.UserProfileComponent),
+    canActivate: [AdminGuard]
+  },
  
   
    

@@ -1,0 +1,281 @@
+<div class="parent">
+    <div class="fixDiv"></div>
+    <div class="page">
+      <p-breadcrumb class="max-w-full" [model]="items">
+        <ng-template pTemplate="item" let-item>
+          <a
+            [routerLink]="item.routerLink"
+            class="p-menuitem-link"
+            routerLinkActive="text-primary font-semibold"
+          >
+            <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+            <span>{{ item.label }}</span>
+          </a>
+        </ng-template>
+      </p-breadcrumb>
+  
+      <p-toast></p-toast>
+      <div class="content">
+        <p-card>
+
+            
+
+
+            <div class="container">
+                <div class="custom-tabview">
+                  <div class="tab-menu">
+                    <button
+                      class="tab-button"
+                      [class.activee]="activeTab === 'personal-details'"
+                      (click)="activeTab = 'personal-details'"
+                    >
+                      Personal Details
+                    </button>
+                    <button
+                      class="tab-button"
+                      [class.activee]="activeTab === 'change-password'"
+                      (click)="personalSelect()"
+                    >
+                      Password
+                    </button>
+                    <!-- <button
+                      class="tab-button"
+                      [class.active]="activeTab === 'reviews'"
+                      (click)="activeTab = 'reviews'"
+                    >
+                      Reviews
+                    </button> -->
+                  </div>
+                  <div class="tab-content">
+                          
+                           
+                       <div *ngIf="activeTab==='personal-details'" >
+
+                        <div>
+                          <div>
+                            <div class="label">Personal Details</div>
+                            <div class="subT">Update your Personal details</div>
+                          </div>
+                          <div class="flex justify-content-start align-items-center gap-4 mb-4 w-full flex-wrap fix">
+                               <img src="UserImg.png" />
+                                
+                   
+                              <div class=" ">
+                               <p-button
+                               label="Upload"
+                               
+                               class="p-button-outlined custom-button-add"
+                               
+                             ></p-button>
+                            </div>
+    
+    
+                            <div class=" ">
+                              <p-button
+                              label="Delete"
+                             [routerLink]="'/manage-subscription'"
+                              class="  custom-button-delete"
+                              
+                            ></p-button>
+                           </div>
+                          </div>
+                        </div>
+    
+                        <div class="flex justify-content-between align-items-center  mb-4 w-full flex-wrap fix">
+                          <div class="flex flex-column gap-2 w-50 pr-2">
+                            <label class="label" for="name">First Name</label>
+                            <input 
+                                pInputText 
+                                id="name" 
+                                class=""
+                                aria-describedby="username-help" 
+                                [(ngModel)]="firstName"
+                                placeholder="Name of plan"
+                                #planNameInput="ngModel"
+                                required
+                              />
+                              <small *ngIf="planNameInput.invalid && planNameInput.touched" class="p-error">
+                             Name is required.
+                              </small>
+                            
+                        </div>
+                        <div class="flex flex-column gap-2 w-50">
+                            <label class="label" for="name">Last Name</label>
+                            <input 
+                                pInputText 
+                                id="name" 
+                                aria-describedby="username-help" 
+                                [(ngModel)]="lastName"
+                                placeholder="Name of plan"
+                                #planNameInput="ngModel"
+                                
+                              />
+                             
+                            
+                        </div>
+                  </div>
+          <!-------------------------------------------------->
+                  <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full flex-wrap fix">
+                    <div class="flex flex-column gap-2 w-full flex-wrap">
+                        <label class="label" for="email">Email</label>
+                        <input 
+                          pInputText 
+                          id="email" 
+                          type="email" 
+                          aria-describedby="email-help" 
+                          [(ngModel)]="userEmail" 
+                          placeholder="Enter your email" 
+                          #emailInput="ngModel" 
+                          required 
+                          email
+                        />
+                        <small *ngIf="emailInput.invalid && emailInput.touched" class="p-error">
+                            <span *ngIf="emailInput.errors?.['required']">Email is required.</span>
+                            <span *ngIf="emailInput.errors?.['email']">Invalid email format.</span>
+                          </small>
+                      </div>
+                      
+                         
+                       
+                  </div>
+          <!-------------------------------------------------->
+          <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full flex-wrap fix">
+            <div class="flex flex-column gap-2 w-100 ">
+    
+              <label class="label" for="invitation">About</label>
+              <textarea 
+                  rows="5"
+                  cols="30" 
+                  pInputTextarea 
+                  [(ngModel)]="about"
+                  [autoResize]="true"
+                  placeholder="About me">
+              </textarea>
+            </div>
+        
+          
+                    </div>
+          <!---------------------------------------------------->
+          
+                <div  class="flex justify-content-between align-items-center  mb-4 w-full flex-wrap fix">
+                      <div  class="flex flex-column gap-2 w-50 pr-2">
+                        <label for="phone" class="label" >Phone Number</label>
+                       <input id="phone" type="tel" class="phone-input w-100" />
+                        
+                    </div>
+                    <div class="flex flex-column gap-2 w-50">
+                      <label for="whatsapp" class="label" >WhatsApp Number</label>
+                      <input id="whatsapp" type="tel" class="phone-input w-100" />
+                     
+                  </div>
+                </div>
+          <!-------------------------------------------------->
+          
+                  <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full flex-wrap fix">
+                    <div class="flex flex-column gap-2 w-100">
+                      <label class="label"   >Role</label>
+                      <p-dropdown 
+                      [options]="roles" 
+                      [(ngModel)]="selectedRole" 
+                      optionLabel="name" 
+                      placeholder="Type of Role"   
+                      #roleTypeInput="ngModel"
+                      required
+                    ></p-dropdown>
+                    <small *ngIf="roleTypeInput.invalid && roleTypeInput.touched" class="p-error">
+                      Role Type is required.
+                    </small>
+                    
+                  </div>
+                 
+                  
+                  </div>
+          <!-------------------------------------------------->
+     
+          
+          
+          
+                    <div class="flex justify-content-end align-items-center gap-4 mx-4  " style="margin-top: 35px;">
+                      <div class=" ">
+                        <p-button
+                        label="Cancel"
+                       [routerLink]="'/manage-subscription'"
+                        class="p-button-outlined custom-button"
+                        
+                      ></p-button>
+                     </div>
+          
+                     <div class=" ">
+                      <p-button
+                      label="Add"
+                      
+                      class="p-button-outlined custom-button-add"
+                
+                    ></p-button>
+                   </div>
+                    </div>
+              </div>
+
+
+
+              <div *ngIf="activeTab==='change-password'">
+
+                <div class="flex flex-column gap-4 mb-4 w-full">
+                  <div>
+                    <div class="label">Password</div>
+                    <div class="subT">Change Password</div>
+                  </div>
+                <div class="flex flex-column gap-2 w-100">
+                  <label class="label"  >Current Password</label>
+                  <p-password [(ngModel)]="currentPass" [toggleMask]="true" class="w-100" />
+                
+                 </div>
+
+                  <div class="flex flex-column gap-2 w-100">
+                    <label class="label"  >New Password</label>
+                    <p-password [(ngModel)]="newPass" [toggleMask]="true" class="w-100" />
+                  
+                </div>
+                <div class="flex flex-column gap-2 w-100">
+                  <label class="label"  >Confirm Password</label>
+                  <p-password [(ngModel)]="confirmNewPass" [toggleMask]="true" class="w-100" />
+                
+                 </div>
+
+
+                 <div class="flex justify-content-end align-items-center gap-4 mx-4  " style="margin-top: 35px;">
+                  <div class=" ">
+                    <p-button
+                    label="Cancel"
+                   [routerLink]="'/manage-subscription'"
+                    class="p-button-outlined custom-button"
+                    
+                  ></p-button>
+                 </div>
+      
+                 <div class=" ">
+                  <p-button
+                  label="Save"
+                  
+                  class="p-button-outlined custom-button-add"
+            
+                ></p-button>
+               </div>
+                </div>
+                
+                </div>
+
+              </div>
+
+
+                  </div>
+                </div>
+              </div>
+              
+              
+             
+        </p-card>
+      </div>
+    </div>
+  </div>
+  
