@@ -100,7 +100,18 @@ export const routes: Routes = [
     loadComponent: () => import('./components/user-profile/user-profile.component').then(m => m.UserProfileComponent),
     canActivate: [AdminGuard]
   },
+
+  {
+    path: 'financial',
+    loadComponent: () => import('./components/financial/financial.component').then(m => m.FinancialComponent),
+    canActivate: [AdminGuard]
+  },
  
+  {
+    path: 'invoice-details/:id',
+    loadComponent: () => import('./components/invoice-details/invoice-details.component').then(m => m.InvoiceDetailsComponent),
+    canActivate: [AdminGuard]
+  },
   
    
 

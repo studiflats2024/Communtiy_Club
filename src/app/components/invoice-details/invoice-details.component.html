@@ -1,0 +1,84 @@
+<div class="parent">
+  <div class="fixDiv"></div>
+  <div class="page">
+    <div class="tabview-header-container">
+      <p-breadcrumb class="max-w-full" [model]="items">
+        <ng-template pTemplate="item" let-item>
+          <a
+            [routerLink]="item.routerLink"
+            class="p-menuitem-link"
+            routerLinkActive="text-primary font-semibold"
+          >
+            <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+            <span>{{ item.label }}</span>
+          </a>
+        </ng-template>
+      </p-breadcrumb>
+
+      <div style="cursor: pointer" class=" ">
+        <!-- <p-button
+            label="Add New Activity"
+            icon="pi pi-plus"
+            class="p-button-outlined custom-button-invoice"
+            [routerLink]="'/add-new-activity'"
+          ></p-button> -->
+        <img src="downloadInvoice.svg" />
+      </div>
+    </div>
+    <p-toast></p-toast>
+
+    <!------------------------------------------------------------------->
+
+    <div>
+      <p-card class="subscription-card">
+         
+          <div class="flex justify-content-between  w-full   flex-wrap">
+            <div class="tit">Invoice</div>
+            <div>
+              <img style="width: 140px; height: 59.586px" src="logo.svg" />
+            </div>
+          </div>
+           
+
+          <div class="flex justify-content-start gap-4 align-item-center">
+            <div class="label">Invoice Number</div>
+            <div class="data"> #125678922</div>
+    </div>
+    <div class="flex justify-content-start gap-4 align-item-center">
+      <div class="label">Payment Date</div>
+      <div class="data">15 November ,2026</div>
+
+    </div>
+
+
+    <!---------------------------------------------->
+
+        
+      </p-card>
+    </div>
+
+    <!------------------------------------------------------------------->
+  </div>
+</div>
+
+<!------------------------------------------------------------------------->
+
+<p-dialog
+  [(visible)]="displayReminder"
+  [modal]="true"
+  [style]="{ width: '400px' }"
+  [closable]="true"
+  [dismissableMask]="true"
+>
+  <div class="reminder-body">
+    <img src="successPopup.svg" class="mb-2" />
+    <p>
+      A notification has been sent to
+      <span class="highlight">Ahmed Ali</span>
+      as a reminder that the plan will
+      <span class="highlight">Expire in 7 days</span>.
+    </p>
+  </div>
+</p-dialog>
+
+<!-------------------------------------------------------------------------------------------------------------->
