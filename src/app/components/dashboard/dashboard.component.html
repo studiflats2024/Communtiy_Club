@@ -1,35 +1,142 @@
- <!-- <div class="row">
-  <div class="col-lg-2 col-md-0 col-sm-0 "></div>
-  <div class="col-lg-10 col-md-12 col-sm-12">
-    helloooooooooo
-  </div>
-
- </div> -->
+ 
  <div class="parent">
-    <div class="fixDiv"></div>
-    <div class="page">
-        <p-breadcrumb class="max-w-full" [model]="items">
-            <ng-template pTemplate="item" let-item>
-                <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
-                    <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
-                    <span>{{ item.label }}</span>
-                </a>
-            </ng-template>
-          </p-breadcrumb>
-     
-  
+  <div class="fixDiv"></div>
+  <div class="page">
+      <div class="tabview-header-container">
+      <p-breadcrumb class="max-w-full" [model]="items">
+          <ng-template pTemplate="item" let-item>
+              <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+                  <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+                  <span>{{ item.label }}</span>
+              </a>
+          </ng-template>
+        </p-breadcrumb>
+
+        <!-- <div class=" ">
+          <p-button
+          label="Add New Plan"
+          icon="pi pi-plus"
+          class="p-button-outlined custom-button-plan"
+          [routerLink]="'/add-new-plan'"
+        ></p-button>
+       </div> -->
+
+        </div>
+        <p-toast></p-toast>
+ 
+
+       
+        <div class="flex justify-content-center align-items-center flex-wrap" style="padding: 16px; gap: 10px;">
+ 
+ 
+      
+<div class="plan-card" *ngFor="let plan of pricingPlans" style="width: 50vw; max-width: 300px;  padding: 16px;   text-align: center;">
+ 
+  <div class="basic-info flex justify-content-start gap-2">
+      <!-- <div>
+          <p-radioButton
+            [value]="plan"
+            [(ngModel)]="selectedPlan"
+          ></p-radioButton>
+      </div> -->
+    <div >
+      <!-- <span [ngClass]="getPlanBadgeClass(plan.plan_Type)" class="badge"> -->
+      <span  >
+
+        <!-- <i [ngClass]="getPlanIcon(plan.plan_Type)" class="icon"></i> -->
+        <img *ngIf="plan.plan_Duration === 'Year' &&!plan.is_Trial" src="community/starplan.svg" style="width: 20px; height: 20px;" />
+        <!-- <img  *ngIf="plan.plan_Duration === '6 Months'"  src="months.svg" /> -->
+        <img  *ngIf="plan.plan_Duration === '3 Months' &&!plan.is_Trial"  src="months.svg" style="width: 20px; height: 20px;"/>
+        <img  *ngIf="plan.plan_Duration === '6 Months' &&!plan.is_Trial"  src="months.svg" style="width: 20px; height: 20px;"/>
+        <img  *ngIf="plan.plan_Duration === 'Month' &&!plan.is_Trial"  src="month.svg" style="width: 20px; height: 20px;"/>
+
+        <img  *ngIf="plan.is_Trial"  src="freePlan.svg" style="width: 20px; height: 20px;"/>
+        {{ plan?.plan_Name}}
+      </span>
+    </div>
+    
+  </div>
+  <div class="mt-2 flex justify-content-start plan-price" *ngIf="plan.plan_Price === 0" >Free</div>
+  <div class=" mt-2 flex justify-content-start" *ngIf="plan.plan_Price > 0">
+     <span class="plan-price">€{{ plan?.plan_Fianl_Price }} </span> <span class="plan-duration">/ {{ plan?.plan_Duration }}</span> 
+  </div>
+</div>
+
+
+<div class="flex justify-content-between align-item-center my-3  w-full">
+
+  <div class="card revenue-statistics  flex-2 w-2/3">
+    <div class="header">
+       <div>
+        <div class="revenue">Revenue Statistic</div>
+      <div class="revenue-value">{{ revenueValue }}</div>
+       </div>
+      <div class="comparison">
+        <span class="percentage-change">{{ percentageChange }}</span>
+        <span>Compare to previous year</span>
+      </div>
+      <p-dropdown 
+        [options]="['Last 3 Month', 'Last 6 Month', 'Last Year']" 
+        [(ngModel)]="selectedFilter">
+      </p-dropdown>
     </div>
   
-   </div>
+    <!-- <p-chart 
+      type="bar" 
+      [data]="revenueData" 
+      [options]="revenueOptions" 
+      style="height: 300px;">
+    </p-chart> -->
+
+    <div  >
+      <p-chart type="bar" [data]="revenueData" [options]="revenueOptions"  ></p-chart>
+    </div>
+    
+  </div>
+
+<div class="flex-1 w-1/3"></div>
   
-  
-  
-  
-  
-   
-  
-  
-  
-  
-  
-  
+</div>
+</div>
+       
+
+ 
+
+  </div>
+
+ </div>
+
+
+
+
+
+ 
+
+
+
+
+
+ 
+
+
+<p-dialog
+[(visible)]="displayReminder"
+ 
+[modal]="true"
+[style]="{ width: '400px' }"
+[closable]="true"
+[dismissableMask]="true"
+>
+<div class="reminder-body">
+  <img src="successPopup.svg" class="mb-2" />
+  <p>
+    A notification has been sent to 
+    <span class="highlight">Ahmed Ali</span> 
+    as a reminder that the plan will 
+    <span class="highlight">Expire in 7 days</span>.
+  </p>
+</div>
+</p-dialog>
+
+ 
+ 

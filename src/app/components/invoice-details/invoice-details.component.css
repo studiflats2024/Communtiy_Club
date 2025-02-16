@@ -1,4 +1,37 @@
+.head{
+  color: var(--Colors-Base-Main-Text, #0A0C0F);
 
+  /* Global Tokens/Headings/H-8/Medium */
+  font-family: Poppins;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px; /* 166.667% */
+}
+.data2{
+  color: var(--Colors-Primary-Shade-Shade-7, #475467);
+/* text-align: center; */
+
+/* Global Tokens/Body/B-2 */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 21px; /* 150% */
+}
+
+.table-right{
+  display: flex;
+width: 346px;
+padding: 8px;
+flex-direction: column;
+align-items: flex-start;
+/* justify-content: flex-end; */
+gap: 8px;
+border-radius: 8px;
+border: 1px solid var(--Colors-Primary-100, #E7EEF8);
+ 
+}
 .sub-info{
     color: var(--Colors-Primary-Shade-Shade-7, #475467);
   text-align: center;
@@ -1296,6 +1329,11 @@
   @media (max-width:950px) {
       .fcol{
           gap:2px;
+      }
+
+      .tabview-header-container {
+        flex-direction: column;
+        margin-bottom: 10px;
       }
   }
 
