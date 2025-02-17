@@ -145,7 +145,7 @@ export class TransactionsComponent {
       ];
   
       
-  // this.loadTransactions(1,2000)
+  this.loadTransactions(1,2000)
       
     }
    

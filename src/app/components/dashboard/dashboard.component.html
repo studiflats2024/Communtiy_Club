@@ -63,22 +63,23 @@
 </div>
 
 
-<div class="flex justify-content-between align-item-center my-3  w-full">
+<div class="flex justify-content-between align-item-center my-3 gap-2  w-full fixSmallScreen">
 
-  <div class="card revenue-statistics  flex-2 w-2/3">
+  <div class="card revenue-statistics flex-2 w-75 fixS">
     <div class="header">
        <div>
         <div class="revenue">Revenue Statistic</div>
       <div class="revenue-value">{{ revenueValue }}</div>
        </div>
-      <div class="comparison">
-        <span class="percentage-change">{{ percentageChange }}</span>
-        <span>Compare to previous year</span>
-      </div>
-      <p-dropdown 
+      <div class="comparison flex justify-content-start align-items-center gap-2">
+         
+        <span class="totalRev"> <span class="percentage-change">{{ percentageChange }}</span>Compare to previous year</span>
+        <p-dropdown 
         [options]="['Last 3 Month', 'Last 6 Month', 'Last Year']" 
         [(ngModel)]="selectedFilter">
       </p-dropdown>
+      </div>
+       
     </div>
   
     <!-- <p-chart 
@@ -94,7 +95,53 @@
     
   </div>
 
-<div class="flex-1 w-1/3"></div>
+<div class=" card flex-1  revenue-statistics   w-75">
+  <div class="  w-full flex flex-column justify-content-between h-full">
+    <div class="header">
+      <div class="revenue w-full flex justify-content-between">Revenue Per Plan</div>
+ 
+        <!-- <i class="pi pi-pencil"></i> -->
+        <!-- <a [routerLink]="['/edit-plan', plan.id]">
+          <img src="community/edit.svg" alt="Edit" />
+        </a> -->
+        <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
+        <p-toast />   
+
+<p-overlayPanel #op>
+<ul class="menu-list p-0 m-0 list-unstyled" style="width: 200px; padding: 16px 0;">
+  <li><a style="cursor: pointer; text-decoration: none; color:#363636" >Edit</a></li>
+  <li><a style="cursor: pointer; text-decoration: none; color:#363636" >Delete</a></li><!--(click)="deleteItem(course)"-->
+</ul>
+</p-overlayPanel>
+        
+     
+    </div>
+  
+    <div class="w-full"  style="position: relative;">
+      <p-chart
+        type="doughnut"
+        [data]="revenueChartData"
+        [options]="revenueChartOptions"
+        style="max-height: 250px; width:100%"
+        class="doughnut"
+      ></p-chart>
+      <div class="chart-label" style="position: absolute; left:30%; top:40%">
+        <div class="totalRev">Total Revenue</div>
+         
+        <div class="total-price">€30,000</div>
+      </div>
+    </div>
+    <div class="legend-container">
+      <div *ngFor="let item of legendItems" class="legend-item">
+        <span class="legend-color" [ngStyle]="{ 'background-color': item.color }"></span>
+        <span class="legend-label">{{ item.label }}</span>
+        <span class="legend-value">€ {{ item.value | number:'1.0-0' }}</span>
+      </div>
+    </div>
+    
+  </div>
+  
+</div>
   
 </div>
 </div>

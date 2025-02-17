@@ -45,6 +45,8 @@ import { PlansService } from '../../services/plans.service';
 // import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import intlTelInput from 'intl-tel-input';
 import { PasswordModule } from 'primeng/password';
+import { GatewayService } from '../../services/gateway.service';
+
 
 @Component({
   selector: 'app-user-profile',
@@ -58,12 +60,12 @@ export class UserProfileComponent {
   items:any;
   activeTab: string = 'personal-details';
   sessions : any[]=[]
-constructor(private route: ActivatedRoute,private messageService:MessageService,private activityService:ActivityService){
+constructor(private gatewayService:GatewayService,private route: ActivatedRoute,private messageService:MessageService,private activityService:ActivityService){
 
 }
 activityId: any;
 activityType: string | null = null;
-
+adminId:any
 
 roles: { name: string; id: number }[] = [];
 selectedRole:any;
@@ -77,10 +79,10 @@ newPass:any
 
 ngOnInit() {
 
-  this.activityId = this.route.snapshot.paramMap.get('id');
-  this.activityType = this.route.snapshot.paramMap.get('type');
-  if (this.activityId&&this.activityType) {
-   
+  this.adminId = this.route.snapshot.paramMap.get('id');
+  
+  if (this.adminId) {
+   this.fetchAdminProfile(this.adminId)
   }
 
 
@@ -96,7 +98,19 @@ ngOnInit() {
   
 }
 
-
+adminProfile :any
+fetchAdminProfile(adminId: string) {
+  this.gatewayService.getAdminProfile(adminId).subscribe({
+    next: (response) => {
+      console.log('✅ Admin Profile:', response);
+      this.adminProfile = response;
+      console.log( this.adminProfile)
+    },
+    error: (err) => {
+      console.error('❌ Error fetching admin profile:', err);
+    }
+  });
+}
 
 
 

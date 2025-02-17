@@ -2,6 +2,8 @@
     display:flex;
     width: 100%;
     padding-top: 100px;
+    background: #F5F9FF;
+ 
   
   }
   
@@ -1742,10 +1744,12 @@ background: #D7F8E7 !important;
   padding: 20px;
   background: white;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
 
   overflow-x: auto; /* Enable horizontal scrolling */
   max-width: 100vw; 
+  /* max-height: 405px; */
+  border: 1px solid var(--Colors-Primary-100, #E7EEF8);
 }
 
 .header {
@@ -1769,12 +1773,18 @@ background: #D7F8E7 !important;
   color: #2BA84A;
 }
 .percentage-change {
-  font-weight: bold;
-  margin-right: 5px;
+  color: #21C36F;
+
+  /* Global Tokens/Body/B-2/Medium */
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px; /* 150% */
 }
 
 p-dropdown {
-  width: 150px;
+  width: 100px;
 }
 
  .revenue{
@@ -1789,3 +1799,87 @@ font-weight: 500;
 line-height: 24px; /* 150% */
  }
 
+
+ .doughnut ::ng-deep canvas{
+  width: 100% !important;
+ }
+
+ @media (max-width:768px) {
+  .fixSmallScreen{
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+ .fixS{
+  width: 100%;
+ }
+ }
+
+ @media (max-width:990px) {
+  .chart-label{
+    display:none;
+  }
+ }
+
+ .totalRev{
+  color: var(--Neutrals-Neutrals800, #5E5E5E);
+text-align: center;
+
+/* Global Tokens/Body/B-2 */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 21px; /* 150% */
+ }
+
+ .total-price{
+  color: var(--Base-Base-Black, #222);
+text-align: center;
+
+/* Global Tokens/Body/B-1/Semi bold */
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: 24px; /* 150% */
+ }
+
+
+ .legend-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.legend-label {
+  flex: 1;
+  font-size: 14px;
+  color: #6C757D; /* Grayish text */
+}
+
+.legend-value {
+  color: var(--Colors-Base-Main-Text, #0A0C0F);
+  text-align: center;
+  
+  /* Global Tokens/Body/B-2 */
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px; /* 150% */
+}

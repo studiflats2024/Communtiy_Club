@@ -57,8 +57,12 @@
                                   {{ activityType }}
                                 </div>
                                 
-                                <div *ngIf="published" class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>Published</div>
+                                <div *ngIf="published  " class="status"><i class=" pi pi-check-circle" style="color:#1151B4"></i>Published</div>
                                 <div *ngIf="!published" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>Not Published</div>
+                                <div *ngIf="published==='Cancelled'" style="width:auto" class="type-danger"><i class=" pi pi-times-circle" style="color:#C1111A"></i>Cancelled</div>
+                                <div *ngIf="published==='Postponed'" style="width:auto" class="type-wait"><i class=" pi pi-pause-circle" style="color:#BE8B11"></i>Postponed</div>
+
+
 
                             </div>
                             <div class="title">{{ title }}</div>

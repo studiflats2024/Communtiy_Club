@@ -191,6 +191,37 @@ export class GatewayService {
 
     return this.http.get(`${environment.apiUrl}/Gateway/GetAllParticipants_Activity`, { params });
   }
+
+
+
+   // ✅ Fetch all admins with pagination
+   getAllAdmins(pageNo: number, pageSize: number): Observable<any> {
+    let params = new HttpParams()
+      .set('Page_No', pageNo)
+      .set('Page_Size', pageSize);
+
+    const headers = new HttpHeaders({
+      'Accept': 'application/json' // 🔹 Ensure response is JSON
+    });
+
+    return this.http.get<any>(`${environment.apiUrl}/Gateway/GetAllAdmins`, { params, headers });
+  }
+
+
+    // ✅ Add New Admin
+    addAdmin(adminData: any): Observable<any> {
+      const headers = new HttpHeaders({ 
+        'Content-Type': 'application/json' 
+      });
+  
+      return this.http.post<any>(`${environment.apiUrl}/Gateway/Add_New_Admin`, adminData, { headers });
+    }
+
+
+    // ✅ Fetch Admin Profile by ID
+  getAdminProfile(adminId: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/Gateway/GetAdminProfile?ID=${adminId}`);
+  }
 }
 
 

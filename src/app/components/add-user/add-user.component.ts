@@ -30,6 +30,7 @@ import { PlansService } from '../../services/plans.service';
 // import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import intlTelInput from 'intl-tel-input';
 import { PasswordModule } from 'primeng/password';
+import { GatewayService } from '../../services/gateway.service';
 
 @Component({
   selector: 'app-add-user',
@@ -48,59 +49,127 @@ export class AddUserComponent implements AfterViewInit {
   ConfirmPass:any
   about:any
 
-
+phone:any
+whatsapp:any
   ngAfterViewInit() {
     // Initialize phone input
     this.initializeIntlTelInput('#phone');
     this.initializeIntlTelInput('#whatsapp');
   }
+  // ngAfterViewChecked() {
+  //   this.initializeIntlTelInput('#phone');
+  //   this.initializeIntlTelInput('#whatsapp');
+  // }
 
-  initializeIntlTelInput(selector: string) {
-    const input = document.querySelector(selector) as HTMLInputElement;
-    if (input) {
-      intlTelInput(input, {
-        initialCountry: 'de',   
-        separateDialCode: true,  
-        utilsScript: "../../../../node_modules/intl-tel-input/build/js/utils.js",
-      });
-
-
-
+  // initializeIntlTelInput(selector: string) {
+  //   const input = document.querySelector(selector) as HTMLInputElement;
      
-    }
+  //   if (input) {
+  //     const iti =intlTelInput(input, {
+  //       initialCountry: 'de',   
+  //       separateDialCode: true,  
+  //       utilsScript: "../../../../node_modules/intl-tel-input/build/js/utils.js",
+  //     });
+
+ 
+     
+  //   }
+  // }
+ 
+
+
+
+initializeIntlTelInput(selector: string) {
+  console.log(selector)
+  const input = document.querySelector(selector) as HTMLInputElement;
+
+  if (input) {
+    const iti = intlTelInput(input, {
+      initialCountry: 'de',   
+      separateDialCode: true,  
+      utilsScript: "../../../../node_modules/intl-tel-input/build/js/utils.js",
+    });
+    console.log('✅ intlTelInput initialized:', iti);
+    
+    // input.addEventListener('blur', () => {
+    //   console.log(iti.getNumber(),input.value)
+    //   const fullNumber = iti.getNumber();
+    //   const countryCode = iti.getSelectedCountryData().dialCode;
+
+    //   console.log('Full Number:', fullNumber);
+    //   console.log('Country Code:', countryCode);
+
+    //   if (selector === '#phone') {
+    //     this.phone = fullNumber; 
+    //   } else if (selector === '#whatsapp') {
+    //     this.whatsapp = fullNumber;
+    //   }
+
+    //   console.log(this.phone, this.whatsapp);
+    // });
+    input.addEventListener('blur', () => {
+      const countryCode = iti.getSelectedCountryData().dialCode; // ✅ Get country code without "+"
+      let inputValue = input.value.trim(); // ✅ Get user input and trim spaces
+    
+      // ✅ Remove leading zeros from input value to avoid issues like "+491234" becoming "491234"
+      inputValue = inputValue.replace(/^0+/, '');
+    
+      // ✅ Merge dial code and input value without "+"
+      const fullNumber = `${countryCode}${inputValue}`;
+    
+      console.log('🌍 Country Code:', countryCode); 
+      console.log('📞 User Input:', inputValue); 
+      console.log('✅ Final Merged Number:', fullNumber);
+    
+      // ✅ Store in variables
+      if (selector === '#phone') {
+        this.phone = fullNumber;
+      } else if (selector === '#whatsapp') {
+        this.whatsapp = fullNumber;
+      }
+    
+      console.log('📌 Stored Phone:', this.phone, '📌 Stored WhatsApp:', this.whatsapp);
+    });
+    
+ 
+    input.addEventListener("countrychange", () => {
+      console.log('Country changed');
+
+      const selectedCountryData = iti.getSelectedCountryData();
+      console.log("New Country:", selectedCountryData.name, "| Dial Code: +" + selectedCountryData.dialCode);
+
+ 
+      const dialCodeElement = input.parentElement?.querySelector(".iti__dial-code");
+      if (dialCodeElement) {
+        dialCodeElement.textContent = `+${selectedCountryData.dialCode}`;
+      }
+    });
   }
+}
 
   
 
   ///////////////////////////////////////////////////
     // Breadcrumb items for navigation
   items: any[] = [];
-  trial:boolean=false;
-
-  // Dropdown options for duration and plans
-  durations: { name: string; value: number }[] = [];
+   
   roles: { name: string; id: number }[] = [];
-  plans: { name: string; id: number }[] = [];
+  
 
 
-  // Form field bindings
-  planName: string = '';
-selectedDuration: any = null;
-selectedPlan: any = null;
+ 
 selectedRole: any = null;
 
-price: number =0;
-discount: number =0;
-finalPrice: number =0;
-invitationNo: any;
-features: string = '';
+ 
+ 
 userEmail:string=''
-  
-  constructor(private messageService: MessageService,private plansService: PlansService) {}
+firstName:string=''
+lastName:string=''
+  constructor(private gatewayService:GatewayService,private messageService: MessageService,private plansService: PlansService) {}
   ngOnInit() {
 
  
-this.calculateFinalPrice()
+ 
 
     this.items = [
       { label: 'Community Club', routerLink: '/dashboard' },
@@ -112,16 +181,7 @@ this.calculateFinalPrice()
       
     ];
 
-        // Initialize dropdown options
-        this.durations = [
-          { name: 'Year', value: 1 },
-          { name: '6 Months', value: 3 },
-          { name: '3 Months', value: 3 },
-  
-          { name: 'Month', value: 6 },
-         
-        ];
-    
+     
         this.roles = [
           { name: 'Community Admin', id: 1 },
           { name: 'Instructor', id: 2 },
@@ -132,63 +192,73 @@ this.calculateFinalPrice()
     
   }
 
-   // Calculate the final price based on price and discount
-   calculateFinalPrice(): void {
-    if (this.price && this.discount) {
-      this.finalPrice = this.price - this.price * (this.discount / 100);
-    } else {
-      this.finalPrice = this.price;
-    }
-  }
-
+ 
   // Mock submit function to simulate API interaction
-  submitPlan(): void {
+  submitAdmin(): void {
+console.log(this.phone,this.whatsapp)
 
+if (
+  !this.firstName ||
+  !this.lastName ||
+  !this.userEmail ||
+  !this.selectedRole?.name ||
+  !this.phone ||
+  !this.whatsapp ||
+  !this.password ||
+  !this.ConfirmPass ||
+  !this.about
+) {
+  console.error("❌ All fields are required!");
+  this.messageService.add({
+    severity: 'Error',
+    summary: 'error',
+    detail: "❌ All fields are required!"
+  });
+  return; // 🚨 Stops execution if any field is empty
+}
 
-    // if (!this.planName || !this.selectedPlan?.name || !this.selectedDuration?.name || (!this.trial && !this.price)  ) {
-      
-    //   this.messageService.add({
-    //     severity: 'error',
-    //     summary: 'Validation Error',
-    //     detail: 'Please fill in all required fields before submitting.',
-    //   });
-    //   return; 
-    // }
+if (this.password !== this.ConfirmPass) {
+  console.error("❌ Passwords do not match!");
+  this.messageService.add({
+    severity: 'Error',
+    summary: 'error',
+    detail: "❌ Passwords do not match!"
+  });
+  return; // 🚨 Stops execution if passwords don't match
+}
    
 
-    const formattedPlan = {
-      plan_Name: this.planName,
-      plan_Type: this.selectedPlan?.name || '',
-      plan_Duration: this.selectedDuration?.name || '',
-      invitation_NOs: this.invitationNo,
-      plan_Price: this.price,
-      plan_Discount: this.discount,
-      plan_Fianl_Price: this.finalPrice,
-      plan_Features: this.features.split(','), // Split features into an array
-      is_Trial:this.trial
+    const newAdmin = {
+      first_Name:this.firstName,
+      last_Name: this.lastName,
+      email: this.userEmail,
+      role: this.selectedRole.name,
+      phone_No: this.phone,
+      wa_No: this.whatsapp,
+      password: this.password,
+      confirm_Password: this.ConfirmPass,
+      about: this.about
     };
     
 
-    // Call the service to send the data
-    // this.plansService.addNewPlan(formattedPlan).subscribe({
-    //   next: (response) => {
-    //     console.log('Plan added successfully:', response);
-        
-    // this.messageService.add({
-    //   severity: 'success',
-    //   summary: 'Success',
-    //   detail: response.message
-    // });
-    //   },
-    //   error: (error) => {
-    //     console.error('Error adding plan:', error);
-    //     this.messageService.add({
-    //       severity: 'Error',
-    //       summary: 'error',
-    //       detail: error.message
-    //     });
-    //   }
-    // });
+    this.gatewayService.addAdmin(newAdmin).subscribe({
+      next: (response) => {
+        console.log('Admin added successfully:', response);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message
+        });
+      },
+      error: (error) => {
+        console.error('Error adding admin:', error);
+        this.messageService.add({
+          severity: 'Error',
+          summary: 'error',
+          detail: error.message
+        });
+      }
+    });
   
      
   }

@@ -61,7 +61,8 @@ export class UsersComponent {
   ];
   
 
- 
+  
+
   
 
 
@@ -176,13 +177,23 @@ export class UsersComponent {
       
     ];
 
-     
+     this.fetchAdmins(1,2000)
 
     
   }
   
   
-
+  fetchAdmins(page: number, size: number) {
+    this.gatewayService.getAllAdmins(page, size).subscribe({
+      next: (response) => {
+        this.users = response.data; // Adjust based on API response
+        console.log(this.users)
+      },
+      error: (error) => {
+        console.error('Error fetching admins:', error);
+      }
+    });
+  }
   
 
   getPlanBadgeClass(planType: string): string {

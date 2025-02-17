@@ -82,7 +82,7 @@
                   </small>
                   
                 </div>
-                <div class="flex flex-column gap-2 w-50">
+                <div *ngIf="!trial" class="flex flex-column gap-2 w-50">
                   <label class="label" for="price">Price</label>
                   <input 
                       type="number"
@@ -103,7 +103,7 @@
           </div>
 <!-------------------------------------------------->
 
-        <div class="flex justify-content-between align-items-center gap-4  mb-4 w-full">
+        <div *ngIf="!trial" class="flex justify-content-between align-items-center gap-4  mb-4 w-full">
               <div class="flex flex-column gap-2 w-50">
                 <label class="label" for="discount">Discount %</label>
                 <input 

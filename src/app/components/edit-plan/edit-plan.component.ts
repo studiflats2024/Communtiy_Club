@@ -138,6 +138,12 @@ submitPlan(): void {
     });
     return; 
   }
+
+  if(this.trial===true){
+    this.price=0;
+    this.finalPrice=0;
+    this.discount=0;
+  }
  
  
 

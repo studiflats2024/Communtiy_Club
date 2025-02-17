@@ -64,6 +64,8 @@ export class DashboardComponent {
   revenueValue = "€30.7k"; // Revenue summary value
   percentageChange = "1.3%"; // Percentage increase
   selectedFilter:any
+
+  legendItems:any;
   ngOnInit() {
 
  
@@ -73,6 +75,13 @@ export class DashboardComponent {
       { label: 'Dashboard', routerLink: '/dashboard' },
       
     ];
+
+    this.legendItems = [
+      { label: 'Annual', value: 20000, color: '#1F5BD6' },
+      { label: 'Semi-Annual', value: 7000, color: '#73A7FB' },
+      { label: 'Monthly Plan', value: 3000, color: '#DCE6F8' }
+    ];
+    
 
 
     this.loadPlans()
@@ -97,7 +106,8 @@ export class DashboardComponent {
 
  
   
-
+  revenueChartData: any;
+  revenueChartOptions: any;
 
   constructor( private gatewayService:GatewayService,private plansService: PlansService, private messageService: MessageService) {
   
@@ -173,8 +183,8 @@ export class DashboardComponent {
             drawBorder: false,  
             drawOnChartArea: false,
           },
-          barPercentage: 0.1, 
-          categoryPercentage: 0.2,  
+          // barPercentage: 0.1, 
+          // categoryPercentage: 0.2,  
         },
         y: {
          
@@ -197,7 +207,74 @@ export class DashboardComponent {
         }
       }
     };
+  //////////////////////////////////////////////////////////
+  this.revenueChartData = {
+    labels: ['Annual', 'Semi-Annual', 'Monthly Plan'],
+    datasets: [
+      {
+        data: [20000, 7000, 3000], // Revenue Values
+        backgroundColor: ['#2462FC', '#80B1FF', '#D6E4FF'], // Colors
+        hoverBackgroundColor: ['#1A4AC7', '#6699FF', '#B3CCFF'], // Hover effect
+        borderWidth: 0 // Removes border
+      }
+    ]
+  };
+
+  this.revenueChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '75%', // Creates the "donut" effect
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+         
+        callbacks: {
+          label: (tooltipItem: any) =>
+            `€${tooltipItem.raw.toLocaleString()}`
+        }
+      },
+      beforeDraw: (chart: any) => {
+        const ctx = chart.ctx;
+        const width = chart.width;
+        const height = chart.height;
   
+        ctx.restore();
+        const fontSize:any = (height / 200).toFixed(2);
+        ctx.font = `${fontSize}em Arial`;
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+  
+        const centerX = width / 2;
+        const centerY = height / 2;
+  
+        ctx.fillStyle = '#6C757D'; // ✅ Text Color
+        ctx.fillText('Total Revenue', centerX, centerY - 15);
+        ctx.font = `bold ${fontSize * 1.5}em Arial`;
+        ctx.fillStyle = '#000'; // ✅ Bold Black for Revenue
+        ctx.fillText('€30,000', centerX, centerY + 15);
+        ctx.save();
+      }
+    
+    },
+    datasets: {
+      doughnut: {
+        borderWidth: 3, // ✅ Adjusts segment border width
+        borderColor: '#FFFFFF', // ✅ White border around segments
+        hoverOffset: 10, // ✅ Expands segment when hovered
+        cutout: '85%', // ✅ Creates the doughnut effect
+        borderRadius: 8, // ✅ Smooth curved edges
+        spacing: 3, // ✅ Space between segments
+        backgroundColor: (context: any) => {
+          // ✅ Customizing colors dynamically
+          const value = context.dataset.data[context.dataIndex];
+          return value > 10000 ? '#2462FC' : '#F0A500';
+        }
+      }
+    },
+   
+    
+  };
+
    
   }
 

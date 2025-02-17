@@ -22,7 +22,7 @@
                         pInputText 
                         id="name" 
                         aria-describedby="username-help" 
-                        [(ngModel)]="planName"
+                        [(ngModel)]="firstName"
                         placeholder="Name of plan"
                         #planNameInput="ngModel"
                         required
@@ -38,7 +38,7 @@
                         pInputText 
                         id="name" 
                         aria-describedby="username-help" 
-                        [(ngModel)]="planName"
+                        [(ngModel)]="lastName"
                         placeholder="Name of plan"
                         #planNameInput="ngModel"
                         
@@ -144,7 +144,7 @@
               label="Add"
               
               class="p-button-outlined custom-button-add"
-             (click)="submitPlan()"
+             (click)="submitAdmin()"
             ></p-button>
            </div>
             </div>

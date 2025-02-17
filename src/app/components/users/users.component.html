@@ -68,7 +68,7 @@
                     [value]="users"
                     [paginator]="true"
                     [rows]="10"
-                    [globalFilterFields]="['user_ID','name', 'email', 'phone_No', 'active_date','role','status']"
+                    [globalFilterFields]="['id','userName', 'email', 'phoneNo', 'last_Active','role','is_Active']"
                     [filterDelay]="300"
                     [resizableColumns]="true"
                     [tableStyle]="{ 'min-width': '900px' }"
@@ -80,41 +80,41 @@
                     <ng-template pTemplate="header">
                       <tr>
                  
-                        <th pSortableColumn="user_ID">User ID<p-sortIcon field="user_ID"></p-sortIcon></th>
-                        <th pSortableColumn="name">User Name<p-sortIcon field="name"></p-sortIcon></th>
-                        <th  pSortableColumn="phone_No">Phone Number<p-sortIcon field="phone_No"></p-sortIcon></th>
+                        <!-- <th pSortableColumn="id">User ID<p-sortIcon field="id"></p-sortIcon></th> -->
+                        <th pSortableColumn="userName">User Name<p-sortIcon field="userName"></p-sortIcon></th>
+                        <th  pSortableColumn="phoneNo">Phone Number<p-sortIcon field="phoneNo"></p-sortIcon></th>
                        
                          
-                        <th pSortableColumn="active_date">Last Active<p-sortIcon field="active_date"></p-sortIcon></th>
+                        <th pSortableColumn="last_Active">Last Active<p-sortIcon field="last_Active"></p-sortIcon></th>
                         <th>Role</th>
                         <th>Action</th>
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-user>
                       <tr>
-                        <td>{{ user.user_ID }}</td>
+                        <!-- <td>{{ user.user_ID }}</td> -->
 
                         <td>
                           <div>
-                            <strong>{{ user.name }}</strong>
+                            <strong>{{ user.userName }}</strong>
                             <p>{{ user.email}}</p>
                           </div>
                         </td>
-                        <td>{{ user.phone_No }}</td>
-                        <td>{{ user.active_date | date: 'MMM d, yyyy' }}</td>
+                        <td>{{ user.phoneNo }}</td>
+                        <td>{{ user.last_Active | date: 'MMM d, yyyy' }}</td>
                         <!-------------------------------------------------------------------------------------------------------------------->
 
                         <td>
                           <span
                             class="p-tag status-tag"
                             [ngClass]="{
-                              'p-tag-success': user.status === 'Activate',
-                              'p-tag-danger': user.status === 'Deactivate',
+                              'p-tag-success': user.is_Active === true,
+                              'p-tag-danger': user.is_Active === false,
                               
                               
                             }"
                           >
-                            {{ user.status }}
+                            {{ user.is_Active ? 'Activate' :'Deactivate'}}
                           </span>
                         </td>
                         
@@ -122,7 +122,7 @@
                         <td >
                           <div class="flex justify-content-start align-items-center gab-3">
                             <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
-                            <div class=" ">
+                            <div class=" " [routerLink]="['/user-profile', user.id]">
                               <img
                               
                                 class="image-default"
@@ -137,7 +137,7 @@
                             </div>
                             <p-overlayPanel #op>
                               <ul class="menu-list">
-                                <li><a     style="cursor: pointer;" [routerLink]="['/edit-user', 1]" >Edit</a></li>
+                                <li><a     style="cursor: pointer;" [routerLink]="['/edit-user', user.id]" >Edit</a></li>
                                 <li><a   style="cursor: pointer;">Activate</a></li>
                                 <li><a  style="cursor: pointer;">Deactivate</a></li>
                                 <li><a  style="cursor: pointer;">Delete</a></li>

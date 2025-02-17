@@ -221,7 +221,7 @@ updateEventDetails(eventDetails: any): void {
   this.displayOnApp = eventDetails.dispaly_Home ? 'yes' : 'no';
   this.videoLink = eventDetails.video_Link || '';
   this.images = eventDetails.event_Image || '';
-  this.published=eventDetails.has_Published
+  this.published=eventDetails.event_Status
 
   // this.eventDate = eventDetails.event_Date ? new Date(eventDetails.event_Date) : null;
   // this.startTime = eventDetails.event_Start_Time || null;

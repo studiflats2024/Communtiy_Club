@@ -193,7 +193,7 @@ export class InviteFriendsComponent {
     ];
 
      
-// this.loadInvitations(1,2000)
+this.loadInvitations(1,2000)
     
   }
   

@@ -1114,6 +1114,28 @@ font-weight: 500;
 line-height: 21px; /* 150% */
   }
 
+  .type-wait{
+    display: flex;
+width: 111px;
+height: 40px;
+padding: 8px 16px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+
+border-radius: 8px;
+background: #FDF8EC;
+
+color: #BE8B11;
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+  }
+
 .type-purble{
   display: flex;
 width: 104px;
