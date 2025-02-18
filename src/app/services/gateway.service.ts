@@ -222,6 +222,28 @@ export class GatewayService {
   getAdminProfile(adminId: string): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/Gateway/GetAdminProfile?ID=${adminId}`);
   }
+
+
+  updatePassword(user_ID: string, oldPassword: string, newPassword: string, confirmPassword: string): Observable<any> {
+    if (!user_ID || !oldPassword || !newPassword || !confirmPassword) {
+      throw new Error('⚠️ All fields are required');
+    }
+    if (newPassword !== confirmPassword) {
+      throw new Error('⚠️ New password and confirm password do not match');
+    }
+    if (newPassword.length < 6) {
+      throw new Error('⚠️ Password must be at least 6 characters long');
+    }
+
+    const body = {
+      user_ID:user_ID,
+      old_Password: oldPassword,
+      newPassword:newPassword,
+      confirmPassword:confirmPassword
+    };
+
+    return this.http.post(`${environment.apiUrl}/Gateway/Update_Password`, body);
+  }
 }
 
 

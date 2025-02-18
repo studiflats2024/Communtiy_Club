@@ -165,7 +165,7 @@ selectedRole: any = null;
 userEmail:string=''
 firstName:string=''
 lastName:string=''
-  constructor(private gatewayService:GatewayService,private messageService: MessageService,private plansService: PlansService) {}
+  constructor(private router: Router,private gatewayService:GatewayService,private messageService: MessageService,private plansService: PlansService) {}
   ngOnInit() {
 
  
@@ -249,6 +249,7 @@ if (this.password !== this.ConfirmPass) {
           summary: 'Success',
           detail: response.message
         });
+        this.router.navigate(['/users']);
       },
       error: (error) => {
         console.error('Error adding admin:', error);
