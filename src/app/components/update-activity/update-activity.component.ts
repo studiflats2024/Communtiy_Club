@@ -144,7 +144,7 @@ discription:string=''
 
 activityId: any;
 activityType: string | null = null;
-  constructor(private route: ActivatedRoute,private activityService:ActivityService,private messageService: MessageService,private plansService: PlansService) {}
+  constructor(private router:Router,private route: ActivatedRoute,private activityService:ActivityService,private messageService: MessageService,private plansService: PlansService) {}
   ngOnInit() {
 
     this.activityId = this.route.snapshot.paramMap.get('id');
@@ -241,7 +241,9 @@ updateCourseDetails(courseDetails: any): void {
     end_Time: session.end_Time || '',
     has_Published: session.has_Published || false,
     session_Link: session.session_Link || '',
-    addVideo: session.addVideo || 'no', // Assuming `addVideo` is handled elsewhere
+    // addVideo: session.addVideo || 'no', 
+    addVideo: session.session_Link && session.session_Link.trim() !== '' ? 'yes' : 'no'
+
   }));
 }
 
@@ -338,7 +340,9 @@ updateEventDetails(eventDetails: any): void {
   this.title = eventDetails.event_Name || '';
   this.discription = eventDetails.event_Description || '';
   this.location = eventDetails.event_Location || '';
-  this.displayOnApp = eventDetails.dispaly_Home ? 'yes' : 'no';
+  this.displayOnApp = eventDetails.dispaly_Home ||false;
+  
+
   if(eventDetails.video_Link!==''){
     this.addVideo='yes'
 }
@@ -404,7 +408,9 @@ updateWorkshopDetails(workshopDetails: any): void {
     end_Time: session.end_Time || '',
     has_Published: session.has_Published || false,
     session_Link: session.session_Link || '',
-    addVideo: session.addVideo || 'no', // Assuming addVideo is handled elsewhere
+    // addVideo: session.addVideo || 'no',  
+    addVideo: session.session_Link && session.session_Link.trim() !== '' ? 'yes' : 'no'
+
   }));
 }
 
@@ -451,7 +457,9 @@ updateWorkshopDetails(workshopDetails: any): void {
 seatsAvailable: number | null = null;
 startDate: any;
 endDate: any;
-displayOnApp: any = 'no';
+// displayOnApp: any = 'no';
+displayOnApp: boolean=false;
+
 
 sessions = [
   { session_Title: '', session_Date: null, start_Time: null, end_Time: null, session_Link: '',has_Published:true,addVideo: 'no' }
@@ -753,7 +761,9 @@ resetCourseValues(): void {
   this.title = '';
   this.discription = '';
   this.location = '';
-  this.displayOnApp = 'no';
+  // this.displayOnApp = 'no';
+  this.displayOnApp = false;
+
   // this.images = '';
   this.videoLink = '';
   this.startDate = null;
@@ -777,12 +787,12 @@ resetCourseValues(): void {
 
 updateCourse(){
 
-  if(this.displayOnApp==='yes'){
-       this.displayOnApp=true
-  }else if(this.displayOnApp==='no'){
-    this.displayOnApp=false
+  // if(this.displayOnApp==='yes'){
+  //      this.displayOnApp=true
+  // }else if(this.displayOnApp==='no'){
+  //   this.displayOnApp=false
       
-  }
+  // }
 
   const startDate = new Date(this.startDate.getTime() - this.startDate.getTimezoneOffset() * 60000).toISOString();
   const endDate = new Date(this.endDate.getTime() - this.endDate.getTimezoneOffset() * 60000).toISOString();
@@ -810,6 +820,8 @@ console.log(this.sessions)
       console.log('Course added successfully', response);
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
       // this.resetCourseValues();
+      this.router.navigate(['/activities']);
+      
     },
     error:(error)=>{
       console.error('Error adding course', error);
@@ -823,12 +835,12 @@ console.log(this.sessions)
 updateWorkshop() {
 
 
-  if(this.displayOnApp==='yes'){
-    this.displayOnApp=true
-}else if(this.displayOnApp==='no'){
- this.displayOnApp=false
+//   if(this.displayOnApp==='yes'){
+//     this.displayOnApp=true
+// }else if(this.displayOnApp==='no'){
+//  this.displayOnApp=false
    
-}
+// }
 
 const startDate = new Date(this.startDate.getTime() - this.startDate.getTimezoneOffset() * 60000).toISOString();
 const endDate = new Date(this.endDate.getTime() - this.endDate.getTimezoneOffset() * 60000).toISOString();
@@ -859,6 +871,7 @@ this.removeLastPripertyFromSessions();
       console.log('Workshop added successfully', response);
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
       // this.resetWorkshopData()
+      this.router.navigate(['/activities']);
 
     },
     error: (error) => {
@@ -874,7 +887,9 @@ resetWorkshopData() {
   this.title = '';
   this.discription = '';
   this.location = '';
-  this.displayOnApp = 'no'; // or `true` if default is true
+  // this.displayOnApp = 'no';  
+  this.displayOnApp = false;  
+
   // this.images = '';
   this.videoLink = '';
   this.startDate = null;
@@ -898,12 +913,12 @@ resetWorkshopData() {
 /////////add event ///
 updateEvent() {
 
-  if(this.displayOnApp==='yes'){
-    this.displayOnApp=true
-}else if(this.displayOnApp==='no'){
- this.displayOnApp=false
+//   if(this.displayOnApp==='yes'){
+//     this.displayOnApp=true
+// }else if(this.displayOnApp==='no'){
+//  this.displayOnApp=false
    
-}
+// }
 
 const formatTime = (time: Date): string => {
   const options: Intl.DateTimeFormatOptions = {
@@ -963,6 +978,8 @@ const eventDate = new Date(this.eventDate.getTime() - this.eventDate.getTimezone
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
 
       // this.resetEventData()
+      this.router.navigate(['/activities']);
+
     },
     error: (error) => {
       console.error('Error adding event:', error);
@@ -977,7 +994,9 @@ resetEventData() {
   this.title = '';
   this.discription = '';
   this.location = '';
-  this.displayOnApp = 'no';
+  // this.displayOnApp = 'no';
+  this.displayOnApp = false;
+
   this.videoLink = '';
   // this.images = '';
   this.eventDate = null;
@@ -992,12 +1011,12 @@ updateConsult(): void {
   this.updatesSessionsDays();
 console.log(this.sessionsDays);
 
-  if(this.displayOnApp==='yes'){
-    this.displayOnApp=true
-}else if(this.displayOnApp==='no'){
- this.displayOnApp=false
+//   if(this.displayOnApp==='yes'){
+//     this.displayOnApp=true
+// }else if(this.displayOnApp==='no'){
+//  this.displayOnApp=false
    
-}
+// }
 
   const consultData = {
     consult_ID:this.activityId,
@@ -1016,6 +1035,8 @@ console.log(this.sessionsDays);
       console.log('Consult added successfully', response);
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
       // this.clearConsultData()
+      this.router.navigate(['/activities']);
+
    
     },
     error: (error) => {

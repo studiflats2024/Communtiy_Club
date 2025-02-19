@@ -668,7 +668,11 @@ showCancelDialog: boolean = false;
       }
     );
   }else if(this.activityType==='postpone'){
-    this.activityService.postponeEvent(this.activityID, this.reason, this.toDate).subscribe(
+ 
+
+    const date = new Date(this.toDate.getTime()-this.toDate.getTimezoneOffset() * 60000).toISOString();
+    console.log(date)
+    this.activityService.postponeEvent(this.activityID, this.reason, date).subscribe(
       (response) => {
         this.showDate=false
         this.visibleReason = false

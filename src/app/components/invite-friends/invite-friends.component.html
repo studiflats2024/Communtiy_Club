@@ -67,7 +67,7 @@
                         <th pSortableColumn="phone">Phone Number<p-sortIcon field="phone"></p-sortIcon></th>
                          
                         <th>Friend's Email</th>
-                        <th> Friend's Phone</th>
+                        <!-- <th> Friend's Phone</th> -->
                         <th pSortableColumn="invitation_Date"> invitation Date <p-sortIcon field="invitation_Date"></p-sortIcon></th>
                         <th pSortableColumn="invitiation_No"> invitation number<p-sortIcon field="invitiation_No"></p-sortIcon></th>
                         <th pSortableColumn="attendance">Status<p-sortIcon field="attendance"></p-sortIcon></th>
@@ -86,7 +86,7 @@
                         <td>{{ friend.phone }}</td>
      
                         <td>{{friend.email_Friend}}</td>
-                        <td>{{friend.friend_phone}}</td>
+                        <!-- <td>{{friend.friend_phone}}</td> -->
 
                         
 
@@ -100,8 +100,8 @@
                             <span
                               class="p-tag status-tag"
                               [ngClass]="{
-                                'p-tag-success': friend.attendance === 'Attended',
-                                'p-tag-danger': friend.attendance === 'Not Attended',
+                                'p-tag-success': friend.attendance === 'Attendant',
+                                'p-tag-danger': friend.attendance === 'Not Attendant',
                                 
                                 
                               }"
@@ -120,9 +120,8 @@
                               </div>
                               <p-overlayPanel #op>
                                 <ul class="menu-list">
-                                  <li><a style="cursor: pointer;" >View Tenant Profile</a></li>
-                                  <li><a style="cursor: pointer;" (click)="openFilterAlertDialog()" >Add Type Of Plan</a></li>
-                                  <li><a style="cursor: pointer;"  >Delete</a></li>
+                                  <li><a style="cursor: pointer;" >View member Profile</a></li>
+                                  
                                 </ul>
                               </p-overlayPanel>
                             </div>

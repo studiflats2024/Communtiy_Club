@@ -109,6 +109,7 @@ startDate:any
 endDate:any
 seatsAvailable:any
 published:any
+booking:any
 updateCourseDetails(courseDetails: any): void {
  
    
@@ -119,6 +120,7 @@ updateCourseDetails(courseDetails: any): void {
   this.videoLink = courseDetails.video_Link || '';
   this.images = courseDetails.course_Image || '';
   this.published=courseDetails.has_Published
+  this.booking=courseDetails.bookings
 
   // Parse and format start and end dates
   this.startDate = courseDetails.course_Start_Date
@@ -175,6 +177,8 @@ updateConsultDetails(consultDetails: any): void {
   this.images = consultDetails.consult_Image || '';
   this.videoLink = consultDetails.video_Link || '';
   this.published=consultDetails.has_Published
+  this.booking=consultDetails.bookings
+
 
   
   // Update sessionsDays with the data from the API
@@ -222,6 +226,8 @@ updateEventDetails(eventDetails: any): void {
   this.videoLink = eventDetails.video_Link || '';
   this.images = eventDetails.event_Image || '';
   this.published=eventDetails.event_Status
+  this.booking=eventDetails.bookings
+
 
   // this.eventDate = eventDetails.event_Date ? new Date(eventDetails.event_Date) : null;
   // this.startTime = eventDetails.event_Start_Time || null;
@@ -261,6 +267,7 @@ updateWorkshopDetails(workshopDetails: any): void {
   this.videoLink = workshopDetails.video_Link || '';
   this.images = workshopDetails.workshop_Image || '';
   this.published=workshopDetails.has_Published
+  this.booking=workshopDetails.bookings
 
 
   // Parse and format start and end dates

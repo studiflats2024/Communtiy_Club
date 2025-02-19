@@ -89,7 +89,7 @@
                                 </a>
 
                               </div>
-                              <div><img class="mr-2" src="booking.svg"/>30 booking / 35</div>
+                              <div><img class="mr-2" src="booking.svg"/> {{ booking !== null && booking !== undefined ? booking : '30 booking / 35' }}</div>
                               
                               <div *ngIf="videoLink"><img class="mr-2" src="videoSession.svg"/>{{videoLink}}</div>
                             </div>
