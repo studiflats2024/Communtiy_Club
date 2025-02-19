@@ -1,4 +1,7 @@
-import {ChangeDetectionStrategy, Component,HostListener } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas'
+
 import { CommonModule } from '@angular/common';  // Provides ngIf, ngFor
 import { FormsModule } from '@angular/forms';    // Provides ngModel, form directives
 
@@ -45,7 +48,10 @@ import { GatewayService } from '../../services/gateway.service';
   styleUrl: './invoice-details.component.css'
 })
 export class InvoiceDetailsComponent {
+  @ViewChild('invoiceCard', {static:false}) invoiceCard!:ElementRef;
+
   items:any[]=[];
+
  
   globalFilter: string = '';
   
@@ -67,13 +73,28 @@ export class InvoiceDetailsComponent {
     
   }
 
+
+  downloadInvoicePDF(){
+    const card =this.invoiceCard.nativeElement;
+    html2canvas(card,{scale:2}).then((canvas)=>{
+       const imgData = canvas.toDataURL('image/png');
+       const pdf =new jsPDF('p','mm','a4');
+       const imgWidth = 210;
+       const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+       pdf.addImage(imgData,'PNG',0,10,imgWidth,imgHeight)
+       pdf.save('invoice.pdf');
+    })
+  }
+
   subscription_ID:any;
+  invoice_ID:any
   ngOnInit() {
 
     // this.adjustDialogStyle(window.innerWidth);
-    this.subscription_ID = this.route.snapshot.paramMap.get('id');
-    if( this.subscription_ID){
-       
+    this.invoice_ID = this.route.snapshot.paramMap.get('id');
+    if( this.invoice_ID){
+       this.loadFinanceInvoice(this.invoice_ID)
     }
 
     this.items = [
@@ -87,9 +108,26 @@ export class InvoiceDetailsComponent {
     ];
 
      
+    
 
     
   }
+
+  invoiceDetails:any
+
+  loadFinanceInvoice(id: string): void {
+    this.gatewayService.getFinanceInvoice(id).subscribe({
+      next: (data) => {
+        this.invoiceDetails = data;
+        console.log('✅ Finance Invoice:', data);
+      },
+      error: (err) => {
+        console.error('❌ Error fetching finance invoice:', err);
+      }
+    });
+  }
+
+
 
   memberDetails:any
  

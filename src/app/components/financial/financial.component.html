@@ -111,7 +111,7 @@
                     [value]="paymentRecords"
                     [paginator]="true"
                     [rows]="10"
-                    [globalFilterFields]="['name', 'email', 'phone_No', 'plan_Type']"
+                    [globalFilterFields]="['name', 'email', 'phoneNo', 'plan_Type']"
                     [filterDelay]="300"
                     [resizableColumns]="true"
                     [tableStyle]="{ 'min-width': '900px' }"
@@ -142,7 +142,7 @@
                             <p>{{ payment.email }}</p>
                           </div>
                         </td>
-                        <td>{{ payment.phone_No }}</td>
+                        <td>{{ payment.phoneNo }}</td>
                         <!-- <td>{{ record.date | date: 'MMM d, yyyy' }}</td> -->
                         <td>{{ payment.date | date: 'MMM d, yyyy' }}</td>
 
@@ -223,7 +223,7 @@
                                 class="image-default"
                                 src="viewPay.svg"
                                 alt="Default Alert Icon"
-                                [routerLink]="['/invoice-details', 1]"
+                                [routerLink]="['/invoice-details', payment.id]"
                               />
                                
                             </div>
@@ -234,10 +234,10 @@
                             <p-overlayPanel #op>
                               <ul class="menu-list">
                                 <li><a    style="cursor: pointer;" >View Member Profile</a></li>
-                                <li><a    style="cursor: pointer; text-decoration: none; color:#363636" [routerLink]="['/invoice-details', 1]">View Invoice</a></li>
+                                <li><a    style="cursor: pointer; text-decoration: none; color:#363636" [routerLink]="['/invoice-details', payment.id]">View Invoice</a></li>
 
-                                <li><a (click)="markInvoiceAsPaid(payment.payment_ID)" style="cursor: pointer;">Marked as paid</a></li>
-                                <li><a (click)="markInvoiceAsUnPaid(payment.payment_ID)" style="cursor: pointer;">Not Paid</a></li>
+                                <li><a (click)="markInvoiceAsPaid(payment.id)" style="cursor: pointer;">Marked as paid</a></li>
+                                <li><a (click)="markInvoiceAsUnPaid(payment.id)" style="cursor: pointer;">Not Paid</a></li>
                               </ul>
                             </p-overlayPanel>
                           </div>

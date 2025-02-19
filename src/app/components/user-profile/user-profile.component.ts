@@ -90,7 +90,7 @@ ngOnInit() {
     { label: 'Community Club', routerLink: '/dashboard' },
     { label: 'Users', routerLink: '/users' },
     
-    { label: 'My Profile', routerLink: '/user-profile' },
+    { label: 'User Profile', routerLink: '/user-profile' },
 
  
     
@@ -213,10 +213,29 @@ initializeIntlTelInput(selector: string, initialValue: string = '') {
     console.log('✅ intlTelInput initialized:', iti);
     this.itiInstances.set(selector, iti); // ✅ Store instance
 
-    // ✅ Set Initial Value from API
     if (initialValue) {
-      iti.setNumber(initialValue);
+      console.log('📌 Initial Value from API:', initialValue);
+    
+      // Get current selected country
+      const selectedCountry = iti.getSelectedCountryData();
+      const dialCode = `+${selectedCountry.dialCode}`;
+    
+      // Ensure the initial value has a leading "+" before setting it
+      if (!initialValue.startsWith('+')) {
+        initialValue = `+${initialValue}`;
+      }
+    
+      // Clear input before setting value
+      input.value = '';
+    
+      setTimeout(() => {
+        iti.setNumber(initialValue); // ✅ Now correctly sets the number
+        console.log('📌 After setNumber:', iti.getNumber());
+      }, 50);
     }
+    
+    
+    
     
  
     input.addEventListener('blur', () => {
@@ -312,6 +331,30 @@ getActivityClass(activityType: string | null): string {
 
 
 changePassword() {
+  if (!this.adminId || !this.currentPass || !this.newPass || !this.confirmNewPass) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Warning',
+      detail: '⚠️ All fields are required',
+    });
+    throw new Error('⚠️ All fields are required');
+  }
+  if (this.newPass !== this.confirmNewPass) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: '⚠️ New password and confirm password must match',
+    });
+    throw new Error('⚠️ New password and confirm password must match');
+  }
+  if (this.newPass.length < 6) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: '⚠️ Password must be at least 6 characters',
+    });
+    throw new Error('⚠️ Password must be at least 6 characters');
+  }
   this.gatewayService.updatePassword(this.adminId, this.currentPass, this.newPass, this.confirmNewPass)
     .subscribe({
       next: (res) => {

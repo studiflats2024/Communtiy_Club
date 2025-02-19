@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+ 
 
 
 @Injectable({
@@ -10,7 +11,9 @@ import { environment } from '../../environments/environment';
 export class GatewayService {
  
 
-  constructor(private http: HttpClient) {}
+
+
+  constructor( private http: HttpClient) {}
 
   getPaymentRecords(
     pageNumber: number,
@@ -225,15 +228,7 @@ export class GatewayService {
 
 
   updatePassword(user_ID: string, oldPassword: string, newPassword: string, confirmPassword: string): Observable<any> {
-    if (!user_ID || !oldPassword || !newPassword || !confirmPassword) {
-      throw new Error('⚠️ All fields are required');
-    }
-    if (newPassword !== confirmPassword) {
-      throw new Error('⚠️ New password and confirm password do not match');
-    }
-    if (newPassword.length < 6) {
-      throw new Error('⚠️ Password must be at least 6 characters long');
-    }
+    
 
     const body = {
       user_ID:user_ID,
@@ -243,6 +238,22 @@ export class GatewayService {
     };
 
     return this.http.post(`${environment.apiUrl}/Gateway/Update_Password`, body);
+  }
+
+
+
+  getFinancePayments(pageNo: number, pageSize: number): Observable<any> {
+    const params = new HttpParams()
+      .set('Page_No', pageNo.toString())
+      .set('Page_Size', pageSize.toString());
+
+    return this.http.get<any>(`${environment.apiUrl}/Gateway/GetFinancePayments`, { params });
+  }
+
+  getFinanceInvoice(id: string): Observable<any> {
+    const params = new HttpParams().set('ID', id);
+
+    return this.http.get<any>(`${environment.apiUrl}/Gateway/GetFinanceInvoice`, { params });
   }
 }
 

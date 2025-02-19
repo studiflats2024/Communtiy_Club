@@ -126,12 +126,25 @@ export class FinancialComponent {
     ];
 
  
-    this.fetchRecords();
+    this.loadFinancePayments();
     this.loadPlans()
 
     
   }
   
+
+
+  loadFinancePayments(): void {
+    this.gatewayService.getFinancePayments(1, 10).subscribe({
+      next: (data) => {
+        this.paymentRecords = data.data;
+        console.log('✅ Finance Payments:', data);
+      },
+      error: (err) => {
+        console.error('❌ Error fetching finance payments:', err);
+      }
+    });
+  }
 
   getPlanBadgeClass(planType: string): string {
     switch (planType) {
@@ -293,7 +306,8 @@ payFilter:boolean=false;
   }
 
   filterPay(){
-    this.fetchRecords()
+    this.loadFinancePayments()
+
     this.payFilter=true;
   }
   filterAlert(){
@@ -323,48 +337,7 @@ paymentBy:any=null
 payfrom:any=null
 payTo:any=null
 paySearchword:any=null
-fetchRecords(): void {
-  const pageNumber = 1;  
-  const pageSize = 2000;  
-  const type = this.payType;
-  const status = this.payStatus; 
-  const paymentBy = this.selectedPayment?.name; 
-   
-  const searchWord = this.paySearchword; 
-  
-  if(this.payfrom){
-    this.payfrom = new Date(this.payfrom).toISOString();
-  console.log("Formatted From:",this.payfrom);
-    
-    }
-    if(this.payTo){
-      this.payTo = new Date(this.payTo).toISOString();
-  
-      console.log("Formatted To:", this.payTo);
-  
-      
-      }
-
-      const from = this.payfrom; 
-      const to = this.payTo; 
-
-  this.gatewayService
-    .getPaymentRecords(pageNumber, pageSize, type, status, paymentBy, from, to, searchWord)
-    .subscribe(
-      (data) => {
-        console.log(data)
-        this.paymentRecords = data.data; // Store the fetched records in a local variable
-        console.log('Payment Records:', this.paymentRecords); // Log the fetched data
-        if(this.payFilter){
-          this.showReminder()
-        }
-      },
-      (error) => {
-        console.error('Error fetching payment records:', error); // Handle errors
-      }
-    );
-}
-
+ 
 
 
 markInvoiceAsPaid(invId: string): void {
@@ -372,7 +345,7 @@ markInvoiceAsPaid(invId: string): void {
     (response) => {
       console.log('Invoice marked as paid:', response);
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
-      this.fetchRecords()
+      this.loadFinancePayments()
     },
     (error) => {
       console.error('Error marking invoice as paid:', error);
@@ -387,7 +360,8 @@ markInvoiceAsUnPaid(invId: string): void {
     (response) => {
       console.log('Invoice marked as unpaid:', response);
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
-      this.fetchRecords()
+      this.loadFinancePayments()
+
       
     },
     (error) => {

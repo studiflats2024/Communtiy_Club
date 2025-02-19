@@ -15,7 +15,7 @@
         </ng-template>
       </p-breadcrumb>
 
-      <div style="cursor: pointer" class=" ">
+      <div style="cursor: pointer" (click)="downloadInvoicePDF()">
         <!-- <p-button
             label="Add New Activity"
             icon="pi pi-plus"
@@ -29,7 +29,7 @@
 
     <!------------------------------------------------------------------->
 
-    <div>
+    <div #invoiceCard>
       <p-card class="subscription-card">
          
           <div class="flex justify-content-between  w-full   flex-wrap">
@@ -42,24 +42,24 @@
 
           <div class="flex justify-content-start gap-4 align-item-center">
             <div class="label">Invoice Number</div>
-            <div class="data"> #125678922</div>
+            <div class="data"> {{invoiceDetails.code}}</div>
     </div>
     <div class="flex justify-content-start gap-4 align-item-center">
       <div class="label">Payment Date</div>
-      <div class="data">15 November ,2026</div>
+      <div class="data">{{invoiceDetails.date}}</div>
 
     </div>
 
     <div class="flex justify-content-start gap-4 align-item-center mt-4">
       <div class="">
           <div class="head">BILL FROM</div>
-          <div class="data" style="font-weight: 500;">Ahmed Ali</div>   
-          <div class="data2">ahmed.ali&#64;gmail.com</div>
-          <div class="data2">+4912845987564</div>
+          <div class="data" style="font-weight: 500;">{{invoiceDetails.name}}</div>   
+          <div class="data2">{{invoiceDetails.email}}</div>
+          <div class="data2">{{invoiceDetails.phone}}</div>
       </div>
       <div class="">
         <div class="head">Payment Method</div>
-        <div class="data">Cash</div>   
+        <div class="data">{{invoiceDetails.method}}</div>   
          
     </div>
 
@@ -86,13 +86,13 @@
 
      
   <div >
-    <div class="data">Annual plan</div>
-    <div class="data">26 November , 2025 - 26 November , 2026</div>
+    <div class="data">{{invoiceDetails.plan}}</div>
+    <div class="data">{{invoiceDetails.plan_Date}}</div>
   </div>
   <div class="flex justify-content-start gap-4 align-item-center">
-     <div class="head">€ 380</div>
-     <div class="head">€ 380</div>
-     <div class="head">€ 380</div>
+     <div class="head">€ {{invoiceDetails.plan_Price}}</div>
+     <div class="head">€ {{invoiceDetails.plan_Vat}}</div>
+     <div class="head">€ {{invoiceDetails.plan_Total}}</div>
 
   </div>
 
@@ -103,16 +103,16 @@
   <div class="table-right" style="width:330px">
     <div  class="flex justify-content-between gap-4 align-item-center p-2 w-full" style="border-bottom: 1px solid #E7EEF8 ;">
           <div class="data">Plan Price</div>
-          <div class="head">€ 380</div>
+          <div class="head">€ {{invoiceDetails.plan_Price}}</div>
  
     </div>
     <div  class="flex justify-content-between gap-4 align-item-center p-2 w-full" style="border-bottom: 1px solid #E7EEF8 ;">
      <div class="data">Vat</div>
-     <div class="head">€ 380</div>
+     <div class="head">€ {{invoiceDetails.plan_Vat}}</div>
     </div>
     <div  class="flex justify-content-between gap-4 align-item-center p-2 w-full">
      <div class="head">Total</div>
-     <div class="head">€ 380</div>
+     <div class="head">€ {{invoiceDetails.plan_Total}}</div>
     </div>
  
  </div>
