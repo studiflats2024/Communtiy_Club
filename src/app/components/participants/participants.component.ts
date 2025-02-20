@@ -370,7 +370,7 @@ loadParticipants(pageNo:any,pageSize:any,selectedType:any,selectedID:any) {
       (response) => {
         console.log(' participants', response);
  
-        // this.participants=response.data
+        this.participants=response.data
       },
       (error) => {
         console.error('Error:', error);

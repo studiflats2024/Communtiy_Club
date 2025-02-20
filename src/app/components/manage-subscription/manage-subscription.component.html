@@ -119,9 +119,10 @@
         </div>
       
         <ul class="card-features">
-          <li *ngFor="let feature of plan.plan_Features">
-            <i class="pi pi-check-circle"></i> {{ feature }}
+          <li *ngFor="let feature of plan.plan_Features | slice:0:3">
+            <i class="pi pi-check-circle"></i>  {{ feature && feature.toString().length > 20 ? feature.toString().substring(0, 20) + '...' : feature }}
           </li>
+          <li *ngIf="plan.plan_Features.length > 3">.....</li>
         </ul>
       
         <div class="card-footer">
@@ -295,6 +296,7 @@
                                 class="image-default"
                                 src="viewPay.svg"
                                 alt="Default Alert Icon"
+                                [routerLink]="['/invoice-details', payment.payment_ID]"
                               />
                                
                             </div>

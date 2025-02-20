@@ -252,6 +252,7 @@ export class ManageSubscriptionComponent {
     this.plansService.getPlans().subscribe({
       next: (data) => {
         this.plans = data;
+        
         console.log('Plans fetched:', this.plans);
       },
       error: (error) => {

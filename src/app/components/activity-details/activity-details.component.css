@@ -1,3 +1,35 @@
+
+.name{
+  color: var(--Colors-Base-Main-Text, #0A0C0F);
+
+/* Global Tokens/Body/B-1/Medium */
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 24px; /* 150% */
+}
+.date-review{
+  color: var(--Colors-Primary-Shade-Shade-6, #586880);
+
+/* Global Tokens/Body/B-1 */
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 150% */
+}
+.dis-review{
+  color: var(--Neutrals-Neutrals900, #4A4A4A);
+
+/* Global Tokens/Body/B-1 */
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 150% */
+}
+
 .parent{
     display:flex;
     width: 100%;

@@ -33,6 +33,8 @@ export class ActivityDetailsComponent {
   items:any;
   activeTab: string = 'basic-info';
   sessions : any[]=[]
+  reviews : any[]=[]
+
 constructor(private route: ActivatedRoute,private messageService:MessageService,private activityService:ActivityService){
 
 }
@@ -40,6 +42,50 @@ activityId: any;
 activityType: string | null = null;
 
 ngOnInit() {
+
+  this.reviews = [
+    {
+      photo: 'https://randomuser.me/api/portraits/men/1.jpg',
+      name: 'John Doe',
+      date: '2025-02-20',
+      rating: 4.5,
+      comment: 'Great course! The instructor explained everything clearly.',
+      has_Published: true
+    },
+    {
+      photo: 'https://randomuser.me/api/portraits/women/2.jpg',
+      name: 'Sarah Smith',
+      date: '2025-02-18',
+      rating: 5,
+      comment: 'Amazing experience! Highly recommend to everyone.',
+      has_Published: false
+    },
+    {
+      photo: 'https://randomuser.me/api/portraits/men/3.jpg',
+      name: 'Michael Johnson',
+      date: '2025-02-15',
+      rating: 4,
+      comment: 'Very informative and well-structured course. Could use more examples.',
+      has_Published: true
+    },
+    {
+      photo: 'https://randomuser.me/api/portraits/women/4.jpg',
+      name: 'Emily Brown',
+      date: '2025-02-10',
+      rating: 3.5,
+      comment: 'Good content but a bit fast-paced for beginners.',
+      has_Published: false
+    },
+    {
+      photo: 'https://randomuser.me/api/portraits/men/5.jpg',
+      name: 'James Wilson',
+      date: '2025-02-05',
+      rating: 5,
+      comment: 'Loved it! The course was easy to follow and very engaging.',
+      has_Published: true
+    }
+  ];
+  
 
   this.activityId = this.route.snapshot.paramMap.get('id');
   this.activityType = this.route.snapshot.paramMap.get('type');
@@ -60,6 +106,13 @@ ngOnInit() {
 
   
 }
+
+scrollToSection(sectionId: string) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 ////////////////////////////////////get details depend on type/////////////////////////////////
 getDetailsActivity() {
    
@@ -121,7 +174,7 @@ updateCourseDetails(courseDetails: any): void {
   this.images = courseDetails.course_Image || '';
   this.published=courseDetails.has_Published
   this.booking=courseDetails.bookings
-
+   this.reviews=courseDetails.ratings
   // Parse and format start and end dates
   this.startDate = courseDetails.course_Start_Date
     ? new Date(courseDetails.course_Start_Date)
@@ -141,7 +194,8 @@ updateCourseDetails(courseDetails: any): void {
       : null,
     start_Time: session.start_Time || '',
     end_Time: session.end_Time || '',
-    has_Published: session.has_Published || false,
+
+    has_Published: session.has_Published || true,
     session_Link: session.session_Link || '',
     addVideo: session.addVideo || 'no', // Assuming `addVideo` is handled elsewhere
   }));
@@ -178,6 +232,7 @@ updateConsultDetails(consultDetails: any): void {
   this.videoLink = consultDetails.video_Link || '';
   this.published=consultDetails.has_Published
   this.booking=consultDetails.bookings
+  this.reviews=consultDetails.ratings
 
 
   
@@ -188,7 +243,7 @@ updateConsultDetails(consultDetails: any): void {
     session_Start_Time: session.session_Start_Time || '',
     session_End_Time: session.session_End_Time || '',
     session_Duration: session.session_Duration || 0,
-    has_Published: session.has_Published || false,
+    has_Published: session.has_Published || true,
     session_Available_Seats: session.seession_Available_Seats || 0
   }));
 
@@ -227,6 +282,7 @@ updateEventDetails(eventDetails: any): void {
   this.images = eventDetails.event_Image || '';
   this.published=eventDetails.event_Status
   this.booking=eventDetails.bookings
+  this.reviews=eventDetails.ratings
 
 
   // this.eventDate = eventDetails.event_Date ? new Date(eventDetails.event_Date) : null;
@@ -268,6 +324,7 @@ updateWorkshopDetails(workshopDetails: any): void {
   this.images = workshopDetails.workshop_Image || '';
   this.published=workshopDetails.has_Published
   this.booking=workshopDetails.bookings
+  this.reviews=workshopDetails.ratings
 
 
   // Parse and format start and end dates
@@ -289,7 +346,7 @@ updateWorkshopDetails(workshopDetails: any): void {
       : null,
     start_Time: session.start_Time || '',
     end_Time: session.end_Time || '',
-    has_Published: session.has_Published || false,
+    has_Published: session.has_Published || true,
     session_Link: session.session_Link || '',
     addVideo: session.addVideo || 'no', // Assuming addVideo is handled elsewhere
   }));
@@ -312,6 +369,24 @@ getActivityClass(activityType: string | null): string {
     default:
       return 'type'; // Default styling
   }
+}
+
+
+
+
+displayHome(id:any,publish:any){
+
+  this.activityService.reviewPublish(id,  publish).subscribe(
+    (response) => {
+      this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
+      console.log('Success:', response);
+    },
+    (error) => {
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
+      console.error('Error:', error);
+    }
+  );
+
 }
 
 

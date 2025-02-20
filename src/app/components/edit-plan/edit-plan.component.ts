@@ -95,6 +95,7 @@ ngOnInit() {
       this.finalPrice = planData.plan_Final_Price || 0;
       this.invitationNo = planData.invitation_NOs || '';
       this.features = planData.plan_Features.join('\n') || '';
+      this.trial=planData.is_Trial
   } else {
     console.log('No plan data found in localStorage');
   }
