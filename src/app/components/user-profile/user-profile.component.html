@@ -56,25 +56,53 @@
                             <div class="label">Personal Details</div>
                             <div class="subT">Update your Personal details</div>
                           </div>
-                          <div class="flex justify-content-start align-items-center gap-4 mb-4 w-full flex-wrap fix">
-                            <img [src]="adminProfile[0]?.user_Img ? adminProfile[0].user_Img : 'UserImg.png'" alt="Admin Profile Image" />
+                          <div class="flex justify-content-start align-items-center gap-4 mb-4 w-full flex-wrap fix" style="position: relative;">
+                            <!-- <div> <input type="file" (change)="onFileSelected($event)" accept="image/*"  hidden></div> -->
+                            <!-- <i class="pi pi-file-edit mb-0" style="position: absolute; top:0 ; left:0; width: 30px; height: 30px;">
+                              <div> <input type="file" (change)="onFileSelected($event)" accept="image/*"  hidden></div>
+                            </i> -->
 
-                                
-                   
+                            <!-- Label makes the icon clickable -->
+<label for="fileInput" style="cursor: pointer; position: relative;">
+  <i class="pi pi-file-edit mb-0" style="position: absolute; top:20px ; left:0; width: 30px; height: 30px;"></i>
+</label>
+
+<!-- File input (hidden) -->
+<input type="file" id="fileInput" #fileInput (change)="onFileSelected($event)" accept="image/*" hidden>
+
+                            <img 
+                            [src]="selectedFileIMG || (adminProfile?.[0]?.user_Img || 'UserImg.png')" 
+                            alt="Admin Profile Image"
+                            style=" width: 120px; height: 120px ; border-radius: 50%;"
+                          />
+                          
+
+
+                    
                               <div class=" ">
+                                
                                <p-button
                                label="Upload"
-                               
+                               (click)="uploadImage()"
                                class="p-button-outlined custom-button-add"
                                
                              ></p-button>
                             </div>
+
+       
+ 
+
+ 
+
+<!-- Preview of the uploaded image -->
+<!-- <img *ngIf="selectedFile" [src]="selectedFile" alt="Uploaded Image"> -->
+
     
     
                             <div class=" ">
                               <p-button
                               label="Delete"
-                             [routerLink]="'/manage-subscription'"
+                              (click)="deleteUpload()"
                               class="  custom-button-delete"
                               
                             ></p-button>
@@ -84,7 +112,7 @@
     
                         <div class="flex justify-content-between align-items-center  mb-4 w-full flex-wrap fix">
                           <div class="flex flex-column gap-2 w-50 pr-2">
-                            <label class="label" for="name">Full Name</label>
+                            <label class="label" for="name">First Name</label>
                             <input 
                                 pInputText 
                                 id="name" 
@@ -100,7 +128,7 @@
                               </small>
                             
                         </div>
-                        <!-- <div class="flex flex-column gap-2 w-50">
+                        <div class="flex flex-column gap-2 w-50 mt-2">
 
                             <label class="label" for="name">Last Name</label>
                             <input 
@@ -108,15 +136,16 @@
                                 id="name" 
                                 aria-describedby="username-help" 
                                 [(ngModel)]="lastName"
-                                placeholder="Name of plan"
+                                placeholder="last Name "
                                 #planNameInput="ngModel"
                                 
                               />
                              
                             
-                        </div> -->
-
-
+                        </div>
+                 </div>
+              <div class="flex justify-content-between align-items-center  mb-4 w-full flex-wrap fix">
+                
                         <div class="flex flex-column gap-2 w-50 flex-wrap">
                           <label class="label" for="email">Email</label>
                           <input 
@@ -230,7 +259,7 @@
                      <div class=" ">
                       <p-button
                       label="Update"
-                      
+                      (click)="submitAdmin()"
                       class="p-button-outlined custom-button-add"
                 
                     ></p-button>

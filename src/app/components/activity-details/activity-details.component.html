@@ -32,7 +32,7 @@
                       Basic Information
                     </button>
                     <button
-                    *ngIf="activityType !== 'Events'"
+                    *ngIf="activityType !== 'Events' && activityType !== 'Consultant'"
                       class="tab-button"
                       [class.active]="activeTab === 'sessions'"
                       

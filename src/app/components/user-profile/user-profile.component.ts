@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { NgClass } from '@angular/common';
 import { RatingModule } from 'primeng/rating';
@@ -18,7 +18,8 @@ import { TagModule } from 'primeng/tag';
 
 import { TabViewModule } from 'primeng/tabview';
 import { BadgeModule } from 'primeng/badge';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 
 
@@ -46,7 +47,7 @@ import { PlansService } from '../../services/plans.service';
 import intlTelInput from 'intl-tel-input';
 import { PasswordModule } from 'primeng/password';
 import { GatewayService } from '../../services/gateway.service';
-
+ 
 
 @Component({
   selector: 'app-user-profile',
@@ -60,7 +61,7 @@ export class UserProfileComponent {
   items:any;
   activeTab: string = 'personal-details';
   sessions : any[]=[]
-constructor(private gatewayService:GatewayService,private route: ActivatedRoute,private messageService:MessageService,private activityService:ActivityService){
+constructor(private cdr: ChangeDetectorRef,private router: Router,private gatewayService:GatewayService,private route: ActivatedRoute,private messageService:MessageService,private activityService:ActivityService){
 
 }
 activityId: any;
@@ -115,6 +116,8 @@ fetchAdminProfile(adminId: string) {
       this.firstName=this.adminProfile[0].full_Name
       this.userEmail=this.adminProfile[0].email
       this.about=this.adminProfile[0].about
+      this.phone=this.adminProfile[0].phone
+      this.whatsapp=this.adminProfile[0].wA_Number
       // ✅ Auto-Select Role in Dropdown
       this.selectedRole = this.roles.find(role => role.name === this.adminProfile[0].role) || null;
 
@@ -376,5 +379,225 @@ changePassword() {
     });
 }
 
+
+selectedFile: any;
+
+
+onUploadd(event: any) {
+  console.log('File Uploaded:', event);
+  const file = event.files[0];
+  // this.selectedFile = file;
+  
+  // this.gatewayService.uploadImage(this.selectedFile).subscribe(
+    if (!file) {
+      console.error('No file selected');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    this.gatewayService.uploadImage(formData).subscribe(
+    (response: any) => {
+     
+      const imageUrl = response[0].file_Path;
+      console.log(imageUrl)
+      this.selectedFile=response[0].file_Path;
+      
+    },
+    (error) => {
+      console.error('Error uploading file:', error);
+    })
+
+  
+  console.log(file)
+  if (file) {
+    this.selectedFile = file;
+  }
+
+
+
+}
+
+
+
+onUpload(event: any) {
+  console.log('File Uploaded:', event);
+  const file = event.files[0];
+  this.selectedFile = file;
+  
+  this.gatewayService.uploadImage(this.selectedFile).subscribe(
+    (response: any) => {
+     
+      const imageUrl = response[0].file_Path;
+      console.log(imageUrl)
+      this.selectedFile=response[0].file_Path;
+      
+    },
+    (error) => {
+      console.error('Error uploading file:', error);
+    })
+  this.cdr.detectChanges();
+  console.log(file)
+  if (file) {
+    this.selectedFile = file;
+  }
+
+
+
+}
+
+  uploadImagee(){
+    
+    this.gatewayService.uploadImage(this.selectedFile).subscribe(
+      (response: any) => {
+       
+        const imageUrl = response[0].file_Path;
+        console.log(imageUrl)
+        this.selectedFile=response[0].file_Path;
+        
+      },
+      (error) => {
+        console.error('Error uploading file:', error);
+      })
+  }
+
+
+
+  ////////////////////////////////////////////////////////////
+  selectedFileIMG:any
+  // Handle file selection from the input field
+  onFileSelected(event: any) {
+    const file = event.target.files[0]; // Get the first selected file
+    if (!file) {
+      console.error('No file selected');
+      return;
+    }
+
+    this.selectedFile = file;
+
+    // Generate preview URL for selected file
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.selectedFileIMG= reader.result as string;
+      this.messageService.add({
+        severity: 'Info',
+        summary: 'Info',
+        detail: "🚨 Pick Upload button after select"
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+deleteUpload(){
+  this.selectedFile=null
+  this.selectedFileIMG=null
+
+  const fileInput = document.querySelector<HTMLInputElement>("#fileInput");
+  if (fileInput) {
+    fileInput.value = ""; // ✅ إعادة تعيين حقل الاختيار
+  }
+
+  this.cdr.detectChanges(); 
+ 
+}
+  // Upload the file manually
+  uploadImage() {
+    if (!this.selectedFile) {
+      alert('Please select a file first!');
+      return;
+    }
+console.log(this.selectedFile)
+    // const formData = new FormData();
+    // formData.append('file', this.selectedFile);  
+    // console.log(formData)
+
+    this.gatewayService.uploadImage(this.selectedFile).subscribe(
+      (response: any) => {
+       
+        const imageUrl = response[0].file_Path;
+        console.log(imageUrl)
+        this.selectedFile=response[0].file_Path;
+        this.messageService.add({
+          severity: 'Info',
+          summary: 'Info',
+          detail: "📸 Image uploaded successfully! "
+        });
+        
+      },
+      (error) => {
+        console.error('Error uploading file:', error);
+      })
+  }
+
+  // Mock submit function to simulate API interaction
+  submitAdmin(): void {
+    console.log(this.phone,this.whatsapp)
+    
+    if (
+      !this.firstName ||
+     
+      !this.userEmail ||
+      !this.selectedRole?.name ||
+      !this.phone ||
+      !this.whatsapp ||
+      (!this.selectedFile&&!this.adminProfile[0].user_Img) ||
+      !this.about
+    ) {
+      console.error("❌ All fields are required!");
+      this.messageService.add({
+        severity: 'Error',
+        summary: 'error',
+        detail: "❌ All fields are required!"
+      });
+      return; // 🚨 Stops execution if any field is empty
+    }
+    
+    // if (this.password !== this.ConfirmPass) {
+    //   console.error("❌ Passwords do not match!");
+    //   this.messageService.add({
+    //     severity: 'Error',
+    //     summary: 'error',
+    //     detail: "❌ Passwords do not match!"
+    //   });
+    //   return;  
+    // }
+       
+    
+        const newAdmin = {
+          id:this.adminId,
+          first_Name:this.firstName,
+          last_Name: this.lastName,
+          email: this.userEmail,
+          role: this.selectedRole.name,
+          phone_No: this.phone,
+          wa_No: this.whatsapp,
+          photo:this.selectedFile?this.selectedFile:this.adminProfile[0].user_Img,
+          about: this.about
+        };
+        
+    
+        this.gatewayService.updateAdmin(newAdmin).subscribe({
+          next: (response:any) => {
+            console.log('Admin updated successfully:', response);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: response.message
+            });
+            this.router.navigate(['/users']);
+          },
+          error: (error:any) => {
+            console.error('Error updating admin:', error);
+            this.messageService.add({
+              severity: 'Error',
+              summary: 'error',
+              detail: error.message
+            });
+          }
+        });
+      
+         
+      }
 
 }

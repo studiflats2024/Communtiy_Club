@@ -129,8 +129,8 @@ planID:any;
 trial:boolean=false;
 submitPlan(): void {
 
-
-  if (!this.planName || !this.selectedPlan?.name || !this.selectedDuration?.name || !this.price  ) {
+console.log(this.planName,this.selectedPlan?.name,this.selectedDuration?.name,this.price)
+  if (!this.planName || !this.selectedPlan?.name || !this.selectedDuration?.name || (!this.price&&!this.trial)  ) {
     // Show error toast for validation failure
     this.messageService.add({
       severity: 'error',

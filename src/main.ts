@@ -4,6 +4,8 @@ import { AppComponent } from './app/app.component';
 import { provideServiceWorker } from '@angular/service-worker';
 import { environment } from './environments/environment';
 
+
+import { provideHttpClient } from '@angular/common/http';
 /////////////////////////////////////////////////////////////start firbase
 
  // Register the service worker for production
@@ -29,3 +31,11 @@ if (environment.production && 'serviceWorker' in navigator) {
 
 bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
+
+
+// bootstrapApplication(AppComponent, {
+//   ...appConfig,
+//   providers: [
+//     provideHttpClient(),  
+//   ]
+// }).catch((err) => console.error(err));
