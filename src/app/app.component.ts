@@ -7,11 +7,11 @@ import {SidebarComponent} from './components/sidebar/sidebar.component';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
-
+import { LoaderInterceptorComponent } from './components/loader-interceptor/loader-interceptor.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,HeaderComponent,SidebarComponent, CommonModule],
+  imports: [RouterOutlet,HeaderComponent,SidebarComponent, CommonModule, LoaderInterceptorComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']  // Fixed typo from styleUrl to styleUrls
 })

@@ -7,10 +7,12 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideServiceWorker } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AuthInterceptor } from './services/auth.interceptor.service';
-
+import { LoaderInterceptor } from './services/loader.interceptor.service'
+import { LoaderService } from './services/loader.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    
     // Routing configuration
     provideRouter(routes),
 
@@ -19,7 +21,7 @@ export const appConfig: ApplicationConfig = {
 
     // Register your AuthInterceptor
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
 
     provideAnimations(),
 
