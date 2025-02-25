@@ -86,7 +86,7 @@
           <th pSortableColumn="activity_Name">Name <p-sortIcon field="activity_Name"></p-sortIcon></th>
           <!-- <th pSortableColumn="sessions_No">Session Number<p-sortIcon field="sessions_No"></p-sortIcon></th> -->
           
-          <th pSortableColumn="sessions_No">Session Number<p-sortIcon field="sessions_No"></p-sortIcon></th>
+          <!-- <th pSortableColumn="sessions_No">Session Number<p-sortIcon field="sessions_No"></p-sortIcon></th> -->
 
  
           <th pSortableColumn="activity_Location">Location <p-sortIcon field="activity_Location"></p-sortIcon></th>
@@ -123,7 +123,7 @@
       <td ><span [ngClass]="getActivityClass(activity.activity_Type)"> {{ activity.activity_Type }}</span> </td>
 
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td> 
-          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.sessions_No}}</td> 
+          <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.sessions_No}}</td>  -->
 
       
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
