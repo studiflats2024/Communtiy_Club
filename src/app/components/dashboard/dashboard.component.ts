@@ -466,8 +466,7 @@ this.setChartDataSubscribers()
 
  
   
-
-  getPlanBadgeClass(planType: string): string {
+  getPlanBadgeClasss(planType: string): string {
     switch (planType) {
       case 'Monthly':
         return 'badge-monthly'; // كلاس خاص بـ Monthly
@@ -483,8 +482,24 @@ this.setChartDataSubscribers()
         return 'badge-default'; // كلاس افتراضي
     }
   }
+
+
+  getPlanBadgeClass(planType: string): string {
+    if (!planType) return 'badge-default'; // Handle empty/null values
+
+    const lowerPlanType = planType.toLowerCase(); // Convert to lowercase for case insensitivity
+
+    if (lowerPlanType.includes('monthly')) return 'badge-monthly';
+    if (lowerPlanType.includes('semi-annual')) return 'badge-semi-annual';
+    if (lowerPlanType.includes('annual')) return 'badge-annual';
+    if (lowerPlanType.includes('free trial')) return 'badge-free-trial';
+    if (lowerPlanType.includes('test 101')) return 'badge-free-trial';
+
+    return 'badge-default'; // Default class if no match
+}
+
   
-  getPlanIcon(planType: string): string {
+  getPlanIconn(planType: string): string {
     switch (planType) {
       case 'Monthly':
         return 'pi pi-user'; // أيقونة خاصة بـ Monthly
@@ -502,6 +517,22 @@ this.setChartDataSubscribers()
 
     
   }
+
+
+
+  getPlanIcon(planType: string): string {
+    if (!planType) return 'pi pi-question'; // Handle empty/null values
+
+    const lowerPlanType = planType.toLowerCase(); // Convert to lowercase
+
+    if (lowerPlanType.includes('monthly')) return 'pi pi-user';
+    if (lowerPlanType.includes('semi-annual')) return 'pi pi-calendar';
+    if (lowerPlanType.includes('annual')) return 'pi pi-star';
+    if (lowerPlanType.includes('free trial')) return 'pi pi-gift';
+    if (lowerPlanType.includes('test 101')) return 'pi pi-gift';
+
+    return 'pi pi-question'; // Default icon if no match
+}
   
   currentPage:any;
   pageChange(event: any): void {

@@ -322,7 +322,7 @@ paymentRecords:any[]=[]
   }
   
 
-  getPlanBadgeClass(planType: string): string {
+  getPlanBadgeClasss(planType: string): string {
     switch (planType) {
       case 'Monthly':
         return 'badge-monthly'; // كلاس خاص بـ Monthly
@@ -338,8 +338,24 @@ paymentRecords:any[]=[]
         return 'badge-default'; // كلاس افتراضي
     }
   }
+
+
+  getPlanBadgeClass(planType: string): string {
+    if (!planType) return 'badge-default'; // Handle empty/null values
+
+    const lowerPlanType = planType.toLowerCase(); // Convert to lowercase for case insensitivity
+
+    if (lowerPlanType.includes('monthly')) return 'badge-monthly';
+    if (lowerPlanType.includes('semi-annual')) return 'badge-semi-annual';
+    if (lowerPlanType.includes('annual')) return 'badge-annual';
+    if (lowerPlanType.includes('free trial')) return 'badge-free-trial';
+    if (lowerPlanType.includes('test 101')) return 'badge-free-trial';
+
+    return 'badge-default'; // Default class if no match
+}
+
   
-  getPlanIcon(planType: string): string {
+  getPlanIconn(planType: string): string {
     switch (planType) {
       case 'Monthly':
         return 'pi pi-user'; // أيقونة خاصة بـ Monthly
@@ -357,7 +373,39 @@ paymentRecords:any[]=[]
 
     
   }
+
+
+
+  getPlanIcon(planType: string): string {
+    if (!planType) return 'pi pi-question'; // Handle empty/null values
+
+    const lowerPlanType = planType.toLowerCase(); // Convert to lowercase
+
+    if (lowerPlanType.includes('monthly')) return 'pi pi-user';
+    if (lowerPlanType.includes('semi-annual')) return 'pi pi-calendar';
+    if (lowerPlanType.includes('annual')) return 'pi pi-star';
+    if (lowerPlanType.includes('free trial')) return 'pi pi-gift';
+    if (lowerPlanType.includes('test 101')) return 'pi pi-gift';
+
+    return 'pi pi-question'; // Default icon if no match
+}
   
+
+getPlanImage(planName: string | undefined): string | null {
+  if (!planName) return null; // Ensure planName exists
+
+  const lowerPlanName = planName.toLowerCase(); // Convert to lowercase for case insensitivity
+
+  // Check for keywords inside planName
+  if (lowerPlanName.includes('annual')) return 'community/starplan.svg';
+  if (lowerPlanName.includes('monthly')) return 'month.svg';
+  if (lowerPlanName.includes('free')) return 'freePlan.svg';
+  if (lowerPlanName.includes('semi-annual') || lowerPlanName.includes('6 months')) return 'months.svg';
+  if (lowerPlanName.includes('quarterly') || lowerPlanName.includes('3 months')) return 'months.svg';
+
+  return null; // Default: No image if no match
+}
+
   currentPage:any;
   pageChange(event: any): void {
     this.currentPage = event.page;
