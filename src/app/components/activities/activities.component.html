@@ -128,9 +128,8 @@
       
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
           <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td> -->
-          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.start_Date }}</td>
-
-          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.end_Date }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.start_Date || '___' }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.end_Date || '___'}}</td>
 
 <!-- 
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>

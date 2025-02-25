@@ -111,7 +111,7 @@
                             <div class="details w-75 mb-3">
                               <div><img class="mr-2" src="dateSession.svg"/>{{ session.session_Date | date: 'mediumDate' }}</div>
                               <div><i class="pi pi-clock mr-2" style="color:#1151B4"></i> {{ session.start_Time }} - {{ session.end_Time }}</div>
-                              <div><i class="pi pi-clock mr-2" style="color:#1151B4"></i>30 booking / 35</div>
+                              <!-- <div><i class="pi pi-clock mr-2" style="color:#1151B4"></i>30 booking / 35</div> -->
                             </div>
                             <div class="details w-75">
                               <div *ngIf="session.session_Link" ><img class="mr-2" src="videoSession.svg"/>{{session.session_Link}}</div><!--*ngIf="session.session_Link"-->
