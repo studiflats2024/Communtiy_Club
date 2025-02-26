@@ -65,7 +65,7 @@
 
 <div class="flex justify-content-between align-item-center my-3 gap-2  w-full fixSmallScreen">
 
-  <div class="card revenue-statistics flex-2 w-75 fixS">
+  <div class="card revenue-statistics flex-2 w-75 fixS" >
     <div class="header">
        <div>
         <div class="revenue">Revenue Statistic</div>
@@ -89,13 +89,13 @@
       style="height: 300px;">
     </p-chart> -->
 
-    <div  >
+    <div   >
       <p-chart type="bar" [data]="revenueData" [options]="revenueOptions"  ></p-chart>
     </div>
     
   </div>
 
-<div class=" card flex-1  revenue-statistics   w-75">
+<div class=" card flex-1  revenue-statistics   w-50">
   <div class="  w-full flex flex-column justify-content-between h-full">
     <div class="header">
       <div class="revenue w-full flex justify-content-between">Revenue Per Plan</div>
@@ -144,6 +144,47 @@
 </div>
   
 </div>
+<!------------------------------------>
+
+<div class="flex justify-content-between align-item-center my-3 gap-2 w-full fixSmallScreen">
+   <div class="card revenue-statistics flex-2 w-50 fixS">
+    <div class="flex justify-content-between align-items-center">
+      <h3>Subscribers</h3>
+      <p-dropdown 
+        [options]="filters" 
+        [(ngModel)]="selectedFilter" 
+        placeholder="Select Filter">
+      </p-dropdown>
+    </div>
+  
+    <!-- <div class="chart-container">
+      <p-chart type="bar" [data]="chartData" [options]="chartOptions"  [plugins]="chartPlugins"></p-chart>
+    </div> -->
+    <div class="progress-container">
+      <div *ngFor="let member of members" class="progress-item">
+        <span>{{ member.label }}</span>
+        <p-progressBar [value]="member.value" [style]="{ 'background-color': '#ccc' }"  class="bar" class="bar" 
+        [ngStyle]="{ '--progress-color': member.color }">></p-progressBar>
+ 
+
+      </div>
+    </div>
+    
+
+    
+    
+  
+    <!-- Legend -->
+    <div class="legend-container">
+      <div class="legend-item" *ngFor="let label of chartData.labels; let i = index">
+        <span class="color-box" [ngStyle]="{ 'background-color': chartData.datasets[0].backgroundColor[i] }"></span>
+        {{ label }} ({{ chartData.datasets[0].data[i] }})
+      </div>
+    </div>
+   </div>
+</div>
+
+<!------------------------->
 </div>
        
 

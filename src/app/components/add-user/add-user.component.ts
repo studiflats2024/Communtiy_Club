@@ -43,6 +43,7 @@ import { GatewayService } from '../../services/gateway.service';
 export class AddUserComponent implements AfterViewInit {
 
 
+  randomSuffix = Math.random().toString(36).substring(2, 8);
 
   phoneNumber:any
   password:any
@@ -52,6 +53,40 @@ export class AddUserComponent implements AfterViewInit {
 phone:any
 whatsapp:any
   ngAfterViewInit() {
+
+    setTimeout(() => {
+      let input = document.getElementById('whatsapp') as HTMLInputElement;
+      if (input) {
+        input.setAttribute('autocomplete', 'off');
+        input.setAttribute('autocorrect', 'off');
+        input.setAttribute('spellcheck', 'false');
+        input.value = ''; // Clear any prefilled value
+      }
+    }, 500)
+    setTimeout(() => {
+      let input = document.getElementById('email') as HTMLInputElement;
+      if (input) {
+        input.setAttribute('autocomplete', 'off');
+        input.setAttribute('autocorrect', 'off');
+        input.setAttribute('spellcheck', 'false');
+        input.value = ''; // Clear any prefilled value
+      }
+    }, 1000);
+
+    setTimeout(() => {
+      let input = document.querySelector('.p-password input') as HTMLInputElement;
+    if (input) {
+      input.setAttribute('autocomplete', 'off');
+      input.setAttribute('autocorrect', 'off');
+      input.setAttribute('spellcheck', 'false');
+      input.value = '';  // ✅ Clear autofill
+
+      // ✅ Add event listener to clear on focus
+      input.addEventListener('focus', () => {
+        input.value = '';
+      });
+    }
+    }, 1000);
     // Initialize phone input
     this.initializeIntlTelInput('#phone');
     this.initializeIntlTelInput('#whatsapp');

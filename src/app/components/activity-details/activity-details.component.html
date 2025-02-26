@@ -32,7 +32,7 @@
                       Basic Information
                     </button>
                     <button
-                    *ngIf="activityType !== 'Events'"
+                    *ngIf="activityType !== 'Event' && activityType !== 'Consult'"
                       class="tab-button"
                       [class.active]="activeTab === 'sessions'"
                       
@@ -70,9 +70,9 @@
                             <div class="title">{{ title }}</div>
                             <div class="dis">{{ discription }}</div>
                             <div class="details">
-                              <div *ngIf="activityType !== 'Consultant'"><img class="mr-2" src="seats.svg"/>{{ seatsAvailable }} Seat leave</div>
-                              <div *ngIf="activityType !== 'Events' && activityType !== 'Consultant'" ><img class="mr-2" src="startDate.svg"/>{{ startDate | date: 'mediumDate' }}</div>
-                              <div *ngIf="activityType !== 'Events' && activityType !== 'Consultant'"><img class="mr-2" src="endDate.svg"/>{{ endDate | date: 'mediumDate' }}</div>
+                              <div *ngIf="activityType !== 'Consult'"><img class="mr-2" src="seats.svg"/>{{ seatsAvailable }} Seat leave</div>
+                              <div *ngIf="activityType !== 'Event' && activityType !== 'Consult'" ><img class="mr-2" src="startDate.svg"/>{{ startDate | date: 'mediumDate' }}</div>
+                              <div *ngIf="activityType !== 'Event' && activityType !== 'Consult'"><img class="mr-2" src="endDate.svg"/>{{ endDate | date: 'mediumDate' }}</div>
                               <div *ngIf="eventDate"><img src="dateSession.svg" /> {{ eventDate | date: 'mediumDate' }}</div>
                               <div *ngIf="startTime">
                                 <i class="pi pi-clock mr-2" style="color:#1151B4"></i> {{ startTime   }}
@@ -100,7 +100,7 @@
                       </div>
 
 
-                      <div id="sessions" *ngIf="activityType === 'Courses' || activityType === 'Workshops'">
+                      <div id="sessions" *ngIf="activityType === 'Course' || activityType === 'Workshop'">
                         <div class="sessions mt-4"   *ngFor="let session of sessions">
                           <div class="flex justify-content-between align-items-center w-full pb-2" style="   border-bottom: 1px solid var(--Colors-Primary-100, #E7EEF8);">
                             <div class="title" style=" padding-bottom: 10px !important; ">{{ session.session_Title }}</div>
@@ -111,7 +111,7 @@
                             <div class="details w-75 mb-3">
                               <div><img class="mr-2" src="dateSession.svg"/>{{ session.session_Date | date: 'mediumDate' }}</div>
                               <div><i class="pi pi-clock mr-2" style="color:#1151B4"></i> {{ session.start_Time }} - {{ session.end_Time }}</div>
-                              <div><i class="pi pi-clock mr-2" style="color:#1151B4"></i>30 booking / 35</div>
+                              <!-- <div><i class="pi pi-clock mr-2" style="color:#1151B4"></i>30 booking / 35</div> -->
                             </div>
                             <div class="details w-75">
                               <div *ngIf="session.session_Link" ><img class="mr-2" src="videoSession.svg"/>{{session.session_Link}}</div><!--*ngIf="session.session_Link"-->
@@ -122,7 +122,7 @@
                       </div>
                       
 
-                    <div id="sessions" *ngIf="activityType === 'Consultant'">
+                    <div id="sessions" *ngIf="activityType === 'Consult'">
                       <div class="sessions mt-4" *ngFor="let day of sessionsDays">
                         <!-- <div class="w-full" style=" padding-bottom: 10px !important;   border-bottom: 1px solid var(--Colors-Primary-100, #E7EEF8);"><img src="check.svg" class="mr-2"/>{{ day.session_Day }}</div> -->
                         <div class="flex justify-content-between align-items-center  w-full pb-2 " style="border-bottom: 1px solid var(--Colors-Primary-100, #E7EEF8);">

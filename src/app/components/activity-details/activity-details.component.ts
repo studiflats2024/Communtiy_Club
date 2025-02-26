@@ -89,8 +89,10 @@ ngOnInit() {
 
   this.activityId = this.route.snapshot.paramMap.get('id');
   this.activityType = this.route.snapshot.paramMap.get('type');
+  this.checkActivityType() ;
   if (this.activityId&&this.activityType) {
-    this.getDetailsActivity();
+    // this.getDetailsActivity();
+    this.gatewayActivityDetails(this.activityType,this.activityId)
   }
 
 
@@ -107,11 +109,63 @@ ngOnInit() {
   
 }
 
+
+checkActivityType() {
+   
+  if(this.activityType==="Courses"){
+    this.activityType='Course'
+     
+  }else if(this.activityType==="Events"){
+    this.activityType='Event'
+
+  }else if(this.activityType==="Workshops"){
+    this.activityType='Workshop'
+      
+  }else if(this.activityType==="Consultant"){
+    this.activityType='Consult'
+    
+  }
+}
+
+
+IntegrateDetailsActivity(response:any) {
+   console.log(this.activityType)
+  if(this.activityType==="Course"){
+    this.updateCourseDetails(response)
+     
+  }else if(this.activityType==="Event"){
+    this.updateEventDetails(response);
+  }else if(this.activityType==="Workshop"){
+     
+    this.updateWorkshopDetails(response);
+
+   
+  }else if(this.activityType==="Consult"){
+    this.updateConsultDetails(response)
+
+    
+     
+
+    
+  }
+}
+
 scrollToSection(sectionId: string) {
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  }
+  /////////////////////////////////update details with gateway activity details api /////////////////////
+  gatewayActivityDetails(type:any,id:any){
+     this. activityService.getActivityDetailsGateway(type,id).subscribe({
+      next:(data)=>{
+        console.log(data)
+        this.activityDetails=data
+        this.IntegrateDetailsActivity(data)
+      },
+      error:(err)=>console.error('Error fetching activity:', err)
+     })
   }
 ////////////////////////////////////get details depend on type/////////////////////////////////
 getDetailsActivity() {
@@ -166,27 +220,29 @@ booking:any
 updateCourseDetails(courseDetails: any): void {
  
    
-  this.title = courseDetails.course_Name || '';
-  this.discription = courseDetails.course_Description || '';
-  this.location = courseDetails.course_Location || '';
-  this.displayOnApp = courseDetails.dispaly_Home || false; // Convert to boolean if needed
+  this.title = courseDetails.activity_Name || '';
+  this.discription = courseDetails.activity_Description|| '';
+  this.location = courseDetails.activity_Location || '';
+  // this.displayOnApp = courseDetails.dispaly_Home || false;  
   this.videoLink = courseDetails.video_Link || '';
-  this.images = courseDetails.course_Image || '';
-  this.published=courseDetails.has_Published
+  this.images = courseDetails.activity_Media || '';
+  this.published=courseDetails.status
   this.booking=courseDetails.bookings
+  //  this.reviews=courseDetails.activity_Rating
+   this.rate=courseDetails.activity_Rating
    this.reviews=courseDetails.ratings
   // Parse and format start and end dates
-  this.startDate = courseDetails.course_Start_Date
-    ? new Date(courseDetails.course_Start_Date)
-    : null;
-  this.endDate = courseDetails.course_End_Date
-    ? new Date(courseDetails.course_End_Date)
-    : null;
+  // this.startDate = courseDetails.course_Start_Date
+  //   ? new Date(courseDetails.course_Start_Date)
+  //   : null;
+  this.startDate=courseDetails.activity_Start_Date
+  this.endDate = courseDetails.activity_End_Date;
 
-  this.seatsAvailable = courseDetails.availabile_Seats || 0;
-
+  this.seatsAvailable = courseDetails.available_Seats  || 0;
+  
+ 
   // Map the sessions
-  this.sessions = courseDetails.sessions.map((session: any) => ({
+  this.sessions = courseDetails.sessions_Course_Workshop.map((session: any) => ({
     session_ID: session.session_ID || '',
     session_Title: session.session_Title || '',
     session_Date: session.session_Date
@@ -223,21 +279,23 @@ updateConsultDetails(consultDetails: any): void {
   
  
 
-  this.title = consultDetails.consult_Name || '';
-  this.discription = consultDetails.consult_Description || '';
-  this.location = consultDetails.consult_Location || '';
-  this.displayOnApp = consultDetails.dispaly_Home || false;
+  this.title = consultDetails.activity_Name|| '';
+  this.discription = consultDetails.activity_Description|| '';
+  this.location = consultDetails.activity_Location || '';
+  // this.displayOnApp = consultDetails.dispaly_Home || false;
   
-  this.images = consultDetails.consult_Image || '';
+  this.images = consultDetails.activity_Media || '';
   this.videoLink = consultDetails.video_Link || '';
-  this.published=consultDetails.has_Published
+  this.published=consultDetails.status
   this.booking=consultDetails.bookings
   this.reviews=consultDetails.ratings
+  this.rate=consultDetails.activity_Rating
+
 
 
   
   // Update sessionsDays with the data from the API
-  this.sessionsDays = consultDetails.sessions.map((session: any) => ({
+  this.sessionsDays = consultDetails.sessions_Consults.map((session: any) => ({
     session_ID: session.session_ID || '',
     session_Day: session.session_Day || '',
     session_Start_Time: session.session_Start_Time || '',
@@ -274,24 +332,33 @@ endTime:any
 updateEventDetails(eventDetails: any): void {
 
 
-  this.title = eventDetails.event_Name || '';
-  this.discription = eventDetails.event_Description || '';
-  this.location = eventDetails.event_Location || '';
-  this.displayOnApp = eventDetails.dispaly_Home ? 'yes' : 'no';
+  this.title = eventDetails.activity_Name || '';
+  this.discription = eventDetails.activity_Description || '';
+  this.location = eventDetails.activity_Location || '';
+  // this.displayOnApp = eventDetails.dispaly_Home ? 'yes' : 'no';
   this.videoLink = eventDetails.video_Link || '';
-  this.images = eventDetails.event_Image || '';
-  this.published=eventDetails.event_Status
+  this.images = eventDetails.activity_Media || '';
+  this.published=eventDetails.status
   this.booking=eventDetails.bookings
   this.reviews=eventDetails.ratings
+  this.rate=eventDetails.activity_Rating
 
 
   // this.eventDate = eventDetails.event_Date ? new Date(eventDetails.event_Date) : null;
   // this.startTime = eventDetails.event_Start_Time || null;
   // this.endTime = eventDetails.event_End_Time || null;
-  this.eventDate = eventDetails.event_Date ? new Date(eventDetails.event_Date) : null;
-  this.startTime = eventDetails.event_Start_Time || null;
-  this.endTime = eventDetails.event_End_Time || null;
-  this.seatsAvailable = eventDetails.availabile_Seats || 0;
+  // this.eventDate = eventDetails.activity_Date? new Date(eventDetails.activity_Date) : null;
+  this.eventDate = eventDetails.activity_Date ;
+
+  // this.startTime = eventDetails.event_Start_Time || null;
+  // this.endTime = eventDetails.event_End_Time || null;
+
+  if (eventDetails.activity_Time) {
+    const timeParts = eventDetails.activity_Time.split(' - '); // Split start & end time
+    this.startTime = timeParts[0] || null; // First part is start time
+    this.endTime = timeParts[1] || null; // Second part is end time
+  } 
+  this.seatsAvailable = eventDetails.available_Seats || 0;
 }
 
 /////////
@@ -311,32 +378,30 @@ fetchWorkshopDetails(workshopId: string): void {
 
 
 //update//
+rate:any
+bookingNo:any
 updateWorkshopDetails(workshopDetails: any): void {
 
 
  
   
-  this.title = workshopDetails.workshop_Name || '';
-  this.discription = workshopDetails.workshop_Description || '';
-  this.location = workshopDetails.workshop_Location || '';
+  this.title = workshopDetails.activity_Name|| '';
+  this.discription = workshopDetails.activity_Description || '';
+  this.location = workshopDetails.activity_Location || '';
   this.displayOnApp = workshopDetails.dispaly_Home || false; // Convert to boolean if needed
   this.videoLink = workshopDetails.video_Link || '';
-  this.images = workshopDetails.workshop_Image || '';
-  this.published=workshopDetails.has_Published
+  this.images = workshopDetails.activity_Media || '';
+  this.published=workshopDetails.status
   this.booking=workshopDetails.bookings
-  this.reviews=workshopDetails.ratings
-
+  this.rate=workshopDetails.activity_Rating
+ this.reviews=workshopDetails.ratings
 
   // Parse and format start and end dates
-  this.startDate = workshopDetails.workshop_Start_Date 
-    ? new Date(workshopDetails.workshop_Start_Date) 
-    : null;
-  this.endDate = workshopDetails.workshop_End_Date 
-    ? new Date(workshopDetails.workshop_End_Date) 
-    : null;
+  this.startDate = workshopDetails.activity_Start_Date;
+  this.endDate = workshopDetails.activity_End_Date;
 
-  this.seatsAvailable = workshopDetails.availabile_Seats || 0;
-
+  this.seatsAvailable = workshopDetails.available_Seats || 0;
+ 
   // Map the sessions
   this.sessions = workshopDetails.sessions.map((session: any) => ({
     session_ID: session.session_ID || '',
@@ -358,13 +423,13 @@ getActivityClass(activityType: string | null): string {
   if (!activityType) return '';
 
   switch (activityType.toLowerCase()) {
-    case 'courses':
+    case 'course':
       return 'type-success';
-    case 'consultant':
+    case 'consult':
       return 'type-danger';
-    case 'workshops':
+    case 'workshop':
       return 'type-purble';
-    case 'events':
+    case 'event':
       return 'type';
     default:
       return 'type'; // Default styling

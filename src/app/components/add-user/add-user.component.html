@@ -95,7 +95,9 @@
             </div>
             <div class="flex flex-column gap-2 w-50">
               <label for="whatsapp" class="label" >WhatsApp Number</label>
-              <input id="whatsapp" type="tel" class="phone-input w-100" />
+              <!-- <input type="tel"  hidden /> -->
+
+              <input id="whatsapp" type="tel" class="phone-input w-100"  >
              
           </div>
         </div>
@@ -133,7 +135,7 @@
               <div class=" ">
                 <p-button
                 label="Cancel"
-               [routerLink]="'/manage-subscription'"
+                [routerLink]="'/users'" 
                 class="p-button-outlined custom-button"
                 
               ></p-button>

@@ -163,41 +163,72 @@ export class TransactionsComponent {
     }
    
   
-   
-      getPlanBadgeClass(planType: string): string {
-    switch (planType) {
-      case 'Monthly':
-        return 'badge-monthly'; // كلاس خاص بـ Monthly
-      case 'Semi-Annual':
-        return 'badge-semi-annual'; // كلاس خاص بـ Semi-Annual
-      case 'Annual':
-        return 'badge-annual'; // كلاس خاص بـ Annual
-      case 'Free Trial Month':
-        return 'badge-free-trial'; 
-        case 'Test 101':
-          return 'badge-free-trial'; // كلاس خاص بـ Free Trial Month
-      default:
-        return 'badge-default'; // كلاس افتراضي
+    getPlanBadgeClasss(planType: string): string {
+      switch (planType) {
+        case 'Monthly':
+          return 'badge-monthly'; // كلاس خاص بـ Monthly
+        case 'Semi-Annual':
+          return 'badge-semi-annual'; // كلاس خاص بـ Semi-Annual
+        case 'Annual':
+          return 'badge-annual'; // كلاس خاص بـ Annual
+        case 'Free Trial Month':
+          return 'badge-free-trial'; 
+          case 'Test 101':
+            return 'badge-free-trial'; // كلاس خاص بـ Free Trial Month
+        default:
+          return 'badge-default'; // كلاس افتراضي
+      }
     }
+  
+  
+    getPlanBadgeClass(planType: string): string {
+      if (!planType) return 'badge-default'; // Handle empty/null values
+  
+      const lowerPlanType = planType.toLowerCase(); // Convert to lowercase for case insensitivity
+  
+      if (lowerPlanType.includes('monthly')) return 'badge-monthly';
+      if (lowerPlanType.includes('semi-annual')) return 'badge-semi-annual';
+      if (lowerPlanType.includes('annual')) return 'badge-annual';
+      if (lowerPlanType.includes('free trial')) return 'badge-free-trial';
+      if (lowerPlanType.includes('test 101')) return 'badge-free-trial';
+  
+      return 'badge-default'; // Default class if no match
   }
   
-  getPlanIcon(planType: string): string {
-    switch (planType) {
-      case 'Monthly':
-        return 'pi pi-user'; // أيقونة خاصة بـ Monthly
-      case 'Semi-Annual':
-        return 'pi pi-calendar'; // أيقونة خاصة بـ Semi-Annual
-      case 'Annual':
-        return 'pi pi-star'; // أيقونة خاصة بـ Annual
-      case 'Free Trial Month':
-        return 'pi pi-gift';
-        case 'Test 101':
-          return 'pi pi-gift';  
-      default:
-        return 'pi pi-question'; // أيقونة افتراضية
-    }
-
     
+    getPlanIconn(planType: string): string {
+      switch (planType) {
+        case 'Monthly':
+          return 'pi pi-user'; // أيقونة خاصة بـ Monthly
+        case 'Semi-Annual':
+          return 'pi pi-calendar'; // أيقونة خاصة بـ Semi-Annual
+        case 'Annual':
+          return 'pi pi-star'; // أيقونة خاصة بـ Annual
+        case 'Free Trial Month':
+          return 'pi pi-gift';
+          case 'Test 101':
+            return 'pi pi-gift';  
+        default:
+          return 'pi pi-question'; // أيقونة افتراضية
+      }
+  
+      
+    }
+  
+  
+  
+    getPlanIcon(planType: string): string {
+      if (!planType) return 'pi pi-question'; // Handle empty/null values
+  
+      const lowerPlanType = planType.toLowerCase(); // Convert to lowercase
+  
+      if (lowerPlanType.includes('monthly')) return 'pi pi-user';
+      if (lowerPlanType.includes('semi-annual')) return 'pi pi-calendar';
+      if (lowerPlanType.includes('annual')) return 'pi pi-star';
+      if (lowerPlanType.includes('free trial')) return 'pi pi-gift';
+      if (lowerPlanType.includes('test 101')) return 'pi pi-gift';
+  
+      return 'pi pi-question'; // Default icon if no match
   }
     
   currentPage:any;

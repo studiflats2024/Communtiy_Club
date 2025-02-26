@@ -220,6 +220,26 @@ export class GatewayService {
       return this.http.post<any>(`${environment.apiUrl}/Gateway/Add_New_Admin`, adminData, { headers });
     }
 
+    updateAdmin(adminData: any): Observable<any> {
+      const headers = new HttpHeaders({ 
+        'Content-Type': 'application/json' 
+      });
+      return this.http.post<any>(`${environment.apiUrl}/Gateway/Update_Admin`, adminData, { headers });
+    }
+
+
+    uploadImage(file: any) {
+      const url = `${environment.apiUrl}/Basics/UploadSingleFile`;
+  
+        const formData = new FormData();
+        formData.append('fileData', file);
+  
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${localStorage.getItem('token')}` // If authentication is required
+        });
+  
+        return this.http.post(url, formData, { headers });
+      }
 
     // ✅ Fetch Admin Profile by ID
   getAdminProfile(adminId: string): Observable<any> {
@@ -255,6 +275,17 @@ export class GatewayService {
 
     return this.http.get<any>(`${environment.apiUrl}/Gateway/GetFinanceInvoice`, { params });
   }
+
+
+
+///////activity details from gateway//////////
+getActivityDetailsGateway(type:string, id:string){
+  let params =new HttpParams();
+  if (type) params= params.set('type',type);
+  if (id) params=params.set('ID',id)
+
+    return this.http.get(`${environment.apiUrl}/Gateway/GetActivityDetails`,{params,responseType:'json'})
+}
 }
 
 

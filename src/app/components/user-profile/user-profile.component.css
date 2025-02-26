@@ -2191,3 +2191,39 @@ font-weight: 500;
 line-height: 24px; /* 150% */
 }
    
+
+:host ::ng-deep .p-fileupload{
+  display: flex;
+  /* height: 56px; */
+  padding: 4.444px 8.889px;
+  justify-content: center;
+  align-items: center;
+  gap: 2.222px;
+  flex: 1 0 0;
+  width: fit-content !important;
+  border-radius: 8px;
+  background: var(--primary-color-600, #1151B4);
+  color:#fff !important;
+ border:unset
+}
+:host ::ng-deep p-fileupload .p-button{
+  display: flex;
+  /* height: 56px; */
+  /* padding: 4.444px 8.889px; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* gap: 2.222px; */
+  /* flex: 1 0 0; */
+  /* width: 100%; */
+  border-radius: 8px;
+  background: var(--primary-color-600, #1151B4);
+  border-radius: 0 !important;
+  border:none;
+  padding: 4.444px 45px !important;
+  color:#fff !important
+}
+
+:host ::ng-deep .p-button-label::before{
+  color: #fff !important;
+}
+

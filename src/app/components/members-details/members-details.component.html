@@ -110,11 +110,32 @@
 
 
                   <div>
-                    <p-card class="subscription-card"  >
+                    <p-card class="subscription-card"  [ngClass]="{
+                      'subscription-card-year': memberDetails?.plan_Duration === 'Year' ,
+                      'subscription-card-6months': memberDetails?.plan_Duration === '6 Months' ,
+                      'subscription-card-3months': memberDetails?.plan_Duration === '3 Months' ,
+                      'subscription-card-month': memberDetails?.plan_Duration === 'Month'   ,
+                      'subscription-card-free': memberDetails?.plan_Duration === 'Month' 
+                
+                    }">
                       <div class="card-headerr border-bottom pb-4">
                         <span class="plan-name">
+
+ 
+            <!-- <img *ngIf="plan.plan_Duration === 'Year' &&!plan.is_Trial" src="community/starplan.svg" />
+           
+            <img  *ngIf="plan.plan_Duration === '3 Months' &&!plan.is_Trial"  src="months.svg" />
+            <img  *ngIf="plan.plan_Duration === '6 Months' &&!plan.is_Trial"  src="months.svg" />
+            <img  *ngIf="plan.plan_Duration === 'Month' &&!plan.is_Trial"  src="month.svg" />
+
+            <img  *ngIf="plan.is_Trial"  src="freePlan.svg" /> -->
+
+            <img *ngIf="getPlanImage(memberDetails?.plan_Name)" 
+     [src]="getPlanImage(memberDetails?.plan_Name)" 
+     alt="Plan Icon">
+
                     
-                          <img src="community/starplan.svg" />
+                          <!-- <img src="community/starplan.svg" /> -->
                           {{memberDetails?.plan_Name}}
                         </span>
                         <span><span class="plan-price">€{{memberDetails?.price}}</span> <span class="plan-duration">/ {{memberDetails?.plan_Duration}}</span> </span>
