@@ -82,11 +82,13 @@
                             <img src="community/memberImg.png"/>
                             <div class="flex flex-column">
                               <div class="data">{{memberDetails?.name}}</div>
-                              <div class="sub-info"><i class="pi pi-envelope mr-1" style="color:#1151B4"></i> <span class="mr-2">{{memberDetails?.email}}</span><i class="pi pi-phone mr-1" style="color:#1151B4"></i><span>+49 128 45987564</span></div>
+                              <div class="sub-info"><i class="pi pi-envelope mr-1" style="color:#1151B4"></i> <span class="mr-2">{{memberDetails?.email}}</span><i class="pi pi-phone mr-1" style="color:#1151B4"></i><span>{{memberDetails?.phone_No}}</span></div>
                             </div>
                           </div>
                           <div *ngIf="memberDetails?.status==='Active'" class=""><span class="status-tag p-tag-success">{{memberDetails?.status}}</span></div>
                           <div *ngIf="memberDetails?.status==='Expired'" class=""><span class="status-tag p-tag-danger">{{memberDetails?.status}}</span></div>
+                          <div *ngIf="memberDetails?.status==='WaitingPayment'" class=""><span class="status-tag p-tag-warning">{{memberDetails?.status}}</span></div>
+
 
 
                        </div>

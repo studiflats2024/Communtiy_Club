@@ -227,9 +227,9 @@ export class ManageSubscriptionComponent {
     const lowerPlanType = planType.toLowerCase(); // Convert to lowercase for case insensitivity
 
     if (lowerPlanType.includes('monthly')) return 'badge-monthly';
-    if (lowerPlanType.includes('semi-annual')) return 'badge-semi-annual';
+    if (lowerPlanType.includes('semi')) return 'badge-semi-annual';
     if (lowerPlanType.includes('annual')) return 'badge-annual';
-    if (lowerPlanType.includes('free trial')) return 'badge-free-trial';
+    if (lowerPlanType.includes('free')) return 'badge-free-trial';
     if (lowerPlanType.includes('test 101')) return 'badge-free-trial';
 
     return 'badge-default'; // Default class if no match
@@ -263,9 +263,9 @@ export class ManageSubscriptionComponent {
     const lowerPlanType = planType.toLowerCase(); // Convert to lowercase
 
     if (lowerPlanType.includes('monthly')) return 'pi pi-user';
-    if (lowerPlanType.includes('semi-annual')) return 'pi pi-calendar';
+    if (lowerPlanType.includes('semi')) return 'pi pi-calendar';
     if (lowerPlanType.includes('annual')) return 'pi pi-star';
-    if (lowerPlanType.includes('free trial')) return 'pi pi-gift';
+    if (lowerPlanType.includes('free')) return 'pi pi-gift';
     if (lowerPlanType.includes('test 101')) return 'pi pi-gift';
 
     return 'pi pi-question'; // Default icon if no match
