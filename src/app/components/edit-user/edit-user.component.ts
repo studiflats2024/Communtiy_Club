@@ -294,7 +294,10 @@ fetchAdminProfile(adminId: string) {
     next: (response) => {
       console.log('✅ Admin Profile:', response);
       this.adminProfile = response;
-      this.firstName=this.adminProfile[0].full_Name
+      this.firstName=this.adminProfile[0].firstName
+      this.lastName=this.adminProfile[0].lastName
+      console.log(this.firstName,this.lastName)
+
       this.userEmail=this.adminProfile[0].email
       this.about=this.adminProfile[0].about
       this.phone=this.adminProfile[0].phone
