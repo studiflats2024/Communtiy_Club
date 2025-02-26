@@ -88,7 +88,7 @@ jobs:
         username: ${{ secrets.IIS_USER }}
         password: ${{ secrets.IIS_PASSWORD }}
         source: "club.zip"
-        target: "C:\\inetpub\\wwwroot\\StudiFlatsClub\\Development"
+        target: "C:\\inetpub\\wwwroot\\StudiFlatsClub\\Production"
 
 
     - name: 🚀 Deploy to IIS Website on Remote Server
