@@ -195,4 +195,15 @@ export class ActivityService {
 
     return this.http.post(`${environment.apiUrl}/Gateway/Postpone_Evnet`, null, { params });
   }
+
+
+  
+///////activity details from gateway//////////
+getActivityDetailsGateway(type:string, id:string){
+  let params =new HttpParams();
+  if (type) params= params.set('type',type);
+  if (id) params=params.set('ID',id)
+
+    return this.http.get(`${environment.apiUrl}/Gateway/GetActivityDetails`,{params,responseType:'json'})
+}
 }

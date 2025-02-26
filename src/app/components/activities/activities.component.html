@@ -434,9 +434,8 @@
       
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
           <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td> -->
-          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.start_Date }}</td>
-
-          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.end_Date }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.start_Date || '___' }}</td>
+          <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.end_Date || '___'}}</td>
 
 <!-- 
           <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
@@ -714,10 +713,10 @@
                     <th pSortableColumn="activity_Name">Name <p-sortIcon field="activity_Name"></p-sortIcon></th>
            
                     <th pSortableColumn="activity_Location">Location <p-sortIcon field="activity_Location"></p-sortIcon></th>
-                    <!-- <th pSortableColumn="activity_Date">Date <p-sortIcon field="activity_Date"></p-sortIcon></th> -->
-                    <th pSortableColumn="start_Date">Start Date <p-sortIcon field="start_Date"></p-sortIcon></th>
+                    <th pSortableColumn="activity_Date">Date <p-sortIcon field="activity_Date"></p-sortIcon></th>
+                    <!-- <th pSortableColumn="start_Date">Start Date <p-sortIcon field="start_Date"></p-sortIcon></th>
           
-                    <th pSortableColumn="end_Date">End Date <p-sortIcon field="end_Date"></p-sortIcon></th>
+                    <th pSortableColumn="end_Date">End Date <p-sortIcon field="end_Date"></p-sortIcon></th> -->
           
                     <!-- <th pSortableColumn="activity_Rating">Rating <p-sortIcon field="activity_Rating"></p-sortIcon></th>
                     <th pSortableColumn="rating_Count">Rating Count <p-sortIcon field="rating_Count"></p-sortIcon></th> -->
@@ -749,10 +748,10 @@
                     <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Name }}</td>
                 
                     <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Location | slice:0:10 }}...</td>
-                    <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td> -->
-                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.start_Date }}</td>
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Date }}</td>
+                    <!-- <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.start_Date }}</td>
           
-                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.end_Date }}</td>
+                    <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.end_Date }}</td> -->
           
           <!-- 
                     <td [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">{{ activity.activity_Rating }}</td>
