@@ -127,12 +127,22 @@ export class FinancialComponent {
 
  
     this.loadFinancePayments();
-    this.loadPlans()
-
+    // this.loadPlans()
+    this.loadFinanceData()
     
   }
   
-
+  loadFinanceData() {
+    this.gatewayService.getFinanceStatics().subscribe({
+      next: (data) => {
+        console.log('Finance Data:', data);
+        this.plans = data;
+        this.pricingPlans=data.map((plan:any)=>({...plan,selected:false}))
+        // this.financeData = data;
+      },
+      error: (err) => console.error('Error fetching finance statistics:', err)
+    });
+  }
 
   loadFinancePayments(): void {
     this.gatewayService.getFinancePayments(1, 10).subscribe({

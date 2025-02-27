@@ -50,25 +50,51 @@
         </div> -->
       <div >
         <!-- <span [ngClass]="getPlanBadgeClass(plan.plan_Type)" class="badge"> -->
-        <span  >
-
-          <!-- <i [ngClass]="getPlanIcon(plan.plan_Type)" class="icon"></i> -->
+        <!-- <span  >
+ 
           <img *ngIf="plan.plan_Duration === 'Year' &&!plan.is_Trial" src="community/starplan.svg" style="width: 20px; height: 20px;" />
-          <!-- <img  *ngIf="plan.plan_Duration === '6 Months'"  src="months.svg" /> -->
+ 
           <img  *ngIf="plan.plan_Duration === '3 Months' &&!plan.is_Trial"  src="months.svg" style="width: 20px; height: 20px;"/>
           <img  *ngIf="plan.plan_Duration === '6 Months' &&!plan.is_Trial"  src="months.svg" style="width: 20px; height: 20px;"/>
           <img  *ngIf="plan.plan_Duration === 'Month' &&!plan.is_Trial"  src="month.svg" style="width: 20px; height: 20px;"/>
 
           <img  *ngIf="plan.is_Trial"  src="freePlan.svg" style="width: 20px; height: 20px;"/>
           {{ plan?.plan_Name}}
+        </span> -->
+        <span>
+          <!-- ✅ Display Plan Badge Based on `plan.plan_Duration` -->
+          <img *ngIf="plan.plan_Name.toLowerCase().includes('year')" src="community/starplan.svg" style="width: 20px; height: 20px;" />
+          <img *ngIf="plan.plan_Name.toLowerCase().includes('3 months')" src="months.svg" style="width: 20px; height: 20px;" />
+          <img *ngIf="plan.plan_Name.toLowerCase().includes('6 months')" src="months.svg" style="width: 20px; height: 20px;" />
+          <img *ngIf="plan.plan_Name.toLowerCase().includes('month')" src="month.svg" style="width: 20px; height: 20px;" />
+          <img *ngIf="plan.plan_Name.toLowerCase().includes('free')" src="freePlan.svg" style="width: 20px; height: 20px;" />
+          {{ plan?.plan_Name }}
         </span>
       </div>
       
     </div>
-    <div class="mt-2 flex justify-content-start plan-price" *ngIf="plan.plan_Price === 0" >Free</div>
-    <div class=" mt-2 flex justify-content-start" *ngIf="plan.plan_Price > 0">
+    <!-- <div class="mt-2 flex justify-content-start plan-price" *ngIf="plan.plan_Price === 0" >Free</div> -->
+    <div class="mt-2 flex justify-content-start plan-price" *ngIf="plan.total_Revenue === 0">Free</div>
+
+    <!-- <div class=" mt-2 flex justify-content-start" *ngIf="plan.plan_Price > 0">
        <span class="plan-price">€{{ plan?.plan_Fianl_Price }} </span> <span class="plan-duration">/ {{ plan?.plan_Duration }}</span> 
+    </div> -->
+   
+
+
+    <div class="flex justify-content-between align-items-center" *ngIf="plan.total_Revenue > 0">
+      <div class="mt-2 flex justify-content-start" >
+        <span class="plan-price">€{{ plan.total_Revenue }}</span> 
+        <span class="plan-duration">/ {{ plan.plan_Name }}</span>
+      </div>
+      <div *ngIf="plan.is_Up" class="p-tag-success">{{plan.percentage_Change}}%</div>
+      <div *ngIf="!plan.is_Up" class="p-tag-danger">{{plan.percentage_Change}}%</div>
+
     </div>
+
+
+ 
+
   </div>
 </div>
          
