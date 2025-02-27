@@ -193,4 +193,24 @@ displayReminder: boolean = false;
   showReminder() {
     this.displayReminder = true;
   }
+
+  trialDuration(){
+    if (this.trial) {
+      this.durations.push(
+        { name: 'day', value: 0.1 },
+        { name: '3 days', value: 0.3 },
+        { name: '7 days', value: 0.7 },
+        { name: '14 day', value: 1.4 }
+      );
+    }else{
+         this.durations = [
+          { name: 'Year', value: 1 },
+          { name: '6 Months', value: 3 },
+          { name: '3 Months', value: 3 },
+  
+          { name: 'Month', value: 6 },
+         
+        ];
+    }
+  }
 }

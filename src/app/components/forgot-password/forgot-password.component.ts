@@ -6,18 +6,27 @@ import { CommonModule } from '@angular/common';
 import { MessageService } from 'primeng/api'; // Assuming you're using PrimeNG for message service
 import { PrimeNGConfig } from 'primeng/api'; // PrimeNG config
 import { ToastModule } from 'primeng/toast';
+import { InputOtpModule } from 'primeng/inputotp';
+import { NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+ 
+
+ 
 import { RouterModule } from '@angular/router'; 
-
-
 @Component({
-  selector: 'app-login',
+  selector: 'app-forgot-password',
   standalone: true,
-  imports: [RouterModule,CommonModule, ReactiveFormsModule, ToastModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'], // Fixed styleUrls
+  imports: [ FormsModule,NgClass,InputOtpModule,RouterModule,CommonModule, ReactiveFormsModule, ToastModule],
+  templateUrl: './forgot-password.component.html',
+  styleUrl: './forgot-password.component.css',
   providers: [MessageService]
+
 })
-export class LoginComponent {
+export class ForgotPasswordComponent {
+  firstStep:boolean=true;
+  secondStep:boolean=false;
+  otpValue:any
+
   loginForm!: FormGroup;
   loading = false;
   submitted = false;
@@ -41,6 +50,7 @@ export class LoginComponent {
   ngOnInit() {
     this.primengConfig.ripple = true; // PrimeNG configuration if needed
   }
+
 
   // Convenience getter for easy access to form controls
   get f() {
@@ -84,5 +94,20 @@ export class LoginComponent {
         this.loading = false;
       }
     });
+  }
+
+
+
+
+  thirdStep:boolean=false
+  //////////////////////////////////////
+  showSec(){
+    this.firstStep=false
+    this.secondStep=true
+  }
+  showThird(){
+    this.firstStep=false
+    this.secondStep=false
+    this.thirdStep=true
   }
 }

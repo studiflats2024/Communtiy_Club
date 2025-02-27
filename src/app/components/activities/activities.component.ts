@@ -728,5 +728,14 @@ showCancelDialog: boolean = false;
   }
  }
 
+
+ customDateSort(event: { data: any[], field: string, order: number }) {
+  event.data.sort((a, b) => {
+    let dateA = new Date(a[event.field]).getTime();
+    let dateB = new Date(b[event.field]).getTime();
+    return (dateA - dateB) * event.order; // Multiply by `order` for ascending/descending sorting
+  });
+}
+
 }
 
