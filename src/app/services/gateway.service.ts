@@ -286,6 +286,10 @@ getActivityDetailsGateway(type:string, id:string){
 
     return this.http.get(`${environment.apiUrl}/Gateway/GetActivityDetails`,{params,responseType:'json'})
 }
+
+getFinanceStatics(): Observable<any> {
+  return this.http.get<any>(`${environment.apiUrl}/Gateway/GetFiananceStatics`);
+}
 }
 
 
