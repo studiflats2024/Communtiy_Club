@@ -76,6 +76,9 @@
       [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
       (onPage)="pageChange($event)"
       [rowsPerPageOptions]="[5, 10, 20]"
+
+      [customSort]="true"
+      (sortFunction)="customSort($event)"
     >
      
       <ng-template pTemplate="header">
@@ -232,6 +235,9 @@
       [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
       (onPage)="pageChange($event)"
       [rowsPerPageOptions]="[5, 10, 20]"
+
+      [customSort]="true"
+      (sortFunction)="customSort($event)"
     >
      
       <ng-template pTemplate="header">
@@ -384,6 +390,9 @@
       [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
       (onPage)="pageChange($event)"
       [rowsPerPageOptions]="[5, 10, 20]"
+
+      [customSort]="true"
+      (sortFunction)="customSort($event)"
     >
      
       <ng-template pTemplate="header">
@@ -536,6 +545,9 @@
                 [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
                 (onPage)="pageChange($event)"
                 [rowsPerPageOptions]="[5, 10, 20]"
+
+                [customSort]="true"
+                (sortFunction)="customSort($event)"
               >
                
                 <ng-template pTemplate="header">
@@ -703,6 +715,9 @@
                 [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
                 (onPage)="pageChange($event)"
                 [rowsPerPageOptions]="[5, 10, 20]"
+
+                [customSort]="true"
+                (sortFunction)="customSort($event)"
               >
                
                 <ng-template pTemplate="header">

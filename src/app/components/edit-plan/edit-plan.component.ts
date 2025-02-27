@@ -88,7 +88,7 @@ ngOnInit() {
 
       // Bind the data to the respective variables
       this.planName = planData.plan_Name || '';
-      this.selectedDuration = this.durations.find((d) => d.name === planData.plan_Duration) || null;
+      // this.selectedDuration = this.durations.find((d) => d.name === planData.plan_Duration) || null;
       this.selectedPlan = this.plans.find((p) => p.name === planData.plan_Type) || null;
       this.price = planData.plan_Price || 0;
       this.discount = planData.plan_Discount || 0;
@@ -96,6 +96,17 @@ ngOnInit() {
       this.invitationNo = planData.invitation_NOs || '';
       this.features = planData.plan_Features.join('\n') || '';
       this.trial=planData.is_Trial
+      if (this.trial) {
+        this.durations.push(
+          { name: 'day', value: 0.1 },
+          { name: '3 days', value: 0.3 },
+          { name: '7 days', value: 0.7 },
+          { name: '14 day', value: 1.4 }
+        );
+      }
+      this.selectedDuration = this.durations.find((d) => d.name === planData.plan_Duration) || null;
+
+      
   } else {
     console.log('No plan data found in localStorage');
   }

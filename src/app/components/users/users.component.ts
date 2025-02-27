@@ -338,5 +338,28 @@ selectedPayment: any = null;
 
 
 
- 
+customSort(event: { data: any[], field: string, order: number }) {
+  event.data.sort((a, b) => {
+    let valueA = a[event.field];
+    let valueB = b[event.field];
+
+    // ✅ التحقق مما إذا كانت القيم تواريخ
+    if (this.isDate(valueA) && this.isDate(valueB)) {
+      return (new Date(valueA).getTime() - new Date(valueB).getTime()) * event.order;
+    }
+
+    // ✅ التحقق مما إذا كانت القيم أرقامًا
+    if (!isNaN(valueA) && !isNaN(valueB)) {
+      return (valueA - valueB) * event.order;
+    }
+
+    // ✅ فرز النصوص (حساس للأحرف الكبيرة والصغيرة)
+    return valueA.toString().localeCompare(valueB.toString()) * event.order;
+  });
+}
+
+// ✅ دالة تتحقق مما إذا كانت القيمة تاريخًا
+isDate(value: any): boolean {
+  return !isNaN(Date.parse(value));
+}
 }

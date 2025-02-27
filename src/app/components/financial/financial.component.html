@@ -119,12 +119,15 @@
                     [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
                     (onPage)="pageChange($event)"
                     [rowsPerPageOptions]="[5, 10, 20]"
+
+                    [customSort]="true"
+                    (sortFunction)="customSort($event)"
                   >
                     <ng-template pTemplate="header">
                       <tr>
                         <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
                         <th>Phone Number</th>
-                        <th pSortableColumn="startDate">Date <p-sortIcon field="startDate"></p-sortIcon></th>
+                        <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
                         
                         <th>Plan Type</th>
                           

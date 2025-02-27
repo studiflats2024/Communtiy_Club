@@ -185,7 +185,7 @@ export class TransactionsComponent {
   
       const lowerPlanType = planType.toLowerCase(); // Convert to lowercase for case insensitivity
   
-      if (lowerPlanType.includes('monthly')) return 'badge-monthly';
+      if (lowerPlanType.includes('month')) return 'badge-monthly';
       if (lowerPlanType.includes('semi')) return 'badge-semi-annual';
       if (lowerPlanType.includes('annual')) return 'badge-annual';
       if (lowerPlanType.includes('free')) return 'badge-free-trial';
@@ -221,7 +221,7 @@ export class TransactionsComponent {
   
       const lowerPlanType = planType.toLowerCase(); // Convert to lowercase
   
-      if (lowerPlanType.includes('monthly')) return 'pi pi-user';
+      if (lowerPlanType.includes('month')) return 'pi pi-user';
       if (lowerPlanType.includes('semi')) return 'pi pi-calendar';
       if (lowerPlanType.includes('annual')) return 'pi pi-star';
       if (lowerPlanType.includes('free')) return 'pi pi-gift';
@@ -364,7 +364,30 @@ export class TransactionsComponent {
   
   
   
+  customSort(event: { data: any[], field: string, order: number }) {
+    event.data.sort((a, b) => {
+      let valueA = a[event.field];
+      let valueB = b[event.field];
   
+      // ✅ التحقق مما إذا كانت القيم تواريخ
+      if (this.isDate(valueA) && this.isDate(valueB)) {
+        return (new Date(valueA).getTime() - new Date(valueB).getTime()) * event.order;
+      }
+  
+      // ✅ التحقق مما إذا كانت القيم أرقامًا
+      if (!isNaN(valueA) && !isNaN(valueB)) {
+        return (valueA - valueB) * event.order;
+      }
+  
+      // ✅ فرز النصوص (حساس للأحرف الكبيرة والصغيرة)
+      return valueA.toString().localeCompare(valueB.toString()) * event.order;
+    });
+  }
+  
+  // ✅ دالة تتحقق مما إذا كانت القيمة تاريخًا
+  isDate(value: any): boolean {
+    return !isNaN(Date.parse(value));
+  }
   
   
    
