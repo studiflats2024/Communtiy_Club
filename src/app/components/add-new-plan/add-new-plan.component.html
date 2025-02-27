@@ -16,7 +16,7 @@
         <div class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4">
 <label class="label">Is the plan free or paid?</label>
 
-<div class="p-field-radiobutton">
+<div (click)="trialDuration()" class="p-field-radiobutton">
   <p-radioButton
     name="display"
     [value]="true"
@@ -24,7 +24,7 @@
   ></p-radioButton>
   <label>Free</label>
 </div>
-<div class="p-field-radiobutton">
+<div (click)="trialDuration()" class="p-field-radiobutton">
   <p-radioButton
     name="display"
     [value]="false"

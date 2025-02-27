@@ -112,6 +112,12 @@ export const routes: Routes = [
     loadComponent: () => import('./components/invoice-details/invoice-details.component').then(m => m.InvoiceDetailsComponent),
     canActivate: [AdminGuard]
   },
+
+  {
+    path: 'forgot-pass',
+    loadComponent: () => import('./components/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent),
+    canActivate: [AdminGuard]
+  },
   
    
 

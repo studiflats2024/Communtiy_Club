@@ -79,7 +79,7 @@
                   >
                     <ng-template pTemplate="header">
                       <tr>
-                         <th >Image</th>
+                         <!-- <th >Image</th> -->
                         <th pSortableColumn="name">Member Name <p-sortIcon field="name"></p-sortIcon></th>
                         <th pSortableColumn="phone_No">Member Phone <p-sortIcon field="phone_No"></p-sortIcon></th>
 
@@ -95,15 +95,15 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-member>
                       <tr>
-                        <td> <img
+                        <!-- <td> <img
                           *ngIf="member.photo; else placeholder"
                           [src]="member.photo"
                           alt="Member Photo"
                           style="width: 50px; height: 50px;"
                         />
                         <ng-template #placeholder>
-                          <img src="community/memberImg.png" alt="Default Photo" style="width: 50px; height: 50px;" />
-                        </ng-template></td>
+                          <img src="community/avatar-member.png" alt="Default Photo" style="width: 50px; height: 50px;" />
+                        </ng-template></td> -->
 
                         <td>
                           <div>
