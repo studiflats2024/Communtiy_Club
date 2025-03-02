@@ -172,7 +172,7 @@
                       <!-- <span class="p-inputgroup-addon">
                         <i class="pi pi-search"></i>
                       </span> -->
-                      <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
+                      <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans and date" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
                       <i class="pi pi-search search-icon"></i>
                       <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
                        <img src="filterplan.svg" (click)="openFilterDialog()"   style="margin-left: 24px; cursor: pointer;"/>
@@ -184,7 +184,7 @@
                     [value]="paymentRecords"
                     [paginator]="true"
                     [rows]="10"
-                    [globalFilterFields]="['name', 'email', 'phone_No', 'plan_Type']"
+                    [globalFilterFields]="['name', 'email', 'phone_No', 'plan_Type','date']"
                     [filterDelay]="300"
                     [resizableColumns]="true"
                     [tableStyle]="{ 'min-width': '900px' }"
@@ -368,7 +368,7 @@
                     <!-- <span class="p-inputgroup-addon">
                       <i class="pi pi-search"></i>
                     </span> -->
-                    <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
+                    <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dtt.filterGlobal(globalFilter, 'contains')" />
                     <i class="pi pi-search search-icon"></i>
                     <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
                      <img src="filterplan.svg" (click)="openFilterAlertDialog()"   style="margin-left: 24px; cursor: pointer;"/>
@@ -376,7 +376,7 @@
                 </div>
               
                 <p-table
-                  #dt
+                  #dtt
                   [value]="subscriptionAlerts"
                   [paginator]="true"
                   [rows]="10"
@@ -396,7 +396,7 @@
                     <tr>
                       <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
                       <th>Phone Number</th>
-                      <th pSortableColumn="planType">Plan Type <p-sortIcon field="planType"></p-sortIcon></th>
+                      <th pSortableColumn="plan_Type">Plan Type <p-sortIcon field="plan_Type"></p-sortIcon></th>
                       <th pSortableColumn="start_Date">Start Date <p-sortIcon field="start_Date"></p-sortIcon></th>
                       <th pSortableColumn="end_Date">End Date <p-sortIcon field="end_Date"></p-sortIcon></th>
                       <th>Status</th>
