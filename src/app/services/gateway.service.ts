@@ -290,6 +290,21 @@ getActivityDetailsGateway(type:string, id:string){
 getFinanceStatics(): Observable<any> {
   return this.http.get<any>(`${environment.apiUrl}/Gateway/GetFiananceStatics`);
 }
+
+/////////////////////reset password for admin////////////////////////
+generateOTP(email: string): Observable<any> {
+  const params = new HttpParams().set('Email', email);
+
+  return this.http.get<any>(`${environment.apiUrl}/Gateway/GenerateResetOTP`, { params });
+}
+
+validateOTP(email: string, otp: string): Observable<any> {
+  const params = new HttpParams()
+    .set('Email', email)
+    .set('OTP', otp);
+
+  return this.http.post<any>(`${environment.apiUrl}/Gateway/Validate-OTP`, null, { params });
+}
 }
 
 

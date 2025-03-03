@@ -48,7 +48,8 @@ import { GatewayService } from '../../services/gateway.service';
 import { ChartModule } from 'primeng/chart';
 import { Chart } from 'chart.js';
 import { ProgressBarModule } from 'primeng/progressbar';
- 
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CircularChartComponent } from '../circular-chart/circular-chart.component';
 
 // Chart.register({
 //   id: 'staticLabels',
@@ -77,12 +78,22 @@ import { ProgressBarModule } from 'primeng/progressbar';
   selector: 'app-dashboard',
   standalone: true,
    
-  imports: [ProgressBarModule,ChartModule, OverlayPanelModule,CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
+  imports: [CircularChartComponent,ProgressSpinnerModule,ProgressBarModule,ChartModule, OverlayPanelModule,CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
   providers: [MessageService ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  progressValue = 10; // يبدأ من 10%
+
+  increaseProgress() {
+    if (this.progressValue < 100) {
+      this.progressValue += 10;
+      console.log('Updated Progress:', this.progressValue); // ✅ تحقق أن progressValue يتغير
+    }
+  }
+
+
   items:any[]=[];
 
   revenueData: any;
@@ -92,6 +103,11 @@ export class DashboardComponent {
   // selectedFilter:any
 
   legendItems:any;
+
+  chartDataProgress:any
+  chartOptionsProgress:any
+
+
   ngOnInit() {
 
  
@@ -134,6 +150,10 @@ export class DashboardComponent {
   
   revenueChartData: any;
   revenueChartOptions: any;
+  revenueChartData2: any;
+  revenueChartOptions2: any;
+  revenueChartData3: any;
+  revenueChartOptions3: any;
   selectedFilter: string = 'Last 3 Month';
   subscribers:any[]=[]
   constructor( private gatewayService:GatewayService,private plansService: PlansService, private messageService: MessageService) {
@@ -309,6 +329,78 @@ this.subscribers = [
   { type: 'Monthly', percentage: 10, count: 50, color: '#E9F5D0' }
 ];
 this.setChartDataSubscribers()
+
+
+////////////////////////////////////////////////////////////
+//////////////////////////////////chartProgressSpinner////////////////
+ this.revenueChartData2 = {
+    labels: ['Expired', 'Not Expired' ],
+    datasets: [
+      {
+        data: [20000, 7000], // Revenue Values
+        backgroundColor: ['#1151B4', '#CFDCF0' ], // Colors
+        hoverBackgroundColor: ['#1A4AC7', '#6699FF'], // Hover effect
+        borderWidth: 0 // Removes border
+      }
+    ]
+  };
+
+  this.revenueChartOptions2 = {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '90%', // Creates the "donut" effect
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+         
+        callbacks: {
+          label: (tooltipItem: any) =>
+            `€${tooltipItem.raw.toLocaleString()}`
+        }
+      },
+      
+    
+    },
+   
+   
+    
+  };
+
+
+
+
+  this.revenueChartData3 = {
+    labels: ['Attended', 'Not Attended'],
+    datasets: [
+      {
+        data: [20000, 7000], // Revenue Values
+        backgroundColor: ['#1CA65F', '#EBEBEB' ], // Colors
+        hoverBackgroundColor: ['#1A4AC7', '#6699FF'], // Hover effect
+        borderWidth: 0 // Removes border
+      }
+    ]
+  };
+
+  this.revenueChartOptions3 = {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '90%', // Creates the "donut" effect
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+         
+        callbacks: {
+          label: (tooltipItem: any) =>
+            `€${tooltipItem.raw.toLocaleString()}`
+        }
+      },
+      
+    
+    },
+   
+   
+    
+  };
   }
 
   chartData: any;
@@ -335,7 +427,7 @@ this.setChartDataSubscribers()
         {
           // label: 'Subscribers',
           data: members,
-          backgroundColor: ['#2D5D3D', '#A6D388', '#889E66', '#E9F5D0'],
+          backgroundColor: ['#336445', '#97CC68', '#96B279', '#EFFAE4'],
           borderRadius: 9,
           categoryPercentage: 1.0, // ✅ Ensures bars take full space
           barPercentage: 0.8, // ✅ Makes sure bars have enough width
@@ -489,7 +581,7 @@ this.setChartDataSubscribers()
 
     const lowerPlanType = planType.toLowerCase(); // Convert to lowercase for case insensitivity
 
-    if (lowerPlanType.includes('monthly')) return 'badge-monthly';
+    if (lowerPlanType.includes('month')) return 'badge-monthly';
     if (lowerPlanType.includes('semi-annual')) return 'badge-semi-annual';
     if (lowerPlanType.includes('annual')) return 'badge-annual';
     if (lowerPlanType.includes('free trial')) return 'badge-free-trial';
@@ -525,7 +617,7 @@ this.setChartDataSubscribers()
 
     const lowerPlanType = planType.toLowerCase(); // Convert to lowercase
 
-    if (lowerPlanType.includes('monthly')) return 'pi pi-user';
+    if (lowerPlanType.includes('month')) return 'pi pi-user';
     if (lowerPlanType.includes('semi-annual')) return 'pi pi-calendar';
     if (lowerPlanType.includes('annual')) return 'pi pi-star';
     if (lowerPlanType.includes('free trial')) return 'pi pi-gift';

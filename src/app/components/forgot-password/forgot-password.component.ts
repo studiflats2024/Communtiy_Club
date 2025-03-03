@@ -9,6 +9,7 @@ import { ToastModule } from 'primeng/toast';
 import { InputOtpModule } from 'primeng/inputotp';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { GatewayService } from '../../services/gateway.service';
  
 
  
@@ -28,12 +29,15 @@ export class ForgotPasswordComponent {
   otpValue:any
 
   loginForm!: FormGroup;
+  emailForm!: FormGroup;
+
   loading = false;
   submitted = false;
   error = '';
   passwordVisible = false; // Flag for toggling password visibility
 
   constructor(
+    private gatewayService:GatewayService,
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
@@ -44,6 +48,10 @@ export class ForgotPasswordComponent {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]], // Email validation
       password: ['', [Validators.required, Validators.minLength(6)]] // Password validation with min length
+    });
+    this.emailForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]], // Email validation
+      
     });
   }
 
@@ -64,38 +72,16 @@ export class ForgotPasswordComponent {
   onSubmit() {
     this.submitted = true;
 
-    // Stop if the form is invalid
-    if (this.loginForm.invalid) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Validation Error',
-        detail: 'Please fill in all fields correctly.'
-      });
-      return;
+    if (this.emailForm.invalid) {
+      return; // Stop if form is invalid
     }
 
-    this.loading = true;
-
-    this.authService.login(this.f['username'].value, this.f['password'].value).subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Login Successful',
-          detail: 'Redirecting to dashboard...'
-        });
-        this.router.navigate(['dashboard']); // Redirect to the dashboard or desired route
-      },
-      error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Login Failed',
-          detail: 'Invalid username or password.'
-        });
-        this.loading = false;
-      }
-    });
+    const email = this.emailForm.value.email;
+    this.email=email
+    this. requestOTP(email);
   }
 
+  
 
 
 
@@ -109,5 +95,51 @@ export class ForgotPasswordComponent {
     this.firstStep=false
     this.secondStep=false
     this.thirdStep=true
+  }
+
+
+
+  ///////////////////////////////////////////
+  requestOTP(email: string) {
+    this.gatewayService.generateOTP(email).subscribe(
+      response => {
+        console.log('OTP Response:', response);
+        this.firstStep=false
+    this.secondStep=true
+      },
+      error => {
+        console.error('Error fetching OTP:', error);
+      }
+    );
+  }
+
+
+
+
+ 
+  email :any; // Should be dynamically set from the previous step
+ 
+  verificationSuccess = false;
+  errorMessage = '';
+
+  verifyOTP() {
+    if (!this.otpValue) {
+      this.errorMessage = 'OTP is required';
+      return;
+    }
+
+    this.gatewayService.validateOTP(this.email, this.otpValue).subscribe(
+      response => {
+        console.log('OTP Verified:', response);
+        this.verificationSuccess = true;
+        this.firstStep=false
+    this.secondStep=false
+    this.thirdStep=true
+      },
+      error => {
+        console.error('OTP Verification Failed:', error);
+        this.errorMessage = 'Invalid OTP, please try again.';
+      }
+    );
   }
 }

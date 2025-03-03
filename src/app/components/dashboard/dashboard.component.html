@@ -82,12 +82,7 @@
        
     </div>
   
-    <!-- <p-chart 
-      type="bar" 
-      [data]="revenueData" 
-      [options]="revenueOptions" 
-      style="height: 300px;">
-    </p-chart> -->
+   
 
     <div   >
       <p-chart type="bar" [data]="revenueData" [options]="revenueOptions"  ></p-chart>
@@ -148,8 +143,8 @@
 
 <div class="flex justify-content-between align-item-center my-3 gap-2 w-full fixSmallScreen">
    <div class="card revenue-statistics flex-2 w-50 fixS">
-    <div class="flex justify-content-between align-items-center">
-      <h3>Subscribers</h3>
+    <div class="flex justify-content-between align-items-center mb-4">
+      <div class="revenue">Subscribers</div>
       <p-dropdown 
         [options]="filters" 
         [(ngModel)]="selectedFilter" 
@@ -157,16 +152,26 @@
       </p-dropdown>
     </div>
   
-    <!-- <div class="chart-container">
-      <p-chart type="bar" [data]="chartData" [options]="chartOptions"  [plugins]="chartPlugins"></p-chart>
-    </div> -->
-    <div class="progress-container">
-      <div *ngFor="let member of members" class="progress-item">
+   
+    <!-- <div class="progress-container w-full">
+      <div *ngFor="let member of members" class="progress-item w-full">
         <span>{{ member.label }}</span>
-        <p-progressBar [value]="member.value" [style]="{ 'background-color': '#ccc' }"  class="bar" class="bar" 
-        [ngStyle]="{ '--progress-color': member.color }">></p-progressBar>
+        <p-progressBar [value]="member.value" [style]="{ 'background-color': '#ccc' }"    class="bar" 
+        [ngStyle]="{ '--progress-color': member.color ,'--progress-size':member.value +'%' }">></p-progressBar>
  
 
+      </div>
+    </div> -->
+
+    <div class="progress-container w-full mb-4">
+      <div *ngFor="let member of members" class="progress-item" [ngStyle]="{ 'flex': member.value }">
+        <span>{{ member.label }}</span>
+        <p-progressBar 
+          [value]="member.value" 
+          [style]="{ 'background-color': '#ccc' }" 
+          class="bar" 
+          [ngStyle]="{ '--progress-color': member.color, '--progress-size': 100 + '%', }">
+        </p-progressBar>
       </div>
     </div>
     
@@ -175,16 +180,145 @@
     
   
     <!-- Legend -->
-    <div class="legend-container">
-      <div class="legend-item" *ngFor="let label of chartData.labels; let i = index">
-        <span class="color-box" [ngStyle]="{ 'background-color': chartData.datasets[0].backgroundColor[i] }"></span>
+    <div class="legend-container w-full">
+      <div class="legend-item-bar"  [ngClass]="{ 'special-class': i === 1 || i === 3 }"  *ngFor="let label of chartData.labels; let i = index">
+        <span class="color-box " [ngStyle]="{ 'background-color': chartData.datasets[0].backgroundColor[i] }"></span>
         {{ label }} ({{ chartData.datasets[0].data[i] }})
-      </div>
+      </div>  
+      
     </div>
+   </div>
+
+   <div class="flex justify-content-between align-items-center gap-2 w-50 fixS">
+           <!-----------------------------ring charts---------------------->
+   <div class=" card flex-1  revenue-statistics   w-50 ">
+    <div class="  w-full flex flex-column justify-content-between h-full">
+      <div class="header">
+        <div class="revenue w-full flex justify-content-between">Plans Expiring Soon</div>
+   
+          
+          <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
+          <p-toast />   
+  
+  <p-overlayPanel #op>
+  <ul class="menu-list p-0 m-0 list-unstyled" style="width: 200px; padding: 16px 0;">
+    <li><a style="cursor: pointer; text-decoration: none; color:#363636" >Edit</a></li>
+    <li><a style="cursor: pointer; text-decoration: none; color:#363636" >Delete</a></li><!--(click)="deleteItem(course)"-->
+  </ul>
+  </p-overlayPanel>
+          
+       
+      </div>
+    
+      <div class="w-full"  style="position: relative;">
+        <p-chart
+          type="doughnut"
+          [data]="revenueChartData2"
+          [options]="revenueChartOptions2"
+          style="max-height: 250px; width:100%"
+          class="doughnut"
+        ></p-chart>
+        <div class="chart-label" style="position: absolute; left:35%; top:35% ;text-align: center;">
+          <img src="userChart.svg"/>
+          <div class="total-price">2000</div>
+          <div class="totalRev">Members</div>
+           
+           
+        </div>
+      </div>
+
+
+      <div class="legend-container w-full mb-2">
+        <div class="legend-item-bar "   >
+          <span class="color-box " style="background-color: #E7EEF8;"></span>
+          Not Expired 
+        </div>  
+        <div class="legend-item-bar "   >
+          <span class="color-box " style="background-color: #1151B4;"></span>
+          Expired plan
+        </div> 
+        
+      </div>
+
+       <div class="flex justify-content-center align-items-center">
+        <div class="btnDetails">Details</div>
+       </div>
+      
+      
+    </div>
+    
+  </div>
+
+  <!------------------------------------------------------------------------>
+  <div class=" card flex-1  revenue-statistics   w-50 fixC">
+    <div class="  w-full flex flex-column justify-content-between h-full">
+      <div class="header">
+        <div class="revenue w-full flex justify-content-between">Member Invitations</div>
+   
+          <!-- <i class="pi pi-pencil"></i> -->
+          <!-- <a [routerLink]="['/edit-plan', plan.id]">
+            <img src="community/edit.svg" alt="Edit" />
+          </a> -->
+          <div><img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)"/></div>
+          <p-toast />   
+  
+  <p-overlayPanel #op>
+  <ul class="menu-list p-0 m-0 list-unstyled" style="width: 200px; padding: 16px 0;">
+    <li><a style="cursor: pointer; text-decoration: none; color:#363636" >Edit</a></li>
+    <li><a style="cursor: pointer; text-decoration: none; color:#363636" >Delete</a></li><!--(click)="deleteItem(course)"-->
+  </ul>
+  </p-overlayPanel>
+          
+       
+      </div>
+    
+      <div class="w-full"  style="position: relative;">
+        <p-chart
+          type="doughnut"
+          [data]="revenueChartData3"
+          [options]="revenueChartOptions3"
+          style="max-height: 250px; width:100%"
+          class="doughnut"
+        ></p-chart>
+        <div class="chart-label " style="position: absolute; left:30%; top:35%; text-align: center;">
+          <img src="memberChart.svg"/>
+          <div class="total-price">1000</div>
+          <div class="totalRev">Total Invitation</div>
+           
+           
+        </div>
+      </div>
+      
+
+      <div class="legend-container justify-content-start align-items-start flex-column w-full mb-2">
+        <div class="legend-item-bar "   >
+          <span class="color-box " style="background-color: #1CA65F;"></span>
+          Attended
+        </div>  
+        <div class="legend-item-bar "   >
+          <span class="color-box " style="background-color: #EBEBEB;"></span>
+          Not Attended
+        </div> 
+        
+      </div>
+      
+    </div>
+    
+  </div>
    </div>
 </div>
 
-<!------------------------->
+<!------------------progress spinner-------------------->
+ 
+
+<!-- <app-circular-chart 
+    [progress]="progressValue" 
+    [primaryColor]="'#1151B4'" 
+    [backgroundColor]="'#CFDCF0'">
+</app-circular-chart>
+<button (click)="increaseProgress()">زيادة التقدم</button> -->
+
+<!----------------------------------------------------->
 </div>
        
 
