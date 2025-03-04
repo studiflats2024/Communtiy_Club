@@ -30,6 +30,8 @@ export class ForgotPasswordComponent {
 
   loginForm!: FormGroup;
   emailForm!: FormGroup;
+  resetForm!: FormGroup;
+
 
   loading = false;
   submitted = false;
@@ -52,6 +54,11 @@ export class ForgotPasswordComponent {
     this.emailForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]], // Email validation
       
+    });
+    this.resetForm = this.fb.group({
+      password: ['', [Validators.required, Validators.minLength(6)]]  ,
+      // newPassword: ['', [Validators.required, Validators.minLength(6)]]  
+
     });
   }
 
@@ -109,6 +116,11 @@ export class ForgotPasswordComponent {
       },
       error => {
         console.error('Error fetching OTP:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Request Failed',
+          detail:  error.error.message
+        });
       }
     );
   }
@@ -139,6 +151,54 @@ export class ForgotPasswordComponent {
       error => {
         console.error('OTP Verification Failed:', error);
         this.errorMessage = 'Invalid OTP, please try again.';
+      }
+    );
+  }
+
+
+
+
+
+
+
+  onResetSubmit() {
+    this.submitted = true;
+
+    if (this.resetForm.invalid) {
+      return; // ✅ Prevent submission if the form is invalid
+    }
+
+    const password = this.resetForm.value.password;
+
+    if (!this.email) {
+      this.errorMessage = 'Email is missing. Please restart the process.';
+      return;
+    }
+
+    this.gatewayService.resetPassword(this.email, password).subscribe(
+      response => {
+        console.log('Password Reset Successful:', response);
+ 
+        this.errorMessage = '';
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail:  response.message
+        });
+
+        this.router.navigate(['/login']);
+
+      },
+      error => {
+
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Request Failed',
+          detail:  error.message
+        });
+        console.error('Password Reset Failed:', error);
+        this.errorMessage = 'Failed to reset password. Please try again.';
+      
       }
     );
   }

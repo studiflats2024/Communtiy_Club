@@ -305,6 +305,13 @@ validateOTP(email: string, otp: string): Observable<any> {
 
   return this.http.post<any>(`${environment.apiUrl}/Gateway/Validate-OTP`, null, { params });
 }
+
+resetPassword(email: string, password: string): Observable<any> {
+  const params = new HttpParams()
+  .set('Email', email)
+  .set('Password', password);
+  return this.http.post(`${environment.apiUrl}/Gateway/reset-password`, null, { params });
+}
 }
 
 
