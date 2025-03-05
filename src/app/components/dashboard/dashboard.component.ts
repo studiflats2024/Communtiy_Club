@@ -156,6 +156,9 @@ export class DashboardComponent {
   revenueChartOptions3: any;
   selectedFilter: string = 'Last 3 Month';
   subscribers:any[]=[]
+
+  chartBarData: any;
+  chartBarOptions: any;
   constructor( private gatewayService:GatewayService,private plansService: PlansService, private messageService: MessageService) {
   
     this.revenueData = {
@@ -393,18 +396,135 @@ this.setChartDataSubscribers()
           label: (tooltipItem: any) =>
             `€${tooltipItem.raw.toLocaleString()}`
         }
-      },
-      
+      }, 
     
     },
    
    
     
   };
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      ////////////////////////chart bar ////////////////////////////////////////
+  this.chartBarData = {
+    labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+    datasets: [
+      {
+        label: 'Courses',
+        backgroundColor: '#1151B4',
+        data: [100, 105, 110, 108, 112, 109, 110, 111, 110, 113, 110, 112]
+      },
+      {
+        label: 'Consultant',
+        backgroundColor: '#F6A623',
+        data: [150, 155, 160, 158, 162, 159, 160, 161, 160, 163, 160, 162]
+      },
+      {
+        label: 'Events',
+        backgroundColor: '#7B8D5C',
+        data: [220, 225, 230, 228, 232, 229, 230, 231, 230, 233, 230, 232]
+      },
+      {
+        label: 'Workshop',
+        backgroundColor: '#D6C5FF',
+        data: [290, 295, 300, 298, 302, 299, 300, 301, 300, 303, 300, 302]
+      }
+    ]
+  };
+
+  this.chartBarOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          color: '#636363'
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#636363' },
+        grid: { display: false }
+      },
+      y: {
+        ticks: { color: '#636363' },
+        grid: { color: '#E0E0E0' }
+      }
+    }
+  };
+
+
+//////////////////////////////transaction//////////////////////
+this.chartTransactionData = {
+  labels: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+  datasets: [
+    {
+      label: 'Entry Rejections',
+      borderColor: '#ff3d3d', // Red
+      borderDash: [6, 6], // Dashed Line
+      borderWidth: 2,
+      fill: false,
+      data: [0, 50, 60, 40, 20, 50, 10]
+    },
+    {
+      label: 'Daily Transaction',
+      borderColor: '#28a745', // Green
+      borderDash: [6, 6], // Dashed Line
+      borderWidth: 2,
+      fill: false,
+      data: [0, 150, 120, 80, 130, 70, 0]
+    },
+    {
+      label: 'via Invitation',
+      borderColor: '#0d6efd', // Blue
+      borderDash: [6, 6], // Dashed Line
+      borderWidth: 2,
+      fill: false,
+      data: [0, 130, 80, 50, 110, 90, 20]
+    }
+  ]
+};
+
+this.chartTransactionOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: 'top',
+      labels: {
+        color: '#333'
+      }
+    }
+  },
+  scales: {
+    x: {
+      ticks: {
+        color: '#555'
+      },
+      grid: {
+        display: false
+      }
+    },
+    y: {
+      ticks: {
+        color: '#555'
+      },
+      grid: {
+        color: '#ddd'
+      }
+    }
+  }
+};
+
+
   }
 
   chartData: any;
   chartOptions: any;
+  chartTransactionData: any;
+  chartTransactionOptions: any;
   filters = [
     { label: 'Last 3 Month', value: 'Last 3 Month' },
     { label: 'Last 6 Month', value: 'Last 6 Month' },
@@ -714,4 +834,27 @@ loadPlans(): void {
 }
  
  
+
+
+
+activeIndex: number = 0;
+onTabChange(index: number): void {
+  console.log('Active tab index changed:', index);
+  this.activeIndex = index;
+  if(index===0){
+ 
+  }else if(index===1){
+   
+  }else if(index===2){
+  
+    
+  }else if(index===3){
+     
+    
+    
+  }else if(index===4){
+    
+   
+  }
+}
 }

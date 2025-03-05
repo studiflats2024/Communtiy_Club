@@ -784,7 +784,7 @@ customSort(event: { data: any[], field: string, order: number }) {
         return (new Date(valueA).getTime() - new Date(valueB).getTime()) * event.order;
       }
 
-      
+
     // ✅ Handle numeric sorting
     if (!isNaN(valueA) && !isNaN(valueB)) {
       return (parseFloat(valueA) - parseFloat(valueB)) * event.order;
@@ -804,12 +804,7 @@ customSort(event: { data: any[], field: string, order: number }) {
 isDate(value: any): boolean {
   return !isNaN(Date.parse(value));
 }
-
-isValidDatee(dateString: string): boolean {
-  console.log('convert string to date')
-
-  return !isNaN(Date.parse(dateString));
-}
+ 
 
 isValidDate(dateString: string): boolean {
   return dateString != null && !isNaN(Date.parse(dateString));

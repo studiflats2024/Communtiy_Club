@@ -308,17 +308,847 @@
    </div>
 </div>
 
-<!------------------progress spinner-------------------->
+<!------------------activities chart-------------------->
+<div class="card revenue-statistics w-full">
+  <div class="flex justify-content-between align-items-center mb-4">
+    <div class="revenue">Activities</div>
+    <p-dropdown 
+      [options]="filters" 
+      [(ngModel)]="selectedFilter" 
+      placeholder="Select Filter">
+    </p-dropdown>
+  </div>
+
+
+
+  <div class="w-full">
+    <p-chart type="bar" class="barCanvas" [data]="chartBarData" [options]="chartBarOptions" style="height: 600px !important; width:100%"></p-chart>
+  
+  </div>
+
+  </div>
+
+
+ 
  
 
-<!-- <app-circular-chart 
-    [progress]="progressValue" 
-    [primaryColor]="'#1151B4'" 
-    [backgroundColor]="'#CFDCF0'">
-</app-circular-chart>
-<button (click)="increaseProgress()">زيادة التقدم</button> -->
+<!------------------------top activities & members----------------------------->
+<div class="flex justify-content-between align-item-center my-3 gap-2 w-full fixSmallScreen">
+  <div class="card revenue-statistics flex-2 w-50 fixS">
 
-<!----------------------------------------------------->
+    <div class="flex justify-content-between align-items-center mb-4">
+      <div class="revenue"> Top Activities</div>
+      <p-dropdown 
+        [options]="filters" 
+        [(ngModel)]="selectedFilter" 
+        placeholder="Select Filter">
+      </p-dropdown>
+    </div>
+    <p-tabView styleClass="tabview-custom" [(activeIndex)]="activeIndex" (activeIndexChange)="onTabChange($event)">
+      <p-tabPanel header="Header I">
+       
+          <ng-template pTemplate="header">
+              <div class="flex align-items-center gap-2">
+
+                  <span class=" white-space-nowrap m-0">
+                    All
+                  </span>                                            
+                                                                     
+                  <!-- <p-badge [value]="rejectedWorkers.length" /> -->
+              </div>
+          </ng-template>
+
+
+          <div class="flex flex-column gap-4">
+            <div class="card-activity">
+              <div class="flex justify-content-start align-item-center gap-2 w-full">
+                   <img src="badgeCourse.svg"/>
+                   <div class="flex flex-column align-items-center">
+                        <div class="txt-tit">Learn German: Beginner Level</div>
+                        <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+                   </div>
+                 
+              </div>
+
+              <div class="flex justify-content-evenly align-items-center w-50">
+               <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+        
+               <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+          </div>
+              
+              <div class="flex justify-content-between align-item-center gap-2">
+
+              </div>
+            
+         </div>
+
+
+         <div class="card-activity">
+          <div class="flex justify-content-start align-item-center gap-2 w-full">
+               <img src="badgeWork.svg"/>
+               <div class="flex flex-column align-items-center">
+                    <div class="txt-tit">Learn German: Beginner Level</div>
+                    <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+               </div>
+             
+          </div>
+
+          <div class="flex justify-content-evenly align-items-center w-50">
+           <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+    
+           <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+      </div>
+          
+          <div class="flex justify-content-between align-item-center gap-2">
+
+          </div>
+        
+     </div>
+
+
+     <div class="card-activity">
+      <div class="flex justify-content-start align-item-center gap-2 w-full">
+           <img src="badgeEvent.svg"/>
+           <div class="flex flex-column align-items-center">
+                <div class="txt-tit">Learn German: Beginner Level</div>
+                <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+           </div>
+         
+      </div>
+
+      <div class="flex justify-content-evenly align-items-center w-50">
+       <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+
+       <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+  </div>
+      
+      <div class="flex justify-content-between align-item-center gap-2">
+
+      </div>
+    
+ </div>
+          </div>
+
+      </p-tabPanel>
+
+<!---------------------------------------------------------------------------------------------------------------->
+    <p-tabPanel header="Header II">
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+
+                <span class=" white-space-nowrap m-0">
+                  Courses
+                </span>
+                <!-- <p-badge [value]="acceptedWorkers.length" /> -->
+
+            </div>
+        </ng-template>
+        <div class="flex flex-column gap-4">
+          <div class="card-activity">
+            <div class="flex justify-content-start align-item-center gap-2 w-full">
+                 <img src="badgeCourse.svg"/>
+                 <div class="flex flex-column align-items-center">
+                      <div class="txt-tit">Learn German: Beginner Level</div>
+                      <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+                 </div>
+               
+            </div>
+
+            <div class="flex justify-content-evenly align-items-center w-50">
+             <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+      
+             <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+        </div>
+            
+            <div class="flex justify-content-between align-item-center gap-2">
+
+            </div>
+          
+       </div>
+
+
+       <div class="card-activity">
+        <div class="flex justify-content-start align-item-center gap-2 w-full">
+             <img src="badgeWork.svg"/>
+             <div class="flex flex-column align-items-center">
+                  <div class="txt-tit">Learn German: Beginner Level</div>
+                  <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+             </div>
+           
+        </div>
+
+        <div class="flex justify-content-evenly align-items-center w-50">
+         <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+  
+         <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+    </div>
+        
+        <div class="flex justify-content-between align-item-center gap-2">
+
+        </div>
+      
+   </div>
+
+
+   <div class="card-activity">
+    <div class="flex justify-content-start align-item-center gap-2 w-full">
+         <img src="badgeEvent.svg"/>
+         <div class="flex flex-column align-items-center">
+              <div class="txt-tit">Learn German: Beginner Level</div>
+              <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+         </div>
+       
+    </div>
+
+    <div class="flex justify-content-evenly align-items-center w-50">
+     <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+
+     <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+</div>
+    
+    <div class="flex justify-content-between align-item-center gap-2">
+
+    </div>
+  
+</div>
+        </div>
+         
+        
+    </p-tabPanel>
+<!----------------------------------------------------------------------------------------------------->
+    <p-tabPanel header="Header III">
+        <ng-template pTemplate="header">
+            <div class="flex align-items-center gap-2">
+
+                <span class=" white-space-nowrap m-0">
+                  Workshop
+                </span>
+                <!-- <p-badge [value]="pendingWorkers.length" /> -->
+            </div>
+        </ng-template>
+
+        <div class="flex flex-column gap-4">
+          <div class="card-activity">
+            <div class="flex justify-content-start align-item-center gap-2 w-full">
+                 <img src="badgeCourse.svg"/>
+                 <div class="flex flex-column align-items-center">
+                      <div class="txt-tit">Learn German: Beginner Level</div>
+                      <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+                 </div>
+               
+            </div>
+
+            <div class="flex justify-content-evenly align-items-center w-50">
+             <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+      
+             <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+        </div>
+            
+            <div class="flex justify-content-between align-item-center gap-2">
+
+            </div>
+          
+       </div>
+
+
+       <div class="card-activity">
+        <div class="flex justify-content-start align-item-center gap-2 w-full">
+             <img src="badgeWork.svg"/>
+             <div class="flex flex-column align-items-center">
+                  <div class="txt-tit">Learn German: Beginner Level</div>
+                  <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+             </div>
+           
+        </div>
+
+        <div class="flex justify-content-evenly align-items-center w-50">
+         <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+  
+         <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+    </div>
+        
+        <div class="flex justify-content-between align-item-center gap-2">
+
+        </div>
+      
+   </div>
+
+
+   <div class="card-activity">
+    <div class="flex justify-content-start align-item-center gap-2 w-full">
+         <img src="badgeEvent.svg"/>
+         <div class="flex flex-column align-items-center">
+              <div class="txt-tit">Learn German: Beginner Level</div>
+              <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+         </div>
+       
+    </div>
+
+    <div class="flex justify-content-evenly align-items-center w-50">
+     <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+
+     <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+</div>
+    
+    <div class="flex justify-content-between align-item-center gap-2">
+
+    </div>
+  
+</div>
+        </div>
+
+    </p-tabPanel>
+<!----------------------------------------------------------------------------------------------------->
+
+    <p-tabPanel header="Header IIII">
+      <ng-template pTemplate="header">
+          <div class="flex align-items-center gap-2">
+
+              <span class=" white-space-nowrap m-0">
+                Events
+              </span>
+              <!-- <p-badge [value]="rejectedWorkers.length" /> -->
+          </div>
+      </ng-template>
+
+
+      <div class="flex flex-column gap-4">
+        <div class="card-activity">
+          <div class="flex justify-content-start align-item-center gap-2 w-full">
+               <img src="badgeCourse.svg"/>
+               <div class="flex flex-column align-items-center">
+                    <div class="txt-tit">Learn German: Beginner Level</div>
+                    <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+               </div>
+             
+          </div>
+
+          <div class="flex justify-content-evenly align-items-center w-50">
+           <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+    
+           <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+      </div>
+          
+          <div class="flex justify-content-between align-item-center gap-2">
+
+          </div>
+        
+     </div>
+
+
+     <div class="card-activity">
+      <div class="flex justify-content-start align-item-center gap-2 w-full">
+           <img src="badgeWork.svg"/>
+           <div class="flex flex-column align-items-center">
+                <div class="txt-tit">Learn German: Beginner Level</div>
+                <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+           </div>
+         
+      </div>
+
+      <div class="flex justify-content-evenly align-items-center w-50">
+       <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+
+       <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+  </div>
+      
+      <div class="flex justify-content-between align-item-center gap-2">
+
+      </div>
+    
+ </div>
+
+
+ <div class="card-activity">
+  <div class="flex justify-content-start align-item-center gap-2 w-full">
+       <img src="badgeEvent.svg"/>
+       <div class="flex flex-column align-items-center">
+            <div class="txt-tit">Learn German: Beginner Level</div>
+            <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+       </div>
+     
+  </div>
+
+  <div class="flex justify-content-evenly align-items-center w-50">
+   <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+
+   <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+</div>
+  
+  <div class="flex justify-content-between align-item-center gap-2">
+
+  </div>
+
+</div>
+      </div>
+
+  </p-tabPanel>
+
+  <!------------------------------------------------------------------------------------------------------------>
+  <p-tabPanel header="Header IIIII">
+      <ng-template pTemplate="header">
+          <div class="flex align-items-center gap-2">
+
+              <span class=" white-space-nowrap m-0">
+                Consultant
+              </span>
+              <!-- <p-badge [value]="rejectedWorkers.length" /> -->
+          </div>
+      </ng-template>
+
+
+      <div class="flex flex-column gap-4">
+        <div class="card-activity">
+          <div class="flex justify-content-start align-item-center gap-2 w-full">
+               <img src="badgeCourse.svg"/>
+               <div class="flex flex-column align-items-center">
+                    <div class="txt-tit">Learn German: Beginner Level</div>
+                    <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+               </div>
+             
+          </div>
+
+          <div class="flex justify-content-evenly align-items-center w-50">
+           <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+    
+           <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+      </div>
+          
+          <div class="flex justify-content-between align-item-center gap-2">
+
+          </div>
+        
+     </div>
+
+
+     <div class="card-activity">
+      <div class="flex justify-content-start align-item-center gap-2 w-full">
+           <img src="badgeWork.svg"/>
+           <div class="flex flex-column align-items-center">
+                <div class="txt-tit">Learn German: Beginner Level</div>
+                <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+           </div>
+         
+      </div>
+
+      <div class="flex justify-content-evenly align-items-center w-50">
+       <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+
+       <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+  </div>
+      
+      <div class="flex justify-content-between align-item-center gap-2">
+
+      </div>
+    
+ </div>
+
+
+ <div class="card-activity">
+  <div class="flex justify-content-start align-item-center gap-2 w-full">
+       <img src="badgeEvent.svg"/>
+       <div class="flex flex-column align-items-center">
+            <div class="txt-tit">Learn German: Beginner Level</div>
+            <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+       </div>
+     
+  </div>
+
+  <div class="flex justify-content-evenly align-items-center w-50">
+   <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-video" style="color:#1151B4; margin-right: 5px;"></i>Course</div>
+
+   <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+</div>
+  
+  <div class="flex justify-content-between align-item-center gap-2">
+
+  </div>
+
+</div>
+      </div>
+
+  </p-tabPanel>
+     </p-tabView>
+    </div>
+    <!---top members-->
+    <div class="card revenue-statistics flex-2 w-50 fixS">
+
+      <div class="flex justify-content-between align-items-center mb-4">
+        <div class="revenue"> Top Members</div>
+        <p-dropdown 
+          [options]="filters" 
+          [(ngModel)]="selectedFilter" 
+          placeholder="Select Filter">
+        </p-dropdown>
+      </div>
+      <p-tabView styleClass="tabview-custom" [(activeIndex)]="activeIndex" (activeIndexChange)="onTabChange($event)">
+        <p-tabPanel header="Header I">
+         
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center gap-2">
+  
+                    <span class=" white-space-nowrap m-0">
+                      All
+                    </span>                                            
+                                                                       
+                    <!-- <p-badge [value]="rejectedWorkers.length" /> -->
+                </div>
+            </ng-template>
+  
+  
+            <div class="flex flex-column gap-4">
+              <div class="card-activity">
+                <div class="flex justify-content-start align-item-center gap-2 w-full">
+                     <img src="UserImg.png" style="width:50px;height:50px ;border-radius: 50%;"/>
+                     <div class="flex flex-column align-items-center">
+                          <div class="txt-tit">Ahmed Ali Hassan</div>
+                          <div class="txt-dis">Ahmed.ali&#64;gmail.com</div>
+                     </div>
+                   
+                </div>
+          
+                <div class="flex justify-content-evenly align-items-center w-50">
+                 <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-qrcode" style="color:#1151B4; margin-right: 5px;"></i>70</div>
+          
+                 <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+            </div>
+                
+                <div class="flex justify-content-between align-item-center gap-2">
+          
+                </div>
+              
+           </div>
+  
+  
+           <div class="card-activity">
+            <div class="flex justify-content-start align-item-center gap-2 w-full">
+                 <img src="UserImg.png" style="width:50px;height:50px ;border-radius: 50%;"/>
+                 <div class="flex flex-column align-items-center">
+                      <div class="txt-tit">Ahmed Ali Hassan</div>
+                      <div class="txt-dis">Ahmed.ali&#64;gmail.com</div>
+                 </div>
+               
+            </div>
+      
+            <div class="flex justify-content-evenly align-items-center w-50">
+             <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-qrcode" style="color:#1151B4; margin-right: 5px;"></i>70</div>
+      
+             <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+        </div>
+            
+            <div class="flex justify-content-between align-item-center gap-2">
+      
+            </div>
+          
+       </div>
+  
+  
+       <div class="card-activity">
+        <div class="flex justify-content-start align-item-center gap-2 w-full">
+             <img src="UserImg.png" style="width:50px;height:50px ;border-radius: 50%;"/>
+             <div class="flex flex-column align-items-center">
+                  <div class="txt-tit">Ahmed Ali Hassan</div>
+                  <div class="txt-dis">Ahmed.ali&#64;gmail.com</div>
+             </div>
+           
+        </div>
+  
+        <div class="flex justify-content-evenly align-items-center w-50">
+         <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-qrcode" style="color:#1151B4; margin-right: 5px;"></i>70</div>
+  
+         <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+    </div>
+        
+        <div class="flex justify-content-between align-item-center gap-2">
+  
+        </div>
+      
+   </div>
+            </div>
+  
+        </p-tabPanel>
+  
+  <!---------------------------------------------------------------------------------------------------------------->
+      <p-tabPanel header="Header II">
+          <ng-template pTemplate="header">
+              <div class="flex align-items-center gap-2">
+  
+                  <span class=" white-space-nowrap m-0">
+                    Transaction
+                  </span>
+                  <!-- <p-badge [value]="acceptedWorkers.length" /> -->
+  
+              </div>
+          </ng-template>
+          <div class="flex flex-column gap-4">
+            <div class="card-activity">
+              <div class="flex justify-content-start align-item-center gap-2 w-full">
+                   <img src="UserImg.png" style="width:50px;height:50px ;border-radius: 50%;"/>
+                   <div class="flex flex-column align-items-center">
+                        <div class="txt-tit">Ahmed Ali Hassan</div>
+                        <div class="txt-dis">Ahmed.ali&#64;gmail.com</div>
+                   </div>
+                 
+              </div>
+        
+              <div class="flex justify-content-evenly align-items-center w-50">
+               <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-qrcode" style="color:#1151B4; margin-right: 5px;"></i>70</div>
+        
+               <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+          </div>
+              
+              <div class="flex justify-content-between align-item-center gap-2">
+        
+              </div>
+            
+         </div>
+
+
+         <div class="card-activity">
+          <div class="flex justify-content-start align-item-center gap-2 w-full">
+               <img src="UserImg.png" style="width:50px;height:50px ;border-radius: 50%;"/>
+               <div class="flex flex-column align-items-center">
+                    <div class="txt-tit">Ahmed Ali Hassan</div>
+                    <div class="txt-dis">Ahmed.ali&#64;gmail.com</div>
+               </div>
+             
+          </div>
+    
+          <div class="flex justify-content-evenly align-items-center w-50">
+           <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-qrcode" style="color:#1151B4; margin-right: 5px;"></i>70</div>
+    
+           <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+      </div>
+          
+          <div class="flex justify-content-between align-item-center gap-2">
+    
+          </div>
+        
+     </div>
+
+
+     <div class="card-activity">
+      <div class="flex justify-content-start align-item-center gap-2 w-full">
+           <img src="UserImg.png" style="width:50px;height:50px ;border-radius: 50%;"/>
+           <div class="flex flex-column align-items-center">
+                <div class="txt-tit">Ahmed Ali Hassan</div>
+                <div class="txt-dis">Ahmed.ali&#64;gmail.com</div>
+           </div>
+         
+      </div>
+
+      <div class="flex justify-content-evenly align-items-center w-50">
+       <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-qrcode" style="color:#1151B4; margin-right: 5px;"></i>70</div>
+
+       <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+  </div>
+      
+      <div class="flex justify-content-between align-item-center gap-2">
+
+      </div>
+    
+ </div>
+          </div>
+           
+          
+      </p-tabPanel>
+  <!----------------------------------------------------------------------------------------------------->
+      <p-tabPanel header="Header III">
+          <ng-template pTemplate="header">
+              <div class="flex align-items-center gap-2">
+  
+                  <span class=" white-space-nowrap m-0">
+                    Activities
+                  </span>
+                  <!-- <p-badge [value]="pendingWorkers.length" /> -->
+              </div>
+          </ng-template>
+  
+          <div class="flex flex-column gap-4">
+            <div class="card-activity">
+              <div class="flex justify-content-start align-item-center gap-2 w-full">
+                   <img src="UserImg.png" style="width:50px;height:50px ;border-radius: 50%;"/>
+                   <div class="flex flex-column align-items-center">
+                        <div class="txt-tit">Ahmed Ali Hassan</div>
+                        <div class="txt-dis">Ahmed.ali&#64;gmail.com</div>
+                   </div>
+                 
+              </div>
+        
+              <div class="flex justify-content-evenly align-items-center w-50">
+               <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-qrcode" style="color:#1151B4; margin-right: 5px;"></i>70</div>
+        
+               <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+          </div>
+              
+              <div class="flex justify-content-between align-item-center gap-2">
+        
+              </div>
+            
+         </div>
+
+
+         <div class="card-activity">
+          <div class="flex justify-content-start align-item-center gap-2 w-full">
+               <img src="UserImg.png" style="width:50px;height:50px ;border-radius: 50%;"/>
+               <div class="flex flex-column align-items-center">
+                    <div class="txt-tit">Ahmed Ali Hassan</div>
+                    <div class="txt-dis">Ahmed.ali&#64;gmail.com</div>
+               </div>
+             
+          </div>
+    
+          <div class="flex justify-content-evenly align-items-center w-50">
+           <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-qrcode" style="color:#1151B4; margin-right: 5px;"></i>70</div>
+    
+           <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+      </div>
+          
+          <div class="flex justify-content-between align-item-center gap-2">
+    
+          </div>
+        
+     </div>
+
+
+     <div class="card-activity">
+      <div class="flex justify-content-start align-item-center gap-2 w-full">
+           <img src="UserImg.png" style="width:50px;height:50px ;border-radius: 50%;"/>
+           <div class="flex flex-column align-items-center">
+                <div class="txt-tit">Ahmed Ali Hassan</div>
+                <div class="txt-dis">Ahmed.ali&#64;gmail.com</div>
+           </div>
+         
+      </div>
+
+      <div class="flex justify-content-evenly align-items-center w-50">
+       <div class="txt-norm" style="border-right: 1px solid var(--Colors-Primary-100, #E7EEF8); padding-right: 15px;"><i class="pi pi-qrcode" style="color:#1151B4; margin-right: 5px;"></i>70</div>
+
+       <div class="txt-norm "><i class="pi pi-ticket" style="color:#1151B4; margin-right: 5px;"></i>100</div>
+  </div>
+      
+      <div class="flex justify-content-between align-item-center gap-2">
+
+      </div>
+    
+ </div>
+          </div>
+  
+      </p-tabPanel>
+  <!----------------------------------------------------------------------------------------------------->
+  
+   
+       </p-tabView>
+    </div>
+    </div>
+
+
+    <!-----------------------------upcoming activities--------------->
+    <div class="flex justify-content-between align-item-center my-3 gap-2 w-full fixSmallScreen">
+      <div class="card revenue-statistics flex-2 w-50 fixS">
+    
+        <div class="flex justify-content-between align-items-center mb-4">
+          <div class="revenue"> Upcoming Booking</div>
+          <p-dropdown 
+            [options]="filters" 
+            [(ngModel)]="selectedFilter" 
+            placeholder="Select Filter">
+          </p-dropdown>
+        </div>
+       
+        <div class="flex flex-column gap-4">
+          <div class="card-activity p-2" style="height: 100px;">
+            <div class="flex justify-content-start align-item-center gap-2 w-full">
+                 <div class="w-25">
+                  <img src="imgUpcoming.png" class="flex-1 w-full" style=" height:92px ;border-radius: 10%;"/>
+                 </div>
+                 <div class="flex flex-column align-items-start w-75">
+                      <div class="flex justify-content-between align-items-center w-full">
+                          <img src="eventStatus.svg"/>
+                          <div class="txt-blue">3 Days : 4 Hour : 30 Min</div>
+                      </div>
+                      <div class="txt-tit">Learn German: Beginner Level</div>
+                      <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+
+                 </div>
+               
+            </div>
+      
+        
+            
+        
+          
+       </div>
+
+       <div class="card-activity p-2" style="height: 100px;">
+        <div class="flex justify-content-start align-item-center gap-2 w-full">
+             <div class="w-25">
+              <img src="imgUpcoming.png" class="flex-1 w-full" style=" height:92px ;border-radius: 10%;"/>
+             </div>
+             <div class="flex flex-column align-items-start w-75">
+                  <div class="flex justify-content-between align-items-center w-full">
+                      <img src="eventStatus.svg"/>
+                      <div class="txt-blue">3 Days : 4 Hour : 30 Min</div>
+                  </div>
+                  <div class="txt-tit">Learn German: Beginner Level</div>
+                  <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+
+             </div>
+           
+        </div>
+  
+    
+        
+    
+      
+   </div>
+
+   <div class="card-activity p-2" style="height: 100px;">
+    <div class="flex justify-content-start align-item-center gap-2 w-full">
+         <div class="w-25">
+          <img src="imgUpcoming.png" class="flex-1 w-full" style=" height:92px ;border-radius: 10%;"/>
+         </div>
+         <div class="flex flex-column align-items-start w-75">
+              <div class="flex justify-content-between align-items-center w-full">
+                  <img src="eventStatus.svg"/>
+                  <div class="txt-blue">3 Days : 4 Hour : 30 Min</div>
+              </div>
+              <div class="txt-tit">Learn German: Beginner Level</div>
+              <div class="txt-dis"><i class="pi pi-calendar" style="color:#1151B4; margin-right: 5px;"></i>Feb 15, 2025 -Feb 25 ,2025</div>
+
+         </div>
+       
+    </div>
+
+
+    
+
+  
+</div>
+
+ 
+        </div>
+        </div>
+        <!---top members-->
+        <div class="card revenue-statistics flex-2 w-50 fixS">
+    
+          <div class="flex justify-content-between align-items-center mb-4">
+            <div class="revenue">Daily Transaction</div>
+            <p-dropdown 
+              [options]="filters" 
+              [(ngModel)]="selectedFilter" 
+              placeholder="Select Filter">
+            </p-dropdown>
+          </div>
+         
+
+          <div class="w-full h-full">
+            <p-chart class="w-full h-full fixh" type="line" [data]="chartTransactionData" [options]="chartTransactionOptions"></p-chart>
+
+          </div>
+        </div>
+        </div>
+    <!---------------------------------------------------------->
 </div>
        
 
