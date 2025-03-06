@@ -149,6 +149,7 @@ export class ParticipantsComponent {
 
     this.activityId = this.route.snapshot.paramMap.get('id');
     this.activityType = this.route.snapshot.paramMap.get('type');
+    this.checkActivityType()
     if (this.activityId&&this.activityType) {
        this.loadParticipants(1,2000,this.activityType,this.activityId)
     }
@@ -161,6 +162,24 @@ export class ParticipantsComponent {
     
 
     
+  }
+
+
+  checkActivityType() {
+   
+    if(this.activityType==="Courses"){
+      this.activityType='Course'
+       
+    }else if(this.activityType==="Events"){
+      this.activityType='Event'
+  
+    }else if(this.activityType==="Workshops"){
+      this.activityType='Workshop'
+        
+    }else if(this.activityType==="Consultant"){
+      this.activityType='Consult'
+      
+    }
   }
   storePlanInLocalStorage(plan: any): void {
     localStorage.setItem('planData', JSON.stringify(plan)); // تخزين البيانات كـ JSON

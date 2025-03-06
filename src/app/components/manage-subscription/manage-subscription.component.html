@@ -309,7 +309,7 @@
                             </div>
                             <p-overlayPanel #op>
                               <ul class="menu-list">
-                                <li><a    style="cursor: pointer;" >View Member Profile</a></li>
+                                <li><a    style="cursor: pointer;"  [routerLink]="['/member-details', payment.member_ID]" style="cursor: pointer; Color:#363636; text-decoration: none;" >View Member Profile</a></li>
                                 <li><a (click)="markInvoiceAsPaid(payment.payment_ID)" style="cursor: pointer;">Marked as paid</a></li>
                                 <li><a (click)="markInvoiceAsUnPaid(payment.payment_ID)" style="cursor: pointer;">Not Paid</a></li>
                               </ul>

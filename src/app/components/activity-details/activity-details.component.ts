@@ -445,6 +445,8 @@ displayHome(id:any,publish:any){
     (response) => {
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
       console.log('Success:', response);
+    this.gatewayActivityDetails(this.activityType,this.activityId)
+
     },
     (error) => {
       this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
