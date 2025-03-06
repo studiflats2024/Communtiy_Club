@@ -1130,7 +1130,7 @@
         </div>
         </div>
         <!---top members-->
-        <div class="card revenue-statistics flex-2 w-50 fixS">
+        <div class="card revenue-statistics flex-2 w-50 fixS hieS">
     
           <div class="flex justify-content-between align-items-center mb-4">
             <div class="revenue">Daily Transaction</div>
@@ -1142,13 +1142,107 @@
           </div>
          
 
-          <div class="w-full h-full">
+          <div class="w-full h-full hei">
             <p-chart class="w-full h-full fixh" type="line" [data]="chartTransactionData" [options]="chartTransactionOptions"></p-chart>
 
           </div>
         </div>
         </div>
-    <!---------------------------------------------------------->
+    <!----------------------------transaction chart ------------------------------>
+    <div class="card revenue-statistics  flex justify-content-between align-items-center w-full" style="height: 400px;">
+    
+      <div class=" flex justify-content-between align-items-center mb-4 w-full">
+        <div class="revenue">Daily Transaction</div>
+        <p-dropdown 
+          [options]="filters" 
+          [(ngModel)]="selectedFilter" 
+          placeholder="Select Filter">
+        </p-dropdown>
+      </div>
+     
+
+      <div class="w-full h-full hei">
+        <p-chart class="w-full h-full fixh" type="line" [data]="chartTransactionData" [options]="chartTransactionOptions"></p-chart>
+
+      </div>
+    </div>
+    <!------------------------------last payment------------------------>
+    <div class="card revenue-statistics  flex justify-content-between align-items-center w-full"  >
+    
+      <div class=" flex justify-content-between align-items-center mb-4 w-full">
+        <div class="revenue">last Payments</div>
+        <p-dropdown 
+          [options]="filters" 
+          [(ngModel)]="selectedFilter" 
+          placeholder="Select Filter">
+        </p-dropdown>
+      </div>
+     
+
+      <div class="w-full h-full hei">
+        <p-table
+        #dt
+        [value]="paymentRecords"
+        [paginator]="true"
+        [rows]="10"
+        [globalFilterFields]="['inv_Code', 'amount', 'payment_Date', 'plan_Type','status']"
+        [filterDelay]="300"
+        [resizableColumns]="true"
+        [tableStyle]="{ 'min-width': '900px' }"
+        [showCurrentPageReport]="true"
+        [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
+        (onPage)="pageChange($event)"
+        [rowsPerPageOptions]="[5, 10, 20]"
+
+        [customSort]="true"
+        (sortFunction)="customSort($event)"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-payment>
+          <tr>
+            <td>
+              <div class="user-info">
+                <strong>{{ payment.name }}</strong>
+                <p>{{ payment.email }}</p>
+              </div>
+            </td>
+            <td>{{ payment.phone }}</td>
+            <td>{{ payment.date | date: 'MMM d, yyyy . h:mm a' }}</td>
+            <td>€ {{ payment.amount }}</td>
+            
+            <!-------------------------------------------------------------------------------------------------------------------->
+
+            <td>
+              <span
+                class="p-tag status-tag"
+                [ngClass]="{
+                  'p-tag-success': payment.status === 'Success',
+                  'p-tag-danger': payment.status === 'Failed',
+                  'p-tag-warning': payment.status === 'Pending'
+                  
+                }"
+              >
+                {{ payment.status }}
+              </span>
+            </td>
+            
+
+        
+          </tr>
+        </ng-template>
+    
+      </p-table>
+
+      </div>
+    </div>
 </div>
        
 

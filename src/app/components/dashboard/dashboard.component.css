@@ -1808,9 +1808,14 @@ line-height: 24px; /* 150% */
  .barCanvas ::ng-deep canvas{
   height: 250px !important;
  }
- /* .fixh ::ng-deep canvas{
-  height: 250px !important;
- } */
+ .fixh ::ng-deep canvas{
+  height: 100% !important;
+ }
+.hei ::ng-deep p-chart div{
+  height: 100% !important;
+
+}
+
 
  @media (max-width:768px) {
   .fixSmallScreen{
@@ -1823,6 +1828,9 @@ line-height: 24px; /* 150% */
  }
  .fixC{
   width: 50% !important;
+ }
+ .hieS{
+  height: 400px;
  }
  }
 
