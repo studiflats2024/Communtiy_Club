@@ -403,7 +403,7 @@ updateWorkshopDetails(workshopDetails: any): void {
   this.seatsAvailable = workshopDetails.available_Seats || 0;
  
   // Map the sessions
-  this.sessions = workshopDetails.sessions.map((session: any) => ({
+  this.sessions = workshopDetails?.sessions_Course_Workshop.map((session: any) => ({
     session_ID: session.session_ID || '',
     session_Title: session.session_Title || '',
     session_Date: session.session_Date 

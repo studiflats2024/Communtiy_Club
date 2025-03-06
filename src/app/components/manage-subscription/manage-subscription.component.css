@@ -97,6 +97,15 @@
   }
   :host ::ng-deep .p-card .p-card-body {
     padding: 0 0 !important;
+   height: 100%;
+
+  }
+
+  :host ::ng-deep .p-card .p-card-content {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   height: 100%;
   }
   
   :host ::ng-deep .p-card {

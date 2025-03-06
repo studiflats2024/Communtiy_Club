@@ -48,7 +48,8 @@ import { GatewayService } from '../../services/gateway.service';
 import { ChartModule } from 'primeng/chart';
 import { Chart } from 'chart.js';
 import { ProgressBarModule } from 'primeng/progressbar';
- 
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CircularChartComponent } from '../circular-chart/circular-chart.component';
 
 // Chart.register({
 //   id: 'staticLabels',
@@ -77,12 +78,22 @@ import { ProgressBarModule } from 'primeng/progressbar';
   selector: 'app-dashboard',
   standalone: true,
    
-  imports: [ProgressBarModule,ChartModule, OverlayPanelModule,CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
+  imports: [CircularChartComponent,ProgressSpinnerModule,ProgressBarModule,ChartModule, OverlayPanelModule,CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
   providers: [MessageService ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  progressValue = 10; // يبدأ من 10%
+
+  increaseProgress() {
+    if (this.progressValue < 100) {
+      this.progressValue += 10;
+      console.log('Updated Progress:', this.progressValue); // ✅ تحقق أن progressValue يتغير
+    }
+  }
+
+
   items:any[]=[];
 
   revenueData: any;
@@ -92,6 +103,11 @@ export class DashboardComponent {
   // selectedFilter:any
 
   legendItems:any;
+
+  chartDataProgress:any
+  chartOptionsProgress:any
+ 
+
   ngOnInit() {
 
  
@@ -112,6 +128,41 @@ export class DashboardComponent {
 
     this.loadPlans()
 
+   this.paymentRecords = [
+    {
+      name: 'Ahmed Ali',
+      email: 'Ahmed.Ali@gmail.com',
+      phone: '+49 128 45987564',
+      date: new Date('2025-02-12T10:00:00'),
+      amount: 480,
+      status: 'Success',
+    },
+    {
+      name: 'Ahmed Ali',
+      email: 'Ahmed.Ali@gmail.com',
+      phone: '+49 128 45987564',
+      date: new Date('2025-02-12T10:00:00'),
+      amount: 480,
+      status: 'Success',
+    },
+    {
+      name: 'Ahmed Ali',
+      email: 'Ahmed.Ali@gmail.com',
+      phone: '+49 128 45987564',
+      date: new Date('2025-02-12T10:00:00'),
+      amount: 480,
+      status: 'Failed',
+    },
+    {
+      name: 'Ahmed Ali',
+      email: 'Ahmed.Ali@gmail.com',
+      phone: '+49 128 45987564',
+      date: new Date('2025-02-12T10:00:00'),
+      amount: 480,
+      status: 'Success',
+    },
+  ];
+  
     
   }
 
@@ -134,8 +185,15 @@ export class DashboardComponent {
   
   revenueChartData: any;
   revenueChartOptions: any;
+  revenueChartData2: any;
+  revenueChartOptions2: any;
+  revenueChartData3: any;
+  revenueChartOptions3: any;
   selectedFilter: string = 'Last 3 Month';
   subscribers:any[]=[]
+
+  chartBarData: any;
+  chartBarOptions: any;
   constructor( private gatewayService:GatewayService,private plansService: PlansService, private messageService: MessageService) {
   
     this.revenueData = {
@@ -309,10 +367,199 @@ this.subscribers = [
   { type: 'Monthly', percentage: 10, count: 50, color: '#E9F5D0' }
 ];
 this.setChartDataSubscribers()
+
+
+////////////////////////////////////////////////////////////
+//////////////////////////////////chartProgressSpinner////////////////
+ this.revenueChartData2 = {
+    labels: ['Expired', 'Not Expired' ],
+    datasets: [
+      {
+        data: [20000, 7000], // Revenue Values
+        backgroundColor: ['#1151B4', '#CFDCF0' ], // Colors
+        hoverBackgroundColor: ['#1A4AC7', '#6699FF'], // Hover effect
+        borderWidth: 0 // Removes border
+      }
+    ]
+  };
+
+  this.revenueChartOptions2 = {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '90%', // Creates the "donut" effect
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+         
+        callbacks: {
+          label: (tooltipItem: any) =>
+            `€${tooltipItem.raw.toLocaleString()}`
+        }
+      },
+      
+    
+    },
+   
+   
+    
+  };
+
+
+
+
+  this.revenueChartData3 = {
+    labels: ['Attended', 'Not Attended'],
+    datasets: [
+      {
+        data: [20000, 7000], // Revenue Values
+        backgroundColor: ['#1CA65F', '#EBEBEB' ], // Colors
+        hoverBackgroundColor: ['#1A4AC7', '#6699FF'], // Hover effect
+        borderWidth: 0 // Removes border
+      }
+    ]
+  };
+
+  this.revenueChartOptions3 = {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '90%', // Creates the "donut" effect
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+         
+        callbacks: {
+          label: (tooltipItem: any) =>
+            `€${tooltipItem.raw.toLocaleString()}`
+        }
+      }, 
+    
+    },
+   
+   
+    
+  };
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      ////////////////////////chart bar ////////////////////////////////////////
+  this.chartBarData = {
+    labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+    datasets: [
+      {
+        label: 'Courses',
+        backgroundColor: '#1151B4',
+        data: [100, 105, 110, 108, 112, 109, 110, 111, 110, 113, 110, 112]
+      },
+      {
+        label: 'Consultant',
+        backgroundColor: '#F6A623',
+        data: [150, 155, 160, 158, 162, 159, 160, 161, 160, 163, 160, 162]
+      },
+      {
+        label: 'Events',
+        backgroundColor: '#7B8D5C',
+        data: [220, 225, 230, 228, 232, 229, 230, 231, 230, 233, 230, 232]
+      },
+      {
+        label: 'Workshop',
+        backgroundColor: '#D6C5FF',
+        data: [290, 295, 300, 298, 302, 299, 300, 301, 300, 303, 300, 302]
+      }
+    ]
+  };
+
+  this.chartBarOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          color: '#636363'
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#636363' },
+        grid: { display: false }
+      },
+      y: {
+        ticks: { color: '#636363' },
+        grid: { color: '#E0E0E0' }
+      }
+    }
+  };
+
+
+//////////////////////////////transaction//////////////////////
+this.chartTransactionData = {
+  labels: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+  datasets: [
+    {
+      label: 'Entry Rejections',
+      borderColor: '#ff3d3d', // Red
+      borderDash: [6, 6], // Dashed Line
+      borderWidth: 2,
+      fill: false,
+      data: [0, 50, 60, 40, 20, 50, 10]
+    },
+    {
+      label: 'Daily Transaction',
+      borderColor: '#28a745', // Green
+      borderDash: [6, 6], // Dashed Line
+      borderWidth: 2,
+      fill: false,
+      data: [0, 150, 120, 80, 130, 70, 0]
+    },
+    {
+      label: 'via Invitation',
+      borderColor: '#0d6efd', // Blue
+      borderDash: [6, 6], // Dashed Line
+      borderWidth: 2,
+      fill: false,
+      data: [0, 130, 80, 50, 110, 90, 20]
+    }
+  ]
+};
+
+this.chartTransactionOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: 'top',
+      labels: {
+        color: '#333'
+      }
+    }
+  },
+  scales: {
+    x: {
+      ticks: {
+        color: '#555'
+      },
+      grid: {
+        display: false
+      }
+    },
+    y: {
+      ticks: {
+        color: '#555'
+      },
+      grid: {
+        color: '#ddd'
+      }
+    }
+  }
+};
+
+
   }
 
   chartData: any;
   chartOptions: any;
+  chartTransactionData: any;
+  chartTransactionOptions: any;
   filters = [
     { label: 'Last 3 Month', value: 'Last 3 Month' },
     { label: 'Last 6 Month', value: 'Last 6 Month' },
@@ -335,7 +582,7 @@ this.setChartDataSubscribers()
         {
           // label: 'Subscribers',
           data: members,
-          backgroundColor: ['#2D5D3D', '#A6D388', '#889E66', '#E9F5D0'],
+          backgroundColor: ['#336445', '#97CC68', '#96B279', '#EFFAE4'],
           borderRadius: 9,
           categoryPercentage: 1.0, // ✅ Ensures bars take full space
           barPercentage: 0.8, // ✅ Makes sure bars have enough width
@@ -489,7 +736,7 @@ this.setChartDataSubscribers()
 
     const lowerPlanType = planType.toLowerCase(); // Convert to lowercase for case insensitivity
 
-    if (lowerPlanType.includes('monthly')) return 'badge-monthly';
+    if (lowerPlanType.includes('month')) return 'badge-monthly';
     if (lowerPlanType.includes('semi-annual')) return 'badge-semi-annual';
     if (lowerPlanType.includes('annual')) return 'badge-annual';
     if (lowerPlanType.includes('free trial')) return 'badge-free-trial';
@@ -525,7 +772,7 @@ this.setChartDataSubscribers()
 
     const lowerPlanType = planType.toLowerCase(); // Convert to lowercase
 
-    if (lowerPlanType.includes('monthly')) return 'pi pi-user';
+    if (lowerPlanType.includes('month')) return 'pi pi-user';
     if (lowerPlanType.includes('semi-annual')) return 'pi pi-calendar';
     if (lowerPlanType.includes('annual')) return 'pi pi-star';
     if (lowerPlanType.includes('free trial')) return 'pi pi-gift';
@@ -622,4 +869,85 @@ loadPlans(): void {
 }
  
  
+
+
+
+activeIndex: number = 0;
+onTabChange(index: number): void {
+  console.log('Active tab index changed:', index);
+  this.activeIndex = index;
+  if(index===0){
+ 
+  }else if(index===1){
+   
+  }else if(index===2){
+  
+    
+  }else if(index===3){
+     
+    
+    
+  }else if(index===4){
+    
+   
+  }
+}
+
+
+
+
+customSort(event: { data: any[], field: string, order: number }) {
+  event.data.sort((a, b) => {
+    let valueA = a[event.field];
+    let valueB = b[event.field];
+
+    console.log("Before Sorting:", valueA, valueB); // Debugging output
+
+    // ✅ Handle null values properly
+    if (valueA == null && valueB == null) return 0;
+    if (valueA == null) return event.order;  // Null values should appear last in ascending order
+    if (valueB == null) return -event.order; // Null values should appear first in descending order
+
+    // ✅ Convert string dates (like "Mar 5, 2025") into Date objects for sorting
+    if (this.isValidDate(valueA) && this.isValidDate(valueB)) {
+      let dateA = new Date(valueA);
+      let dateB = new Date(valueB);
+      let result = (dateA.getTime() - dateB.getTime()) * event.order;
+
+      console.log("Sorted Dates:", dateA, dateB, "Result:", result); // Debugging output
+
+      return result;
+    }
+
+
+      // ✅ التحقق مما إذا كانت القيم تواريخ
+      if (this.isDate(valueA) && this.isDate(valueB)) {
+        return (new Date(valueA).getTime() - new Date(valueB).getTime()) * event.order;
+      }
+
+
+    // ✅ Handle numeric sorting
+    if (!isNaN(valueA) && !isNaN(valueB)) {
+      return (parseFloat(valueA) - parseFloat(valueB)) * event.order;
+    }
+
+    // ✅ Handle text sorting (case insensitive)
+    return valueA.toString().localeCompare(valueB.toString(), undefined, { numeric: true }) * event.order;
+  });
+
+  console.log("After Sorting:", event.data.map(item => item[event.field])); // Debugging output after sorting
+}
+
+
+
+
+// ✅ دالة تتحقق مما إذا كانت القيمة تاريخًا
+isDate(value: any): boolean {
+  return !isNaN(Date.parse(value));
+}
+ 
+
+isValidDate(dateString: string): boolean {
+  return dateString != null && !isNaN(Date.parse(dateString));
+}
 }

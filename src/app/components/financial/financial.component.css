@@ -1339,6 +1339,26 @@ background: #D7F8E7 !important;
   width: 100%; /* Optional: Make the calendar take full width */
 }
 
+.plan-pricee{
+  color: var(--Colors-Base-Main-Text, #0A0C0F);
 
+/* Global Tokens/Headings/H-6/Medium */
+font-family: Poppins;
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: 36px; /* 150% */
+}
+
+.txt{
+  color: var(--Neutrals-Neutrals700, #727272);
+
+/* Global Tokens/Body/B-3 */
+font-family: Poppins;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: 18px; /* 150% */
+}
 
 /************************************************************************************/

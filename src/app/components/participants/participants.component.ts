@@ -404,24 +404,54 @@ customSort(event: { data: any[], field: string, order: number }) {
     let valueA = a[event.field];
     let valueB = b[event.field];
 
-    // ✅ التحقق مما إذا كانت القيم تواريخ
-    if (this.isDate(valueA) && this.isDate(valueB)) {
-      return (new Date(valueA).getTime() - new Date(valueB).getTime()) * event.order;
+    console.log("Before Sorting:", valueA, valueB); // Debugging output
+
+    // ✅ Handle null values properly
+    if (valueA == null && valueB == null) return 0;
+    if (valueA == null) return event.order;  // Null values should appear last in ascending order
+    if (valueB == null) return -event.order; // Null values should appear first in descending order
+
+    // ✅ Convert string dates (like "Mar 5, 2025") into Date objects for sorting
+    if (this.isValidDate(valueA) && this.isValidDate(valueB)) {
+      let dateA = new Date(valueA);
+      let dateB = new Date(valueB);
+      let result = (dateA.getTime() - dateB.getTime()) * event.order;
+
+      console.log("Sorted Dates:", dateA, dateB, "Result:", result); // Debugging output
+
+      return result;
     }
 
-    // ✅ التحقق مما إذا كانت القيم أرقامًا
+
+      // ✅ التحقق مما إذا كانت القيم تواريخ
+      if (this.isDate(valueA) && this.isDate(valueB)) {
+        return (new Date(valueA).getTime() - new Date(valueB).getTime()) * event.order;
+      }
+
+
+    // ✅ Handle numeric sorting
     if (!isNaN(valueA) && !isNaN(valueB)) {
-      return (valueA - valueB) * event.order;
+      return (parseFloat(valueA) - parseFloat(valueB)) * event.order;
     }
 
-    // ✅ فرز النصوص (حساس للأحرف الكبيرة والصغيرة)
-    return valueA.toString().localeCompare(valueB.toString()) * event.order;
+    // ✅ Handle text sorting (case insensitive)
+    return valueA.toString().localeCompare(valueB.toString(), undefined, { numeric: true }) * event.order;
   });
+
+  console.log("After Sorting:", event.data.map(item => item[event.field])); // Debugging output after sorting
 }
+
+
+
 
 // ✅ دالة تتحقق مما إذا كانت القيمة تاريخًا
 isDate(value: any): boolean {
   return !isNaN(Date.parse(value));
+}
+ 
+
+isValidDate(dateString: string): boolean {
+  return dateString != null && !isNaN(Date.parse(dateString));
 }
 
 }

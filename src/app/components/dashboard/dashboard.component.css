@@ -521,12 +521,12 @@ line-height: 21px; /* 150% */
   line-height: 20.463px; /* 112.5% */
   }
   
-  :host ::ng-deep .p-tabview .p-tabview-nav {
+  /* :host ::ng-deep .p-tabview .p-tabview-nav {
     background: #F5F9FF !important;
-}
-:host ::ng-deep .p-tabview .p-tabview-panels {
+} */
+/* :host ::ng-deep .p-tabview .p-tabview-panels {
     background: #F5F9FF !important;
-}
+} */
    :host ::ng-deep .p-tabview-nav a{
     text-decoration: none;
     color: var(--Neutral-Neutral40, #605D62) !important;
@@ -537,7 +537,7 @@ line-height: 21px; /* 150% */
   font-weight: 400 !important;
   line-height: 24px; /* 133.333% */
   text-transform: capitalize;
-  background: #F5F9FF;
+  /* background: #F5F9FF; */
    }
    /* :host ::ng-deep .p-tabview-nav a:hover{
     text-decoration: none;
@@ -565,7 +565,7 @@ line-height: 21px; /* 150% */
     border-color:  var(--Primary-40, #1151B4);
     color: #1151B4 !important;
     font-weight: 600 !important;
-    background: #F5F9FF;
+    /* background: #F5F9FF; */
   }
   :host ::ng-deep .p-card .p-card-body {
     padding: 0 0 !important;
@@ -1744,6 +1744,7 @@ background: #D7F8E7 !important;
   padding: 20px;
   background: white;
   border-radius: 10px;
+  justify-content: space-between;
   /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
 
   overflow-x: auto; /* Enable horizontal scrolling */
@@ -1804,6 +1805,18 @@ line-height: 24px; /* 150% */
   width: 100% !important;
  }
 
+ .barCanvas ::ng-deep canvas{
+  height: 250px !important;
+ }
+ .fixh ::ng-deep canvas{
+  height: 100% !important;
+ }
+.hei ::ng-deep p-chart div{
+  height: 100% !important;
+
+}
+
+
  @media (max-width:768px) {
   .fixSmallScreen{
     flex-wrap: wrap;
@@ -1812,6 +1825,12 @@ line-height: 24px; /* 150% */
   }
  .fixS{
   width: 100% !important;
+ }
+ .fixC{
+  width: 50% !important;
+ }
+ .hieS{
+  height: 400px;
  }
  }
 
@@ -1848,8 +1867,11 @@ line-height: 24px; /* 150% */
 
  .legend-container {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
+  justify-content: space-between;
+  align-items: center;
   gap: 10px;
+  width: 100%;
 }
 
 .legend-item {
@@ -1900,13 +1922,17 @@ line-height: 24px; /* 150% */
   margin-top: 15px;
 }
 
-.legend-item {
+.legend-item-bar {
   display: flex;
   align-items: center;
   font-size: 14px;
   color: #68748A;
+  width: 45%;
 }
-
+.special-class{
+  /* text-align: right !important; */
+  justify-content: right;
+}
 .color-box {
   width: 14px;
   height: 14px;
@@ -1918,7 +1944,7 @@ line-height: 24px; /* 150% */
 .progress-container {
   display: flex;
   align-items: center;
-  gap: 10px;
+  /* gap: 10px; */
 }
 
 .progress-item {
@@ -1936,12 +1962,153 @@ line-height: 24px; /* 150% */
 
 .bar {
   height: 20px;
+   
+  width: var(--progress-size) !important;/**/
 
   ::ng-deep .p-progressbar-value {
     background-color: var(--progress-color) !important;
+    width: var(--progress-size);
+    width:  100% !important;
+
+  }
+
+  ::ng-deep .p-progressbar {
+   /* width: 50% !important; */
+   width: var(--progress-size, 100%) !important;
+  border-radius: 8px;
+
+
+  /* width: 100%;  */
+   
   }
 }
 
 
+ 
+
+.progress-container {
+  display: flex; /* Make the container a flex container */
+  width: 100%; /* Full width */
+  gap: 10px;  
+}
+
+.progress-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: #f0f0f0;   */
+  /* padding: 10px;   */
+  border-radius: 8px; /* Rounded corners */
+}
+
+.bar {
+  height: 20px;
+  width: 100%; /* Progress bar takes full width of its container */
+}
+
+::ng-deep .p-progressbar {
+  width: 100% !important; /* Full width for the progress bar container */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #ccc; /* Background color for the progress bar container */
+}
+/* ::ng-deep p-progressbar {
+width: 100% !important;
+} */
+
+::ng-deep .p-progressbar-value {
+  background-color: var(--progress-color) !important; /* Dynamic color for the progress bar */
+  width: var(--progress-size, 100%) !important; /* Dynamic width for the progress bar */
+  border-radius: 8px; /* Rounded corners for the progress bar value */
+ 
+}
+
+/* 
+:host ::ng-deep p-progressbar{
+  width:100% !important;
+} */
 
 
+
+.btnDetails{
+  color: var(--Colors-Primary-700, #1151B4);
+
+/* Global Tokens/Body/B-2/Medium */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 21px; /* 150% */
+
+display: flex;
+width: 118px;
+height: 32px;
+padding: 8px 16px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+
+border-radius: 8px;
+background: var(--primary-light, #F6F9FE);
+}
+
+
+
+.card-activity{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+ 
+height: 86px;
+padding-left: 8px;
+ 
+align-self: stretch;
+
+border-radius: 8px;
+border: 1px solid var(--Colors-Primary-100, #E7EEF8);
+background: #FFF;
+}
+
+
+.txt-tit{
+  color: var(--Colors-Base-Main-Text, #0A0C0F);
+
+  /* Global Tokens/Body/B-1/Medium */
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 150% */
+  margin-bottom: 5px;
+}
+
+.txt-dis{
+  color: var(--Neutrals-Neutrals700, #727272);
+
+/* Global Tokens/Body/B-2 */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 21px; /* 150% */
+}
+
+.txt-norm{
+  color: var(--Colors-Base-Main-Text, #0A0C0F);
+
+/* Global Tokens/Body/B-2 */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 21px; /* 150% */
+}
+
+.txt-blue{
+  color: var(--Colors-Primary-700, #1151B4);
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 21px; /* 150% */
+}

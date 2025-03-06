@@ -211,9 +211,9 @@ export class FinancialComponent {
 
 
   getPlanIcon(planType: string): string {
-    if (!planType) return 'pi pi-question'; // Handle empty/null values
+    if (!planType) return 'pi pi-question'; 
 
-    const lowerPlanType = planType.toLowerCase(); // Convert to lowercase
+    const lowerPlanType = planType.toLowerCase();  
 
     if (lowerPlanType.includes('month')) return 'pi pi-user';
     if (lowerPlanType.includes('semi')) return 'pi pi-calendar';
@@ -221,8 +221,23 @@ export class FinancialComponent {
     if (lowerPlanType.includes('free')) return 'pi pi-gift';
     if (lowerPlanType.includes('test 101')) return 'pi pi-gift';
 
-    return 'pi pi-question'; // Default icon if no match
+    return 'pi pi-question';  
 }
+
+getPlanIconnn(planType: string): { icon: string, color: string } {
+  if (!planType) return { icon: 'pi pi-question', color: 'gray' }; // Default for empty values
+
+  const lowerPlanType = planType.toLowerCase(); // Convert to lowercase
+
+  if (lowerPlanType.includes('month')) return { icon: 'pi pi-user', color: '#157E48' };
+  if (lowerPlanType.includes('semi')) return { icon: 'pi pi-calendar', color: '#1151B4' };
+  if (lowerPlanType.includes('annual')) return { icon: 'pi pi-star', color: '#DFA314' };
+  if (lowerPlanType.includes('free')) return { icon: 'pi pi-gift', color: '#A85D02' };
+ 
+
+  return { icon: 'pi pi-question', color: 'gray' }; // Default icon if no match
+}
+
   
   currentPage:any;
   pageChange(event: any): void {
@@ -453,25 +468,60 @@ customSort(event: { data: any[], field: string, order: number }) {
     let valueA = a[event.field];
     let valueB = b[event.field];
 
-    // ✅ التحقق مما إذا كانت القيم تواريخ
-    if (this.isDate(valueA) && this.isDate(valueB)) {
-      return (new Date(valueA).getTime() - new Date(valueB).getTime()) * event.order;
+    console.log("Before Sorting:", valueA, valueB); // Debugging output
+
+    // ✅ Handle null values properly
+    if (valueA == null && valueB == null) return 0;
+    if (valueA == null) return event.order;  // Null values should appear last in ascending order
+    if (valueB == null) return -event.order; // Null values should appear first in descending order
+
+    // ✅ Convert string dates (like "Mar 5, 2025") into Date objects for sorting
+    if (this.isValidDate(valueA) && this.isValidDate(valueB)) {
+      let dateA = new Date(valueA);
+      let dateB = new Date(valueB);
+      let result = (dateA.getTime() - dateB.getTime()) * event.order;
+
+      console.log("Sorted Dates:", dateA, dateB, "Result:", result); // Debugging output
+
+      return result;
     }
 
-    // ✅ التحقق مما إذا كانت القيم أرقامًا
+
+      // ✅ التحقق مما إذا كانت القيم تواريخ
+      if (this.isDate(valueA) && this.isDate(valueB)) {
+        return (new Date(valueA).getTime() - new Date(valueB).getTime()) * event.order;
+      }
+
+
+    // ✅ Handle numeric sorting
     if (!isNaN(valueA) && !isNaN(valueB)) {
-      return (valueA - valueB) * event.order;
+      return (parseFloat(valueA) - parseFloat(valueB)) * event.order;
     }
 
-    // ✅ فرز النصوص (حساس للأحرف الكبيرة والصغيرة)
-    return valueA.toString().localeCompare(valueB.toString()) * event.order;
+    // ✅ Handle text sorting (case insensitive)
+    return valueA.toString().localeCompare(valueB.toString(), undefined, { numeric: true }) * event.order;
   });
+
+  console.log("After Sorting:", event.data.map(item => item[event.field])); // Debugging output after sorting
 }
+
+
+
 
 // ✅ دالة تتحقق مما إذا كانت القيمة تاريخًا
 isDate(value: any): boolean {
   return !isNaN(Date.parse(value));
 }
  
+
+isValidDate(dateString: string): boolean {
+  return dateString != null && !isNaN(Date.parse(dateString));
+}
+ 
+
+getAbsoluteValue(value: number): number {
+  return Math.abs(value);
+}
+
 
 }
