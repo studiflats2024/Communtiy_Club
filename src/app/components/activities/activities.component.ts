@@ -756,6 +756,8 @@ showCancelDialog: boolean = false;
 }
 
 customSort(event: { data: any[], field: string, order: number }) {
+  console.log(event)
+
   event.data.sort((a, b) => {
     let valueA = a[event.field];
     let valueB = b[event.field];
