@@ -81,8 +81,8 @@
                         <!-- <th pSortableColumn="startDate">Date <p-sortIcon field="startDate"></p-sortIcon></th> -->
                         
                         <th>Plan Type</th>
-                        <th>Scan Time</th>
-                        <th>Scan Date</th>
+                        <th pSortableColumn="scan_Time">Scan Time<p-sortIcon field="scan_Time"></p-sortIcon></th>
+                        <th pSortableColumn="scan_Date">Scan Date<p-sortIcon field="scan_Date"></p-sortIcon></th>
                         <!-- <th>Amount</th> -->
                        
                         <th>Status</th>
@@ -122,12 +122,13 @@
                             <span
                             class="p-tag status-tag"
                             [ngClass]="{
-                              'p-tag-success': transaction.status === 'Success',
-                              'p-tag-danger': transaction.status === 'Failed',
-                              'p-tag-warning': transaction.status === 'Pending'
-                            }"
+                              'p-tag-success': transaction.satus === 'Success' || transaction.satus === 'Active',
+                              'p-tag-danger': transaction.satus === 'Failed'|| transaction.satus === 'Expired',
+                              'p-tag-warning': transaction.satus === 'Pending'
+                              
+ }"
                           >
-                            {{ transaction.status }}
+                            {{ transaction.satus }}
                           </span>
                         </td>
                         
