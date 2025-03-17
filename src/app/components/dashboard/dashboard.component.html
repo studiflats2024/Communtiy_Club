@@ -26,7 +26,7 @@
  
 
        
-        <div class="flex justify-content-center align-items-center flex-wrap" style="padding: 16px; gap: 10px;">
+        <div class="flex justify-content-start align-items-center flex-wrap" style="padding: 16px; gap: 10px;">
  
  
       
@@ -1243,8 +1243,112 @@
 
       </div>
     </div>
-</div>
+
+    <!--------------------------------last updates-------------------------->
+    <div class="card revenue-statistics  flex justify-content-between align-items-center w-50 fixS"  >
+    
+      <div class=" flex justify-content-between align-items-center mb-4 w-full">
+        <div class="revenue">last Updates</div>
+        <p-dropdown 
+          [options]="filters" 
+          [(ngModel)]="selectedFilter" 
+          placeholder="Select Filter">
+        </p-dropdown>
+      </div>
+     
+    
+      <div class="w-full h-full hei">
        
+        <div class="border-bottom p-2">
+          <div class="flex justify-content-start align-item-center gap-2 w-full">
+               <img src="payment-badge.svg" style="width:50px;height: 50px;"/>
+               
+               <div class="flex flex-column align-items-center justify-content-start w-full">
+                    <div class="flex justify-content-between align-items-center w-full">
+                       <div>
+                        <div class="txt-green">Payment Received</div>
+                         <div class="txt-norm">User has successfully subscribed to Annual Plan</div>
+                       </div>
+                      <div class="txt-blue flex justify-content-start align-items-start" style="height: 100%;">Just Now</div>
+                    </div>
+                     
+               </div>
+             
+          </div>
+    
+    
+        
+     </div>
+     <!--------------------------------->
+     <div class="border-bottom p-2">
+      <div class="flex justify-content-start align-item-center gap-2 w-full">
+           <img src="activity-badge.svg" style="width:50px;height: 50px;"/>
+           
+           <div class="flex flex-column align-items-center justify-content-start w-full">
+                <div class="flex justify-content-between align-items-center w-full">
+                   <div>
+                    <div class="txt-purble">New Course Added</div>
+                     <div class="txt-norm">User has successfully subscribed to Annual Plan</div>
+                   </div>
+                  <div class="txt-blue flex justify-content-start align-items-start" style="height: 100%;">Just Now</div>
+                </div>
+                 
+           </div>
+         
+      </div>
+
+
+    
+ </div>
+ <!-------------------------->
+ <div class="border-bottom p-2">
+  <div class="flex justify-content-start align-item-center gap-2 w-full">
+       <img src="booking-badge.svg" style="width:50px;height: 50px;"/>
+       
+       <div class="flex flex-column align-items-center justify-content-start w-full">
+            <div class="flex justify-content-between align-items-center w-full">
+               <div>
+                <div class="txt-blue">new booking</div>
+                 <div class="txt-norm">User has successfully subscribed to Annual Plan</div>
+               </div>
+              <div class="txt-blue flex justify-content-start align-items-start" style="height: 100%;">Just Now</div>
+            </div>
+             
+       </div>
+     
+  </div>
+
+
+
+</div>
+
+<!-------------------------->
+<div class=" p-2">
+  <div class="flex justify-content-start align-item-center gap-2 w-full">
+       <img src="plan-badge.svg" style="width:50px;height: 50px;"/>
+       
+       <div class="flex flex-column align-items-center justify-content-start w-full">
+            <div class="flex justify-content-between align-items-center w-full">
+               <div>
+                <div class="txt-yellow">plan Updated</div>
+                 <div class="txt-norm">User has successfully subscribed to Annual Plan</div>
+               </div>
+              <div class="txt-blue flex justify-content-start align-items-start" style="height: 100%;">Just Now</div>
+            </div>
+             
+       </div>
+     
+  </div>
+
+
+
+</div>
+<!----------------->
+      </div>
+    </div>
+</div>
+
+ 
 
  
 

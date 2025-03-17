@@ -1817,7 +1817,7 @@ line-height: 24px; /* 150% */
 }
 
 
- @media (max-width:768px) {
+ @media (max-width:1200px) {
   .fixSmallScreen{
     flex-wrap: wrap;
     flex-direction: column;
@@ -2111,4 +2111,44 @@ font-size: 14px;
 font-style: normal;
 font-weight: 400;
 line-height: 21px; /* 150% */
+}
+.txt-green{
+  color: var(--Colors-Sucess-800, #17894E);
+
+  /* Global Tokens/Body/B-2/Medium */
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px; /* 150% */
+}
+.txt-purble{
+  color: #1F1BCF;
+
+  /* Global Tokens/Body/B-2/Medium */
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px; /* 150% */
+}
+.txt-blue{
+  color: var(--Colors-Primary-700, #1151B4);
+
+  /* Global Tokens/Body/B-2/Medium */
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px; /* 150% */
+}
+.txt-yellow{
+  color: var(--Colors-Warning-700, #BE8B11);
+
+  /* Global Tokens/Body/B-2/Medium */
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px; /* 150% */
 }

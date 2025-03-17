@@ -65,79 +65,7 @@ export class ParticipantsComponent {
   constructor( private route: ActivatedRoute,private gatewayService:GatewayService,private plansService: PlansService, private messageService: MessageService) {
    
 
-    this.participants = [
-      {
-        id:'81e29249-6f1d-40c6-b749-b4f2d7f99afe',
-        name: 'Alice Johnson',
-        email: 'alice.johnson@example.com',
-        phone: '+49 176 12345678',
-        booking_Date: new Date(2024, 1, 12), // Feb 12, 2024
-        status: 'Success'
-      },
-      {
-        name: 'Bob Williams',
-        email: 'bob.williams@example.com',
-        phone: '+49 176 23456789',
-        booking_Date: new Date(2024, 1, 15), // Feb 15, 2024
-        status: 'Pending'
-      },
-      {
-        name: 'Clara Smith',
-        email: 'clara.smith@example.com',
-        phone: '+49 176 34567890',
-        booking_Date: new Date(2024, 1, 18), // Feb 18, 2024
-        status: 'Failed'
-      },
-      {
-        name: 'David Brown',
-        email: 'david.brown@example.com',
-        phone: '+49 176 45678901',
-        booking_Date: new Date(2024, 1, 22), // Feb 22, 2024
-        status: 'Success'
-      },
-      {
-        name: 'Emily Davis',
-        email: 'emily.davis@example.com',
-        phone: '+49 176 56789012',
-        booking_Date: new Date(2024, 1, 25), // Feb 25, 2024
-        status: 'Pending'
-      },
-      {
-        name: 'Frank Harris',
-        email: 'frank.harris@example.com',
-        phone: '+49 176 67890123',
-        booking_Date: new Date(2024, 1, 28), // Feb 28, 2024
-        status: 'Failed'
-      },
-      {
-        name: 'Grace Wilson',
-        email: 'grace.wilson@example.com',
-        phone: '+49 176 78901234',
-        booking_Date: new Date(2024, 2, 2), // March 2, 2024
-        status: 'Success'
-      },
-      {
-        name: 'Henry Martinez',
-        email: 'henry.martinez@example.com',
-        phone: '+49 176 89012345',
-        booking_Date: new Date(2024, 2, 5), // March 5, 2024
-        status: 'Pending'
-      },
-      {
-        name: 'Ivy Clark',
-        email: 'ivy.clark@example.com',
-        phone: '+49 176 90123456',
-        booking_Date: new Date(2024, 2, 8), // March 8, 2024
-        status: 'Failed'
-      },
-      {
-        name: 'Jack Lewis',
-        email: 'jack.lewis@example.com',
-        phone: '+49 176 01234567',
-        booking_Date: new Date(2024, 2, 11), // March 11, 2024
-        status: 'Success'
-      }
-    ];
+  
     
   }
 
@@ -149,6 +77,7 @@ export class ParticipantsComponent {
 
     this.activityId = this.route.snapshot.paramMap.get('id');
     this.activityType = this.route.snapshot.paramMap.get('type');
+    this.checkActivityType()
     if (this.activityId&&this.activityType) {
        this.loadParticipants(1,2000,this.activityType,this.activityId)
     }
@@ -161,6 +90,24 @@ export class ParticipantsComponent {
     
 
     
+  }
+
+
+  checkActivityType() {
+   
+    if(this.activityType==="Courses"){
+      this.activityType='Course'
+       
+    }else if(this.activityType==="Events"){
+      this.activityType='Event'
+  
+    }else if(this.activityType==="Workshops"){
+      this.activityType='Workshop'
+        
+    }else if(this.activityType==="Consultant"){
+      this.activityType='Consult'
+      
+    }
   }
   storePlanInLocalStorage(plan: any): void {
     localStorage.setItem('planData', JSON.stringify(plan)); // تخزين البيانات كـ JSON
@@ -400,6 +347,10 @@ sendAlert(subscribeId: string) {
 
 
 customSort(event: { data: any[], field: string, order: number }) {
+  console.log(event)
+
+
+
   event.data.sort((a, b) => {
     let valueA = a[event.field];
     let valueB = b[event.field];

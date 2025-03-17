@@ -88,7 +88,7 @@
                       <th pSortableColumn="name">Participants Name <p-sortIcon field="name"></p-sortIcon></th>
                       <th pSortableColumn="phone">Phone Number<p-sortIcon field="phone"></p-sortIcon></th>
  
-                      <th pSortableColumn="booking-Date">Booking Date<p-sortIcon field="booking-Date"></p-sortIcon></th>
+                      <th pSortableColumn="booking_Date">Booking Date<p-sortIcon field="booking_Date"></p-sortIcon></th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -112,9 +112,9 @@
                         <span
                           class="p-tag status-tag"
                           [ngClass]="{
-                            'p-tag-success': participant.status === 'Success',
-                            'p-tag-danger': participant.status === 'Failed',
-                            'p-tag-warning': participant.status === 'Pending'
+                            'p-tag-success': participant.status === 'Success' || participant.status === 'Completed',
+                            'p-tag-danger': participant.status === 'Failed' || participant.status === 'Cancelled',
+                            'p-tag-warning': participant.status === 'Pending' || participant.status === 'Ongoing'
                             
                           }"
                         >
@@ -124,7 +124,7 @@
                       <td >
                         <div class="flex justify-content-start align-items-center gab-1">
                           <!-- <div><img class="mr-2" style="cursor: pointer;" src="alertUser.svg"/></div> -->
-                          <div class="image-container "  (click)="sendAlert(participant.id)"  >
+                          <div *ngIf="participant.status !== 'Completed' && participant.status !== 'Cancelled'"  class="image-container "  (click)="sendAlert(participant.id)"  >
                             <img
                               class="image-default icon-container"
                               src="alertUser.svg"
@@ -136,6 +136,15 @@
                               alt="Hover Alert Icon"
                                
                             />
+                          </div>
+
+                          <div class=""  *ngIf="participant.status === 'Completed' || participant.status === 'Cancelled'"  >
+                            <img
+                              class=""
+                              src="alertHiding.svg"
+                              alt="Default Alert Icon"
+                            />
+                            
                           </div>
                           
                         <div><img class="mr-2" style="cursor: pointer;" src="trashplan.svg"/></div>

@@ -213,6 +213,22 @@ displayHome(id:any,type:any,publish:any){
     (response) => {
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
       console.log('Success:', response);
+
+      if(this.activeIndex===0){
+        this.fetchActivities('All',1,2000);
+      }else if(this.activeIndex===1){
+        this.fetchActivities('Course',1,2000);
+      }else if(this.activeIndex===2){
+        this.fetchActivities('Workshop',1,2000);
+        
+      }else if(this.activeIndex===3){
+         
+        this.fetchActivities('Event',1,2000);
+        
+      }else if(this.activeIndex===4){
+        this.fetchActivities('Consult',1,2000);
+       
+      }
     },
     (error) => {
       this.messageService.add({ severity: 'error', summary:'Failed', detail:error.message });
@@ -756,6 +772,8 @@ showCancelDialog: boolean = false;
 }
 
 customSort(event: { data: any[], field: string, order: number }) {
+  console.log(event)
+
   event.data.sort((a, b) => {
     let valueA = a[event.field];
     let valueB = b[event.field];

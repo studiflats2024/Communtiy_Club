@@ -145,7 +145,7 @@ export class FinancialComponent {
   }
 
   loadFinancePayments(): void {
-    this.gatewayService.getFinancePayments(1, 10).subscribe({
+    this.gatewayService.getFinancePayments(1, 2000).subscribe({
       next: (data) => {
         this.paymentRecords = data.data;
         console.log('✅ Finance Payments:', data);
