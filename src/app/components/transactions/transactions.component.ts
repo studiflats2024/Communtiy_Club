@@ -187,6 +187,8 @@ export class TransactionsComponent {
   
       if (lowerPlanType.includes('month')) return 'badge-monthly';
       if (lowerPlanType.includes('semi')) return 'badge-semi-annual';
+      if (lowerPlanType.includes('invitation')) return 'badge-semi-annual';
+
       if (lowerPlanType.includes('annual')) return 'badge-annual';
       if (lowerPlanType.includes('free')) return 'badge-free-trial';
       if (lowerPlanType.includes('test 101')) return 'badge-free-trial';
@@ -226,8 +228,10 @@ export class TransactionsComponent {
       if (lowerPlanType.includes('annual')) return 'pi pi-star';
       if (lowerPlanType.includes('free')) return 'pi pi-gift';
       if (lowerPlanType.includes('test 101')) return 'pi pi-gift';
+      if (lowerPlanType.includes('invitation')) return 'pi pi-ticket';
+
   
-      return 'pi pi-question'; // Default icon if no match
+      return 'pi pi-question'; // Default icon if no match  
   }
     
   currentPage:any;

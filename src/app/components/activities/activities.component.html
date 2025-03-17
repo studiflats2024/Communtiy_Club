@@ -170,8 +170,10 @@
                 <ul class="menu-list">
                   <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
-                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+                  <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+
+                  <!-- <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li> -->
 
                   <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
                   <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
@@ -325,8 +327,8 @@
                   <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
 
-                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+                  <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
 
                   <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
                   <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
@@ -479,8 +481,8 @@
                   <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
 
-                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+                  <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
 
                   <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
                   <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
@@ -643,8 +645,8 @@
                             <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
           
-                            <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+                            <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                            <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
 
                             <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
                             <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
@@ -801,8 +803,8 @@
                             <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
           
-                            <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                  <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+                            <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                            <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
 
                             <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
                             <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>

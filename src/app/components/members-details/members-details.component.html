@@ -210,7 +210,7 @@
                                 >
                                   <ng-template pTemplate="header">
                                     <tr>
-                                      <th pSortableColumn="name">Title<p-sortIcon field="name"></p-sortIcon></th>
+                                      <th pSortableColumn="activity_Name">Title<p-sortIcon field="activity_Name"></p-sortIcon></th>
                                       
                                       <th>Type</th>
                                       
@@ -245,8 +245,8 @@
                                         <span
                                           class="p-tag status-tag"
                                           [ngClass]="{
-                                            'p-tag-success': activity.attendance === 'Attended',
-                                            'p-tag-danger': activity.attendance === 'Not Attended',
+                                            'p-tag-success': activity.attendance === 'Attendant',
+                                            'p-tag-danger': activity.attendance === 'Not Attendant',
                                             
                                             
                                           }"
@@ -361,8 +361,8 @@
                                           <span
                                           class="p-tag status-tag"
                                           [ngClass]="{
-                                              'p-tag-success': invite.attendance === 'Attended',
-                                              'p-tag-danger': invite.attendance === 'Not Attended',
+                                              'p-tag-success': invite.attendance === 'Attendant',
+                                              'p-tag-danger': invite.attendance === 'Not Attendant',
                                                
                                               
                                           }"

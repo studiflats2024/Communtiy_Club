@@ -122,7 +122,7 @@
                             <span
                             class="p-tag status-tag"
                             [ngClass]="{
-                              'p-tag-success': transaction.satus === 'Success' || transaction.satus === 'Active',
+                              'p-tag-success': transaction.satus === 'Success' || transaction.satus === 'Active' || transaction.satus === 'Approved',
                               'p-tag-danger': transaction.satus === 'Failed'|| transaction.satus === 'Expired',
                               'p-tag-warning': transaction.satus === 'Pending'
                               
@@ -145,7 +145,7 @@
                                
                             </div>
                             
-                            <div>
+                            <!-- <div>
                               <img class="mr-2" style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
                             </div>
                             <p-overlayPanel #op>
@@ -154,7 +154,7 @@
                                 <li><a   style="cursor: pointer;">Marked as paid</a></li>
                                 <li><a   style="cursor: pointer;">Not Paid</a></li>
                               </ul>
-                            </p-overlayPanel>
+                            </p-overlayPanel> -->
                           </div>
                            
   
