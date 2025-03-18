@@ -208,6 +208,19 @@ export class ActivitiesComponent {
   
 
 displayHome(id:any,type:any,publish:any){
+  if(type==='Courses'){
+    type='Course'
+ }else if(type==='Events'){
+   type='Event'
+
+ }else if(type==='Workshops'){
+   type='Workshop'
+   
+ }else if(type="Consultant"){
+    
+   type='Consult'
+   
+ } 
 
   this.activityService.displayHomeActivity(id, type, publish).subscribe(
     (response) => {
