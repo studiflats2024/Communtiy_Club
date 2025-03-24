@@ -38,7 +38,8 @@ export class HeaderComponent {
      '/participants': 'Participants',
      '/users':'Users',
      '/financial':'Financial',
-     '/invoice-details/:id':'Invoice Details'
+     '/invoice-details/:id':'Invoice Details',
+     '/cancellation-request':'Cancellation Requests'
   };
 
   // Method to update the header title based on the route

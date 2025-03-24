@@ -312,6 +312,29 @@ resetPassword(email: string, password: string): Observable<any> {
   .set('Password', password);
   return this.http.post(`${environment.apiUrl}/Gateway/reset-password`, null, { params });
 }
+
+
+
+
+  // ✅ Function to create headers dynamically
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    });
+  }
+
+  // ✅ Get Cancel Plan Requests
+  getCancelPlans(pageNumber: number, pageSize: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/Gateway/GetCancel_Plans_Requests`, {
+      headers: this.getHeaders(),
+      params: {
+        PageNumber: pageNumber.toString(),
+        PageSize: pageSize.toString()
+      }
+    });
+  }
 }
 
 
