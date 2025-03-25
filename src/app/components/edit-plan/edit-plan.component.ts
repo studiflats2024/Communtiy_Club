@@ -110,8 +110,8 @@ ngOnInit() {
   } else {
     console.log('No plan data found in localStorage');
   }
-
-this.calculateFinalPrice()
+this.loadPlanDetails(this.planID)
+// this.calculateFinalPrice()
   this.items = [
     { label: 'Community Club', routerLink: '/dashboard' },
 
@@ -124,6 +124,49 @@ this.calculateFinalPrice()
 
      
   
+}
+
+
+planDetails:any;
+loadPlanDetails(planId: string): void {
+  this.plansService.getPlanDetails(planId).subscribe(
+    (data) => {
+      this.planDetails = data;
+      console.log('Plan Details:', data);
+
+      // Bind the data to the respective variables
+      this.planName = this.planDetails.plan_Name || '';
+      // this.selectedDuration = this.durations.find((d) => d.name === planData.plan_Duration) || null;
+      this.selectedPlan = this.plans.find((p) => p.name === this.planDetails.plan_Type) || null;
+      this.price = this.planDetails.plan_Price || 0;
+      this.discount = this.planDetails.plan_Discount || 0;
+      this.finalPrice = this.planDetails.plan_Final_Price || 0;
+      this.invitationNo = this.planDetails.invitation_NOs || '';
+      this.features = this.planDetails.plan_Features.join('\n') || '';
+      this.trial=this.planDetails.is_Trial
+      if (this.trial) {
+        this.durations.push(
+          { name: 'day', value: 0.1 },
+          { name: '3 days', value: 0.3 },
+          { name: '7 days', value: 0.7 },
+          { name: '14 day', value: 1.4 }
+        );
+      }
+      this.selectedDuration = this.durations.find((d) => d.name === this.planDetails.plan_Duration) || null;
+       if(this.planDetails.free_Days===0){
+        this.freePeriod=false
+       }else{
+        this.freePeriod=true
+       }
+       this.durationDays=this.planDetails.free_Days
+
+       this.calculateFinalPrice()
+    },
+    (error) => {
+      // this.errorMessage = 'Failed to load plan details';
+      console.error('Error:', error);
+    }
+  );
 }
 
  // Calculate the final price based on price and discount
@@ -169,7 +212,9 @@ console.log(this.planName,this.selectedPlan?.name,this.selectedDuration?.name,th
     plan_Discount: this.discount,
     plan_Fianl_Price: this.finalPrice,
     plan_Features: this.features.split('\n'), // Split features into an array
-    is_Trial:this.trial
+    is_Trial:this.trial,
+    has_Free_Days:this.freePeriod,
+    free_Days:this.durationDays || 0
 
   };
   
@@ -222,6 +267,18 @@ displayReminder: boolean = false;
           { name: 'Month', value: 6 },
          
         ];
+    }
+  }
+
+
+
+  freePeriod: boolean = false;  // Stores the user's choice (Yes/No)
+  durationDays: any;     // Duration of the free trial in days
+
+  // Method to handle trial duration toggle
+  daysDuration(): void {
+    if (!this.freePeriod) {
+      this.durationDays = 0;  // Reset duration if the trial is not selected
     }
   }
 }
