@@ -153,11 +153,11 @@ loadPlanDetails(planId: string): void {
         );
       }
       this.selectedDuration = this.durations.find((d) => d.name === this.planDetails.plan_Duration) || null;
-       if(this.planDetails.free_Days&&this.planDetails.free_Days===0){
-        this.freePeriod=false
-        this.durationDays=this.planDetails.free_Days
-       }else if(this.planDetails.free_Days&&this.planDetails.free_Days!==0){
+       if(this.planDetails.has_Free_Days){
         this.freePeriod=true
+        this.durationDays=this.planDetails.free_Days
+       }else if(!this.planDetails.has_Free_Days){
+        this.freePeriod=false
         this.durationDays=this.planDetails.free_Days
        }
         
