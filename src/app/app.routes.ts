@@ -118,6 +118,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent),
     canActivate: [AdminGuard]
   },
+  {
+    path: 'cancellation-request',
+    loadComponent: () => import('./components/cancellation/cancellation.component').then(m => m.CancellationComponent),
+    canActivate: [AdminGuard]
+  },
   
    
 

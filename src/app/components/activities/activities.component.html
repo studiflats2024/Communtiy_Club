@@ -216,7 +216,7 @@
         <!-- <span class="p-inputgroup-addon">
           <i class="pi pi-search"></i>
         </span> -->
-        <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
+        <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt1.filterGlobal(globalFilter, 'contains')" />
         <i class="pi pi-search search-icon"></i>
         <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
          <img src="filterplan.svg" (click)="openFilterDialog()"   style="margin-left: 24px; cursor: pointer;"/>
@@ -224,7 +224,7 @@
     </div>
   
     <p-table
-      #dt
+      #dt1
       [value]="activities"
       [paginator]="true"
       [rows]="10"
@@ -371,7 +371,7 @@
                       <!-- <span class="p-inputgroup-addon">
                         <i class="pi pi-search"></i>
                       </span> -->
-                      <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
+                      <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt2.filterGlobal(globalFilter, 'contains')" />
                       <i class="pi pi-search search-icon"></i>
                       <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
                        <img src="filterplan.svg" (click)="openFilterDialog()"   style="margin-left: 24px; cursor: pointer;"/>
@@ -379,7 +379,7 @@
                   </div>
                 
                   <p-table
-      #dt
+      #dt2
       [value]="activities"
       [paginator]="true"
       [rows]="10"
@@ -526,7 +526,7 @@
                     <!-- <span class="p-inputgroup-addon">
                       <i class="pi pi-search"></i>
                     </span> -->
-                    <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
+                    <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt3.filterGlobal(globalFilter, 'contains')" />
                     <i class="pi pi-search search-icon"></i>
                     <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
                      <img src="filterplan.svg" (click)="openFilterDialog()"   style="margin-left: 24px; cursor: pointer;"/>
@@ -534,7 +534,7 @@
                 </div>
               
                 <p-table
-                #dt
+                #dt3
                 [value]="activities"
                 [paginator]="true"
                 [rows]="10"
@@ -696,7 +696,7 @@
                     <!-- <span class="p-inputgroup-addon">
                       <i class="pi pi-search"></i>
                     </span> -->
-                    <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt.filterGlobal(globalFilter, 'contains')" />
+                    <input type="text"  class="search-input" pInputText placeholder="      Search by name, phone number, plans" [(ngModel)]="globalFilter" (input)="dt4.filterGlobal(globalFilter, 'contains')" />
                     <i class="pi pi-search search-icon"></i>
                     <!-- <button pButton icon="pi pi-filter" class="p-button-outlined"></button> -->
                      <img src="filterplan.svg" (click)="openFilterDialog()"   style="margin-left: 24px; cursor: pointer;"/>
@@ -704,7 +704,7 @@
                 </div>
               
                 <p-table
-                #dt
+                #dt4
                 [value]="activities"
                 [paginator]="true"
                 [rows]="10"
