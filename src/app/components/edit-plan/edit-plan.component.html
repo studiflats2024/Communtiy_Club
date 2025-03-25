@@ -147,6 +147,46 @@
           
           </div>
 <!-------------------------------------------------->
+
+       <!----------------------------------------------------------->
+       <div *ngIf="!trial" class="flex justify-content-start align-items-center gap-4 mb-4 w-full mt-4">
+        <label class="label">Would you like to add a free trial period ?</label>
+        
+        <div (click)="daysDuration()" class="p-field-radiobutton">
+          <p-radioButton
+            name="display"
+            [value]="true"
+            [(ngModel)]="freePeriod"
+          ></p-radioButton>
+          <label>Yes</label>
+        </div>
+        <div (click)="daysDuration()" class="p-field-radiobutton">
+          <p-radioButton
+            name="display"
+            [value]="false"
+            [(ngModel)]="freePeriod"
+          ></p-radioButton>
+          <label>No</label>
+        </div>
+        </div>
+<!-------------------------------------------------->
+<div *ngIf="freePeriod" class="flex justify-content-between align-items-center  gap-4 mb-4 w-full">
+<div  class="flex flex-column gap-2 w-full">
+  <label class="label" for="discount">Free Trial Duration</label>
+  <input 
+  type="number"
+      pInputText 
+      id="discount" 
+      aria-describedby="username-help" 
+      [(ngModel)]="durationDays" 
+      placeholder="Enter Number Of Days"
+      
+      />
+  
+</div>
+
+</div>
+<!---------------------------------------------------->
 <label class="label" for="invitation">Features</label>
 <div class="flex justify-content-between align-items-center gap-4 mb-4 w-full">
         

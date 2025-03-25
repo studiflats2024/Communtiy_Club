@@ -73,4 +73,11 @@ export class PlansService {
 
     return this.http.delete(`${environment.apiUrl}/Plans/DeletePlan`, { params });
   }
+
+
+  getPlanDetails(planId: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/Gateway/GetPlanDetails`, {
+      params: { Plan_ID: planId }
+    });
+  }
 }

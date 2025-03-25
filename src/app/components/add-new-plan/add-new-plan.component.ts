@@ -126,7 +126,9 @@ this.calculateFinalPrice()
       plan_Discount: this.discount,
       plan_Fianl_Price: this.finalPrice,
       plan_Features: this.features.split('\n'), // Split features into an array
-      is_Trial:this.trial
+      is_Trial:this.trial,
+      has_Free_Days:this.freePeriod,
+      free_Days:this.durationDays || 0
     };
     
 
@@ -180,6 +182,18 @@ this.calculateFinalPrice()
         ];
 
        
+    }
+  }
+
+
+
+  freePeriod: boolean = false;  // Stores the user's choice (Yes/No)
+  durationDays: any;     // Duration of the free trial in days
+
+  // Method to handle trial duration toggle
+  daysDuration(): void {
+    if (!this.freePeriod) {
+      this.durationDays = 0;  // Reset duration if the trial is not selected
     }
   }
 }
