@@ -30,22 +30,17 @@
  
  
       
-<div class="plan-card" *ngFor="let plan of pricingPlans" style="width: 50vw; max-width: 300px;  padding: 16px;   text-align: center;">
+<!-- <div class="plan-card" *ngFor="let plan of pricingPlans" style="width: 50vw; max-width: 300px;  padding: 16px;   text-align: center;">
  
   <div class="basic-info flex justify-content-start gap-2">
-      <!-- <div>
-          <p-radioButton
-            [value]="plan"
-            [(ngModel)]="selectedPlan"
-          ></p-radioButton>
-      </div> -->
+     
     <div >
-      <!-- <span [ngClass]="getPlanBadgeClass(plan.plan_Type)" class="badge"> -->
+       
       <span  >
 
-        <!-- <i [ngClass]="getPlanIcon(plan.plan_Type)" class="icon"></i> -->
+       
         <img *ngIf="plan.plan_Duration === 'Year' &&!plan.is_Trial" src="community/starplan.svg" style="width: 20px; height: 20px;" />
-        <!-- <img  *ngIf="plan.plan_Duration === '6 Months'"  src="months.svg" /> -->
+       
         <img  *ngIf="plan.plan_Duration === '3 Months' &&!plan.is_Trial"  src="months.svg" style="width: 20px; height: 20px;"/>
         <img  *ngIf="plan.plan_Duration === '6 Months' &&!plan.is_Trial"  src="months.svg" style="width: 20px; height: 20px;"/>
         <img  *ngIf="plan.plan_Duration === 'Month' &&!plan.is_Trial"  src="month.svg" style="width: 20px; height: 20px;"/>
@@ -60,7 +55,68 @@
   <div class=" mt-2 flex justify-content-start" *ngIf="plan.plan_Price > 0">
      <span class="plan-price">€{{ plan?.plan_Fianl_Price }} </span> <span class="plan-duration">/ {{ plan?.plan_Duration }}</span> 
   </div>
+</div> -->
+
+<!---------------------------------------------------------------------------->
+<div class="dashboard-cards-wrapper"> 
+<div
+  class="plan-card"
+  *ngFor="let key of dashboardKeys"
+  style="    padding: 16px; text-align: center; width: 300px; flex: 1;"
+>
+  <div class="basic-info flex justify-content-start gap-2">
+    <div class="flex align-items-center gap-2">
+      <img [src]="dashboardData[key].icon" style="width: 40px; height: 40px;" />
+      <span class="titleK">{{ dashboardData[key].title }}</span>
+    </div>
+  </div>
+
+   <div class="flex justify-content-between align-item-center">
+    <div class="mt-2 flex justify-content-start plan-price" style="color: var(--Colors-Base-Main-Text, #0A0C0F);
+
+   
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;">
+      {{ dashboardData[key].value }}
+    </div>
+  
+    <div class="mt-1 flex justify-content-start align-items-center " style="border-radius: 8px;"
+    [ngClass]="{
+      'background-up': dashboardData[key].changeDirection === 'up',
+      'background-down': dashboardData[key].changeDirection === 'down'
+    }">
+      <span
+        [ngStyle]="{ color: dashboardData[key].changeColor === 'green' ? 'green' : 'red' }"
+      >
+        <!-- <i
+          class="pi"
+          [ngClass]="{
+            'pi-arrow-up': dashboardData[key].changeDirection === 'up',
+            'pi-arrow-down': dashboardData[key].changeDirection === 'down'
+          }"
+        ></i> -->
+        <img *ngIf="dashboardData[key].changeDirection === 'up'" src="./arrow-up.svg"/>
+        <img *ngIf="dashboardData[key].changeDirection === 'down'" src="./arrow-down.svg"/>
+
+        {{ dashboardData[key].change }}
+      </span>
+    </div>
+   </div>
+
+  <div class="text-muted mt-1 text-left" style="color: var(--Neutrals-Neutrals700, #727272);
+  font-family: Poppins;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;">
+    {{ dashboardData[key].subtitle }}
+  </div>
 </div>
+</div>
+<!------------------------------------------------------------------------------>
 
 
 <div class="flex justify-content-between align-item-center my-3 gap-2  w-full fixSmallScreen">

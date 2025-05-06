@@ -1,6 +1,10 @@
 .login {
   height: 90vh;
 }
+.login {
+  height: 100vh;
+  width:100vw;
+}
 img{
 width: 155px;
 height: 71px;
@@ -41,3 +45,134 @@ visibility: visible !important;
 padding-left: 6px !important;
 
 }
+
+/************************************/
+.login-wrapper {
+  display: flex;
+  height: 100vh;
+  background-color: #3471CE;  
+}
+
+.login-form-wrapper {
+  width: 50%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;  
+  border-radius: 0px 32px 32px 0px;
+}
+
+.login-image-wrapper {
+  width: 50%;
+  overflow: hidden;
+}
+
+.login-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.login-form-wrapper form{
+  width: 65%;
+}
+.headT{
+  color: var(--Colors-Base-Main-Text, #0A0C0F);
+text-align: center;
+
+/* Global Tokens/Headings/H-4/Medium */
+font-family: Poppins;
+font-size: 32px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+.required-star{
+  color: var(--Colors-Error-600, #E3141E);
+
+/* Global Tokens/Body/B-1/Medium */
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+
+.input-icon-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+.input-icon-wrapper input {
+  padding-left: 40px; /* مساحة تخلّي النص ما يركب فوق الصورة */
+}
+
+
+
+@media (max-width: 1200px){
+  
+  .fixflex{
+    flex-direction: column;
+  }
+}
+
+
+
+@media (max-width: 1024px){
+  .headT{
+font-size: 24px;
+font-weight: 400;
+
+  }
+  .subT{
+    font-size: 14px !important;
+font-weight: 300 !important;
+  }
+  .fixflex{
+    flex-direction: column;
+  }
+}
+@media (max-width: 768px) {
+  .login-image-wrapper {
+    display: none;
+  }
+
+  .login-form-wrapper {
+    width: 100%;  
+  }
+
+    .login-form-wrapper {
+    width: 100% !important;
+    padding: 20px;
+  border-radius: 0 ;
+
+  }
+
+  .login-form-wrapper form{
+    width: 80%;
+  }
+
+  .login-form-wrapper form .inputclass,
+  .login-form-wrapper form button {
+    width: 100%;
+  }
+  .fixflex{
+    flex-direction: row;
+  }
+}
+
+

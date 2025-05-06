@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center align-items-center mb-3 login">
+<!-- <div class="d-flex justify-content-center align-items-center mb-3 login">
   <div class="w-sm-50">
 
       <div class="text-center"><img src="./logo.svg" class="mb-3" /></div>
@@ -8,7 +8,7 @@
       </div>
       <p-toast></p-toast>
 
-      <!-- start form log in -->
+     
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label text-color text-weight">Email </label>
@@ -48,7 +48,103 @@
           <button type="submit" class="btn btn-sign p-3 w-100" >Sign in</button>
 
       </form>
-      <!-- end form log in -->
+      
 
   </div>
+</div> -->
+
+
+
+
+<!--------------------------------------------------------------------------------------------------->
+
+<!-- <img src="./imgLogin.svg" width="50%" height="100%" /> -->
+
+<div class="login-wrapper ">
+<!-- <img src="./imgLogin.svg"  style="width:50vw; height: 100vh;" /> -->
+<div class="text-start"><img src="./logo.svg" class="mb-3" style="width: 140px; height: 60px; position: absolute; top:20px; left:50px;" /></div>
+
+  <div class="login-form-wrapper">
+
+      <!-- <div class="text-start"><img src="./logo.svg" class="mb-3" style="width: 140px; height: 60px;" /></div> -->
+      <div>
+          <div class="text-center   headT">Log in to Community Club</div>
+          <p class="text-center subT" style="color: var(--Neutrals-Neutrals700, #727272);
+          text-align: center;
+          font-family: Poppins;
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 30px;">Enter your Details to access your account </p>
+      </div>
+      <p-toast></p-toast>
+
+     
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label " style="color: var(--Colors-Base-Main-Text, #0A0C0F);
+
+              /* Global Tokens/Body/B-1/Medium */
+              font-family: Poppins;
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: normal;">Email<span class="required-star ml-1">*</span> </label>
+              <!-- <input type="email" formControlName="username" class="form-control inputclass" id="exampleInputEmail1" aria-describedby="emailHelp"> -->
+                <!-------------------------------->
+        <div class="input-icon-wrapper">
+          <img src="./emailInput.svg" alt="email" class="input-icon">
+          <input type="email" formControlName="username" class="form-control inputclass" id="exampleInputEmail1" aria-describedby="emailHelp">
+
+        </div>
+<!---------------------------------------->  
+              <div class="text-danger mt-3 error d-flex align-items-center"
+               *ngIf="loginForm.get('username')?.errors && (loginForm.get('username')?.touched || submitted)">
+              <i class="fa-solid fa-ban text-danger mx-2"></i>
+              <p class="mb-0 text-danger"> Email is required</p>
+            </div>
+          </div>
+          <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label " style="color: var(--Colors-Base-Main-Text, #0A0C0F);
+
+              /* Global Tokens/Body/B-1/Medium */
+              font-family: Poppins;
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 500;
+              line-height: normal;">Password<span class="required-star ml-1">*</span></label>
+             <div class="password">
+              <input [type]="passwordVisible ? 'text' : 'password'" formControlName="password" class="form-control inputclass" id="exampleInputPassword1">
+              <img class="eye"  *ngIf="passwordVisible" src="./eyeO.png" alt="" role="button" (click)="togglePasswordVisibility()">
+              <img  class="eye" *ngIf="!passwordVisible" src="./eye-slash.svg"role="button" (click)="togglePasswordVisibility()">
+             </div>
+             <div class="text-danger mt-3 error d-flex align-items-center"
+             *ngIf="loginForm.get('password')?.errors && (loginForm.get('password')?.touched || submitted)">
+            <i class="fa-solid fa-ban text-danger mx-2"></i>
+            <p class="mb-0 text-danger"> Password is required</p>
+          </div>
+
+          </div>
+          <div class="flex justify-content-end align-items-center fixflex">
+              <!-- <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                  <label class="form-check-label text-color text-weight" for="exampleCheck1">Remember for 30
+                      days</label>
+              </div> -->
+              <div [routerLink]="'/forgot-pass'" class="mb-3 mt-2"  >
+                <label class="form-check-label   text-weight" style="cursor: pointer;color:#1461D8" >Forgot Password?</label>
+              </div>
+
+          </div>
+
+          <button type="submit" class="btn btn-sign p-3 w-100" style="background-color:#1151B4 !important;padding: 8px 16px !important;" >Log in</button>
+
+      </form>
+      
+
+  </div>
+  <div class="login-image-wrapper">
+    <img src="./imgLogin.svg" alt="Login Image" />
+  </div>
+
 </div>

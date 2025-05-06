@@ -409,6 +409,7 @@
   
   /*****************************************************************************************************/
   .plan-card {
+    /* flex: 1 1 240px; */
     border-radius: 10px;
     padding: 1rem;
     text-align: center;
@@ -416,6 +417,7 @@
     border-radius: 8px;
 border: 1px solid var(--Colors-Primary-100, #E7EEF8);
 background: #FFF;
+max-width: 300px;
   
     .card-header {
       display: flex;
@@ -2151,4 +2153,40 @@ line-height: 21px; /* 150% */
   font-style: normal;
   font-weight: 500;
   line-height: 21px; /* 150% */
+}
+
+
+.titleK{
+  color: var(--Colors-Primary-Shade-Shade-7, #475467);
+
+/* Global Tokens/Body/B-2 */
+font-family: Poppins;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.background-up{
+  background: #F5FDF9;
+ 
+ 
+padding: 8px;
+ 
+ 
+}
+.background-down{
+  background-color: #FEF6F6;
+  
+ 
+padding: 8px;
+ 
+ 
+}
+
+.dashboard-cards-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
 }

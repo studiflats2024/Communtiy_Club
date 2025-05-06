@@ -106,6 +106,57 @@ export class DashboardComponent {
 
   chartDataProgress:any
   chartOptionsProgress:any
+  dashboardData: { [key: string]: {
+    title: string;
+    icon: string;
+    value: string;
+    change: string;
+    changeDirection: 'up' | 'down';
+    changeColor: 'green' | 'red';
+    subtitle: string;
+  } } = {
+    totalRevenue: {
+      title: 'Total Revenue',
+      icon: './totalRevenue.svg',
+      value: '€ 48,720',
+      change: '+10%',
+      changeDirection: 'up',
+      changeColor: 'green',
+      subtitle: 'From last Month'
+    },
+    totalMembers: {
+      title: 'Total Members',
+      icon: 'total-member.svg',
+      value: '1000',
+      change: '-10%',
+      changeDirection: 'down',
+      changeColor: 'red',
+      subtitle: 'From last Month'
+    },
+    totalActivities: {
+      title: 'Total Activities',
+      icon: './total-activity.svg',
+      value: '100',
+      change: '+5%',
+      changeDirection: 'up',
+      changeColor: 'green',
+      subtitle: 'From last Month'
+    },
+    memberTransactions: {
+      title: 'Member Transactions',
+      icon: './member-transaction.svg',
+      value: '900',
+      change: '+15%',
+      changeDirection: 'up',
+      changeColor: 'green',
+      subtitle: 'From last Month'
+    }
+  };
+  
+  get dashboardKeys() {
+    return Object.keys(this.dashboardData);
+  }
+  
  
 
   ngOnInit() {
