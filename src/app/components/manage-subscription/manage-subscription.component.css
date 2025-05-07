@@ -106,6 +106,8 @@
    flex-direction: column;
    justify-content: space-between;
    height: 100%;
+
+   padding: 0 !important;
   }
   
   :host ::ng-deep .p-card {
@@ -593,7 +595,9 @@ box-shadow: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
     font-size: 1.5rem;
     font-weight: bold;
     color: #004aad;
-    margin-bottom: 32px;
+    /* margin-bottom: 32px; */
+    margin-bottom: 24px;
+
   }
   .card-price .price{
     color: var(--primary-color-600, #1151B4);
@@ -620,14 +624,16 @@ line-height: 51px; /* 159.375% */
   .card-features {
     list-style: none;
     padding: 0;
-    margin-bottom: 97px;
+    /* margin-bottom: 97px; */
+    margin-bottom: 50px;
+    min-height: 153px !important;
   }
   
   .card-features li {
     
 
 
-margin: 8px 0;
+margin: 16px 0;
 font-size: 1rem;
 color: #555555;
 display: flex

@@ -3,7 +3,7 @@
     <div class="header-logo col-md-2 d-none d-lg-block px-3">
       <img src="./logo.svg" style="margin-top:6px;    max-width: 100%; border-radius: 0.1875rem;">
     </div>
-    <div class="col-lg-10 col-sm-12 row justify-content-between headerTitle py-3">
+    <div class="col-lg-10 col-sm-12 row  align-items-center justify-content-between headerTitle "  >
         <div class="col-lg-7 col-8  ms-lg-0 row ">
             <p class=" col-lg-6 pd d-none d-lg-block"> {{ headerTitle }}</p>
             <div (click)="onToggleSidebar()" class="d-lg-none col-1 ms-4 me-2 fs-4"><i class="fa fa-bars" aria-hidden="true"></i></div>
@@ -62,9 +62,10 @@
                     </div>
 
                 </div> -->
-                <div class="d-flex" style="margin-left: 1rem; margin-right: 1rem; cursor: pointer;"  [routerLink]="['/user-profile', 1]">
-                    <div class=" me-1"><img src="./One.svg" /></div>
-                    <p class="pname mt-2">Umar</p>
+                <div class="d-flex" style="margin-left: 1rem; margin-right: 1rem; cursor: pointer; display: flex; justify-content: center; align-items: center; gap:5px;"  [routerLink]="['/user-profile', 1]">
+                    <!-- <div class=" me-1"><img src="./One.svg" /></div> -->
+                    <div style=" width: 33px; height: 33px; padding: 6px; border-radius: 50%; background-color: #FFB900; text-align: center; display: flex; justify-content: center; align-items: center; ">{{ initials }}</div>
+                    <div class="pname"  >{{ firstName }}</div>
                 </div>
             </div>
 

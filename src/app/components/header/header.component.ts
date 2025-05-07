@@ -103,7 +103,9 @@ export class HeaderComponent {
   @Output() newItemEvent = new EventEmitter<string>();
   @Input() titleModule = '';
 
-
+userName:any;
+initials:any;
+firstName:any;
   constructor(private router: Router) {}
   ngOnInit() {
     this.router.events
@@ -113,6 +115,17 @@ export class HeaderComponent {
     });
     this.PushNotification();
     this.PushNotificationCount();
+
+  //////////////////////////////////////////////////
+  const userData = localStorage.getItem('user');
+  const fullName = userData ? JSON.parse(userData).user : '';
+  this.userName = fullName;
+
+  const nameParts = fullName.trim().split(' ');
+  this.initials = nameParts[0]?.charAt(0).toUpperCase() + (nameParts[1]?.charAt(0).toUpperCase() || '');
+  this.firstName = nameParts[0];
+    console.log(this.userName)
+///////////////////////////////////////////////////
   }
   showSidebar(): void {
     this.show == 'false' ? (this.show = 'true') : (this.show = 'false');
