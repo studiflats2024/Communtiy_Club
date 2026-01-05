@@ -18,7 +18,7 @@
             </ng-template>
           </p-breadcrumb>
 
-          <div class=" ">
+          <div *ngIf="tabIndex===0" class=" ">
             <p-button
             label="Add New Plan"
             icon="pi pi-plus"
@@ -31,7 +31,7 @@
           <p-toast></p-toast>
          
   
-        <p-tabView styleClass="tabview-custom">
+        <p-tabView styleClass="tabview-custom" [(activeIndex)]="tabIndex"  (onChange)="onTabChange($event)">
             
           <!-- <p-tabPanel>
               <ng-template pTemplate="header">

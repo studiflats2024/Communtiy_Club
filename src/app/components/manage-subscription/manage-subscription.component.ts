@@ -50,6 +50,7 @@ import { GatewayService } from '../../services/gateway.service';
 })
 export class ManageSubscriptionComponent {
   items:any[]=[];
+  tabIndex: number = 0;
 
   globalFilter: string = '';
   subscriptions: any[] = [];
@@ -173,6 +174,12 @@ export class ManageSubscriptionComponent {
 
     
   }
+  onTabChange(event: any) {
+     
+    this.tabIndex=event.index
+    console.log('Current tab index:', event.index,this.tabIndex);
+  }
+  
   storePlanInLocalStorage(plan: any): void {
     localStorage.setItem('planData', JSON.stringify(plan)); // تخزين البيانات كـ JSON
   }

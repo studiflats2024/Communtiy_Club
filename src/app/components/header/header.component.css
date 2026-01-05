@@ -6,6 +6,10 @@
   width: 100% !important;
   height: 80px !important;
   z-index: 99999999;
+/********new*********/
+  align-items: center;
+  display: flex;
+/************/
   .header-logo{
     width: 155px;
   }
