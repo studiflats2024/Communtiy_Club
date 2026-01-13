@@ -166,6 +166,38 @@ export class SettingsComponent {
     } else {
       this.validationErrors.delete(day.day);
     }
+
+    // Cross midnight (23:00 → 01:00)
+    if (toMinutes < fromMinutes) {
+      this.validationErrors.set(
+        day.day,
+        'Time range cannot overlap midnight'
+      );
+      return;
+    }
+
+    const diffMinutes = toMinutes - fromMinutes;
+
+    // Same time
+    if (diffMinutes === 0) {
+      this.validationErrors.set(
+        day.day,
+        'Start time must be earlier than end time'
+      );
+      return;
+    }
+
+    // More than 8 hours
+    if (diffMinutes > 8 * 60) {
+      this.validationErrors.set(
+        day.day,
+        'Working hours cannot exceed 8 hours'
+      );
+      return;
+    }
+
+    // ✅ Valid
+    this.validationErrors.delete(day.day);
   }
 
   // Convert time string (HH:mm) to minutes
