@@ -6,7 +6,7 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent)
   },
- 
+
   {
     path: 'dashboard',
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
@@ -106,14 +106,18 @@ export const routes: Routes = [
     loadComponent: () => import('./components/financial/financial.component').then(m => m.FinancialComponent),
     canActivate: [AdminGuard]
   },
- 
+
   {
     path: 'invoice-details/:id',
     loadComponent: () => import('./components/invoice-details/invoice-details.component').then(m => m.InvoiceDetailsComponent),
     canActivate: [AdminGuard]
   },
-  
-   
+  {
+    path: 'settings',
+    loadComponent: () => import('./components/settings/settings.component').then(m => m.SettingsComponent),
+    // canActivate: [AdminGuard]
+  },
+
 
 
   { path: '**', redirectTo: 'login' },
