@@ -43,8 +43,11 @@
 <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/cancellation-request">
   <img src="cancellation.svg"> Cancellation
 </a>
+<a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" routerLinkActive="active" :routerLink="/appointment-list">
+  <img src="/appointment/Calender.svg"> Appointments Bookings
+</a>
 
- 
+
 
   <div style="margin-top:124px">
       <span class="other gray mb-3 fw-bold mt-4 d-block">other</span>
@@ -52,7 +55,7 @@
           <img src="./navigation/help.svg"> Help
       </a>
 
-          <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" :routerLink="#" routerLinkActive="active">
+          <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" [routerLink]="['/settings']" routerLinkActive="active">
               <img src="./navigation/setting.svg"> Settings
           </a>
       <!-- <a tabindex="1" class="text-decoration-none d-block px-2 mb-2 py-1 rounded-1" style="cursor: pointer" (click)="logoutCall()">

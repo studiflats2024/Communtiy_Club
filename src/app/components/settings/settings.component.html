@@ -1,0 +1,180 @@
+<div class="parent">
+  <div class="fixDiv"></div>
+  <div class="page">
+
+    <div class="tabview-header-container">
+
+      <p-breadcrumb class="max-w-full" [model]="items">
+        <ng-template pTemplate="item" let-item>
+          <a [routerLink]="item.routerLink" class="p-menuitem-link"
+            routerLinkActive="text-primary font-semibold bread-active">
+            <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+            <span>{{ item.label }}</span>
+          </a>
+        </ng-template>
+      </p-breadcrumb>
+
+    </div>
+
+    <div class="card p-4">
+
+      <div class="d-flex flex-column gap-5">
+
+        <!-- عرض التحذيرات (Warnings) بدلاً من الأخطاء عند التفعيل -->
+        <div *ngIf="isEditMode && hasValidationWarnings()" class="alert alert-warning validation-alert">
+          <div class="d-flex align-items-start">
+            <i class="bi bi-exclamation-circle-fill me-2 mt-1"></i>
+            <div class="flex-grow-1">
+              <strong class="d-block mb-2">Please complete the following:</strong>
+              <ul class="mb-0 ps-3">
+                <li *ngFor="let warning of getValidationWarningsArray()">
+                  <strong>{{ warning.day }}:</strong> {{ warning.message }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Validation Errors Alert -->
+        <div *ngIf="isEditMode && hasValidationErrors()" class="alert alert-danger validation-alert">
+          <div class="d-flex align-items-start">
+            <i class="bi bi-exclamation-triangle-fill me-2 mt-1"></i>
+            <div class="flex-grow-1">
+              <strong class="d-block mb-2">Please fix the following errors:</strong>
+              <ul class="mb-0 ps-3">
+                <li *ngFor="let error of getValidationErrorsArray()">
+                  <strong>{{ error.day }}:</strong> {{ error.message }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Header -->
+        <div class="first-sec">
+          <div class="title">
+            <span class="working-txt">Working Hours</span>
+            <span class="select-txt">Select the days and times when the community is open.</span>
+          </div>
+
+          <div class="edit">
+            <!-- Read Mode Button -->
+            <span *ngIf="!isEditMode" (click)="enterEditMode()">
+              Edit
+            </span>
+
+            <div *ngIf="isEditMode">
+              <span (click)="cancelEdit()">
+                Cancel
+              </span>
+            </div>
+
+
+          </div>
+        </div>
+
+        <!-- Working Days List -->
+
+        <!-- Read mode -->
+        <div class="second-sec" *ngIf="!isEditMode">
+          <div class="content-row" *ngFor="let day of workingDays">
+
+            <span class="col day-col day-name">
+              {{ day.day }}
+            </span>
+
+            <div class="col time-col time-cell time-label" [ngClass]="getTimeCallClass(day)">
+              <span>From</span>
+              <span>{{ day.fromTime }}</span>
+            </div>
+
+            <div class="col time-col time-cell time-label" [ngClass]="getTimeCallClass(day)">
+              <span>To</span>
+              <span>{{ day.toTime }}</span>
+            </div>
+
+            <span class="col status-col d-flex justify-content-end" *ngIf="!isEditMode">
+              <span class="status-badge" [ngClass]="getStatusClass(day)">
+                {{ getStatusText(day) }}
+              </span>
+            </span>
+
+          </div>
+        </div>
+
+
+        <!-- Edit mode -->
+        <div class="second-sec" *ngIf="isEditMode">
+          <div *ngFor="let day of workingDays" [class.disabled-row]="!day.isEnabled && isEditMode"
+            class="edit-mode-layout">
+
+            <div class="day-toggle d-flex align-items-center w-100">
+              <!-- Day Name Column -->
+
+              <span class="day-name day-cell">{{ day.day }}</span>
+
+              <!-- Toggle Switch (Edit Mode Only) -->
+              <div *ngIf="isEditMode" class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" [id]="'toggle-' + day.day" [(ngModel)]="day.isEnabled"
+                  (change)="onToggleChange(day)">
+              </div>
+
+            </div>
+
+            <div class="from-to-edit-mode">
+
+              <!-- From Time Column -->
+              <div class="time-cell time-label" [ngClass]="getTimeCallClass(day)">
+                <span>From</span>
+
+                <input type="time" class="time-input" [(ngModel)]="day.fromTime" [disabled]="!day.isEnabled"
+                  (change)="onTimeChange(day)" [ngModelOptions]="{ standalone: true }" />
+
+              </div>
+
+              <!-- To Time Column -->
+              <div class="time-cell time-label" [ngClass]="getTimeCallClass(day)">
+                <span>To</span>
+
+                <input type="time" class="time-input" [(ngModel)]="day.toTime" [disabled]="!day.isEnabled"
+                  (change)="onTimeChange(day)" [ngModelOptions]="{ standalone: true }" />
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Edit Mode Buttons -->
+        <div *ngIf="isEditMode" class="btns-layout d-flex justify-content-end gap-4">
+          <button class="btn btn-outline-secondary px-4" (click)="cancelEdit()">
+            Cancel
+          </button>
+          <button class="btn btn-primary px-4" [disabled]="!hasChanges()" (click)="saveWorkingHours()">
+            Save
+          </button>
+        </div>
+
+        <!-- Success Modal -->
+        <div class="modal-overlay" [class.show]="showSuccessPopup"></div>
+
+        <div class="success-modal" [class.show]="showSuccessPopup">
+          <div class="success-modal-content">
+            <div class="success-icon mb-3">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <h4>Success</h4>
+            <p>Working hours saved successfully</p>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>
