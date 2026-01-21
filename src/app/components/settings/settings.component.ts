@@ -34,6 +34,7 @@ export class SettingsComponent {
   workingDays: WorkingDay[] = [];
   originalWorkingDays: WorkingDay[] = [];
   validationErrors: Map<string, string> = new Map();
+  validationWarnings: Map<string, string> = new Map();
 
   constructor(private settingsService: SettingsService) { }
 
@@ -110,8 +111,17 @@ export class SettingsComponent {
 
   // Enter edit mode
   enterEditMode(): void {
+    this.workingDays = this.workingDays.map(d => ({
+      ...d,
+      fromTime: this.convertTo24Hour(d.fromTime),
+      toTime: this.convertTo24Hour(d.toTime)
+    }));
+
+    this.originalWorkingDays = JSON.parse(JSON.stringify(this.workingDays));
+
     this.isEditMode = true;
     this.validationErrors.clear();
+    this.validationWarnings.clear();
   }
 
   // Cancel edit and restore original state
@@ -119,34 +129,53 @@ export class SettingsComponent {
     this.workingDays = JSON.parse(JSON.stringify(this.originalWorkingDays));
     this.isEditMode = false;
     this.validationErrors.clear();
+    this.validationWarnings.clear();
   }
 
   // Check if there are any changes from original state
   hasChanges(): boolean {
-    return JSON.stringify(this.workingDays) !== JSON.stringify(this.originalWorkingDays);
+    const allEnabledDaysHaveData = this.workingDays.every(day => {
+      if (day.isEnabled) {
+        return day.fromTime && day.toTime;
+      }
+      return true;
+    });
+
+    const noErrors = this.validationErrors.size === 0;
+
+    const hasActualChanges = JSON.stringify(this.workingDays) !== JSON.stringify(this.originalWorkingDays);
+
+    return hasActualChanges && allEnabledDaysHaveData && noErrors;
   }
 
   // Toggle day enabled/disabled
   onToggleChange(day: WorkingDay): void {
-
     // Clear validation error when day is disabled
     if (!day.isEnabled) {
       this.validationErrors.delete(day.day);
+      this.validationWarnings.delete(day.day);
     } else {
-      this.validateDay(day);
+      if (!day.fromTime || !day.toTime) {
+        this.validationWarnings.set(day.day, 'Please enter working hours for this day');
+        this.validationErrors.delete(day.day);
+      } else {
+        this.validationWarnings.delete(day.day);
+        this.validateDay(day);
+      }
     }
   }
 
   // Update time and validate
   onTimeChange(day: WorkingDay): void {
+    this.validationWarnings.delete(day.day);
     this.validateDay(day);
   }
 
-  // Validate a single day's time settings
   validateDay(day: WorkingDay): void {
     // Skip validation if day is disabled
     if (!day.isEnabled) {
       this.validationErrors.delete(day.day);
+      this.validationWarnings.delete(day.day);
       return;
     }
 
@@ -160,26 +189,10 @@ export class SettingsComponent {
     const fromMinutes = this.timeToMinutes(day.fromTime);
     const toMinutes = this.timeToMinutes(day.toTime);
 
-    // Validate that start time is before end time
-    if (fromMinutes >= toMinutes) {
-      this.validationErrors.set(day.day, 'Start time must be earlier than end time');
-    } else {
-      this.validationErrors.delete(day.day);
-    }
-
-    // Cross midnight (23:00 → 01:00)
-    if (toMinutes < fromMinutes) {
-      this.validationErrors.set(
-        day.day,
-        'Time range cannot overlap midnight'
-      );
-      return;
-    }
-
     const diffMinutes = toMinutes - fromMinutes;
 
-    // Same time
-    if (diffMinutes === 0) {
+    // Same time or end time before start time
+    if (diffMinutes <= 0) {
       this.validationErrors.set(
         day.day,
         'Start time must be earlier than end time'
@@ -233,6 +246,18 @@ export class SettingsComponent {
     return errors;
   }
 
+  hasValidationWarnings(): boolean {
+    return this.validationWarnings.size > 0;
+  }
+
+  getValidationWarningsArray(): Array<{ day: string, message: string }> {
+    const warnings: Array<{ day: string, message: string }> = [];
+    this.validationWarnings.forEach((message, day) => {
+      warnings.push({ day, message });
+    });
+    return warnings;
+  }
+
   // Close success popup
   closeSuccessPopup(): void {
     this.showSuccessPopup = false;
@@ -253,6 +278,28 @@ export class SettingsComponent {
   getTimeCallClass(day: WorkingDay): string {
 
     return day.isEnabled ? 'normal-time-cell' : 'disabled-time-cell';
+  }
+
+  convertTo24Hour(time: string | null | undefined): string {
+    if (!time) return '';
+
+    // مثال: "09:00 AM"
+    const [timePart, modifier] = time.split(' ');
+    if (!timePart || !modifier) return '';
+
+    let [hours, minutes] = timePart.split(':').map(Number);
+
+    if (modifier.toUpperCase() === 'PM' && hours < 12) {
+      hours += 12;
+    }
+
+    if (modifier.toUpperCase() === 'AM' && hours === 12) {
+      hours = 0;
+    }
+
+    return `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}`;
   }
 
 }

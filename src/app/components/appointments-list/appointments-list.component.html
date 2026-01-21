@@ -1,0 +1,455 @@
+<!-- appointment-list.component.html -->
+
+<div class="parent">
+    <div class="fixDiv"></div>
+    <div class="page">
+
+        <!-- Breadcrumb and Date Filter -->
+        <div class="row mb-3">
+            <div class="tabview-header-container col-md">
+                <p-breadcrumb class="max-w-full" [model]="items">
+                    <ng-template pTemplate="item" let-item>
+                        <a [routerLink]="item.routerLink" class="p-menuitem-link"
+                            routerLinkActive="text-primary font-semibold bread-active">
+                            <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+                            <span>{{ item.label }}</span>
+                        </a>
+                    </ng-template>
+                </p-breadcrumb>
+            </div>
+
+            <div class="col-md d-flex justify-content-end align-items-center gap-3">
+                <div class="custom-date-container" (click)="openDateDialog()">
+                    <input type="text" placeholder="DD-MM-YYYY → DD-MM-YYYY" class="custom-date"
+                        [value]="displayedRange || 'Select range...'" readonly />
+                </div>
+
+                <!-- Date Range Dialog -->
+                <p-dialog [(visible)]="showDateDialog" [modal]="true">
+
+                    <div class="dialog-layout">
+                        <div class="dia-header mb-3">
+                            <span class="dialog-title">Select Date Range</span>
+                            <div class="cursor-pointer">
+                                <img src="/appointment/Close Component.svg" alt="" (click)="closeAllModals()">
+                            </div>
+                        </div>
+                        <div class="dialog-text dialog-details-layout">
+                            <div class="flex gap-2 mb-3 flex-wrap">
+                                <button pButton type="button" label="Today" (click)="preset('today')"></button>
+                                <button pButton type="button" label="Last 7 Days" (click)="preset('last7')"></button>
+                                <button pButton type="button" label="This Month" (click)="preset('month')"></button>
+                                <button pButton type="button" label="Clear" class="p-button-secondary"
+                                    (click)="clearRange()"></button>
+                            </div>
+
+                            <div class="p-fluid">
+                                <div class="field">
+                                    <label>Start Date</label>
+                                    <input #startDateInput id="startDate" type="date" class="form-control mb-3"
+                                        [(ngModel)]="selectedStartDate" (click)="openDatePicker(startDateInput)"
+                                        [max]="selectedEndDate || null" />
+                                </div>
+
+                                <div class="field">
+                                    <label>End Date</label>
+                                    <input #endDateInput id="endDate" type="date" class="form-control"
+                                        [(ngModel)]="selectedEndDate" (click)="openDatePicker(endDateInput)"
+                                        [min]="selectedStartDate || null" />
+                                </div>
+
+                                <small class="p-error" *ngIf="rangeInvalid">End date must be after or equal to start
+                                    date.</small>
+
+                                <div class="text-end mt-4 flex justify-end gap-2">
+                                    <button pButton type="button" class="p-button-text" label="Cancel"
+                                        (click)="showDateDialog=false"></button>
+                                    <button pButton type="button" label="Apply" (click)="applyDateRange()"
+                                        [disabled]="rangeInvalid || !selectedStartDate || !selectedEndDate"></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </p-dialog>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="small-cards">
+            <div class="row g-3">
+                <div class="col-lg-3 col-sm-6 card-shrink" *ngFor="let card of filteredStatCards">
+                    <div class="small-card d-flex flex-column gap-4">
+                        <div class="small-card-header">
+                            <img class="small-card-icon" [src]="'/appointment/' + getIcon(card.title)" alt="icon">
+                            <span>{{card?.title}}</span>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <span class="small-card-count">{{card?.count}}</span>
+                                <span class="percent d-flex align-items-center" [ngStyle]="{ 
+                    'background-color': card?.isIncreasing ? '#F2FDF7' : '#FEF6F6',
+                    'color': card?.isIncreasing ? '#1CA65F' : '#E3141E' 
+                  }">
+                                    <i class="fas me-1" [class.fa-caret-up]="card?.isIncreasing"
+                                        [class.fa-caret-down]="!card?.isIncreasing" style="font-size: 18px;"
+                                        *ngIf="!(card?.changePercentage === 0)"></i>
+                                    <span>{{ card?.changePercentage }}%</span>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="small-card-description">{{card?.lastUpdatedLabel}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Card -->
+        <div class="p-card p-3" style="border-radius: 16px;">
+            <p-toast></p-toast>
+
+            <!-- Table Header -->
+            <div class="flex justify-content-between align-items-center mb-4">
+                <div class="card-header">Appointment Bookings</div>
+                <div class="p-inputgroup w-50" style="position: relative;">
+                    <input type="text" class="search-input" pInputText
+                        placeholder="      Search by name, Phone Number, plans" [(ngModel)]="globalFilter"
+                        (keyup.enter)="loadAppointments()" (blur)="loadAppointments()" />
+
+                    <button pButton type="button" icon="pi pi-search" class="search-btn"
+                        (click)="loadAppointments()"></button>
+
+                    <img src="filterplan.svg" (click)="openFilterDialog()" style="margin-left: 24px; cursor: pointer;"
+                        alt="Filter" />
+                </div>
+            </div>
+
+            <!-- Appointments Table -->
+            <div class="card">
+
+                <p-table #dt [value]="appointments" [paginator]="true" [rows]="pageSize" [totalRecords]="totalRecords"
+                    [loading]="loading" [lazy]="true" (onPage)="pageChange($event)" [scrollable]="true"
+                    scrollDirection="horizontal" [rowsPerPageOptions]="[10,25,50]"
+                    [tableStyle]="{'min-width':'1200px'}">
+
+                    <!-- Table Header -->
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width:50px">
+                                <!-- Checkbox -->
+                            </th>
+                            <th pSortableColumn="booking_Reference">Booking ID </th>
+                            <th pSortableColumn="tenant_Name">Member Name </th>
+                            <th pSortableColumn="phone_Number">Phone Number </th>
+                            <th pSortableColumn="whatsApp_Number">WhatsApp Number</th>
+                            <th pSortableColumn="appointment_Date_Time">Appointment Date & Time </th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </ng-template>
+
+                    <!-- Table Body -->
+                    <ng-template pTemplate="body" let-appointment>
+                        <tr>
+                            <td>
+                                <p-checkbox [binary]="true" [ngModel]="isSelected(appointment)"
+                                    (onChange)="toggleSelection(appointment)"></p-checkbox>
+                            </td>
+                            <td>{{ appointment.booking_Reference }}</td>
+                            <td>{{ appointment.tenant_Name }}
+                                <p class="mb-0 text-muted">{{ appointment.tenant_Email }}</p>
+                            </td>
+                            <td>{{ appointment.phone_Number }}</td>
+                            <td>{{ appointment.whatsApp_Number }}</td>
+                            <td>{{ formatDateTime(appointment.appointment_Date_Time) }}</td>
+                            <td><span [ngClass]="getStatusClass(appointment.status)" class="badge">{{ appointment.status
+                                    }}</span></td>
+                            <td>
+                                <div class="flex justify-content-between align-items-center gap-3">
+                                    <div>
+                                        <img class="mr-2" style="cursor:pointer" src="threeDotPay.svg"
+                                            (click)="op.toggle($event)" alt="Actions" />
+                                    </div>
+                                    <p-overlayPanel #op>
+                                        <ul class="menu-list">
+                                            <li *ngIf="appointment.status === AppointmentStatus.Cancelled">
+                                                <a (click)="openCancelReasonModal(appointment); op.hide()"
+                                                    style="cursor:pointer; text-decoration:none; color:#363636">
+                                                    View Cancellation Reason
+                                                </a>
+                                            </li>
+                                            <li
+                                                *ngIf="(appointment.status === AppointmentStatus.Completed && appointment.result_Of_Appointment === 'Not Joined') || 
+                           (appointment.status === AppointmentStatus.Converted && appointment.result_Of_Appointment === 'Joined the community')">
+                                                <a (click)="openResultModal(appointment); op.hide()"
+                                                    style="cursor:pointer; text-decoration:none; color:#363636">
+                                                    View Result of Appointment
+                                                </a>
+                                            </li>
+                                            <li *ngIf="appointment.status === AppointmentStatus.Upcoming">
+                                                <a (click)="openCancelModal(appointment); op.hide()"
+                                                    style="cursor:pointer; text-decoration:none; color:#363636">
+                                                    Cancel Appointment
+                                                </a>
+                                            </li>
+                                            <li *ngIf="appointment.status === AppointmentStatus.Upcoming">
+                                                <a (click)="openCompleteModal(appointment); op.hide()"
+                                                    style="cursor:pointer; text-decoration:none; color:#363636">
+                                                    Mark As Completed
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </p-overlayPanel>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+
+
+                <!-- Bottom Action Bar (Bulk Selection) -->
+                <div class="bulk-action-bar" *ngIf="selectedAppointments.length > 0">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <span class="selected-count">{{ selectedAppointments.length }} Item{{
+                            selectedAppointments.length > 1 ? 's' : '' }} selected</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <button type="button" class="btn-clear-selection" (click)="clearSelection()">Clear</button>
+                            <button type="button" class="btn-bulk-cancel" (click)="openBulkCancelModal()">
+                                <i class="pi pi-times"></i>
+                                Cancel Appointment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Cancel Appointment Modal -->
+<p-dialog [(visible)]="showCancelModal" [modal]="true">
+    <div class="dialog-layout">
+        <div class="dia-header mb-3">
+            <span class="dialog-title">Cancellation Reason</span>
+            <div class="cursor-pointer">
+                <img src="/appointment/Close Component.svg" alt="" (click)="closeAllModals()">
+            </div>
+        </div>
+        <div class="dialog-text dialog-details-layout">
+            <div class="field">
+                <label for="cancellationReason" class="font-weight-bold">
+                    Reason <span class="text-danger">*</span>
+                </label>
+                <p-dropdown id="cancellationReason" [options]="cancellationReasons"
+                    [(ngModel)]="selectedCancellationReason" optionLabel="label" optionValue="value"
+                    placeholder="Select a reason" [style]="{ width: '100%' }">
+                </p-dropdown>
+            </div>
+
+            <div class="field">
+                <label for="cancellationNotes">Comment</label>
+                <textarea id="cancellationNotes" pInputTextarea [(ngModel)]="cancellationNotes" rows="3" maxlength="100"
+                    placeholder="write your review" class="form-control">
+        </textarea>
+                <small class="text-muted d-flex align-items-end mt-1">
+                    {{ cancellationNotes.length }}/100
+                </small>
+            </div>
+
+            <div class="d-flex justify-content-between gap-2">
+                <button type="button" class="cancel-btn" (click)="closeCancelModal()">
+                    Cancel
+                </button>
+                <button type="button" class="confirm-btn" [disabled]="!canConfirmCancel"
+                    (click)="currentAppointment ? confirmCancel() : confirmBulkCancel()">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
+<!-- Complete Appointment Modal -->
+<p-dialog [(visible)]="showCompleteModal" [modal]="true">
+    <div class="dialog-layout">
+        <div class="dia-header mb-3">
+            <span class="dialog-title">Confirm Completion Details</span>
+            <div class="cursor-pointer">
+                <img src="/appointment/Close Component.svg" alt="" (click)="closeAllModals()">
+            </div>
+        </div>
+        <div class="dialog-text dialog-details-layout">
+            <div class="field">
+                <label for="completionResult" class="font-weight-bold">
+                    Result of Appointment <span class="text-danger">*</span>
+                </label>
+                <p-dropdown id="completionResult" [options]="completionResults" [(ngModel)]="selectedCompletionResult"
+                    optionLabel="label" optionValue="value" placeholder="Select a result" [style]="{ width: '100%' }">
+                </p-dropdown>
+            </div>
+
+            <div class="field">
+                <label for="completionNotes" class="font-weight-bold">Comment</label>
+                <textarea id="completionNotes" pInputTextarea [(ngModel)]="completionNotes" rows="3" maxlength="100"
+                    placeholder="write your review" class="form-control">
+        </textarea>
+                <small class="text-muted d-flex align-items-end mt-1">
+                    {{ completionNotes.length }}/100
+                </small>
+            </div>
+
+            <div class="d-flex justify-content-between gap-2">
+                <button type="button" class="cancel-btn" (click)="closeCompleteModal()">
+                    Cancel
+                </button>
+                <button type="button" class="confirm-btn" [disabled]="!canConfirmComplete" (click)="confirmComplete()">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
+<!-- Cancellation Reason Modal -->
+<p-dialog [(visible)]="showCancelReasonModal" [modal]="true">
+    <div class="dialog-layout">
+        <div class="dia-header">
+            <span class="dialog-title">Cancellation Reason</span>
+            <div class="cursor-pointer">
+                <img src="/appointment/Close Component.svg" alt="" (click)="closeAllModals()">
+            </div>
+        </div>
+        <span class="dialog-text">
+            <!-- {{cancelationReasonFromWebsite}} -->
+            {{ selectedAppointment?.cancellation_Reason || 'No reason provided' }}
+        </span>
+    </div>
+</p-dialog>
+
+<!-- View Result Modal -->
+<p-dialog [(visible)]="showResultModal" [modal]="true">
+    <div class="dialog-layout">
+        <div class="dia-header">
+            <span class="dialog-title">Appointment Result</span>
+            <div class="cursor-pointer">
+                <img src="/appointment/Close Component.svg" alt="" (click)="closeAllModals()">
+            </div>
+        </div>
+        <span class="dialog-text">
+            {{ selectedAppointment?.result_Of_Appointment || 'No reason provided' }}
+        </span>
+    </div>
+</p-dialog>
+
+<!-- Filter Dialog -->
+<!-- <p-dialog [(visible)]="displayFilter" [closable]="true" [modal]="true" [style]="{ overflow: 'visible' }"
+    class="responsive-dialog" [contentStyle]="{ padding: '1rem', overflow: 'visible' }">
+
+    <div class="dialog-layout">
+        <div class="dia-header mb-3">
+            <span class="dialog-title">Filter</span>
+            <div class="cursor-pointer">
+                <img src="/appointment/Close Component.svg" alt="" (click)="displayFilter=false">
+            </div>
+        </div>
+        <div class="dialog-text dialog-details-layout">
+
+            <div class="mb-3">
+                <label for="statusFilter" class="block font-bold mb-2">Status</label>
+                <p-dropdown [options]="statusOptions" [(ngModel)]="selectedStatuses" placeholder="Select Status"
+                    optionLabel="label" optionValue="value" [showClear]="true" [style]="{ width: '100%' }">
+                </p-dropdown>
+            </div>
+
+            <div class="mb-3">
+                <label for="filterStartDate" class="block font-bold mb-2">Date From</label>
+                <input #filterStartDateInput id="filterStartDate" type="date" class="form-control mb-3"
+                    [(ngModel)]="filterStartDate" (click)="openDatePicker(filterStartDateInput)"
+                    [max]="filterEndDate || null" />
+            </div>
+
+            <div class="mb-3">
+                <label for="filterEndDate" class="block font-bold mb-2">Date To</label>
+                <input #filterEndDateInput id="filterEndDate" type="date" class="form-control"
+                    [(ngModel)]="filterEndDate" (click)="openDatePicker(filterEndDateInput)"
+                    [min]="filterStartDate || null" />
+            </div>
+
+            <small class="p-error" *ngIf="isFilterDateRangeInvalid">
+                End date must be after or equal to start date.
+            </small>
+
+            <div class="flex justify-content-between align-items-center" style="margin-top: 35px;">
+                <div>
+                    <button pButton type="button" label="Reset" class="p-button-outlined custom-button"
+                        (click)="resetFilter(); displayFilter=false"></button>
+                </div>
+                <div class="d-flex gap-2">
+                    <button pButton type="button" label="Cancel" class="p-button-outlined custom-button"
+                        (click)="displayFilter=false"></button>
+                    <button pButton type="button" label="Apply" class="p-button-outlined custom-button-add"
+                        (click)="applyFilter()" [disabled]="isFilterDateRangeInvalid"></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</p-dialog> -->
+
+<p-dialog [(visible)]="displayFilter" [modal]="true" [style]="{ overflow: 'visible' }"
+    class="responsive-dialog filter-dialog" [contentStyle]="{ padding: '0', overflow: 'visible' }">
+
+    <div class="filter-dialog-layout">
+        <div class="filter-header">
+            <span class="filter-title">Filter</span>
+            <button class="close-btn" (click)="displayFilter=false">
+                <i class="pi pi-times"></i>
+            </button>
+        </div>
+
+        <div class="filter-body">
+            <!-- Status Filter -->
+            <div class="filter-section">
+                <label class="filter-label">Status</label>
+                <div class="status-buttons">
+                    <button *ngFor="let option of statusOptions" class="status-filter-btn"
+                        [class.active]="isStatusSelected(option.value)" (click)="toggleFilterStatus(option.value)">
+                        <span class="status-dot" [style.background-color]="getStatusColor(option.label)"></span>
+                        {{ option.label }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Date Filter -->
+            <div class="filter-section">
+                <label class="filter-label">Date</label>
+                <div class="date-input-wrapper">
+                    <input #filterStartDateInput id="filterStartDate" type="text" class="date-input"
+                        placeholder="Enter date" [(ngModel)]="filterStartDate"
+                        (click)="filterStartDateInput.type='date'; openDatePicker(filterStartDateInput)"
+                        [max]="filterEndDate || null" />
+                        <!--                         (blur)="if(!filterStartDate) filterStartDateInput.type='text'" -->
+                    <i class="pi pi-calendar calendar-icon"></i>
+                </div>
+
+                <small class="p-error" *ngIf="isFilterDateRangeInvalid">
+                    End date must be after or equal to start date.
+                </small>
+            </div>
+        </div>
+
+        <div class="filter-footer">
+            <button class="filter-btn-cancel" (click)="displayFilter=false">Cancel</button>
+            <button class="filter-btn-apply" (click)="applyFilter()"
+                [disabled]="isFilterDateRangeInvalid">Apply</button>
+        </div>
+    </div>
+</p-dialog>

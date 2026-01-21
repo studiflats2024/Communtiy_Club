@@ -19,6 +19,22 @@
     <div class="card p-4">
 
       <div class="d-flex flex-column gap-5">
+
+        <!-- عرض التحذيرات (Warnings) بدلاً من الأخطاء عند التفعيل -->
+        <div *ngIf="isEditMode && hasValidationWarnings()" class="alert alert-warning validation-alert">
+          <div class="d-flex align-items-start">
+            <i class="bi bi-exclamation-circle-fill me-2 mt-1"></i>
+            <div class="flex-grow-1">
+              <strong class="d-block mb-2">Please complete the following:</strong>
+              <ul class="mb-0 ps-3">
+                <li *ngFor="let warning of getValidationWarningsArray()">
+                  <strong>{{ warning.day }}:</strong> {{ warning.message }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <!-- Validation Errors Alert -->
         <div *ngIf="isEditMode && hasValidationErrors()" class="alert alert-danger validation-alert">
           <div class="d-flex align-items-start">
@@ -111,16 +127,18 @@
               <div class="time-cell time-label" [ngClass]="getTimeCallClass(day)">
                 <span>From</span>
 
-                <input *ngIf="isEditMode" type="time" class="time-input" [(ngModel)]="day.fromTime"
-                  [disabled]="!day.isEnabled" (change)="onTimeChange(day)">
+                <input type="time" class="time-input" [(ngModel)]="day.fromTime" [disabled]="!day.isEnabled"
+                  (change)="onTimeChange(day)" [ngModelOptions]="{ standalone: true }" />
+
               </div>
 
               <!-- To Time Column -->
               <div class="time-cell time-label" [ngClass]="getTimeCallClass(day)">
                 <span>To</span>
 
-                <input *ngIf="isEditMode" type="time" class="time-input" [(ngModel)]="day.toTime"
-                  [disabled]="!day.isEnabled" (change)="onTimeChange(day)">
+                <input type="time" class="time-input" [(ngModel)]="day.toTime" [disabled]="!day.isEnabled"
+                  (change)="onTimeChange(day)" [ngModelOptions]="{ standalone: true }" />
+
               </div>
 
             </div>

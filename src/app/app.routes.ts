@@ -115,7 +115,12 @@ export const routes: Routes = [
   {
     path: 'settings',
     loadComponent: () => import('./components/settings/settings.component').then(m => m.SettingsComponent),
-    // canActivate: [AdminGuard]
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'appointment-list',
+    loadComponent: () => import('./components/appointments-list/appointments-list.component').then(m => m.AppointmentsListComponent),
+    canActivate: [AdminGuard]
   },
 
 

@@ -1,98 +1,3 @@
-/* .parent {
-  display: flex;
-  width: 100%;
-  padding-top: 100px;
-  background: #F5F9FF;
-}
-
-.fixDiv {
-  width: 250px;
-  background: #F5F9FF;
-}
-
-.page {
-  padding: 30px;
-  width: 80%;
-  background: #F5F9FF;
-}
-
-:host ::ng-deep .p-breadcrumb {
-  border: none;
-  margin-left: 0px !important;
-  padding: 0 0 !important;
-  padding-top: 10px;
-  margin-bottom: 20px;
-  background: #F5F9FF !important;
-  cursor: pointer;
-
-}
-
-:host ::ng-deep .p-breadcrumb ol {
-  margin-left: 45 !important;
-  padding-left: 15px;
-}
-
-:host ::ng-deep .p-breadcrumb ol a {
-  text-decoration: none;
-}
-
-
-:host ::ng-deep .p-breadcrumb .p-menuitem-link {
-  color: #586880 !important;
-  font-family: Poppins;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px;
-}
-
-
-:host ::ng-deep .p-breadcrumb .bread-active {
-  color: var(--Colors-Base-Main-Text, #0A0C0F) !important;
-  font-family: Poppins !important;
-  font-size: 18px;
-  font-style: normal !important;
-  font-weight: 500 !important;
-  line-height: 32px;
-}
-
-.bread-active {
-  color: var(--Colors-Base-Main-Text, #0A0C0F) !important;
-  font-family: Poppins;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 32px;
-}
-
-:host ::ng-deep .p-tabview .p-tabview-nav {
-  background: #F5F9FF !important;
-}
-
-:host ::ng-deep .p-tabview .p-tabview-panels {
-  background: #F5F9FF !important;
-}
-
-:host ::ng-deep .p-tabview-nav a {
-  text-decoration: none;
-  color: var(--Neutral-Neutral40, #605D62) !important;
-  font-feature-settings: 'liga' off, 'clig' off;
-  font-family: Poppins;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400 !important;
-  line-height: 24px;
-  text-transform: capitalize;
-  background: #F5F9FF;
-}
-
-.card {
-  border-radius: 16px;
-  border: none;
-  
-} */
-
-
 .parent {
   display: flex;
   width: 100%;
@@ -537,6 +442,17 @@
 
 .validation-alert li:last-child {
   margin-bottom: 0;
+}
+
+/* --------------------- Warning ALERT --------------------- */
+.alert-warning {
+  background-color: #fff3cd;
+  border-color: #ffc107;
+  color: #856404;
+}
+
+.alert-warning .bi-exclamation-circle-fill {
+  color: #ffc107;
 }
 
 /* --------------------- RESPONSIVE DESIGN --------------------- */
