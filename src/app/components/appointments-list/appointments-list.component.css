@@ -87,6 +87,18 @@
     background-color: #ffffff;
 }
 
+.custom-date::-webkit-calendar-picker-indicator {
+    background: url("data:image/svg+xml;utf8,<svg fill='%235a6475' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat center;
+    background-size: 16px;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.custom-date::-webkit-inner-spin-button,
+.custom-date::-webkit-clear-button {
+    display: none;
+}
+
 /* Small Cards (Statistics) */
 .small-cards {
     margin-bottom: 40px;
@@ -194,32 +206,42 @@
     background: #F6F6F6;
 }
 
+/* الـ wrapper للجدول فقط (الـ paginator شقيق له خارج الـ wrapper) – scroll أفقي للجدول دون الـ pagination */
 :host ::ng-deep .p-datatable>.p-datatable-wrapper {
-    overflow: auto;
+    overflow-x: auto !important;
     border-radius: 16px;
     border: 1px solid #EBEBEB;
 }
 
+/* Table header – Figma: B-1/Medium, 16px, #29303B, 65px, 8px 16px */
 :host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+    padding: 8px 16px;
+    height: 65px;
+    color: var(--Colors-Primary-Shade-Shade-9, #29303B);
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
     background: #F6F6F6 !important;
-    color: #495057;
-    font-weight: 600;
-    padding: 1rem;
-    border-bottom: 2px solid #dee2e6;
-}
-
-:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
-    padding: 0.875rem 1rem;
+    border-bottom: 1px solid #E5E7EB;
     vertical-align: middle;
 }
 
-/* :host ::ng-deep .p-datatable .p-datatable-tbody>tr:hover {
-    background-color: #f8f9fa;
-} */
+/* Table data – Figma: B-1, 16px, #4A4A4A */
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+    padding: 8px 16px;
+    vertical-align: middle;
+    color: var(--Neutrals-Neutrals900, #4A4A4A);
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
 
-/* Scroll Table Horizontal */
+/* التمرير الأفقي للجدول فقط (الـ body = thead+tbody؛ الـ paginator خارج الـ body فلا يتحرك) */
 :host ::ng-deep .p-datatable-scrollable-body {
-    overflow-x: auto !important;
     border: none !important;
 }
 
@@ -229,90 +251,6 @@
     min-width: 1200px;
 }
 
-
-/* Status Badges */
-.badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 500;
-    text-transform: capitalize;
-}
-
-.badge-upcoming {
-    display: flex;
-    height: 32px;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    border-radius: 16px;
-    background: #E7EEF8;
-    color: var(--Colors-Primary-700, #1151B4);
-    font-family: Poppins;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 21px;
-}
-
-.badge-completed {
-    display: flex;
-    height: 32px;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    border-radius: 16px;
-    background: #D7F8E7;
-    color: #157E48;
-    font-family: Poppins;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 21px;
-}
-
-.badge-cancelled {
-    display: flex;
-    height: 32px;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    border-radius: 16px;
-    background: #FDE8E9;
-    color: #dc3545;
-    font-family: Poppins;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 21px;
-}
-
-.badge-converted {
-    display: flex;
-    height: 32px;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    border-radius: 16px;
-    background: #FBEFD2;
-    color: #DFA314;
-    font-family: Poppins;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 21px;
-}
-
-.badge-default {
-    background-color: #6c757d;
-    color: #fff;
-}
 
 /* Menu List */
 .menu-list {
@@ -449,49 +387,90 @@
     cursor: not-allowed;
 }
 
-/* Custom Buttons */
-.custom-button ::ng-deep .p-button {
-    display: flex;
-    padding: 8px 60px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    color: #1151B4 !important;
-    border: 1px solid #1151B4 !important;
-    background-color: #fff !important;
-    border-radius: 8px;
-}
-
-.custom-button-add ::ng-deep .p-button {
-    display: flex;
-    padding: 8px 60px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    border: 1px solid #1151B4 !important;
-    color: #ffffff !important;
-    background-color: #1151B4 !important;
-    align-self: self-start;
-    border-radius: 8px;
-}
-
-/* PrimeNG Overrides */
+/* PrimeNG Dropdown – trigger عام */
 :host ::ng-deep .p-dropdown {
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 8px 8px 12px;
+    min-height: 38px;
+    border: 1px solid var(--Colors-Primary-100, #E7EEF8);
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0 2px 4px 0 rgba(27, 28, 29, 0.04);
+    transition: border-color 0.2s, box-shadow 0.2s;
     width: 100%;
 }
 
+:host ::ng-deep .p-dropdown .p-dropdown-label {
+    padding: 0;
+    font-family: Poppins;
+    font-size: 14px;
+}
+
 :host ::ng-deep .p-dropdown:hover {
-    border-color: #9ca3af;
+    border-color: #d1d9e8;
 }
 
 :host ::ng-deep .p-dropdown:focus,
 :host ::ng-deep .p-dropdown.p-focus {
-    border-color: #3b82f6 !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    border-color: #1151B4 !important;
+    box-shadow: 0 2px 4px 0 rgba(27, 28, 29, 0.04), 0 0 0 2px rgba(17, 81, 180, 0.15);
     outline: none;
+}
+
+:host ::ng-deep .p-dropdown-panel .p-dropdown-item,
+::ng-deep .p-dropdown-panel .p-dropdown-item {
+    /* padding: 8px 12px; */
+    font-family: Poppins;
+    font-size: 14px;
+    border-radius: 6px;
+    width: 100%;
+    margin: 0;
+}
+
+
+:host ::ng-deep .p-dropdown-panel .p-dropdown-item.p-highlight,
+::ng-deep .p-dropdown-panel .p-dropdown-item.p-highlight {
+    background: var(--Colors-Primary-100, #E7EEF8);
+    color: #1151B4;
+}
+
+/* .p-dropdown-items (ul) – padding 10px للقائمة */
+:host ::ng-deep .p-dropdown-items,
+::ng-deep .p-dropdown-items {
+    padding-left: 10px;
+}
+
+/* إلغاء الـ highlight التلقائي على العنصر المحدد/المركّز في الـ dropdown */
+:host ::ng-deep .p-dropdown-item.p-highlight,
+::ng-deep .p-dropdown-item.p-highlight,
+:host ::ng-deep .p-dropdown-item.p-focus,
+::ng-deep .p-dropdown-item.p-focus {
+    background: transparent !important;
+    color: inherit;
+}
+
+/* الـ selects داخل المودلات – عرض 100% */
+:host ::ng-deep .p-dialog .p-dropdown,
+::ng-deep .p-dialog .p-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* padding: 8px 8px 8px 12px; */
+    min-height: 38px;
+    width: 100%;
+    border: 1px solid var(--Colors-Primary-100, #E7EEF8);
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0 2px 4px 0 rgba(27, 28, 29, 0.04);
+}
+
+:host ::ng-deep .p-dialog .p-dropdown .p-dropdown-label,
+::ng-deep .p-dialog .p-dropdown .p-dropdown-label {
+    padding: 0;
+    font-family: Poppins;
+    font-size: 14px;
 }
 
 :host ::ng-deep .p-inputtextarea {
@@ -517,120 +496,6 @@
 
 /* ////////////////////////////////////////////////////////////////// */
 
-/* --------------------- filter --------------------- */
-.custom-date-container {
-    display: inline-block;
-    position: relative;
-}
-
-.custom-date {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    border: 1px solid #e0e4ec;
-    border-radius: 8px;
-    padding: 8px 8px;
-    font-size: 14px;
-    color: #5a6475;
-    background-color: #fff;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: inherit;
-}
-
-.custom-date:focus {
-    outline: none;
-    border-color: #1151b4;
-    background-color: #ffffff;
-}
-
-.custom-date::-webkit-calendar-picker-indicator {
-    background: url("data:image/svg+xml;utf8,<svg fill='%235a6475' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat center;
-    background-size: 16px;
-    opacity: 0.8;
-    cursor: pointer;
-}
-
-.custom-date::-webkit-inner-spin-button,
-.custom-date::-webkit-clear-button {
-    display: none;
-}
-
-/* --------------------- small card --------------------- */
-.small-cards {
-    margin-bottom: 40px;
-}
-
-.small-card {
-    display: flex;
-    padding: 16px;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1 0 0;
-
-    border-radius: 8px;
-    background: #FFF;
-
-    box-shadow: 0 2px 4px 0 rgba(27, 28, 29, 0.04);
-    border: none;
-}
-
-.small-card-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    color: var(--Colors-Primary-Shade-Shade-7, #475467);
-
-    font-family: Poppins;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
-
-.small-card-icon {
-    width: 40px;
-    height: 40px;
-}
-
-.small-card-count {
-    color: var(--Colors-Base-Main-Text, #0A0C0F);
-
-    font-family: Poppins;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
-
-.percent {
-    display: flex;
-    width: 62px;
-    height: 32px;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-    gap: 4px;
-    border-radius: 8px;
-
-    font-family: Poppins;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
-
-.small-card-description {
-    color: var(--Neutrals-Neutrals700, #727272);
-
-    font-family: Poppins;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
-
 /* --------------------- second section list --------------------- */
 ::ng-deep .card-header {
     background-color: #fff !important;
@@ -639,70 +504,6 @@
     font-weight: 500 !important;
     border-bottom: none !important;
     font-family: Poppins !important;
-}
-
-/* --------------------- Day Cell --------------------- */
-
-/* --------------------- Time Cells --------------------- */
-
-/* --------------------- time input --------------------- */
-
-
-/* --------------------- STATUS BADGES --------------------- */
-
-
-/* --------------------- TOGGLE SWITCH --------------------- */
-
-
-/* --------------------- BUTTONS --------------------- */
-
-
-/* --------------------- SUCCESS MODAL --------------------- */
-
-
-/* --------------------- VALIDATION ALERT --------------------- */
-
-
-/* --------------------- RESPONSIVE DESIGN --------------------- */
-@media (max-width: 1024px) {}
-
-@media (max-width: 992px) {
-    .fixDiv {
-        width: 0px;
-        background: #F5F9FF;
-    }
-}
-
-@media (max-width: 768px) {}
-
-@media (max-width: 576px) {}
-
-@media (max-width: 440px) {}
-
-/* Add these styles to your existing appointment-list.component.css */
-
-/* Bulk Actions Bar */
-.bulk-actions-bar {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    padding: 12px 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    color: white;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
-}
-
-.selected-text {
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.bulk-actions-bar .p-button-text {
-    color: white !important;
-    text-decoration: underline;
-}
-
-.bulk-actions-bar .p-button-text:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
 }
 
 /* Modal Styles */
@@ -822,22 +623,7 @@
     color: #E3141E;
 }
 
-::ng-deep .p-dropdown {
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    transition: all 0.2s;
-}
-
-::ng-deep .p-dropdown:hover {
-    border-color: #9ca3af;
-}
-
-::ng-deep .p-dropdown:focus,
-::ng-deep .p-dropdown.p-focus {
-    border-color: #3b82f6 !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    outline: none;
-}
+/* تم توحيد أنماط .p-dropdown في :host ::ng-deep .p-dropdown أعلاه */
 
 ::ng-deep .p-inputtextarea {
     border: 1px solid #d1d5db;
@@ -949,12 +735,6 @@
     background: #f3f4f6;
 }
 
-.menu-list li a i {
-    width: 20px;
-    text-align: center;
-}
-
-
 /* Responsive */
 @media (max-width: 992px) {
     .fixDiv {
@@ -969,14 +749,6 @@
 }
 
 @media (max-width: 768px) {
-    .custom-button ::ng-deep .p-button {
-        padding: 8px 40px;
-    }
-
-    .custom-button-add ::ng-deep .p-button {
-        padding: 8px 40px;
-    }
-
     .dialog-layout {
         width: 100%;
     }
@@ -994,90 +766,146 @@
     width: 40vw !important;
 }
 
-@media (max-width: 768px) {
-    .responsive-dialog .p-dialog {
-        width: 100vw !important;
-    }
-}
-
-/* Bulk Action Bar */
+/* Bulk Action Bar – Figma: white, stroke, shadow, B-2/Medium 14px, gap 24px */
 .bulk-action-bar {
+    width: 340px;
     position: sticky;
     bottom: 0;
-    left: 0;
-    right: 0;
-    background: #3b82f6;
-    color: white;
-    padding: 12px 20px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    padding: 8px;
     border-radius: 8px;
+    border: 1px solid var(--Colors-Primary-Stroke-Color, #EEF0F1);
+    background: #FFF;
+    box-shadow: 0 0 7px 0 rgba(186, 186, 186, 0.25);
     margin-top: 16px;
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
     z-index: 10;
 }
 
-.bulk-action-bar .selected-count {
-    font-size: 14px;
-    font-weight: 500;
-    color: white;
+.bulk-action-bar-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
 }
 
-.bulk-action-bar .btn-clear-selection {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.bulk-action-bar .btn-clear-selection:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: white;
-}
-
-.bulk-action-bar .btn-bulk-cancel {
-    background: white;
-    border: none;
-    color: #3b82f6;
-    padding: 8px 20px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
+.bulk-action-left {
+    display: inline-flex;
     align-items: center;
     gap: 8px;
 }
 
-.bulk-action-bar .btn-bulk-cancel:hover {
-    background: #f3f4f6;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.bulk-action-bar .bulk-checkbox {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background: var(--Colors-Primary-700, #1151B4);
+    color: #FFF;
+    font-size: 11px;
+    flex-shrink: 0;
 }
 
-.bulk-action-bar .btn-bulk-cancel i {
+.bulk-action-bar .selected-count {
+    font-family: Poppins;
     font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    color: var(--Colors-Primary-Shade-Shade-9, #29303B);
+}
+
+.bulk-separator {
+    width: 1px;
+    height: 20px;
+    background: var(--Colors-Primary-Stroke-Color, #EEF0F1);
+    flex-shrink: 0;
+}
+
+.bulk-action-bar .btn-bulk-cancel {
+    background: transparent;
+    border: none;
+    color: var(--Colors-Primary-700, #1151B4);
+    padding: 0;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.bulk-action-bar .btn-bulk-cancel:hover {
+    opacity: 0.85;
+}
+
+.bulk-action-bar .btn-close-bulk {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-left: auto;
+    border: 1px solid var(--Colors-Primary-Stroke-Color, #EEF0F1);
+    border-radius: 6px;
+    background: #FFF;
+    color: var(--Neutrals-Neutrals900, #4A4A4A);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.bulk-action-bar .btn-close-bulk:hover {
+    background: #F9FAFB;
+    border-color: #E5E7EB;
 }
 
 /* Checkbox in table header */
+.card {
+    border: none !important;
+}
+
+::ng-deep .p-table {
+    border: none !important;
+}
+
 ::ng-deep .p-table thead th:first-child {
-    text-align: center;
-    vertical-align: middle;
+    color: var(--Colors-Primary-Shade-Shade-9, #29303B);
+
+    font-family: Poppins !important;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
 }
 
 ::ng-deep .p-table tbody td:first-child {
-    text-align: center;
-    vertical-align: middle;
+    color: var(--Neutrals-Neutrals900, #4A4A4A);
+
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.custom-email {
+    color: var(--Neutrals-Neutrals700, #727272);
+    display: block;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 /* Indeterminate checkbox state */
 ::ng-deep .p-checkbox.p-indeterminate .p-checkbox-box {
-    background: #3b82f6;
-    border-color: #3b82f6;
+    background: #1151B4;
+    border-color: #1151B4;
 }
 
 ::ng-deep .p-checkbox.p-indeterminate .p-checkbox-box .p-checkbox-icon {
@@ -1087,64 +915,33 @@
 
 
 /* ///////////////////////////////////////////////////////////// */
-/* ✨ ENHANCED STATUS BADGES */
-.status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+
+/* Overlay panel القائمة – بنفس أسلوب الـ dropdown panel */
+:host ::ng-deep .p-overlaypanel,
+::ng-deep .p-overlaypanel {
+    border: 1px solid var(--Colors-Primary-100, #E7EEF8);
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0 2px 4px 0 rgba(27, 28, 29, 0.04);
+}
+
+:host ::ng-deep .p-overlaypanel .p-overlaypanel-content,
+::ng-deep .p-overlaypanel .p-overlaypanel-content {
+    padding: 8px;
+}
+
+.menu-list li a {
+    display: block;
     padding: 8px 12px;
-    border-radius: 16px;
-    font-family: Poppins, sans-serif;
+    font-family: Poppins;
     font-size: 14px;
-    font-weight: 500;
-}
-
-.badge-upcoming {
-    background: #E7EEF8;
-    color: #1151B4;
-}
-
-.badge-completed {
-    background: #D7F8E7;
-    color: #157E48;
-}
-
-.badge-cancelled {
-    background: #FDE8E9;
-    color: #DC2626;
-}
-
-.badge-converted {
-    background: #FBEFD2;
-    color: #DFA314;
-}
-
-.status-badge .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-}
-
-.badge-upcoming .status-dot {
-    background: #1151B4;
-}
-
-.badge-completed .status-dot {
-    background: #157E48;
-}
-
-.badge-cancelled .status-dot {
-    background: #DC2626;
-}
-
-.badge-converted .status-dot {
-    background: #DFA314;
-}
-
-/* ACTION ICON */
-.action-icon {
+    border-radius: 6px;
+    transition: all 0.2s;
     cursor: pointer;
-    padding: 4px;
+}
+
+.menu-list li a:hover {
+    background: var(--Colors-Primary-100, #E7EEF8);
 }
 
 /* ✨ ENHANCED FILTER DIALOG */
@@ -1169,22 +966,28 @@
 }
 
 .filter-title {
-    color: #29303B;
-    font-family: Poppins, sans-serif;
-    font-size: 24px;
+    color: var(--Colors-Primary-Shade-Shade-9, #29303B);
+    font-family: Poppins;
+    font-size: 20px;
     font-weight: 600;
 }
 
 .close-btn {
-    background: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
     border: none;
+    border-radius: 50%;
+    background: #FFF;
+    color: var(--Neutrals-Neutrals900, #4A4A4A);
     cursor: pointer;
-    padding: 4px;
-    color: #4A4A4A;
+    transition: background 0.2s;
 }
 
 .close-btn:hover {
-    opacity: 0.7;
+    background: #F3F4F6;
 }
 
 .filter-body {
@@ -1201,10 +1004,10 @@
 }
 
 .filter-label {
-    color: #29303B;
-    font-family: Poppins, sans-serif;
+    color: var(--Colors-Primary-Shade-Shade-9, #29303B);
+    font-family: Poppins;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 /* ✨ STATUS FILTER BUTTONS */
@@ -1214,27 +1017,50 @@
     flex-wrap: wrap;
 }
 
-.status-filter-btn {
-    display: flex;
+/* Table status badge – نفس ألوان status filter (getStatusColor / getStatusBgColor) */
+.table-status-badge {
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 8px;
-    background: #F3F4F6;
-    font-family: Poppins, sans-serif;
+    padding: 8px 12px;
+    border-radius: 16px;
+    border: 1px solid transparent;
+    font-family: Poppins;
     font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border: none;
+}
+
+.table-status-badge .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    font-family: Poppins;
+    font-size: 16px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: filter 0.2s, font-weight 0.2s;
 }
 
 .status-filter-btn:hover {
-    background: #E5E7EB;
+    filter: brightness(0.96);
 }
 
 .status-filter-btn.active {
-    background: #EEF2FF;
+    font-weight: 600;
+    filter: brightness(0.92);
 }
 
 .status-filter-btn .status-dot {
@@ -1250,14 +1076,17 @@
 
 .date-input {
     width: 100%;
-    padding: 12px 16px;
-    padding-right: 48px;
-    border: 1px solid #E5E7EB;
-    border-radius: 8px;
-    font-family: Poppins, sans-serif;
+    padding: 12px 44px 12px 16px;
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    font-family: Poppins;
     font-size: 16px;
-    color: #4A4A4A;
-    transition: all 0.2s;
+    color: var(--Neutrals-Neutrals900, #4A4A4A);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.date-input::placeholder {
+    color: #A0A0A0;
 }
 
 .date-input:focus {
@@ -1271,51 +1100,185 @@
     right: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: #2563EB;
-    font-size: 20px;
-    pointer-events: none;
+    color: #6B7280;
+    font-size: 18px;
+    cursor: pointer;
 }
 
 .filter-footer {
     display: flex;
-    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     padding: 24px;
     border-top: 1px solid #E5E7EB;
 }
 
 .filter-btn-cancel,
+.filter-btn-clear,
 .filter-btn-apply {
-    flex: 1;
-    padding: 14px;
-    border-radius: 8px;
-    font-family: Poppins, sans-serif;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-family: Poppins;
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s, border-color 0.2s, color 0.2s;
 }
 
 .filter-btn-cancel {
-    border: 1px solid #E5E7EB;
-    background: #fff;
-    color: #4A4A4A;
+    border: 1px solid #007bff;
+    background: #FFF;
+    color: #007bff;
 }
 
 .filter-btn-cancel:hover {
-    background: #F9FAFB;
+    background: #e6f0ff;
+}
+
+.filter-btn-clear {
+    border: 1px solid #E5E7EB;
+    background: #FFF;
+    color: var(--Neutrals-Neutrals900, #4A4A4A);
+}
+
+.filter-btn-clear:hover {
+    background: #F3F4F6;
+    border-color: #D1D5DB;
 }
 
 .filter-btn-apply {
     border: none;
-    background: #2563EB;
-    color: #fff;
+    background: #1151B4;
+    color: #FFF;
 }
 
 .filter-btn-apply:hover {
-    background: #1d4ed8;
+    background: #0069d9;
 }
 
-.filter-btn-apply:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+/* ==================== Pagination – مطابق للتصميم: #FAFAFA, 48px, 8px 16px, 8px radius ==================== */
+:host ::ng-deep .p-datatable .p-paginator {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 48px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: #FAFAFA;
+    font-family: Poppins;
+    font-size: 16px;
+    color: #4A4A4A;
 }
+
+/* "Show " قبل الـ dropdown (الـ "From X" من الـ current) */
+:host ::ng-deep .p-datatable .p-paginator::before {
+    content: "Show ";
+    order: -2;
+    color: #4A4A4A;
+    font-size: 16px;
+    font-family: Poppins;
+    align-self: center;
+}
+
+/* أيقونات First/Last مخفية من التصميم */
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-first,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-last {
+    display: none !important;
+}
+
+/* Dropdown عدد الصفوف: حد #E7EEF8, 5.5px, ~73x31، نص #222222، شيفرون #292D32 */
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-rpp-options.p-dropdown {
+    order: -1;
+    min-width: 73px;
+    height: 31px;
+    border: 1px solid #E7EEF8;
+    border-radius: 5.5px;
+    background: #FFF;
+    font-family: Poppins;
+    font-size: 14px;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-rpp-options .p-dropdown-label {
+    color: #222222;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-rpp-options .p-dropdown-trigger,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-rpp-options .p-dropdown-trigger .p-icon {
+    color: #292D32;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-rpp-options .p-dropdown-trigger svg {
+    stroke: #292D32;
+}
+
+/* نصوص "From X" والأسهم: #4A4A4A / #292D32 */
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-current,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-prev,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-next {
+    border: none;
+    background: transparent;
+    color: #4A4A4A;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-current {
+    margin-right: auto;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-prev .p-icon,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-next .p-icon {
+    color: #292D32;
+}
+
+/* أزرار الصفحات: غير النشطة بدون إطار/خلفية، #5E5E5E */
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-pages .p-paginator-page {
+    min-width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
+    color: #5E5E5E;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 2px;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-pages .p-paginator-page:hover {
+    background: transparent;
+    color: #5E5E5E;
+}
+
+/* الصفحة النشطة: خلفية #E7EEF8، نص #1151B4، بدون إطار */
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #E7EEF8;
+    border: none;
+    color: #1151B4;
+}
+
+/* --------------------- RESPONSIVE DESIGN --------------------- */
+@media (max-width: 1024px) {}
+
+@media (max-width: 992px) {
+    .fixDiv {
+        width: 0px;
+        background: #F5F9FF;
+    }
+}
+
+@media (max-width: 768px) {
+    .responsive-dialog .p-dialog {
+        width: 100vw !important;
+    }
+}
+
+@media (max-width: 576px) {}
+
+@media (max-width: 440px) {}

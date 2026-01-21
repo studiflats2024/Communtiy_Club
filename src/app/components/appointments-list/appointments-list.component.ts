@@ -28,7 +28,6 @@ import { MessageService } from 'primeng/api';
     ToastModule,
     BreadcrumbModule,
     InputTextModule,
-    // CardTableComponent,
     TableModule,
     CheckboxModule,
     DropdownModule,
@@ -135,17 +134,24 @@ export class AppointmentsListComponent {
     this.loadAppointments();
   }
 
+  /** من (onLazyLoad): مزامنة الصفحة والحجم ثم جلب البيانات – يصلح عدم جلب الصفحة 2 */
+  onLazyLoad(event: any): void {
+    const first = event?.first ?? 0;
+    const rows = (event?.rows ?? this.pageSize) || 10;
+    this.currentPage = rows > 0 ? Math.floor(first / rows) + 1 : 1;
+    this.pageSize = rows;
+    this.loadAppointments();
+  }
+
   // ==================== Statistics ====================
+  /** يستخدم generalDateFrom/To (نفس اللي بيتبعت للـ List) عشان الـ Statistics تتفق مع الجدول. */
   loadStatistics() {
-    // Use generalDateFrom and generalDateTo (no defaults)
-    const fromDate = this.selectedStartDate
-      ? this.toUtcIsoStartOfDay(this.selectedStartDate)
-      : undefined;
-
-    const toDate = this.selectedEndDate
-      ? this.toUtcIsoEndOfDay(this.selectedEndDate)
-      : undefined;
-
+    let fromDate = this.generalDateFrom || undefined;
+    let toDate = this.generalDateTo || undefined;
+    // عندما From = To (مثلاً Today): الـ Statistics قد يفسّر الاثنين كـ 00:00 فيصبح المدى = 0.
+    if (fromDate && toDate && fromDate === toDate) {
+      toDate = toDate + 'T23:59:59';
+    }
     this.appointmentService.getStatistics(fromDate, toDate).subscribe({
       next: (res: any) => {
         if (res.succeeded && res.data) {
@@ -185,34 +191,28 @@ export class AppointmentsListComponent {
   }
 
   // ==================== Load Appointments ====================
+  /**
+   * يمرر للـ API:
+   * - SearchTerm (globalFilter): بحث عام على كل الداتا
+   * - GeneralDateFrom/To: نطاق تاريخ عام (من Date Range الأعلى) – يؤثر على كل الداتا
+   * - StatusFilter + ListDateFrom/To: Table Filter فقط – يؤثر على الجدول ضمن نتيجة الـ Global
+   */
   loadAppointments() {
     this.loading = true;
 
-    // Filter out null values and convert to array of strings
-    // const statusFilter = this.selectedStatuses && this.selectedStatuses.length > 0
-    //   ? this.selectedStatuses.filter((s: any) => s !== null && s !== undefined).map((s: any) => String(s))
-    //   : undefined;
-
-    // ✨ MODIFIED: Use appliedFilterStatuses instead of selectedStatuses
     const statusFilter = this.appliedFilterStatuses && this.appliedFilterStatuses.length > 0
       ? this.appliedFilterStatuses
       : undefined;
-
-    // Prepare date filters for list
-    const listDateFrom = this.listDateFrom;
-    const listDateTo = this.listDateTo;
-    const generalDateFrom = this.generalDateFrom;
-    const generalDateTo = this.generalDateTo;
 
     this.appointmentService.getAppointmentsList(
       this.currentPage,
       this.pageSize,
       this.globalFilter?.trim() || undefined,
       statusFilter,
-      listDateFrom,
-      listDateTo,
-      generalDateFrom,
-      generalDateTo
+      this.listDateFrom,
+      this.listDateTo,
+      this.generalDateFrom,
+      this.generalDateTo
     ).subscribe({
       next: (res: any) => {
         if (res.succeeded) {
@@ -234,10 +234,18 @@ export class AppointmentsListComponent {
     });
   }
 
+  // ==================== Global Filter (بحث عام) ====================
+  /** تطبيق البحث العام: يؤثر على الجدول والـ small-cards، يُعاد للصفحة 1 */
+  applyGlobalFilter() {
+    this.currentPage = 1;
+    this.loadStatistics();
+    this.loadAppointments();
+  }
+
   // ==================== Pagination ====================
   pageChange(event: any): void {
-    this.currentPage = event.page + 1;
-    this.pageSize = event.rows;
+    this.currentPage = (event?.page ?? 0) + 1;
+    this.pageSize = event?.rows ?? this.pageSize;
     this.loadAppointments();
   }
 
@@ -285,10 +293,15 @@ export class AppointmentsListComponent {
     return new Date(this.filterEndDate) < new Date(this.filterStartDate);
   }
 
+  /** من ISO أو yyyy-MM-dd إلى yyyy-MM-dd (استخراج التاريخ بـ UTC لتجنّب انزياح التوقيت) */
   private fromUtcIsoToYmd(isoString: string): string {
-    const date = new Date(isoString);
+    if (!isoString || typeof isoString !== 'string') return '';
+    const m = isoString.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return `${m[1]}-${m[2]}-${m[3]}`;
+    const d = new Date(isoString);
+    if (isNaN(d.getTime())) return '';
     const pad = (n: number) => String(n).padStart(2, '0');
-    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+    return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
   }
 
   cancelationReasonFromWebsite: any;
@@ -323,6 +336,7 @@ export class AppointmentsListComponent {
     this.showCompleteModal = false;
     this.selectedAppointment = null;
     this.currentAppointment = null;
+    this.showDateDialog = false;
   }
 
   // ==================== Cancel Appointment ====================
@@ -604,22 +618,27 @@ export class AppointmentsListComponent {
   }
 
   openDatePicker(input: HTMLInputElement) {
-    if ('showPicker' in input) {
-      input.showPicker();
+    if (input && 'showPicker' in input) {
+      (input as HTMLInputElement & { showPicker?: () => void }).showPicker?.();
     }
+  }
+
+  onFilterDateClick(input: HTMLInputElement) {
+    input.type = 'date';
+    input.focus();
+    this.openDatePicker(input);
   }
 
   applyDateRange() {
     if (this.rangeInvalid || !this.selectedStartDate || !this.selectedEndDate) return;
     this.updateDisplayedRange();
 
-    // Update both general dates (for statistics) and list dates (for table)
-    this.generalDateFrom = this.toUtcIsoStartOfDay(this.selectedStartDate);
-    this.generalDateTo = this.toUtcIsoEndOfDay(this.selectedEndDate);
-    this.listDateFrom = this.generalDateFrom;
-    this.listDateTo = this.generalDateTo;
+    // Global: نطاق التاريخ العام بصيغة yyyy-MM-dd (متوافقة مع أغلب الـ APIs)
+    this.generalDateFrom = this.selectedStartDate;
+    this.generalDateTo = this.selectedEndDate;
 
     this.showDateDialog = false;
+    this.currentPage = 1;
     this.loadStatistics();
     this.loadAppointments();
   }
@@ -651,10 +670,10 @@ export class AppointmentsListComponent {
     this.selectedStartDate = '';
     this.selectedEndDate = '';
     this.displayedRange = '';
+    // مسح النطاق العام فقط؛ لا نمس listDateFrom/To ولا appliedFilterStatuses (Table Filter)
     this.generalDateFrom = undefined;
     this.generalDateTo = undefined;
-    this.listDateFrom = undefined;
-    this.listDateTo = undefined;
+    this.currentPage = 1;
     this.loadStatistics();
     this.loadAppointments();
   }
@@ -742,15 +761,14 @@ export class AppointmentsListComponent {
     return this.selectedFilterStatuses.includes(status);
   }
 
-  // ✨ MODIFIED: Apply filter with multiple statuses
+  // ✨ Table Filter: Status + Date. نرسل التاريخ بصيغة yyyy-MM-dd للـ API.
   applyFilter() {
-    // Copy selected statuses to applied statuses
     this.appliedFilterStatuses = [...this.selectedFilterStatuses];
 
-    // Update date filters
-    if (this.filterStartDate && this.filterEndDate) {
-      this.listDateFrom = this.toUtcIsoStartOfDay(this.filterStartDate);
-      this.listDateTo = this.toUtcIsoEndOfDay(this.filterEndDate);
+    if (this.filterStartDate && this.filterStartDate.trim()) {
+      const ymd = this.normalizeFilterDate(this.filterStartDate);
+      this.listDateFrom = ymd || undefined;
+      this.listDateTo = ymd || undefined;
     } else {
       this.listDateFrom = undefined;
       this.listDateTo = undefined;
@@ -761,42 +779,63 @@ export class AppointmentsListComponent {
     this.displayFilter = false;
   }
 
-  // ✨ MODIFIED: Open filter dialog and sync selections
-  openFilterDialog() {
-    // Copy applied filters to selected filters
-    this.selectedFilterStatuses = [...this.appliedFilterStatuses];
+  /** يحوّل قيمة input التاريخ إلى yyyy-MM-dd */
+  private normalizeFilterDate(v: string): string {
+    if (!v || typeof v !== 'string') return '';
+    const s = v.trim();
+    const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return `${m[1]}-${m[2]}-${m[3]}`;
+    const d = new Date(s);
+    if (isNaN(d.getTime())) return '';
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
+  }
 
+  openFilterDialog() {
+    this.selectedFilterStatuses = [...this.appliedFilterStatuses];
+    // listDateFrom إما yyyy-MM-dd أو ISO قديم؛ fromUtcIsoToYmd تتعامل مع الاثنين
     this.filterStartDate = this.listDateFrom ? this.fromUtcIsoToYmd(this.listDateFrom) : '';
-    this.filterEndDate = this.listDateTo ? this.fromUtcIsoToYmd(this.listDateTo) : '';
     this.displayFilter = true;
   }
 
-  // ✨ MODIFIED: Reset filter
+  // ✨ إعادة تعيين Table Filter فقط (لا يمس globalFilter ولا generalDateFrom/To)
   resetFilter() {
     this.selectedFilterStatuses = [];
     this.appliedFilterStatuses = [];
     this.filterStartDate = '';
-    this.filterEndDate = '';
     this.listDateFrom = undefined;
     this.listDateTo = undefined;
     this.currentPage = 1;
     this.loadAppointments();
   }
 
-  // ✨ NEW: Clear all active filters
   clearAllFilters() {
     this.resetFilter();
   }
 
-  // ✨ NEW: Get status color
-  getStatusColor(status: string): string {
-    const colors: any = {
-      'Upcoming': '#1151B4',
-      'Completed': '#157E48',
-      'Cancelled': '#DC2626',
-      'Converted': '#DFA314'
+  clearTableFilter() {
+    this.resetFilter();
+    this.displayFilter = false;
+  }
+
+  getStatusColor(label: string): string {
+    const colors: Record<string, string> = {
+      'Upcoming': '#BE8B11',
+      'Completed': '#1151B4',
+      'Cancelled': '#C1111A',
+      'Converted': '#17894E'
     };
-    return colors[status] || '#6B7280';
+    return colors[label] || '#BE8B11';
+  }
+
+  getStatusBgColor(label: string): string {
+    const bgs: Record<string, string> = {
+      'Upcoming': '#FDF8EC',
+      'Completed': '#F6F9FE',
+      'Cancelled': '#FEF6F6',
+      'Converted': '#F2FDF7'
+    };
+    return bgs[label] || '#F3F4F6';
   }
 
 

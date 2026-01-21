@@ -11,15 +11,15 @@ export class AppointmentService {
 
     constructor(private http: HttpClient) { }
 
-    // Get statistics with date filter (using GeneralDateFrom and GeneralDateTo)
+    // Get statistics with date filter (GeneralDateFrom, GeneralDateTo – نفس أسماء الـ List)
     getStatistics(generalDateFrom?: string, generalDateTo?: string): Observable<AppointmentStatisticsResponse> {
         let params = new HttpParams();
 
         if (generalDateFrom) {
-            params = params.set('generalDateFrom', generalDateFrom);
+            params = params.set('GeneralDateFrom', generalDateFrom);
         }
         if (generalDateTo) {
-            params = params.set('generalDateTo', generalDateTo);
+            params = params.set('GeneralDateTo', generalDateTo);
         }
 
         return this.http.get<AppointmentStatisticsResponse>(`${this.apiUrl}/Statistics`, { params });

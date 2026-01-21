@@ -118,10 +118,10 @@
                 <div class="p-inputgroup w-50" style="position: relative;">
                     <input type="text" class="search-input" pInputText
                         placeholder="      Search by name, Phone Number, plans" [(ngModel)]="globalFilter"
-                        (keyup.enter)="loadAppointments()" (blur)="loadAppointments()" />
+                        (keyup.enter)="applyGlobalFilter()" (blur)="applyGlobalFilter()" />
 
                     <button pButton type="button" icon="pi pi-search" class="search-btn"
-                        (click)="loadAppointments()"></button>
+                        (click)="applyGlobalFilter()"></button>
 
                     <img src="filterplan.svg" (click)="openFilterDialog()" style="margin-left: 24px; cursor: pointer;"
                         alt="Filter" />
@@ -132,8 +132,11 @@
             <div class="card">
 
                 <p-table #dt [value]="appointments" [paginator]="true" [rows]="pageSize" [totalRecords]="totalRecords"
-                    [loading]="loading" [lazy]="true" (onPage)="pageChange($event)" [scrollable]="true"
-                    scrollDirection="horizontal" [rowsPerPageOptions]="[10,25,50]"
+                    [first]="(currentPage - 1) * pageSize" [loading]="loading" [lazy]="true"
+                    (onLazyLoad)="onLazyLoad($event)" (onPage)="pageChange($event)" [scrollable]="true"
+                    scrollDirection="horizontal" [rowsPerPageOptions]="[5,10,25,50]"
+                    currentPageReportTemplate="From {totalRecords}" [showCurrentPageReport]="true"
+                    [showFirstLastIcon]="false"
                     [tableStyle]="{'min-width':'1200px'}">
 
                     <!-- Table Header -->
@@ -142,11 +145,11 @@
                             <th style="width:50px">
                                 <!-- Checkbox -->
                             </th>
-                            <th pSortableColumn="booking_Reference">Booking ID </th>
-                            <th pSortableColumn="tenant_Name">Member Name </th>
-                            <th pSortableColumn="phone_Number">Phone Number </th>
-                            <th pSortableColumn="whatsApp_Number">WhatsApp Number</th>
-                            <th pSortableColumn="appointment_Date_Time">Appointment Date & Time </th>
+                            <th >Booking ID </th>
+                            <th > Name </th>
+                            <th >Phone Number </th>
+                            <th >WhatsApp Number</th>
+                            <th >Appointment Date & Time </th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -161,13 +164,20 @@
                             </td>
                             <td>{{ appointment.booking_Reference }}</td>
                             <td>{{ appointment.tenant_Name }}
-                                <p class="mb-0 text-muted">{{ appointment.tenant_Email }}</p>
+                                <span class="custom-email">{{ appointment.tenant_Email }}</span>
                             </td>
                             <td>{{ appointment.phone_Number }}</td>
                             <td>{{ appointment.whatsApp_Number }}</td>
                             <td>{{ formatDateTime(appointment.appointment_Date_Time) }}</td>
-                            <td><span [ngClass]="getStatusClass(appointment.status)" class="badge">{{ appointment.status
-                                    }}</span></td>
+                            <td>
+                                <span class="table-status-badge" [ngStyle]="{
+                                    'background-color': getStatusBgColor(appointment.status),
+                                    'color': getStatusColor(appointment.status)
+                                }">
+                                    <span class="status-dot" [style.background-color]="getStatusColor(appointment.status)"></span>
+                                    {{ appointment.status }}
+                                </span>
+                            </td>
                             <td>
                                 <div class="flex justify-content-between align-items-center gap-3">
                                     <div>
@@ -212,18 +222,21 @@
 
 
 
-                <!-- Bottom Action Bar (Bulk Selection) -->
+                <!-- Bulk Action Bar – Figma: white, stroke, shadow, checkbox+N Item | divider | Cancel | X -->
                 <div class="bulk-action-bar" *ngIf="selectedAppointments.length > 0">
-                    <div class="d-flex align-items-center justify-content-between w-100">
-                        <span class="selected-count">{{ selectedAppointments.length }} Item{{
-                            selectedAppointments.length > 1 ? 's' : '' }} selected</span>
-                        <div class="d-flex align-items-center gap-2">
-                            <button type="button" class="btn-clear-selection" (click)="clearSelection()">Clear</button>
-                            <button type="button" class="btn-bulk-cancel" (click)="openBulkCancelModal()">
-                                <i class="pi pi-times"></i>
-                                Cancel Appointment
-                            </button>
+                    <div class="bulk-action-bar-inner">
+                        <div class="bulk-action-left">
+                            <span class="bulk-checkbox"><i class="pi pi-check"></i></span>
+                            <span class="selected-count">{{ selectedAppointments.length }} Item</span>
                         </div>
+                        <span class="bulk-separator"></span>
+                        <button type="button" class="btn-bulk-cancel" (click)="openBulkCancelModal()">
+                            Cancel Appointment
+                        </button>
+                        <button type="button" class="btn-close-bulk" (click)="clearSelection()"
+                            aria-label="Clear selection">
+                            <i class="pi pi-times"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -349,68 +362,13 @@
 </p-dialog>
 
 <!-- Filter Dialog -->
-<!-- <p-dialog [(visible)]="displayFilter" [closable]="true" [modal]="true" [style]="{ overflow: 'visible' }"
-    class="responsive-dialog" [contentStyle]="{ padding: '1rem', overflow: 'visible' }">
-
-    <div class="dialog-layout">
-        <div class="dia-header mb-3">
-            <span class="dialog-title">Filter</span>
-            <div class="cursor-pointer">
-                <img src="/appointment/Close Component.svg" alt="" (click)="displayFilter=false">
-            </div>
-        </div>
-        <div class="dialog-text dialog-details-layout">
-
-            <div class="mb-3">
-                <label for="statusFilter" class="block font-bold mb-2">Status</label>
-                <p-dropdown [options]="statusOptions" [(ngModel)]="selectedStatuses" placeholder="Select Status"
-                    optionLabel="label" optionValue="value" [showClear]="true" [style]="{ width: '100%' }">
-                </p-dropdown>
-            </div>
-
-            <div class="mb-3">
-                <label for="filterStartDate" class="block font-bold mb-2">Date From</label>
-                <input #filterStartDateInput id="filterStartDate" type="date" class="form-control mb-3"
-                    [(ngModel)]="filterStartDate" (click)="openDatePicker(filterStartDateInput)"
-                    [max]="filterEndDate || null" />
-            </div>
-
-            <div class="mb-3">
-                <label for="filterEndDate" class="block font-bold mb-2">Date To</label>
-                <input #filterEndDateInput id="filterEndDate" type="date" class="form-control"
-                    [(ngModel)]="filterEndDate" (click)="openDatePicker(filterEndDateInput)"
-                    [min]="filterStartDate || null" />
-            </div>
-
-            <small class="p-error" *ngIf="isFilterDateRangeInvalid">
-                End date must be after or equal to start date.
-            </small>
-
-            <div class="flex justify-content-between align-items-center" style="margin-top: 35px;">
-                <div>
-                    <button pButton type="button" label="Reset" class="p-button-outlined custom-button"
-                        (click)="resetFilter(); displayFilter=false"></button>
-                </div>
-                <div class="d-flex gap-2">
-                    <button pButton type="button" label="Cancel" class="p-button-outlined custom-button"
-                        (click)="displayFilter=false"></button>
-                    <button pButton type="button" label="Apply" class="p-button-outlined custom-button-add"
-                        (click)="applyFilter()" [disabled]="isFilterDateRangeInvalid"></button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-</p-dialog> -->
-
 <p-dialog [(visible)]="displayFilter" [modal]="true" [style]="{ overflow: 'visible' }"
     class="responsive-dialog filter-dialog" [contentStyle]="{ padding: '0', overflow: 'visible' }">
 
     <div class="filter-dialog-layout">
         <div class="filter-header">
             <span class="filter-title">Filter</span>
-            <button class="close-btn" (click)="displayFilter=false">
+            <button type="button" class="close-btn" (click)="displayFilter=false" aria-label="Close">
                 <i class="pi pi-times"></i>
             </button>
         </div>
@@ -420,36 +378,35 @@
             <div class="filter-section">
                 <label class="filter-label">Status</label>
                 <div class="status-buttons">
-                    <button *ngFor="let option of statusOptions" class="status-filter-btn"
-                        [class.active]="isStatusSelected(option.value)" (click)="toggleFilterStatus(option.value)">
+                    <button *ngFor="let option of statusOptions" type="button" class="status-filter-btn"
+                        [class.active]="isStatusSelected(option.value)" [ngStyle]="{
+                            'background-color': getStatusBgColor(option.label),
+                            'color': getStatusColor(option.label)
+                        }" (click)="toggleFilterStatus(option.value)">
                         <span class="status-dot" [style.background-color]="getStatusColor(option.label)"></span>
                         {{ option.label }}
                     </button>
                 </div>
             </div>
 
-            <!-- Date Filter -->
+            <!-- Date Filter (single date: filters appointments on that day) -->
             <div class="filter-section">
                 <label class="filter-label">Date</label>
                 <div class="date-input-wrapper">
                     <input #filterStartDateInput id="filterStartDate" type="text" class="date-input"
                         placeholder="Enter date" [(ngModel)]="filterStartDate"
-                        (click)="filterStartDateInput.type='date'; openDatePicker(filterStartDateInput)"
-                        [max]="filterEndDate || null" />
-                        <!--                         (blur)="if(!filterStartDate) filterStartDateInput.type='text'" -->
-                    <i class="pi pi-calendar calendar-icon"></i>
+                        (click)="onFilterDateClick(filterStartDateInput)" />
+                    <i class="pi pi-calendar calendar-icon" (click)="onFilterDateClick(filterStartDateInput)"></i>
                 </div>
-
-                <small class="p-error" *ngIf="isFilterDateRangeInvalid">
-                    End date must be after or equal to start date.
-                </small>
             </div>
         </div>
 
         <div class="filter-footer">
-            <button class="filter-btn-cancel" (click)="displayFilter=false">Cancel</button>
-            <button class="filter-btn-apply" (click)="applyFilter()"
-                [disabled]="isFilterDateRangeInvalid">Apply</button>
+            <div class="d-flex gap-2">
+                <button type="button" class="filter-btn-cancel" (click)="displayFilter=false">Cancel</button>
+                <button type="button" class="filter-btn-clear" (click)="clearTableFilter()">Clear</button>
+            </div>
+            <button type="button" class="filter-btn-apply" (click)="applyFilter()">Apply</button>
         </div>
     </div>
 </p-dialog>
