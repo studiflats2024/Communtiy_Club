@@ -89,7 +89,8 @@ export class SettingsComponent {
       dayCode: dto.day_Code,
       isEnabled: dto.is_Opened,
       fromTime: dto.open_From ?? '',
-      toTime: dto.open_To ?? ''
+      toTime: dto.open_To ?? '',
+      available_Slots_Count: dto.available_Slots_Count
     };
   }
 
@@ -100,7 +101,8 @@ export class SettingsComponent {
       day_Code: day.dayCode,
       open_From: day.isEnabled ? day.fromTime : null,
       open_To: day.isEnabled ? day.toTime : null,
-      is_Opened: day.isEnabled
+      is_Opened: day.isEnabled,
+      available_Slots_Count: day.available_Slots_Count,
     };
   }
 
@@ -117,7 +119,6 @@ export class SettingsComponent {
       toTime: this.convertTo24Hour(d.toTime)
     }));
 
-    this.originalWorkingDays = JSON.parse(JSON.stringify(this.workingDays));
 
     this.isEditMode = true;
     this.validationErrors.clear();
@@ -211,6 +212,9 @@ export class SettingsComponent {
 
     // ✅ Valid
     this.validationErrors.delete(day.day);
+
+    // ✅ validate employee count
+    this.validateSlotsCount(day);
   }
 
   // Convert time string (HH:mm) to minutes
@@ -300,6 +304,37 @@ export class SettingsComponent {
     return `${hours.toString().padStart(2, '0')}:${minutes
       .toString()
       .padStart(2, '0')}`;
+  }
+
+  onSlotsCountChange(day: WorkingDay): void {
+    this.validateSlotsCount(day);
+  }
+
+  validateSlotsCount(day: WorkingDay): void {
+    if (!day.isEnabled) {
+      this.validationErrors.delete(day.day + '_slots');
+      return;
+    }
+
+    const value = day.available_Slots_Count;
+
+    if (value == null) {
+      this.validationErrors.set(
+        day.day + '_slots',
+        'Employee count is required'
+      );
+      return;
+    }
+
+    if (value < 0 || value > 100 || value == 0) {
+      this.validationErrors.set(
+        day.day + '_slots',
+        'Employee count must be between 1 and 100'
+      );
+      return;
+    }
+
+    this.validationErrors.delete(day.day + '_slots');
   }
 
 }

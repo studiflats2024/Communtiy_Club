@@ -17,7 +17,7 @@
     padding: 30px;
     margin-left: 70px;
     padding-right: 20px;
-    width: 100%;
+    width: 85%;
     background: #F5F9FF;
 }
 
@@ -204,6 +204,7 @@
 :host ::ng-deep .p-datatable-thead {
     border-radius: 16px 16px 0px 0px !important;
     background: #F6F6F6;
+    text-wrap: nowrap !important;
 }
 
 :host ::ng-deep .p-datatable>.p-datatable-wrapper {
@@ -992,6 +993,35 @@
 .filter-btn-apply:hover {
     background: #0f4aa3;
 }
+
+.p-card {
+    border-radius: 16px;
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden; /* الكارد نفسه ما يعمل scroll */
+}
+
+:host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+:host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+
+:host ::ng-deep .p-datatable-wrapper {
+    overflow-x: auto;
+    /* خلي scroll أفقي */
+    min-width: 0;
+    /* يمنع الجدول من كونه أكبر من الكارد */
+}
+
+/* :host ::ng-deep .p-datatable-scrollable-body,
+:host ::ng-deep .p-datatable-scrollable-header {
+    max-width: 2000px;
+} */
 
 /* ==================== Pagination – مطابق للتصميم: #FAFAFA, 48px, 8px 16px, 8px radius ==================== */
 :host ::ng-deep .p-datatable .p-paginator {

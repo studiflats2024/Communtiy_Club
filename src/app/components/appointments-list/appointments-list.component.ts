@@ -125,6 +125,11 @@ export class AppointmentsListComponent {
   // Status enum for template
   AppointmentStatus = AppointmentStatus;
 
+  // Admin filter
+  adminsList: { userId: string; fullName: string }[] = [];
+  selectedAdminId: string | null = null;
+  appliedAdminId: string | null = null;
+
   constructor(
     private appointmentService: AppointmentService,
     private messageService: MessageService
@@ -132,6 +137,7 @@ export class AppointmentsListComponent {
 
   ngOnInit(): void {
     this.loadStatistics();
+    this.loadAdmins();
     this.loadAppointments();
   }
 
@@ -213,7 +219,8 @@ export class AppointmentsListComponent {
       this.listDateFrom,
       this.listDateTo,
       this.generalDateFrom,
-      this.generalDateTo
+      this.generalDateTo,
+      this.appliedAdminId || undefined
     ).subscribe({
       next: (res: any) => {
         if (res.succeeded) {
@@ -740,6 +747,8 @@ export class AppointmentsListComponent {
       this.listDateTo = undefined;
     }
 
+    this.appliedAdminId = this.selectedAdminId;
+
     this.currentPage = 1;
     this.loadAppointments();
     this.displayFilter = false;
@@ -771,6 +780,8 @@ export class AppointmentsListComponent {
     this.filterStartDate = '';
     this.listDateFrom = undefined;
     this.listDateTo = undefined;
+    this.selectedAdminId = null;
+    this.appliedAdminId = null;
     this.currentPage = 1;
     this.loadAppointments();
   }
@@ -802,6 +813,30 @@ export class AppointmentsListComponent {
       'Converted': '#F2FDF7'
     };
     return bgs[label] || '#F3F4F6';
+  }
+
+  loadAdmins() {
+    this.appointmentService.getDistinctAdmins().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        if (res.succeeded && res.data) {
+          this.adminsList = res.data.map((admin: any) => ({
+            userId: admin.userId,
+            fullName: admin.fullName
+          }))
+        }
+
+      },
+      error: (err: any) => {
+        console.error('failed loaded admins:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed loaded admin list',
+          life: 3000
+        });
+      }
+    })
   }
 
 
