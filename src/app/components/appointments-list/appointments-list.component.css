@@ -999,7 +999,8 @@
     padding: 16px;
     width: 100%;
     box-sizing: border-box;
-    overflow-x: hidden; /* الكارد نفسه ما يعمل scroll */
+    overflow-x: hidden;
+    /* الكارد نفسه ما يعمل scroll */
 }
 
 :host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar {
@@ -1007,7 +1008,7 @@
 }
 
 :host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
 }
 
@@ -1130,6 +1131,24 @@
 }
 
 /* --------------------- RESPONSIVE DESIGN --------------------- */
+@media (max-width: 1440px) {
+    .page {
+        width: 84%;
+    }
+}
+
+@media (max-width: 1285px) {
+    .page {
+        width: 82%;
+    }
+}
+
+@media (max-width: 1025px) {
+    .page {
+        width: 77%;
+    }
+}
+
 @media (max-width: 992px) {
     .fixDiv {
         width: 0px;
@@ -1139,6 +1158,7 @@
     .page {
         padding: 24px;
         width: 100%;
+        margin-left: 0px;
     }
 }
 
