@@ -12,7 +12,8 @@
 
 .page {
   padding: 30px;
-  width: 80%;
+  width: 100%;
+  padding-left: 60px;
   background: #F5F9FF;
 }
 
@@ -27,7 +28,7 @@
 }
 
 :host ::ng-deep .p-breadcrumb ol {
-  margin-left: 45 !important;
+  /* margin-left: 45 !important; */
   padding-left: 15px;
 }
 
@@ -467,6 +468,10 @@
 
 /* --------------------- RESPONSIVE DESIGN --------------------- */
 @media (max-width: 1024px) {
+  .page {
+    padding-left: 70px;
+  }
+
   .time-cell {
     max-width: 200px;
   }
@@ -481,6 +486,17 @@
     width: 0px;
     background: #F5F9FF;
   }
+
+  .page {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* .parent {
+    margin-right: 0;
+    padding-right: 0;
+    width: 100%;
+  } */
 
   .success-modal-content {
     min-width: 360px;
