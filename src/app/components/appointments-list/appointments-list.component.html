@@ -36,9 +36,12 @@
                         </div>
                         <div class="dialog-text dialog-details-layout">
                             <div class="flex gap-2 mb-3 flex-wrap">
-                                <button pButton type="button" label="Today" (click)="preset('today')"></button>
-                                <button pButton type="button" label="Last 7 Days" (click)="preset('last7')"></button>
-                                <button pButton type="button" label="This Month" (click)="preset('month')"></button>
+                                <button pButton class="dialog-btn" type="button" label="Today"
+                                    (click)="preset('today')"></button>
+                                <button pButton class="dialog-btn" type="button" label="Last 7 Days"
+                                    (click)="preset('last7')"></button>
+                                <button pButton class="dialog-btn" type="button" label="This Month"
+                                    (click)="preset('month')"></button>
                                 <button pButton type="button" label="Clear" class="p-button-secondary"
                                     (click)="clearRange()"></button>
                             </div>
@@ -64,7 +67,8 @@
                                 <div class="text-end mt-4 flex justify-end gap-2">
                                     <button pButton type="button" class="p-button-text" label="Cancel"
                                         (click)="showDateDialog=false"></button>
-                                    <button pButton type="button" label="Apply" (click)="applyDateRange()"
+                                    <button pButton type="button" class="dialog-btn" label="Apply"
+                                        (click)="applyDateRange()"
                                         [disabled]="rangeInvalid || !selectedStartDate || !selectedEndDate"></button>
                                 </div>
                             </div>
@@ -80,7 +84,7 @@
         <!-- Statistics Cards -->
         <div class="small-cards">
             <div class="row g-3">
-                <div class="col-lg-3 col-sm-6 card-shrink" *ngFor="let card of filteredStatCards">
+                <div class="col-xl-3 col-lg-6 col-sm-6 card-shrink" *ngFor="let card of filteredStatCards">
                     <div class="small-card d-flex flex-column gap-4">
                         <div class="small-card-header">
                             <img class="small-card-icon" [src]="'/appointment/' + getIcon(card.title)" alt="icon">
@@ -116,9 +120,8 @@
             <div class="flex justify-content-between align-items-center mb-4">
                 <div class="card-header">Appointment Bookings</div>
                 <div class="p-inputgroup w-50" style="position: relative;">
-                    <input type="text" class="search-input" pInputText
-                        placeholder="      Search by name, Phone Number, plans" [(ngModel)]="globalFilter"
-                        (keyup.enter)="applyGlobalFilter()" (blur)="applyGlobalFilter()" />
+                    <input type="text" class="search-input" pInputText placeholder="      Search by name, number, plans"
+                        [(ngModel)]="globalFilter" (keyup.enter)="applyGlobalFilter()" (blur)="applyGlobalFilter()" />
 
                     <button pButton type="button" icon="pi pi-search" class="search-btn"
                         (click)="applyGlobalFilter()"></button>
@@ -136,8 +139,7 @@
                     (onLazyLoad)="onLazyLoad($event)" (onPage)="pageChange($event)" [scrollable]="true"
                     scrollDirection="horizontal" [rowsPerPageOptions]="[5,10,25,50]"
                     currentPageReportTemplate="From {totalRecords}" [showCurrentPageReport]="true"
-                    [showFirstLastIcon]="false"
-                    [tableStyle]="{'min-width':'1200px'}">
+                    [showFirstLastIcon]="false" [tableStyle]="{'min-width':'1200px'}">
 
                     <!-- Table Header -->
                     <ng-template pTemplate="header">
@@ -145,11 +147,12 @@
                             <th style="width:50px">
                                 <!-- Checkbox -->
                             </th>
-                            <th >Booking ID </th>
-                            <th > Name </th>
-                            <th >Phone Number </th>
-                            <th >WhatsApp Number</th>
-                            <th >Appointment Date & Time </th>
+                            <th>Booking ID </th>
+                            <th> Name </th>
+                            <th>Phone Number </th>
+                            <th>WhatsApp Number</th>
+                            <th>Appointment Date & Time </th>
+                            <th>Updated by</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -169,12 +172,14 @@
                             <td>{{ appointment.phone_Number }}</td>
                             <td>{{ appointment.whatsApp_Number }}</td>
                             <td>{{ formatDateTime(appointment.appointment_Date_Time) }}</td>
+                             <td>{{ appointment.processed_By_Admin || 'Not found'}}</td>
                             <td>
                                 <span class="table-status-badge" [ngStyle]="{
                                     'background-color': getStatusBgColor(appointment.status),
                                     'color': getStatusColor(appointment.status)
                                 }">
-                                    <span class="status-dot" [style.background-color]="getStatusColor(appointment.status)"></span>
+                                    <span class="status-dot"
+                                        [style.background-color]="getStatusColor(appointment.status)"></span>
                                     {{ appointment.status }}
                                 </span>
                             </td>
@@ -361,16 +366,19 @@
     </div>
 </p-dialog>
 
-<!-- Filter Dialog -->
+<!-- List Filter Dialog -->
 <p-dialog [(visible)]="displayFilter" [modal]="true" [style]="{ overflow: 'visible' }"
     class="responsive-dialog filter-dialog" [contentStyle]="{ padding: '0', overflow: 'visible' }">
 
     <div class="filter-dialog-layout">
         <div class="filter-header">
             <span class="filter-title">Filter</span>
-            <button type="button" class="close-btn" (click)="displayFilter=false" aria-label="Close">
+            <!-- <button type="button" class="close-btn" (click)="displayFilter=false" aria-label="Close">
                 <i class="pi pi-times"></i>
-            </button>
+            </button> -->
+            <div class="cursor-pointer">
+                <img src="/appointment/Close Component.svg" alt="" (click)="displayFilter=false">
+            </div>
         </div>
 
         <div class="filter-body">
@@ -389,14 +397,34 @@
                 </div>
             </div>
 
+            <div class="filter-section">
+                <label class="filter-label">Updated by</label>
+                <div class="date-input-wrapper">
+                    <p-dropdown [options]="adminsList" optionLabel="fullName" optionValue="userId"
+                        [(ngModel)]="selectedAdminId" placeholder="Select Admin">
+                    </p-dropdown>
+
+                </div>
+            </div>
+
             <!-- Date Filter (single date: filters appointments on that day) -->
             <div class="filter-section">
-                <label class="filter-label">Date</label>
+                <label class="filter-label">Start Date</label>
                 <div class="date-input-wrapper">
                     <input #filterStartDateInput id="filterStartDate" type="text" class="date-input"
                         placeholder="Enter date" [(ngModel)]="filterStartDate"
                         (click)="onFilterDateClick(filterStartDateInput)" />
                     <i class="pi pi-calendar calendar-icon" (click)="onFilterDateClick(filterStartDateInput)"></i>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <label class="filter-label">End Date</label>
+                <div class="date-input-wrapper">
+                    <input #filterEndDateInput id="filterEndDate" type="text" class="date-input"
+                        placeholder="Enter date" [(ngModel)]="filterEndDate"
+                        (click)="onFilterDateClick(filterEndDateInput)" />
+                    <i class="pi pi-calendar calendar-icon" (click)="onFilterDateClick(filterEndDateInput)"></i>
                 </div>
             </div>
         </div>
@@ -406,7 +434,7 @@
                 <button type="button" class="filter-btn-cancel" (click)="displayFilter=false">Cancel</button>
                 <button type="button" class="filter-btn-clear" (click)="clearTableFilter()">Clear</button>
             </div>
-            <button type="button" class="filter-btn-apply" (click)="applyFilter()">Apply</button>
+            <button type="button" class="dialog-btn" class="filter-btn-apply" (click)="applyFilter()">Apply</button>
         </div>
     </div>
 </p-dialog>

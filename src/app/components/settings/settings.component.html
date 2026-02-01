@@ -24,7 +24,7 @@
         <div *ngIf="isEditMode && hasValidationWarnings()" class="alert alert-warning validation-alert">
           <div class="d-flex align-items-start">
             <i class="bi bi-exclamation-circle-fill me-2 mt-1"></i>
-            <div class="flex-grow-1">
+            <div class="grow">
               <strong class="d-block mb-2">Please complete the following:</strong>
               <ul class="mb-0 ps-3">
                 <li *ngFor="let warning of getValidationWarningsArray()">
@@ -39,7 +39,7 @@
         <div *ngIf="isEditMode && hasValidationErrors()" class="alert alert-danger validation-alert">
           <div class="d-flex align-items-start">
             <i class="bi bi-exclamation-triangle-fill me-2 mt-1"></i>
-            <div class="flex-grow-1">
+            <div class="grow">
               <strong class="d-block mb-2">Please fix the following errors:</strong>
               <ul class="mb-0 ps-3">
                 <li *ngFor="let error of getValidationErrorsArray()">
@@ -77,27 +77,35 @@
 
         <!-- Read mode -->
         <div class="second-sec" *ngIf="!isEditMode">
-          <div class="content-row" *ngFor="let day of workingDays">
+          <div *ngFor="let day of workingDays">
 
-            <span class="col day-col day-name">
-              {{ day.day }}
-            </span>
-
-            <div class="col time-col time-cell time-label" [ngClass]="getTimeCallClass(day)">
-              <span>From</span>
-              <span>{{ day.fromTime }}</span>
-            </div>
-
-            <div class="col time-col time-cell time-label" [ngClass]="getTimeCallClass(day)">
-              <span>To</span>
-              <span>{{ day.toTime }}</span>
-            </div>
-
-            <span class="col status-col d-flex justify-content-end" *ngIf="!isEditMode">
-              <span class="status-badge" [ngClass]="getStatusClass(day)">
-                {{ getStatusText(day) }}
+            <div class="content-row">
+              <span class="col day-col day-name">
+                {{ day.day }}
               </span>
-            </span>
+
+              <div class="col time-col time-cell time-label" [ngClass]="getTimeCallClass(day)">
+                <span>From</span>
+                <span>{{ day.fromTime }}</span>
+              </div>
+
+              <div class="col time-col time-cell time-label" [ngClass]="getTimeCallClass(day)">
+                <span>To</span>
+                <span>{{ day.toTime }}</span>
+              </div>
+
+              <span class="col status-col d-flex justify-content-end" *ngIf="!isEditMode">
+                <span class="status-badge" [ngClass]="getStatusClass(day)">
+                  {{ getStatusText(day) }}
+                </span>
+              </span>
+
+            </div>
+
+            <div class="d-flex gap-3 col day-col day-name">
+              <span>Employee Count</span>
+              <span style="color: #727272;">{{ day?.available_Slots_Count }}</span>
+            </div>
 
           </div>
         </div>
@@ -105,42 +113,52 @@
 
         <!-- Edit mode -->
         <div class="second-sec" *ngIf="isEditMode">
-          <div *ngFor="let day of workingDays" [class.disabled-row]="!day.isEnabled && isEditMode"
-            class="edit-mode-layout">
+          <div *ngFor="let day of workingDays" [class.disabled-row]="!day.isEnabled && isEditMode" class="">
+            <div class="edit-mode-layout">
+              <div class="day-toggle d-flex align-items-center w-100">
+                <!-- Day Name Column -->
 
-            <div class="day-toggle d-flex align-items-center w-100">
-              <!-- Day Name Column -->
+                <span class="day-name day-cell">{{ day.day }}</span>
 
-              <span class="day-name day-cell">{{ day.day }}</span>
+                <!-- Toggle Switch (Edit Mode Only) -->
+                <div *ngIf="isEditMode" class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" [id]="'toggle-' + day.day" [(ngModel)]="day.isEnabled"
+                    (change)="onToggleChange(day)">
+                </div>
 
-              <!-- Toggle Switch (Edit Mode Only) -->
-              <div *ngIf="isEditMode" class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" [id]="'toggle-' + day.day" [(ngModel)]="day.isEnabled"
-                  (change)="onToggleChange(day)">
+              </div>
+
+              <div class="from-to-edit-mode">
+
+                <!-- From Time Column -->
+                <div class="time-cell time-label" [ngClass]="getTimeCallClass(day)">
+                  <span>From</span>
+
+                  <input type="time" class="time-input" [(ngModel)]="day.fromTime" [disabled]="!day.isEnabled"
+                    (change)="onTimeChange(day)" [ngModelOptions]="{ standalone: true }" />
+
+                </div>
+
+                <!-- To Time Column -->
+                <div class="time-cell time-label" [ngClass]="getTimeCallClass(day)">
+                  <span>To</span>
+
+                  <input type="time" class="time-input" [(ngModel)]="day.toTime" [disabled]="!day.isEnabled"
+                    (change)="onTimeChange(day)" [ngModelOptions]="{ standalone: true }" />
+
+                </div>
+
               </div>
 
             </div>
 
-            <div class="from-to-edit-mode">
-
-              <!-- From Time Column -->
-              <div class="time-cell time-label" [ngClass]="getTimeCallClass(day)">
-                <span>From</span>
-
-                <input type="time" class="time-input" [(ngModel)]="day.fromTime" [disabled]="!day.isEnabled"
-                  (change)="onTimeChange(day)" [ngModelOptions]="{ standalone: true }" />
-
+            <div>
+              <div class="d-flex gap-3">
+                <label for="" class="day-name day-cell">Employee Count</label>
+                <input type="number" class="input-count form-control-sm" [(ngModel)]="day.available_Slots_Count"
+                  [disabled]="!day.isEnabled" min="1" max="100" (change)="onSlotsCountChange(day)"
+                  [ngModelOptions]="{ standalone: true }">
               </div>
-
-              <!-- To Time Column -->
-              <div class="time-cell time-label" [ngClass]="getTimeCallClass(day)">
-                <span>To</span>
-
-                <input type="time" class="time-input" [(ngModel)]="day.toTime" [disabled]="!day.isEnabled"
-                  (change)="onTimeChange(day)" [ngModelOptions]="{ standalone: true }" />
-
-              </div>
-
             </div>
 
           </div>

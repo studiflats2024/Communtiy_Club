@@ -108,9 +108,10 @@ export class AppointmentsListComponent {
   // Cancel form
   cancellationReasons = [
     { label: "didn't attend", value: "didn't attend" },
-    { label: 'Canceled before appointment', value: 'Canceled before appointment' }
+    { label: 'Canceled before appointment', value: 'Canceled before appointment' },
+    { label: 'Not Available', value: 'Not Available' }
   ];
-  selectedCancellationReason: string = '';
+  selectedCancellationReason: string | null = null;
   cancellationNotes: string = '';
 
   // Complete form
@@ -118,11 +119,16 @@ export class AppointmentsListComponent {
     { label: 'Joined the community', value: 'Joined the community' },
     { label: 'Not Joined', value: 'Not Joined' }
   ];
-  selectedCompletionResult: string = '';
+  selectedCompletionResult: string | null = null;
   completionNotes: string = '';
 
   // Status enum for template
   AppointmentStatus = AppointmentStatus;
+
+  // Admin filter
+  adminsList: { userId: string; fullName: string }[] = [];
+  selectedAdminId: string | null = null;
+  appliedAdminId: string | null = null;
 
   constructor(
     private appointmentService: AppointmentService,
@@ -131,6 +137,7 @@ export class AppointmentsListComponent {
 
   ngOnInit(): void {
     this.loadStatistics();
+    this.loadAdmins();
     this.loadAppointments();
   }
 
@@ -212,7 +219,8 @@ export class AppointmentsListComponent {
       this.listDateFrom,
       this.listDateTo,
       this.generalDateFrom,
-      this.generalDateTo
+      this.generalDateTo,
+      this.appliedAdminId || undefined
     ).subscribe({
       next: (res: any) => {
         if (res.succeeded) {
@@ -248,45 +256,6 @@ export class AppointmentsListComponent {
     this.pageSize = event?.rows ?? this.pageSize;
     this.loadAppointments();
   }
-
-  // ==================== Filter ====================
-  // applyFilter() {
-  //   // Update status filters - filter out null values and convert to array of strings
-  //   const statusFilter = this.selectedStatuses && this.selectedStatuses.length > 0
-  //     ? this.selectedStatuses.filter((s: any) => s !== null && s !== undefined).map((s: any) => String(s))
-  //     : undefined;
-
-  //   // Update date filters if date range is selected in filter dialog
-  //   if (this.filterStartDate && this.filterEndDate) {
-  //     this.listDateFrom = this.toUtcIsoStartOfDay(this.filterStartDate);
-  //     this.listDateTo = this.toUtcIsoEndOfDay(this.filterEndDate);
-  //   } else {
-  //     // Clear date filters if not set
-  //     this.listDateFrom = undefined;
-  //     this.listDateTo = undefined;
-  //   }
-
-  //   this.currentPage = 1;
-  //   this.loadAppointments();
-  //   this.displayFilter = false;
-  // }
-
-  // openFilterDialog() {
-  //   // Reset filter dates when opening dialog
-  //   this.filterStartDate = this.listDateFrom ? this.fromUtcIsoToYmd(this.listDateFrom) : '';
-  //   this.filterEndDate = this.listDateTo ? this.fromUtcIsoToYmd(this.listDateTo) : '';
-  //   this.displayFilter = true;
-  // }
-
-  // resetFilter() {
-  //   this.selectedStatuses = [];
-  //   this.filterStartDate = '';
-  //   this.filterEndDate = '';
-  //   this.listDateFrom = undefined;
-  //   this.listDateTo = undefined;
-  //   this.currentPage = 1;
-  //   this.loadAppointments();
-  // }
 
   get isFilterDateRangeInvalid(): boolean {
     if (!this.filterStartDate || !this.filterEndDate) return false;
@@ -354,7 +323,7 @@ export class AppointmentsListComponent {
 
     const request: BulkCancelAppointmentsRequest = {
       appointmentIds: [this.currentAppointment.id],
-      cancellationReason: this.selectedCancellationReason,
+      cancellationReason: this.selectedCancellationReason!,
       additionalNotes: this.cancellationNotes || undefined
     };
 
@@ -464,7 +433,7 @@ export class AppointmentsListComponent {
 
     const request: BulkCancelAppointmentsRequest = {
       appointmentIds: upcomingAppointments.map(apt => apt.id),
-      cancellationReason: this.selectedCancellationReason,
+      cancellationReason: this.selectedCancellationReason!,
       additionalNotes: this.cancellationNotes || undefined
     };
 
@@ -536,7 +505,7 @@ export class AppointmentsListComponent {
 
     const request: CompleteAppointmentRequest = {
       appointmentId: this.currentAppointment.id,
-      resultOfAppointment: this.selectedCompletionResult,
+      resultOfAppointment: this.selectedCompletionResult!,
       additionalNotes: this.completionNotes || undefined
     };
 
@@ -717,32 +686,32 @@ export class AppointmentsListComponent {
 
   /////////////////////////////////////////////////////////////////////////
 
-  // Sorting
-  sortField: string = '';
-  sortOrder: number = 0; // 1 = asc, -1 = desc
+  // // Sorting
+  // sortField: string = '';
+  // sortOrder: number = 0; // 1 = asc, -1 = desc
 
-  // ==================== Sorting ====================
-  onSort(event: any) {
-    const field = event.field;
-    const order = event.order; // 1 = ascending, -1 = descending
+  // // ==================== Sorting ====================
+  // onSort(event: any) {
+  //   const field = event.field;
+  //   const order = event.order; // 1 = ascending, -1 = descending
 
-    this.appointments.sort((a: any, b: any) => {
-      let value1 = a[field];
-      let value2 = b[field];
+  //   this.appointments.sort((a: any, b: any) => {
+  //     let value1 = a[field];
+  //     let value2 = b[field];
 
-      if (value1 == null) value1 = '';
-      if (value2 == null) value2 = '';
+  //     if (value1 == null) value1 = '';
+  //     if (value2 == null) value2 = '';
 
-      let result = 0;
-      if (typeof value1 === 'string') {
-        result = value1.localeCompare(value2);
-      } else {
-        result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
-      }
+  //     let result = 0;
+  //     if (typeof value1 === 'string') {
+  //       result = value1.localeCompare(value2);
+  //     } else {
+  //       result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+  //     }
 
-      return order * result;
-    });
-  }
+  //     return order * result;
+  //   });
+  // }
 
   ////////////////////////////////////////////////////////////////////
 
@@ -756,23 +725,29 @@ export class AppointmentsListComponent {
     }
   }
 
-  // ✨ NEW: Check if status is selected
+  // Check if status is selected
   isStatusSelected(status: string): boolean {
     return this.selectedFilterStatuses.includes(status);
   }
 
-  // ✨ Table Filter: Status + Date. نرسل التاريخ بصيغة yyyy-MM-dd للـ API.
   applyFilter() {
     this.appliedFilterStatuses = [...this.selectedFilterStatuses];
 
-    if (this.filterStartDate && this.filterStartDate.trim()) {
-      const ymd = this.normalizeFilterDate(this.filterStartDate);
-      this.listDateFrom = ymd || undefined;
-      this.listDateTo = ymd || undefined;
-    } else {
+    if (this.filterStartDate && this.filterEndDate) {
+      this.listDateFrom = this.toUtcIsoStartOfDay(this.filterStartDate);
+      this.listDateTo = this.toUtcIsoEndOfDay(this.filterEndDate);
+    }
+    else if (this.filterStartDate) {
+      // يوم واحد
+      this.listDateFrom = this.toUtcIsoStartOfDay(this.filterStartDate);
+      this.listDateTo = this.toUtcIsoEndOfDay(this.filterStartDate);
+    }
+    else {
       this.listDateFrom = undefined;
       this.listDateTo = undefined;
     }
+
+    this.appliedAdminId = this.selectedAdminId;
 
     this.currentPage = 1;
     this.loadAppointments();
@@ -805,6 +780,8 @@ export class AppointmentsListComponent {
     this.filterStartDate = '';
     this.listDateFrom = undefined;
     this.listDateTo = undefined;
+    this.selectedAdminId = null;
+    this.appliedAdminId = null;
     this.currentPage = 1;
     this.loadAppointments();
   }
@@ -836,6 +813,30 @@ export class AppointmentsListComponent {
       'Converted': '#F2FDF7'
     };
     return bgs[label] || '#F3F4F6';
+  }
+
+  loadAdmins() {
+    this.appointmentService.getDistinctAdmins().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        if (res.succeeded && res.data) {
+          this.adminsList = res.data.map((admin: any) => ({
+            userId: admin.userId,
+            fullName: admin.fullName
+          }))
+        }
+
+      },
+      error: (err: any) => {
+        console.error('failed loaded admins:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed loaded admin list',
+          life: 3000
+        });
+      }
+    })
   }
 
 

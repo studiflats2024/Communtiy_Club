@@ -11,6 +11,7 @@ export interface WorkingHours {
     open_From: string | null;
     open_To: string | null;
     is_Opened: boolean;
+    available_Slots_Count: number;
 }
 
 // GET response wrapper
@@ -29,6 +30,7 @@ export interface WorkingHoursUpdate {
     open_From: string | null;
     open_To: string | null;
     is_Opened: boolean;
+    available_Slots_Count: number;
 }
 
 // UI model used inside component
@@ -40,6 +42,7 @@ export interface WorkingDay {
     isEnabled: boolean;
     fromTime: string;
     toTime: string;
+    available_Slots_Count: number;
 }
 
 @Injectable({

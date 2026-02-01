@@ -34,7 +34,8 @@ export class AppointmentService {
         listDateFrom?: string,
         listDateTo?: string,
         generalDateFrom?: string,
-        generalDateTo?: string
+        generalDateTo?: string,
+        AdminIdFilter?: string
     ): Observable<PaginatedAppointmentResponse> {
         let params = new HttpParams()
             .set('PageNumber', pageNumber.toString())
@@ -66,6 +67,10 @@ export class AppointmentService {
             params = params.set('GeneralDateTo', generalDateTo);
         }
 
+        if (AdminIdFilter) {
+            params = params.set('AdminIdFilter', AdminIdFilter);
+        }
+
         return this.http.get<PaginatedAppointmentResponse>(`${this.apiUrl}/List`, { params });
     }
 
@@ -77,6 +82,10 @@ export class AppointmentService {
     // Bulk cancel appointments
     bulkCancelAppointments(request: BulkCancelAppointmentsRequest): Observable<BulkCancelResultResponse> {
         return this.http.post<BulkCancelResultResponse>(`${this.apiUrl}/BulkCancel`, request);
+    }
+
+    getDistinctAdmins(): Observable<AdminFilterListResponse> {
+        return this.http.get<AdminFilterListResponse>(`${this.apiUrl}/DistinctAdmins`);
     }
 
 }
@@ -114,6 +123,7 @@ export interface AppointmentItem {
     status: AppointmentStatus;
     cancellation_Reason?: string;
     result_Of_Appointment?: string;
+    processed_By_Admin: string;
 }
 
 export enum AppointmentStatus {
@@ -164,4 +174,16 @@ export interface FailedCancellationDto {
     appointmentId: string;
     bookingReference: string;
     reason: string;
+}
+
+export interface AdminFilterListResponse {
+    data: AdminFilter[];
+    succeeded: boolean;
+    errors: string[];
+    message: string;
+}
+
+export interface AdminFilter {
+    userId: string;
+    fullName: string;
 }

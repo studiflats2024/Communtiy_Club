@@ -17,7 +17,7 @@
     padding: 30px;
     margin-left: 70px;
     padding-right: 20px;
-    width: 100%;
+    width: 85%;
     background: #F5F9FF;
 }
 
@@ -200,20 +200,19 @@
     left: -5px;
 }
 
-/* PrimeNG Table Styling */
+/*  Table Styling */
 :host ::ng-deep .p-datatable-thead {
     border-radius: 16px 16px 0px 0px !important;
     background: #F6F6F6;
+    text-wrap: nowrap !important;
 }
 
-/* الـ wrapper للجدول فقط (الـ paginator شقيق له خارج الـ wrapper) – scroll أفقي للجدول دون الـ pagination */
 :host ::ng-deep .p-datatable>.p-datatable-wrapper {
     overflow-x: auto !important;
     border-radius: 16px;
     border: 1px solid #EBEBEB;
 }
 
-/* Table header – Figma: B-1/Medium, 16px, #29303B, 65px, 8px 16px */
 :host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
     padding: 8px 16px;
     height: 65px;
@@ -228,7 +227,6 @@
     vertical-align: middle;
 }
 
-/* Table data – Figma: B-1, 16px, #4A4A4A */
 :host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
     padding: 8px 16px;
     vertical-align: middle;
@@ -240,17 +238,14 @@
     line-height: normal;
 }
 
-/* التمرير الأفقي للجدول فقط (الـ body = thead+tbody؛ الـ paginator خارج الـ body فلا يتحرك) */
 :host ::ng-deep .p-datatable-scrollable-body {
     border: none !important;
 }
 
-/* Optional: خلى الأعمدة واضحة */
 :host ::ng-deep .p-datatable-scrollable-header,
 :host ::ng-deep .p-datatable-scrollable-body {
     min-width: 1200px;
 }
-
 
 /* Menu List */
 .menu-list {
@@ -275,116 +270,6 @@
 
 .menu-list li a:hover {
     background: #f3f4f6;
-}
-
-/* Dialog Styles */
-:host ::ng-deep .p-dialog .p-dialog-header {
-    display: none !important;
-}
-
-:host ::ng-deep .p-dialog .p-dialog-content {
-    padding: 0px;
-}
-
-.dialog-layout {
-    display: flex;
-    width: 500px;
-    padding-top: 16px;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.dialog-details-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    align-self: stretch;
-}
-
-.dia-header {
-    display: flex;
-    justify-content: space-between;
-}
-
-.dialog-title {
-    color: var(--Colors-Base-Main-Text, #0A0C0F);
-    font-family: Poppins;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
-
-.dialog-text {
-    color: var(--Colors-Base-Main-Text, #0A0C0F);
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
-
-/* Form Fields */
-.field {
-    display: flex;
-    gap: 8px;
-    flex-direction: column;
-}
-
-.field label {
-    color: var(--Colors-Base-Main-Text, #0A0C0F);
-    font-family: Poppins;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
-
-.field label .text-danger {
-    color: #E3141E;
-}
-
-/* Buttons */
-.cancel-btn,
-.confirm-btn {
-    display: flex;
-    width: 155px;
-    height: 48px;
-    padding: 8px 16px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    border-radius: 8px;
-    font-family: Poppins;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-}
-
-.cancel-btn {
-    border: 1px solid var(--Colors-Primary-700, #1151B4);
-    background-color: #fff;
-    color: var(--Colors-Primary-700, #1151B4);
-}
-
-.cancel-btn:hover {
-    background-color: #e2efff;
-}
-
-.confirm-btn {
-    background: var(--Colors-Primary-700, #1151B4);
-    color: #fff;
-    border: none;
-}
-
-.confirm-btn:hover {
-    background: var(--Colors-Primary-700, #0f4aa3);
-}
-
-.confirm-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
 }
 
 /* PrimeNG Dropdown – trigger عام */
@@ -421,7 +306,6 @@
 
 :host ::ng-deep .p-dropdown-panel .p-dropdown-item,
 ::ng-deep .p-dropdown-panel .p-dropdown-item {
-    /* padding: 8px 12px; */
     font-family: Poppins;
     font-size: 14px;
     border-radius: 6px;
@@ -429,35 +313,16 @@
     margin: 0;
 }
 
-
-:host ::ng-deep .p-dropdown-panel .p-dropdown-item.p-highlight,
-::ng-deep .p-dropdown-panel .p-dropdown-item.p-highlight {
-    background: var(--Colors-Primary-100, #E7EEF8);
-    color: #1151B4;
-}
-
-/* .p-dropdown-items (ul) – padding 10px للقائمة */
 :host ::ng-deep .p-dropdown-items,
 ::ng-deep .p-dropdown-items {
     padding-left: 10px;
 }
 
-/* إلغاء الـ highlight التلقائي على العنصر المحدد/المركّز في الـ dropdown */
-:host ::ng-deep .p-dropdown-item.p-highlight,
-::ng-deep .p-dropdown-item.p-highlight,
-:host ::ng-deep .p-dropdown-item.p-focus,
-::ng-deep .p-dropdown-item.p-focus {
-    background: transparent !important;
-    color: inherit;
-}
-
-/* الـ selects داخل المودلات – عرض 100% */
 :host ::ng-deep .p-dialog .p-dropdown,
 ::ng-deep .p-dialog .p-dropdown {
     display: flex;
     align-items: center;
     gap: 8px;
-    /* padding: 8px 8px 8px 12px; */
     min-height: 38px;
     width: 100%;
     border: 1px solid var(--Colors-Primary-100, #E7EEF8);
@@ -494,9 +359,6 @@
     outline: none;
 }
 
-/* ////////////////////////////////////////////////////////////////// */
-
-/* --------------------- second section list --------------------- */
 ::ng-deep .card-header {
     background-color: #fff !important;
     color: #0A0C0F !important;
@@ -507,21 +369,13 @@
 }
 
 /* Modal Styles */
-::ng-deep .p-dialog {
-    border-radius: 16px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-}
-
 ::ng-deep .p-dialog-header {
     display: none !important;
 }
 
 ::ng-deep .p-dialog-content {
     padding: 0px;
+    border-radius: 16px;
 }
 
 .dialog-layout {
@@ -567,12 +421,14 @@
     background-color: #e2efff;
 }
 
+.dialog-btn,
 .confirm-btn {
     background: var(--Colors-Primary-700, #1151B4);
     color: var(--Colors-Primary-700, #fff);
     border: none;
 }
 
+.dialog-btn:hover,
 .confirm-btn:hover {
     background: var(--Colors-Primary-700, #0f4aa3);
 }
@@ -733,25 +589,6 @@
 
 .menu-list li a:hover {
     background: #f3f4f6;
-}
-
-/* Responsive */
-@media (max-width: 992px) {
-    .fixDiv {
-        width: 0px;
-        background: #F5F9FF;
-    }
-
-    .page {
-        padding: 24px;
-        width: 100%;
-    }
-}
-
-@media (max-width: 768px) {
-    .dialog-layout {
-        width: 100%;
-    }
 }
 
 .cursor-pointer {
@@ -1044,7 +881,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
+    padding: 8px;
     border: 1px solid transparent;
     border-radius: 20px;
     font-family: Poppins;
@@ -1154,8 +991,38 @@
 }
 
 .filter-btn-apply:hover {
-    background: #0069d9;
+    background: #0f4aa3;
 }
+
+.p-card {
+    border-radius: 16px;
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    /* الكارد نفسه ما يعمل scroll */
+}
+
+:host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+:host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+:host ::ng-deep .p-datatable-wrapper {
+    overflow-x: auto;
+    /* خلي scroll أفقي */
+    min-width: 0;
+    /* يمنع الجدول من كونه أكبر من الكارد */
+}
+
+/* :host ::ng-deep .p-datatable-scrollable-body,
+:host ::ng-deep .p-datatable-scrollable-header {
+    max-width: 2000px;
+} */
 
 /* ==================== Pagination – مطابق للتصميم: #FAFAFA, 48px, 8px 16px, 8px radius ==================== */
 :host ::ng-deep .p-datatable .p-paginator {
@@ -1264,21 +1131,39 @@
 }
 
 /* --------------------- RESPONSIVE DESIGN --------------------- */
-@media (max-width: 1024px) {}
+@media (max-width: 1440px) {
+    .page {
+        width: 84%;
+    }
+}
+
+@media (max-width: 1285px) {
+    .page {
+        width: 82%;
+    }
+}
+
+@media (max-width: 1025px) {
+    .page {
+        width: 77%;
+    }
+}
 
 @media (max-width: 992px) {
     .fixDiv {
         width: 0px;
         background: #F5F9FF;
     }
-}
 
-@media (max-width: 768px) {
-    .responsive-dialog .p-dialog {
-        width: 100vw !important;
+    .page {
+        padding: 24px;
+        width: 100%;
+        margin-left: 0px;
     }
 }
 
-@media (max-width: 576px) {}
-
-@media (max-width: 440px) {}
+@media (max-width: 768px) {
+    .dialog-layout {
+        width: 100%;
+    }
+}

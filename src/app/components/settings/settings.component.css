@@ -160,6 +160,16 @@
   justify-content: space-between;
 }
 
+.input-count {
+  border-color: #EEF0F1;
+}
+
+.input-count:focus {
+  border-color: #EEF0F1;
+  box-shadow: none;
+  outline: none;
+}
+
 /* --------------------- Day Cell --------------------- */
 .day-cell {
   min-width: 130px;
