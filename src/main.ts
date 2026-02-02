@@ -9,13 +9,13 @@ import { provideHttpClient } from '@angular/common/http';
 /////////////////////////////////////////////////////////////start firbase
 
  // Register the service worker for production
-if (environment.production && 'serviceWorker' in navigator) {
-  navigator.serviceWorker.register('ngsw-worker.js').then(registration => {
-    console.log('Service Worker registered with scope:', registration.scope);
-  }).catch(error => {
-    console.error('Service Worker registration failed:', error);
-  });
-}
+// if (environment.production && 'serviceWorker' in navigator) {
+//   navigator.serviceWorker.register('ngsw-worker.js').then(registration => {
+//     console.log('Service Worker registered with scope:', registration.scope);
+//   }).catch(error => {
+//     console.error('Service Worker registration failed:', error);
+//   });
+// }
 
 // if ('serviceWorker' in navigator) {
 //   navigator.serviceWorker.register('/firebase-messaging-sw.js')
