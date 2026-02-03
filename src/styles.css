@@ -55,6 +55,25 @@
 }
 
 
+  .fixDiv{
+    width:250px;
+    flex: 0 0 250px;
+  }
+  
+  
+  .page{
+    padding: 24px;
+    /* width: 80%; */
+    /* padding-top: 80px; */
+        flex: 1;
+    width: auto;
+    min-width: 0;
+  }
+  .parent{
+    padding-top: 80px !important;
+  }
+
+
 @media (max-width:1200px) {
 
   .p-datepicker {
