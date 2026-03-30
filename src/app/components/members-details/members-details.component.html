@@ -78,11 +78,16 @@
                     <div class="flex flex-column w-full ">
  
                        <div class="flex justify-content-between align-items-center w-full  pb-5 border-bottom">
-                          <div class="flex justify-content-start align-items-center gap-2 w-full flex-wrap">
+                          <div class="flex justify-content-start align-items-center gap-3 w-full flex-wrap">
                             <img src="community/memberImg.png"/>
                             <div class="flex flex-column">
                               <div class="data">{{memberDetails?.name}}</div>
-                              <div class="sub-info"><i class="pi pi-envelope mr-1" style="color:#1151B4"></i> <span class="mr-2">{{memberDetails?.email}}</span><i class="pi pi-phone mr-1" style="color:#1151B4"></i><span>{{memberDetails?.phone_No}}</span></div>
+                              <div class="sub-info">
+                                <img class="me-2" src="/manage-subscription/Email Icon.svg" alt="email">
+                                <span class="mr-3">{{memberDetails?.email}}</span>
+                                <img class="me-2" src="/manage-subscription/phone icon.svg" alt="phone">
+                                <span>{{memberDetails?.phone_No}}</span>
+                              </div>
                             </div>
                           </div>
                           <div *ngIf="memberDetails?.status==='Active'" class=""><span class="status-tag p-tag-success">{{memberDetails?.status}}</span></div>
@@ -92,19 +97,27 @@
 
 
                        </div>
-                        <div class="flex justify-content-between align-items-center w-full my-4 flex-wrap"  >
-                             <div class="flex flex-column border-end" style="width: 30%;">
-                                 <div class="label-info"><i class="pi pi-map-marker mr-1" style="color:#1151B4"></i><span>Location</span></div>
+                        <div class="grid-three">
+                             <div class="flex flex-column border-end gap-2 py-3 px-2" >
+                                 <div class="label-info">
+                                  <img class="mr-2" src="/manage-subscription/Location Icon.svg" alt="location">
+                                  <span>Location</span>
+                                </div>
                                  <div class="tx-info">{{memberDetails?.location}}</div>
                              </div>
-                             <div class="flex flex-column border-end" style="width: 30%;">
-                              <div  class="label-info"><i class="pi pi-home mr-1" style="color:#1151B4"></i><span>Apartment Name</span></div>
+                             <div class="flex flex-column border-end gap-2 py-3 px-2" >
+                              <div  class="label-info">
+                                <img class="mr-2" src="/manage-subscription/Apartment Icon.svg" alt="apartment">
+                                <span>Apartment Name</span>
+                              </div>
 
-                                <div class="tx-info">{{memberDetails?.apartment_Name}}</div>
+                              <div class="tx-info">{{memberDetails?.apartment_Name}}</div>
                              </div>
-                             <div class="flex flex-column" style="width: 30%;">
-                              <div  class="label-info"><i class="fa fa-hashtag mr-1" style="color:#1151B4"></i><span>Agency Code</span></div>
-                                 <div class="tx-info">{{memberDetails?.agency_Code}}</div>
+                             <div class="flex flex-column gap-2 py-3 px-2" >
+                              <div  class="label-info">
+                                <img class="mr-2" src="/manage-subscription/fluent_book-number-16-regular.svg" alt="agency">
+                                <span>Agency Code</span></div>
+                                <div class="tx-info">{{memberDetails?.agency_Code}}</div>
                              </div>
                         </div>
                     </div>
@@ -145,19 +158,28 @@
                       </div>
                     
                     
-                      <div class="flex justify-content-between align-items-center w-full my-4 flex-wrap"  >
-                        <div class="flex flex-column border-end" style="width: 30%;">
-                            <div class="label-info"><i class="pi pi-credit-card mr-1" style="color:#1151B4"></i><span>Payment Method</span></div>
+                      <div class="grid-three">
+                        <div class="flex flex-column gap-2 border-end py-3 px-2">
+                            <div class="label-info">
+                              <img class="mr-2" src="/manage-subscription/Payment Method Icon.svg" alt="Payment Method">
+                              <span>Payment Method</span>
+                            </div>
                             <div class="tx-info"><img src="stripePay.svg"/></div>
                         </div>
-                        <div class="flex flex-column border-end" style="width: 30%;">
-                         <div  class="label-info"><i class="pi pi-calendar mr-1" style="color:#1151B4"></i><span>Start Date</span></div>
-
-                           <div class="tx-info">{{memberDetails?.start_Date}}</div>
+                        <div class="flex flex-column gap-2 border-end py-3 px-2">
+                         <div  class="label-info">
+                          <img class="mr-2" src="/manage-subscription/Start Date Icon.svg" alt="Start Date">
+                          <span>Start Date</span>
                         </div>
-                        <div class="flex flex-column" style="width: 30%;">
-                         <div  class="label-info"><i class="pi pi-calendar mr-1" style="color:#1151B4"></i><span>Renewal Date</span></div>
-                            <div class="tx-info">{{memberDetails?.renewel_Date}}</div>
+
+                           <div class="tx-info">{{memberDetails?.start_Date | date}}</div>
+                        </div>
+                        <div class="flex flex-column gap-2 py-3 px-2">
+                         <div  class="label-info">
+                          <img class="mr-2" src="/manage-subscription/Start Date Icon.svg" alt="Renewal Date">
+                          <span>Renewal Date</span>
+                         </div>
+                            <div class="tx-info">{{memberDetails?.renewel_Date | date}}</div>
                         </div>
                    </div>
                     </p-card>

@@ -66,9 +66,9 @@ features: string = '';
 this.calculateFinalPrice()
 
     this.items = [
-      { label: 'Community Club', routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
 
-      { label: 'Manage Subscriptions', routerLink: '/manage-subscription' },
+      { label: 'Plans Managment', routerLink: '/manage-subscription' },
 
 
       { label: 'Add New Plan', routerLink: '/add-new-plan' },

@@ -162,7 +162,7 @@ export class ManageSubscriptionComponent {
 
 
     this.items = [
-      { label: 'Community Club', routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
 
       { label: 'Manage Subscription', routerLink: '/manage-subscription' },
       
@@ -639,4 +639,8 @@ isDate(value: any): boolean {
 isValidDate(dateString: string): boolean {
   return dateString != null && !isNaN(Date.parse(dateString));
 }
+
+  deleteDialog: boolean = false;
+  deleteConfimation:boolean = false;
+
 }

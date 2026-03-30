@@ -20,7 +20,7 @@ font-family: Poppins;
 font-size: 16px;
 font-style: normal;
 font-weight: 400;
-line-height: 24px; /* 150% */
+line-height: normal; /* 150% */
 }
 .tx-info{
   color: var(--Colors-Base-Main-Text, #0A0C0F);
@@ -35,22 +35,20 @@ line-height: 36px; /* 225% */
 .plan-duration{
   color: var(--Colors-Primary-Shade-Shade-4, #8392A9);
 
-/* Global Tokens/Body/B-2/Medium */
 font-family: Poppins;
-font-size: 14px;
+font-size: 16px;
 font-style: normal;
-font-weight: 500;
-line-height: 21px;
+font-weight: 400;
+line-height: normal;
 }
 .plan-price{
-  color: var(--Colors-Primary-700, #1151B4);
+  color: var(--primary-color-600, #1151B4);
 
-/* Global Tokens/Body/B-2/Medium */
 font-family: Poppins;
-font-size: 14px;
+font-size: 24px;
 font-style: normal;
 font-weight: 500;
-line-height: 21px; /* 150% */
+line-height: normal;
 }
 
 .parent{
@@ -74,34 +72,51 @@ line-height: 21px; /* 150% */
     
   }
   
-:host ::ng-deep .p-breadcrumb {
-    border:none;
+  :host ::ng-deep .p-breadcrumb {
+    border: none;
     margin-left: 0px !important;
-  
     padding: 0 0 !important;
-  
-   padding-top: 10px;
+    padding-top: 10px;
     margin-bottom: 20px;
     background: #F5F9FF !important;
-  
+    cursor: pointer;
   }
+
   :host ::ng-deep .p-breadcrumb ol {
-  
     margin-left: 45 !important;
-    padding-left: 15px ;
+    padding-left: 15px;
   }
-  :host ::ng-deep .p-breadcrumb ol a{
-  
-   text-decoration: none;
+
+  :host ::ng-deep .p-breadcrumb ol a {
+    text-decoration: none;
   }
-  
-  :host ::ng-deep .p-breadcrumb .p-menuitem-link{
-    color: var(--Neutral-Neutral50, #787579) !important;
-  font-family: Inter;
-  font-size: 18.189px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20.463px; /* 112.5% */
+
+
+  :host ::ng-deep .p-breadcrumb .p-menuitem-link {
+    color: #586880 !important;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  :host ::ng-deep .p-breadcrumb .bread-active {
+    color: var(--Colors-Base-Main-Text, #0A0C0F) !important;
+    font-family: Poppins !important;
+    font-size: 18px;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    line-height: 32px;
+  }
+
+  .bread-active {
+    color: var(--Colors-Base-Main-Text, #0A0C0F) !important;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32px;
   }
   
   :host ::ng-deep .p-tabview .p-tabview-nav {
@@ -319,7 +334,7 @@ line-height: 21px; /* 150% */
   text-align: center;
   
   /* Text xs/Medium */
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -349,7 +364,7 @@ line-height: 21px; /* 150% */
   text-align: center;
   
   /* Text xs/Medium */
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -373,7 +388,7 @@ line-height: 21px; /* 150% */
   text-align: center;
   
   /* Text xs/Medium */
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -449,7 +464,7 @@ line-height: 21px; /* 150% */
     text-align: center;
   
     /* Text lg/Semibold */
-    font-family: Inter;
+    font-family: Poppins;
     font-size: 18px;
     font-style: normal;
     font-weight: 600;
@@ -535,7 +550,6 @@ box-shadow: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
     font-size: 1.2rem;
     font-weight: bold;
     color: #333333;
-    margin-bottom: 16px;
   }
   
   .card-headerr .edit-button {
@@ -544,9 +558,6 @@ box-shadow: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
     cursor: pointer;
     font-size: 1.2rem;
     color: #004aad;
-  }
-  .card-headerr{
-    margin-bottom: 24px;
   }
   
   .card-price {
@@ -1040,7 +1051,7 @@ gap: 8px;
 
 /* Success dot color */
 .p-tag-success.status-tag::before {
-  color: #28a745; /* Green */
+  color: #157E48; /* Green */
 }
 
 .p-tag-success{
@@ -1050,14 +1061,14 @@ gap: 8px;
   justify-content: center;
   align-items: center;
  
-  color: #28a745;
+  color: #157E48;
   border-radius: 20px;
-background: #D7F8E7 !important;
+background: #F2FDF7 !important;
 }
 
 /* Failed dot color */
 .p-tag-danger.status-tag::before {
-  color: #dc3545; /* Red */
+  color: #C1111A; /* Red */
 }
 
 .p-tag-danger{
@@ -1067,14 +1078,14 @@ background: #D7F8E7 !important;
   justify-content: center;
   align-items: center;
  
-  color: #dc3545;
+  color: #C1111A;
   border-radius: 20px;
-  background: #FDE8E9 !important;
+  background: #FEF6F6 !important;
 }
 
 /* Pending dot color */
 .p-tag-warning.status-tag::before {
-  color: #ffc107; /* Yellow */
+  color: #BE8B11; /* Yellow */
 }
 
 
@@ -1084,9 +1095,9 @@ background: #D7F8E7 !important;
   padding: 8px;
   justify-content: center;
   align-items: center;
-  color: #ffc107;
+  color: #BE8B11;
 
-  border-radius: 20px;
+  border-radius: 8px;
   background: #FDF8EC !important;
 }
 
@@ -1108,9 +1119,9 @@ background: #D7F8E7 !important;
 
 /* Border and background for different statuses */
 .status-tag.selected-success {
-  border: 2px solid #28a745 !important; /* Green for success */
-  background-color: #eafaf1;
-  color: #28a745;
+  border: 2px solid #157E48 !important; /* Green for success */
+  background-color: #F2FDF7;
+  color: #157E48;
 
   display: flex;
   height: 40px;
@@ -1118,15 +1129,15 @@ background: #D7F8E7 !important;
   justify-content: center;
   align-items: center;
  
-  color: #28a745;
+  color: #157E48;
   border-radius: 20px;
 background: #D7F8E7 !important;
 }
 
 .status-tag.selected-failed {
-  border: 2px solid  #dc3545 !important; /* Red for failed */
-  background-color: #fbeaec;
-  color: #dc3545;
+  border: 2px solid  #C1111A !important; /* Red for failed */
+  background-color: #FEF6F6;
+  color: #C1111A;
 
   display: flex;
   height: 40px;
@@ -1134,24 +1145,24 @@ background: #D7F8E7 !important;
   justify-content: center;
   align-items: center;
  
-  color: #dc3545;
+  color: #C1111A;
   border-radius: 20px;
-  background: #FDE8E9 !important;
+  background: #FEF6F6 !important;
 }
 
 .status-tag.selected-pending {
-  border: 2px solid #ffc107 !important; /* Yellow for pending */
-  background-color: #fff9e6;
-  color: #ffc107;
+  border: 2px solid #BE8B11 !important; /* Yellow for pending */
+  background-color: #FDF8F1;
+  color: #BE8B11;
 
   display: flex;
   height: 40px;
   padding: 8px;
   justify-content: center;
   align-items: center;
-  color: #ffc107;
+  color: #BE8B11;
 
-  border-radius: 20px;
+  border-radius: 8px;
   background: #FDF8EC !important;
 }
 
@@ -1410,4 +1421,22 @@ background: #FFF;
 
 /* Global Tokens/E1 */
 box-shadow: 0px 2px 4px 0px rgba(27, 28, 29, 0.04);
+}
+
+.grid-three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+
+@media (max-width: 515px) {
+  .grid-three {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .border-end {
+    border-right: none !important;
+  }
 }

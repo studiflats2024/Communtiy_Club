@@ -770,3 +770,62 @@ class="responsive-dialog"
 </p-dialog>
 
 <!-------------------------------------------------------------------------------------------------------------->
+
+
+<!-------------------------------------------------- delete dialog ------------------------------------------------->
+
+<p-dialog 
+  [(visible)]="deleteDialog" 
+  header="" 
+  [closable]="true" 
+  [modal]="true" 
+  [style]="{  overflow: 'visible', width: '25em' }"
+  class="responsive-dialog">
+
+
+  <div class="d-flex flex-column gap-2 justify-content-center align-items-center">
+    <img src="/manage-subscription/deleteIcon.svg" style="width: 68px;height:68px;" alt="deleteIcon">
+    <span class="delete-dialog-txt">Are you sure you want to delete this Plan ?</span>
+  </div>
+
+
+  <!-- Buttons -->
+  <div class="flex gap-5 justify-content-center align-items-center " style="margin-top: 35px;">
+    <div class=" ">
+      <p-button
+      label="No"
+    
+      class="p-button-outlined custom-button"
+      
+    ></p-button>
+  </div>
+
+  <div class=" ">
+    <p-button
+    label="Yes"
+    class="p-button-outlined custom-button-add"
+
+  ></p-button>
+  </div>
+  </div>
+
+
+</p-dialog>
+
+<p-dialog 
+  [(visible)]="deleteConfimation" 
+  header="" 
+  [closable]="false" 
+  [modal]="true" 
+  [style]="{  overflow: 'visible', width: '30em' }"
+  class="responsive-dialog">
+
+
+  <div class="d-flex flex-column gap-2 justify-content-center align-items-center">
+    <img src="/manage-subscription/confirmIcon.svg" style="width: 68px;height:68px;" alt="confirmIcon">
+    <span class="delete-dialog-txt">Session has been successfully deleted</span>
+  </div>
+
+</p-dialog>
+
+<!-------------------------------------------------------------------------------------------------------------->

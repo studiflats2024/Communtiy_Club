@@ -274,7 +274,7 @@ paymentRecords:any[]=[]
     }
 
     this.items = [
-      { label: 'Community Club', routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
 
       { label: 'Members', routerLink: '/members' },
 

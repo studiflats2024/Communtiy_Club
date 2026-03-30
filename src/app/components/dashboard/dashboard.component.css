@@ -521,7 +521,7 @@ line-height: 21px; /* 150% */
   
   :host ::ng-deep .p-breadcrumb .p-menuitem-link{
     color: var(--Neutral-Neutral50, #787579) !important;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 18.189px;
   font-style: normal;
   font-weight: 500;

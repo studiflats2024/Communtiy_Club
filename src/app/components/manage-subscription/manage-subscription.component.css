@@ -19,34 +19,51 @@
     /* padding-top: 80px; */
   }
   
-:host ::ng-deep .p-breadcrumb {
-    border:none;
+  :host ::ng-deep .p-breadcrumb {
+    border: none;
     margin-left: 0px !important;
-  
     padding: 0 0 !important;
-  
-   padding-top: 10px;
+    padding-top: 10px;
     margin-bottom: 20px;
     background: #F5F9FF !important;
-  
+    cursor: pointer;
   }
+
   :host ::ng-deep .p-breadcrumb ol {
-  
     margin-left: 45 !important;
-    padding-left: 15px ;
+    padding-left: 15px;
   }
-  :host ::ng-deep .p-breadcrumb ol a{
-  
-   text-decoration: none;
+
+  :host ::ng-deep .p-breadcrumb ol a {
+    text-decoration: none;
   }
-  
-  :host ::ng-deep .p-breadcrumb .p-menuitem-link{
-    color: var(--Neutral-Neutral50, #787579) !important;
-  font-family: Inter;
-  font-size: 18.189px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20.463px; /* 112.5% */
+
+
+  :host ::ng-deep .p-breadcrumb .p-menuitem-link {
+    color: #586880 !important;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  :host ::ng-deep .p-breadcrumb .bread-active {
+    color: var(--Colors-Base-Main-Text, #0A0C0F) !important;
+    font-family: Poppins !important;
+    font-size: 18px;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    line-height: 32px;
+  }
+
+  .bread-active {
+    color: var(--Colors-Base-Main-Text, #0A0C0F) !important;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32px;
   }
   
   :host ::ng-deep .p-tabview .p-tabview-nav {
@@ -438,7 +455,7 @@
     color: #ffffff !important;
     background-color: #1151B4 !important;
     align-self: self-start;
-     
+    border-radius: 8px;
   }
   
   .custom-button-plan ::ng-deep .p-button:hover {
@@ -1281,5 +1298,14 @@ background: #D7F8E7 !important;
 }
 
 
+.delete-dialog-txt{
+  color: #000;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
 
 /************************************************************************************/
