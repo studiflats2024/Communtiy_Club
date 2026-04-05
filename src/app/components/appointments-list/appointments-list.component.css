@@ -14,10 +14,7 @@
 }
 
 .page {
-    padding: 30px;
-    margin-left: 70px;
-    padding-right: 20px;
-    width: 85%;
+    width: 100%;
     background: #F5F9FF;
 }
 
@@ -1131,27 +1128,10 @@
 }
 
 /* --------------------- RESPONSIVE DESIGN --------------------- */
-@media (max-width: 1440px) {
-    .page {
-        width: 84%;
-    }
-}
-
-@media (max-width: 1285px) {
-    .page {
-        width: 82%;
-    }
-}
-
-@media (max-width: 1025px) {
-    .page {
-        width: 77%;
-    }
-}
 
 @media (max-width: 992px) {
     .fixDiv {
-        width: 0px;
+        max-width: 0px !important;
         background: #F5F9FF;
     }
 

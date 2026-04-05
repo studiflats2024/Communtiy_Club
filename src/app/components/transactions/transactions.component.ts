@@ -138,9 +138,9 @@ export class TransactionsComponent {
   
   
       this.items = [
-        { label: 'Community Club', routerLink: '/dashboard' },
+        { label: 'Dashboard', routerLink: '/dashboard' },
   
-        { label: 'Transactions', routerLink: '/transactions' },
+        { label: 'Transaction', routerLink: '/transactions' },
         
       ];
   

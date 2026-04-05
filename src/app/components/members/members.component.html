@@ -90,7 +90,7 @@
                         <th>Plan Type</th>
                         <th>Payment By</th>
                         <th pSortableColumn="start_Date"> Join Date <p-sortIcon field="start_Date"></p-sortIcon></th>
-                        <th pSortableColumn="renewel_Date"> Renewel Date <p-sortIcon field="renewel_Date"></p-sortIcon></th>
+                        <!-- <th pSortableColumn="renewel_Date"> Renewel Date <p-sortIcon field="renewel_Date"></p-sortIcon></th> -->
 
                         <th>Status</th>
                         <th>Action</th>
@@ -109,9 +109,9 @@
                         </ng-template></td> -->
 
                         <td>
-                          <div>
-                            <strong>{{ member.name }}</strong>
-                            <p>{{ member.email }}</p>
+                          <div class="d-flex flex-column">
+                            <span class="member-name">{{ member.name }}</span>
+                            <span class="member-email">{{ member.email }}</span>
                           </div>
                         </td>
                         <td>+{{member.phone_No}}</td>
@@ -172,7 +172,7 @@
                           </div>
                         </td>
                         <td>{{ member.start_Date | date: 'MMM d, yyyy' }}</td>
-                        <td>{{ member.renewel_Date | date: 'MMM d, yyyy' }}</td>
+                        <!-- <td>{{ member.renewel_Date | date: 'MMM d, yyyy' }}</td> -->
 
                         <!-------------------------------------------------------------------------------------------------------------------->
 

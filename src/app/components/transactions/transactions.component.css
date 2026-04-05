@@ -19,34 +19,51 @@
     /* padding-top: 80px; */
   }
   
-:host ::ng-deep .p-breadcrumb {
-    border:none;
+ :host ::ng-deep .p-breadcrumb {
+    border: none;
     margin-left: 0px !important;
-  
     padding: 0 0 !important;
-  
-   padding-top: 10px;
+    padding-top: 10px;
     margin-bottom: 20px;
     background: #F5F9FF !important;
-  
+    cursor: pointer;
   }
+
   :host ::ng-deep .p-breadcrumb ol {
-  
     margin-left: 45 !important;
-    padding-left: 15px ;
+    padding-left: 15px;
   }
-  :host ::ng-deep .p-breadcrumb ol a{
-  
-   text-decoration: none;
+
+  :host ::ng-deep .p-breadcrumb ol a {
+    text-decoration: none;
   }
-  
-  :host ::ng-deep .p-breadcrumb .p-menuitem-link{
-    color: var(--Neutral-Neutral50, #787579) !important;
-  font-family: Inter;
-  font-size: 18.189px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 20.463px; /* 112.5% */
+
+
+  :host ::ng-deep .p-breadcrumb .p-menuitem-link {
+    color: #586880 !important;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  :host ::ng-deep .p-breadcrumb .bread-active {
+    color: var(--Colors-Base-Main-Text, #0A0C0F) !important;
+    font-family: Poppins !important;
+    font-size: 18px;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    line-height: 32px;
+  }
+
+  .bread-active {
+    color: var(--Colors-Base-Main-Text, #0A0C0F) !important;
+    font-family: Poppins;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 32px;
   }
   
   :host ::ng-deep .p-tabview .p-tabview-nav {
@@ -656,6 +673,77 @@ background: #F6F6F6;
     overflow: auto;
     border-radius: 16px;
     border: 1px solid #EBEBEB;
+}
+
+/* ==================== Pagination  ==================== */
+:host ::ng-deep .p-datatable .p-paginator {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 48px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: #FAFAFA;
+    font-family: Poppins;
+    font-size: 16px;
+    color: #4A4A4A;
+}
+
+/* أيقونات First/Last مخفية من التصميم */
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-first,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-last {
+    display: none !important;
+}
+
+/* نصوص "From X" والأسهم: #4A4A4A / #292D32 */
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-current,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-prev,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-next {
+    border: none;
+    background: transparent;
+    color: #4A4A4A;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-current {
+    margin-right: auto;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-prev .p-icon,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-next .p-icon {
+    color: #292D32;
+}
+
+/* أزرار الصفحات: غير النشطة بدون إطار/خلفية، #5E5E5E */
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-pages .p-paginator-page {
+    min-width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
+    color: #5E5E5E;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 2px;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-pages .p-paginator-page:hover {
+    background: transparent;
+    color: #5E5E5E;
+}
+
+/* الصفحة النشطة: خلفية #E7EEF8، نص #1151B4، بدون إطار */
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #E7EEF8;
+    border: none;
+    color: #1151B4;
 }
 
 /***************************/
