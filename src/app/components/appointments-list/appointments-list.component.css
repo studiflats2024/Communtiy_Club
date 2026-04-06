@@ -1038,16 +1038,6 @@
     color: #4A4A4A;
 }
 
-/* "Show " قبل الـ dropdown (الـ "From X" من الـ current) */
-:host ::ng-deep .p-datatable .p-paginator::before {
-    content: "Show ";
-    order: -2;
-    color: #4A4A4A;
-    font-size: 16px;
-    font-family: Poppins;
-    align-self: center;
-}
-
 /* أيقونات First/Last مخفية من التصميم */
 :host ::ng-deep .p-datatable .p-paginator .p-paginator-first,
 :host ::ng-deep .p-datatable .p-paginator .p-paginator-last {

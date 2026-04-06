@@ -138,7 +138,8 @@
                     [first]="(currentPage - 1) * pageSize" [loading]="loading" [lazy]="true"
                     (onLazyLoad)="onLazyLoad($event)" (onPage)="pageChange($event)" [scrollable]="true"
                     scrollDirection="horizontal" [rowsPerPageOptions]="[5,10,25,50]"
-                    currentPageReportTemplate="From {totalRecords}" [showCurrentPageReport]="true"
+                    [showCurrentPageReport]="true"
+                    [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
                     [showFirstLastIcon]="false" [tableStyle]="{'min-width':'1200px'}">
 
                     <!-- Table Header -->
