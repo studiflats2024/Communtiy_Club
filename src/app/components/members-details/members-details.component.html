@@ -469,14 +469,14 @@
 
                             <th  pSortableColumn="inv_Code">Invoice Code</th>
                         
-                            <th pSortableColumn="plan_Type">Plan Type<p-sortIcon field="plan_Type"></p-sortIcon></th>
+                            <th pSortableColumn="plan_Type">Plan Type</th>
+                            <th pSortableColumn="amount">Amount</th>
+                            <th>Payment By</th>
                             <th pSortableColumn="payment_Date">Payment Date<p-sortIcon field="payment_Date"></p-sortIcon></th>  
-                            <th pSortableColumn="amount">Amount<p-sortIcon field="amount"></p-sortIcon></th>
                             <th pSortableColumn="start_Date">Start Date<p-sortIcon field="start_Date"></p-sortIcon></th>
 
                             <th pSortableColumn="renewal_Date">Renewal Date<p-sortIcon field="renewal_Date"></p-sortIcon></th>
-
-                            <th>Payment By</th>
+                            
                             <th>Status</th>
                         
                           </tr>
@@ -497,12 +497,7 @@
                               </span>
                             
                             </td>
-                            <td>{{ payment.payment_Date| date: 'MMM d, yyyy' }}</td>
-                            
-                            <td>{{ payment.amount ? '€' + payment.amount : '-' }}</td>
-                            <td>{{payment.start_Date | date: 'MMM d, yyyy'}}</td>
-                            <td>{{ payment.renewal_Date| date: 'MMM d, yyyy' }}</td>
-                            <!-- <td>{{ payment.paymentBy }}</td> -------------------------------------------------------------------------------->
+                            <td>{{ payment.amount ? '€ ' + payment.amount : '-' }}</td>
                             <td class="text-center">
                               <div class="payment-method">
                                 <ng-container [ngSwitch]="payment.payment_By">
@@ -543,9 +538,11 @@
                                 </ng-container>
                               </div>
                             </td>
-                            
-                            <!-------------------------------------------------------------------------------------------------------------------->
-    
+                            <td>{{ payment.payment_Date| date: 'MMM d, yyyy' }}</td>
+                                                        
+                            <td>{{payment.start_Date | date: 'MMM d, yyyy'}}</td>
+                            <td>{{ payment.renewal_Date| date: 'MMM d, yyyy' }}</td>
+
                             <td>
                               <span
                                 class="p-tag status-tag"

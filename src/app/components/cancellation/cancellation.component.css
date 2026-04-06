@@ -372,6 +372,12 @@
   
     background: unset !important;
   
+    color: var(--Colors-Primary-Shade-Shade-9, #29303B);
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
   }
   
   :host ::ng-deep .p-datatable .p-datatable-header {
