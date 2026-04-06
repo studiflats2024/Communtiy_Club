@@ -209,7 +209,7 @@
                             <div>
                               <img class="mr-2"    style="cursor: pointer;" src="threeDotPay.svg" (click)="op.toggle($event)" />
                             </div>
-                            <p-overlayPanel #op>
+                            <p-overlayPanel #op styleClass="custom-overlay">
                               <ul class="menu-list">
                                 <li><a  [routerLink]="['/member-details', member.subscription_ID]"  style="cursor: pointer; text-decoration: none; color:#363636" >View Member Profile</a></li>
                                 <li><a style="cursor: pointer;">Edit</a></li>
