@@ -999,3 +999,13 @@ gap: 8px;
   .custom-button ::ng-deep .p-button .pi {
     margin-right: 8px;
   }
+  
+  .dialog-txt{
+    color: #000;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }

@@ -195,7 +195,7 @@ export class ActivitiesComponent {
 
 
     this.items = [
-      { label: 'Community Club', routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
 
       { label: 'Activities', routerLink: '/activities' },
       
@@ -841,8 +841,9 @@ isValidDate(dateString: string): boolean {
   return dateString != null && !isNaN(Date.parse(dateString));
 }
 
-
-
+publishConfimation :boolean=false;
+unPublishConfimation:boolean=false;
+showNotPublishDialog:boolean=false;
 
 }
 

@@ -78,7 +78,7 @@ export class CancellationComponent {
 
 
     this.items = [
-      { label: 'Community Club', routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
 
       { label: 'Cancellation Requests', routerLink: '/cancellation-request' },
       

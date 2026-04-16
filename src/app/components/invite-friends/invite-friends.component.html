@@ -5,7 +5,7 @@
         <div class="tabview-header-container">
         <p-breadcrumb class="max-w-full" [model]="items">
             <ng-template pTemplate="item" let-item>
-                <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+                <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold bread-active">
                     <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
                     <span>{{ item.label }}</span>
                 </a>
@@ -81,9 +81,9 @@
                     <ng-template pTemplate="body" let-friend>
                       <tr>
                         <td>
-                          <div>
-                            <strong>{{ friend.name }}</strong>
-                            <p>{{ friend.email }}</p>
+                          <div class="flex flex-column">
+                            <span class="name">{{ friend.name }}</span>
+                            <span class="email">{{ friend.email }}</span>
                           </div>
                         </td>
                         <td>{{ friend.phone }}</td>

@@ -6,7 +6,7 @@
         <a
           [routerLink]="item.routerLink"
           class="p-menuitem-link"
-          routerLinkActive="text-primary font-semibold"
+          routerLinkActive="text-primary font-semibold bread-active"
         >
           <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
           <span>{{ item.label }}</span>
@@ -17,38 +17,10 @@
     <p-toast></p-toast>
     <div class="content">
       <p-card>
-        <div class="">
-          <div class="head" style="margin-bottom: 50px">
-            <p class="title">Image Upload</p>
+        <div class="d-flex flex-column gap-2">
+          <div class="head">
+            <span class="label">Image Upload</span>
           </div>
-
-          <!-- File Upload (Browse and Drag/Drop) -->
-          <p-fileUpload
-          mode="advanced"
-          name="demo[]"
-          accept="image/*"
-
-          (onSelect)="onImageSelect($event)">
-
-          <ng-template pTemplate="content">
-            <div style=" width:100%;text-align: center; padding: 20px; margin-top: 10px; padding-bottom:0;">
-              <!-- Cloud Icon -->
-              <!-- <i class="pi pi-cloud-upload" style="font-size: 48px; color: #b3b3b3;"></i> -->
-               <img src="cloud-add.svg"/>
-
-              <!-- Text -->
-              <p class="choosep">Choose a file or drag & drop it here</p>
-
-              <!-- Supported Formats -->
-              <p class="imgtypes">
-                JPEG, PNG, PDG, and MP4 formats, up to 50MB
-              </p>
-            </div>
-          </ng-template>
-          <!-- <ng-template pTemplate="chooseButtonLabel">
-            <span>Browse File</span>
-          </ng-template> -->
-        </p-fileUpload>
 
         <!-- Galleria Display -->
         <!-- <p-galleria
@@ -77,14 +49,35 @@
             (onDragEnd)="onDragEnd($event)"> -->
             <div
              *ngIf="images!==''"
-            class="item"
+            class="d-flex gap-2 rounded border-2 border-dashed border-gray-300 align-items-center py-2 px-3"
            >
 
             <!-- <div pDroppable="true" (onDrop)="onDrop($event, i)" (onDragEnter)="onDragEnter($event, i)"> -->
-            <div  >
+            <div class="item" >
 
               <img class="image-item" [src]="images" alt="blog Image"  >
-              <div class="bin" (click)="removeImage()"> <i class="pi pi-trash"></i></div>
+              <span class="bin" (click)="removeImage()"> <i class="pi pi-trash"></i></span>
+            
+            
+            </div>
+
+            <div>
+              <!-- File Upload (Browse and Drag/Drop) -->
+              <p-fileUpload
+                mode="advanced"
+                name="demo[]"
+                accept="image/*"
+
+                (onSelect)="onImageSelect($event)">
+
+                <ng-template pTemplate="content">
+                  <div>
+
+                     <img src="/activities/plus.svg" alt="plus">
+
+                  </div>
+                </ng-template>
+              </p-fileUpload>
             </div>
           </div>
         </div>

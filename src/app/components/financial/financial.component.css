@@ -1457,3 +1457,112 @@ line-height: 18px; /* 150% */
 }
 
 /************************************************************************************/
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 8px;
+}
+
+.menu-list li {
+  padding: 8px 16px;
+  cursor: pointer;
+  color: var(--Colors-Primary-700, #363636);
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.menu-list li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Small Cards (Statistics) */
+.small-cards {
+    margin-bottom: 32px;
+}
+
+.small-card {
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1 0 0;
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0 2px 4px 0 rgba(27, 28, 29, 0.04);
+    border: none;
+}
+
+.small-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--Colors-Primary-Shade-Shade-7, #475467);
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.small-card-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.small-card-count {
+    color: var(--Colors-Base-Main-Text, #0A0C0F);
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.percent {
+    display: flex;
+    width: 62px;
+    height: 32px;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 8px;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.small-card-description {
+    color: var(--Neutrals-Neutrals700, #727272);
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.name,
+.email {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.name{
+  color: var(--Neutrals-Neutrals900, #4A4A4A);
+  font-family: Poppins;
+  font-size: 16px;
+}
+
+.email {
+  color: var(--Neutrals-Neutrals700, #727272);
+  font-size: 14px;
+}

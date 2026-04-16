@@ -82,7 +82,7 @@ export class ParticipantsComponent {
        this.loadParticipants(1,2000,this.activityType,this.activityId)
     }
     this.items = [
-      { label: 'Community Club', routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
       { label: 'Activities', routerLink: '/activities' },
       { label: 'Participants', routerLink: '/participants' },  
     ];

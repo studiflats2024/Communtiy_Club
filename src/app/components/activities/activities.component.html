@@ -11,7 +11,7 @@
         <div class="tabview-header-container">
         <p-breadcrumb class="max-w-full" [model]="items">
             <ng-template pTemplate="item" let-item>
-                <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+                <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold bread-active">
                     <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
                     <span>{{ item.label }}</span>
                 </a>
@@ -277,6 +277,7 @@
       <!-- Table Body -->
       <ng-template pTemplate="body" let-activity>
         <tr>
+          
           <!-- <td>{{ activity.activity_ID }}</td> -->
           <td>
             <img [src]="activity.activity_Media" alt="Media" style="width: 50px; height: 50px; object-fit: cover;" />
@@ -1190,5 +1191,85 @@ class="responsive-dialog"
   <div class="flex justify-content-end gap-2">
       <p-button label="Cancel " class=" custom-button" severity="secondary" (onClick)="visibleReason = false" />
       <p-button label="Save" class=" custom-button-add" (onClick)="eventAction()" />
+  </div>
+</p-dialog>
+
+
+<!------------------------ popup Publish ------------------------>
+<p-dialog 
+  [(visible)]="publishConfimation" 
+  header="" 
+  [closable]="false" 
+  [modal]="true" 
+  [style]="{  overflow: 'visible', width: '30em' }"
+  class="responsive-dialog">
+
+
+  <div class="d-flex flex-column gap-2 justify-content-center align-items-center">
+    <img src="/manage-subscription/confirmIcon.svg" style="width: 68px;height:68px;" alt="confirmIcon">
+    <span class="publish-dialog-txt">The course has been successfully published</span>
+  </div>
+
+</p-dialog>
+
+<!------------------------ popup unPublish ------------------------>
+<p-dialog 
+  [(visible)]="unPublishConfimation" 
+  header="" 
+  [closable]="false" 
+  [modal]="true" 
+  [style]="{  overflow: 'visible', width: '30em' }"
+  class="responsive-dialog">
+
+
+  <div class="d-flex flex-column gap-2 justify-content-center align-items-center">
+    <img src="/manage-subscription/confirmIcon.svg" style="width: 68px;height:68px;" alt="confirmIcon">
+    <span class="publish-dialog-txt">The course is now unpublished and no longer visible to users</span>
+  </div>
+
+</p-dialog>
+
+<!----------------------------------------dialog for success publish---------------------------------------------------------------------->
+
+<p-dialog 
+    [(visible)]="showNotPublishDialog" 
+    [modal]="true" 
+    class="custom-header" 
+    [style]="{ width: '400px' }"
+  [closable]="true"
+  [dismissableMask]="true"
+      
+    [contentStyle]="{ 'text-align': 'center', 'padding': '1rem' }">
+  <div>
+    <img src="/activities/warning.svg" alt="Warning Icon" width="50" height="50" />
+    <div class=" tx-success mt-3">The course will no longer be visible to users. Are you sure ?</div>
+    <div class="dialog-buttons mt-4">
+       
+
+
+
+      <div class="flex justify-content-between align-items-center " style="margin-top: 35px;">
+        <div class=" ">
+          <p-button
+          label="No"
+         
+          class="p-button-outlined custom-button"
+          
+        ></p-button>
+       </div>
+      
+       <div class=" ">
+        <p-button
+        label="Yes"
+        
+        class="p-button-outlined custom-button-add"
+        
+      ></p-button>
+      </div>
+      </div>
+
+
+ 
+    </div>
   </div>
 </p-dialog>

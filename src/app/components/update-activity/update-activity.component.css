@@ -202,7 +202,7 @@ gap: 7.5px;
 .head{
   width: 100%;
 }
-.title{
+/* .title{
   color: #263238;
 font-family: Inter;
 font-size: 20px;
@@ -211,7 +211,7 @@ font-weight: 600;
 line-height: normal;
 opacity: 0.8;
 margin-bottom: 5px;
-}
+} */
 .description{
   color: var(--Neutral-Neutral40, #605D62);
 font-family: Inter;
@@ -477,15 +477,12 @@ margin-bottom: 5px;
   
   justify-content: center;
   align-items: center;
-  gap: 9.403px;
-  flex-shrink: 0;
-  
-  border-radius: 16px;
-  border: 2px dashed #CBD0DC;
-  background: #F5F5F5;
+  gap: 8px;
+  border: none !important;
+  background: #fff;
   }
   :host ::ng-deep .p-fileupload .p-fileupload-content {
-  background: #F5F5F5 !important;
+  background: #fff !important;
   padding:  0 !important;
   border: none !important;
   color: #4b5563;
@@ -493,8 +490,8 @@ margin-bottom: 5px;
   border-bottom-left-radius: none !important;
   }
   
-  :host ::ng-deep .p-fileupload .p-fileupload-buttonbar p-button{
-  display: none;
+  :host ::ng-deep .p-fileupload .p-fileupload-buttonbar .p-button{
+  width: 100%;
   }
   :host ::ng-deep .p-fileupload .p-fileupload-buttonbar .p-button {
   /* color: #ffffff; */
@@ -504,7 +501,7 @@ margin-bottom: 5px;
   /* font-size: 1rem; */
   transition:none !important;
   /* border-radius: 3px; */
-  outline-color: transparent;
+  outline-color: none;
   
   color: #54575C !important;
   text-align: center;
@@ -514,25 +511,25 @@ margin-bottom: 5px;
   font-weight: 500;
   line-height: normal;
   
-  display: flex;
-  width: 217.205px;
-  height: 39.38px;
-  padding: 15.044px 31.029px !important;
+  /* display: flex; */
+  /* width: 217.205px;
+  height: 39.38px; */
+  /* padding: 0!important;
   justify-content: center;
   align-items: center;
   gap: 9.403px;
   
-  border-radius: 15.044px !important;
-  border: 1.881px solid #CBD0DC !important;
+  border-radius: 15.044px !important; */
+  border: none !important;
   background: var(--Base-White, #FFF) !important;
   }
   
   :host ::ng-deep .p-fileupload .p-fileupload-buttonbar {
-  background: #F5F5F5 !important;
-  padding: none !important;
+  background: #fff !important;
+  padding: 0 !important;
   border:  none !important;
   color: #54575C;
-  border-bottom: 30px !important;
+  border-bottom: 0px !important;
   border-top-right-radius: none !important;
   border-top-left-radius: none !important;
   }
@@ -587,9 +584,15 @@ margin-bottom: 5px;
   }
   
   :host ::ng-deep .p-fileupload .p-button-label::before {
-  content: 'Browse File';  /* New text to be displayed */
-  font-size: 16px;         /* Set the size of the new text */
+  content: 'Add Image';  /* New text to be displayed */
   visibility: visible;
+
+  color: var(--Colors-Primary-700, #1151B4);
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
   }
   :host ::ng-deep .p-fileupload .p-progressbar{
   display:none !important;
@@ -656,14 +659,14 @@ margin-bottom: 5px;
   }
   .bin{
   position: absolute;
-  
+  z-index: 10;
   top:9px;
-  right: 12px;
-  border-radius: 1.5px;
+  right: 0px;
+  border-radius: 6px;
   background: rgba(255, 255, 255, 0.80);
   display: flex;
   width: 24px;
-  padding: 5.25px;
+  /* padding: 5.25px; */
   justify-content: center;
   align-items: center;
   gap: 7.5px;
@@ -678,7 +681,7 @@ margin-bottom: 5px;
   }
   .title{
   color: #263238;
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 20px;
   font-style: normal;
   font-weight: 600;

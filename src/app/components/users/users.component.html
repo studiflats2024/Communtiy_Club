@@ -11,7 +11,7 @@
         <div class="tabview-header-container">
         <p-breadcrumb class="max-w-full" [model]="items">
             <ng-template pTemplate="item" let-item>
-                <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+                <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold bread-active">
                     <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
                     <span>{{ item.label }}</span>
                 </a>
@@ -82,7 +82,7 @@
                   >
                     <ng-template pTemplate="header">
                       <tr>
-                 
+                        <th>User ID<p-sortIcon field="id"></p-sortIcon></th>
                         <!-- <th pSortableColumn="id">User ID<p-sortIcon field="id"></p-sortIcon></th> -->
                         <th pSortableColumn="userName">User Name<p-sortIcon field="userName"></p-sortIcon></th>
                         <th  pSortableColumn="phoneNo">Phone Number<p-sortIcon field="phoneNo"></p-sortIcon></th>
@@ -95,12 +95,12 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-user>
                       <tr>
-                        <!-- <td>{{ user.user_ID }}</td> -->
+                        <td>{{ user.id }}</td>
 
                         <td>
-                          <div>
-                            <strong>{{ user.userName }}</strong>
-                            <p>{{ user.email}}</p>
+                          <div class="flex flex-column">
+                            <span class="name">{{ user.userName }}</span>
+                            <span class="email">{{ user.email}}</span>
                           </div>
                         </td>
                         <td>{{ user.phoneNo }}</td>

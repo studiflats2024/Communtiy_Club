@@ -119,7 +119,7 @@ export class FinancialComponent {
 
 
     this.items = [
-      { label: 'Community Club', routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
 
       { label: 'Financial', routerLink: '/financial' },
       
@@ -523,5 +523,14 @@ getAbsoluteValue(value: number): number {
   return Math.abs(value);
 }
 
+getIcon(title: string): string {
+    const icons: any = {
+      'Free Trial': 'calender.svg',
+      'Monthly': 'user.svg',
+      'Annual': 'star.svg',
+      'All Plans': 'dollar.svg'
+    };
+    return icons[title] || 'calenderIcon.svg';
+  }
 
 }

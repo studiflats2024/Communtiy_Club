@@ -171,7 +171,7 @@ export class UsersComponent {
 
 
     this.items = [
-      { label: 'Community Club', routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
 
       { label: 'Manage Users', routerLink: '/users' },
       

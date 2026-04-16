@@ -194,7 +194,7 @@ initializeIntlTelInput(selector: string) {
 
  
 selectedRole: any = null;
-
+displayDialog: boolean = false;
  
  
 userEmail:string=''
@@ -207,7 +207,7 @@ lastName:string=''
  
 
     this.items = [
-      { label: 'Community Club', routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
 
       { label: 'Users', routerLink: '/users' },
 
@@ -279,6 +279,7 @@ if (this.password !== this.ConfirmPass) {
     this.gatewayService.addAdmin(newAdmin).subscribe({
       next: (response) => {
         console.log('Admin added successfully:', response);
+        this.displayDialog = true;
         this.messageService.add({
           severity: 'success',
           summary: 'Success',

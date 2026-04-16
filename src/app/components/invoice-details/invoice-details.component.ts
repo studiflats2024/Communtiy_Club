@@ -98,11 +98,11 @@ export class InvoiceDetailsComponent {
     }
 
     this.items = [
-      { label: 'Community Club', routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
 
       { label: 'Financial', routerLink: '/financial' },
 
-      { label: 'Invoice Details', routerLink: '/invoice-details' },
+      { label: 'View Invoice', routerLink: '/invoice-details' },
 
       
     ];

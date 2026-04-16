@@ -97,7 +97,7 @@ ngOnInit() {
 
 
   this.items = [
-    { label: 'Community Club', routerLink: '/dashboard' },
+    { label: 'Dashboard', routerLink: '/dashboard' },
 
     { label: 'Activities', routerLink: '/activities' },
 

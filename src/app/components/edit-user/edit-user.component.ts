@@ -264,7 +264,7 @@ adminId:any
     }
 
     this.items = [
-      { label: 'Community Club', routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
 
       { label: 'Users', routerLink: '/users' },
 
@@ -371,6 +371,7 @@ if (
     this.gatewayService.updateAdmin(newAdmin).subscribe({
       next: (response:any) => {
         console.log('Admin updated successfully:', response);
+        this.displayDialog = true;
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -397,4 +398,6 @@ if (
   showReminder() {
     this.displayReminder = true;
   }
+
+  displayDialog: boolean = false;
 }

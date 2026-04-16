@@ -6,7 +6,7 @@
           <a
             [routerLink]="item.routerLink"
             class="p-menuitem-link"
-            routerLinkActive="text-primary font-semibold"
+            routerLinkActive="text-primary font-semibold bread-active"
           >
             <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
             <span>{{ item.label }}</span>
@@ -50,7 +50,7 @@
                   </div>
                   <div class="tab-content">
                       <div class="basic-info" style=" padding-bottom:  24px !important;   border-bottom: 1px solid var(--Colors-Primary-100, #E7EEF8);">
-                        <img [src]="images || 'community/defaultImg.png'" style="height: 299px; width: 100%;"/>
+                        <img [src]="images || 'community/defaultImg.png'" style="height: 299px; width: 100%; border-radius: 8px;"/>
                         <div class="info-container"  >
                             <div class="status-badges">
                                
@@ -70,6 +70,16 @@
 
                             </div>
                             <div class="title">{{ title }}</div>
+                            
+                            <div *ngIf="location">
+                                <!-- <i class="pi pi-clock"></i> {{ endTime | date: 'hh:mm a' }} -->
+                                <i class="pi pi-map-marker mr-2" style="color:#1151B4"></i> 
+                                <a [href]="location" target="_blank" rel="noopener noreferrer" style="cursor:pointer; text-decoration:none;color:#384251">
+                                  {{ location | slice:0:30 }}
+                                </a>
+
+                              </div>
+                            
                             <div class="dis">{{ discription }}</div>
                             <div class="details">
                               <div *ngIf="activityType !== 'Consult'"><img class="mr-2" src="seats.svg"/>{{ seatsAvailable }} Seat leave</div>
@@ -85,14 +95,7 @@
 
                               </div>
                               
-                              <div *ngIf="location">
-                                <!-- <i class="pi pi-clock"></i> {{ endTime | date: 'hh:mm a' }} -->
-                                <i class="pi pi-map-marker mr-2" style="color:#1151B4"></i> 
-                                <a [href]="location" target="_blank" rel="noopener noreferrer" class="cursor:pointer; text-decoration:none;">
-                                  {{ location | slice:0:30 }}
-                                </a>
-
-                              </div>
+                              
                               <div><img class="mr-2" src="booking.svg"/> {{ booking !== null && booking !== undefined ? booking : '30 booking / 35' }}</div>
                               
                               <div *ngIf="videoLink"><img class="mr-2" src="videoSession.svg"/>{{videoLink}}</div>

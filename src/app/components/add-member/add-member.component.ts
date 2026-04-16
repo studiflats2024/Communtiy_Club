@@ -163,7 +163,7 @@ export class AddMemberComponent {
 
 
     this.items = [
-      { label: 'Community Club', routerLink: '/dashboard' },
+      { label: 'Dashboard', routerLink: '/dashboard' },
 
       { label: 'Members', routerLink: '/members' },
       { label: 'Add Member', routerLink: '/add-member' },

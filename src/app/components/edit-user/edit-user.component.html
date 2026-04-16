@@ -3,7 +3,7 @@
   <div class="page">
     <p-breadcrumb class="max-w-full" [model]="items">
       <ng-template pTemplate="item" let-item>
-          <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+          <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold bread-active">
               <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
               <span>{{ item.label }}</span>
           </a>
@@ -174,4 +174,20 @@
       <span class="highlight">Expire in 7 days</span>.
     </p>
   </div>
+</p-dialog>
+
+<p-dialog 
+  [(visible)]="displayDialog" 
+  header="" 
+  [closable]="false" 
+  [modal]="true" 
+  [style]="{  overflow: 'visible', width: '30em' }"
+  class="responsive-dialog">
+
+
+  <div class="d-flex flex-column gap-2 justify-content-center align-items-center">
+    <img src="/manage-subscription/confirmIcon.svg" style="width: 68px;height:68px;" alt="confirmIcon">
+    <span class="dialog-txt">User has been updated successfully</span>
+  </div>
+
 </p-dialog>

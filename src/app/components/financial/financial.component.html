@@ -11,7 +11,7 @@
         <div class="tabview-header-container">
         <p-breadcrumb class="max-w-full" [model]="items">
             <ng-template pTemplate="item" let-item>
-                <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+                <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold bread-active">
                     <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
                     <span>{{ item.label }}</span>
                 </a>
@@ -31,76 +31,36 @@
           <p-toast></p-toast>
 
 
-
-          <div
-  class="flex justify-content-center align-items-center flex-wrap"
-  style="padding: 16px; gap: 10px;"
->
-  <div
-    class="plan-card"
-    *ngFor="let plan of pricingPlans"
-    style="width: 50vw; max-width: 300px;  padding: 16px;   text-align: center;"
-  >
-    <div class="basic-info flex justify-content-start gap-2">
-        <!-- <div>
-            <p-radioButton
-              [value]="plan"
-              [(ngModel)]="selectedPlan"
-            ></p-radioButton>
-        </div> -->
-      <div >
-       
-        <!-- <span>
-    
-          <img *ngIf="plan.plan_Name.toLowerCase().includes('year')" src="community/starplan.svg" style="width: 20px; height: 20px;" />
-          <img *ngIf="plan.plan_Name.toLowerCase().includes('3 months')" src="months.svg" style="width: 20px; height: 20px;" />
-          <img *ngIf="plan.plan_Name.toLowerCase().includes('6 months')" src="months.svg" style="width: 20px; height: 20px;" />
-          <img *ngIf="plan.plan_Name.toLowerCase().includes('month')" src="month.svg" style="width: 20px; height: 20px;" />
-          <img *ngIf="plan.plan_Name.toLowerCase().includes('free')" src="freePlan.svg" style="width: 20px; height: 20px;" />
-          {{ plan?.plan_Name }}
-        </span> -->
-       
-
-         
-
-        <span [ngClass]="getPlanIconnn(plan?.plan_Name).icon"
-             [style.color]="getPlanIconnn(plan?.plan_Name).color">
-            
-        </span> {{ plan?.plan_Name }}
-
-        
-        
-      </div>
-      
-    </div>
-    <!-- <div class="mt-2 flex justify-content-start plan-price" *ngIf="plan.plan_Price === 0" >Free</div> -->
-    <div class="mt-2 flex justify-content-start plan-price" *ngIf="plan.total_Revenue === 0">Free</div>
-
-    <!-- <div class=" mt-2 flex justify-content-start" *ngIf="plan.plan_Price > 0">
-       <span class="plan-price">€{{ plan?.plan_Fianl_Price }} </span> <span class="plan-duration">/ {{ plan?.plan_Duration }}</span> 
-    </div> -->
-   
-
-
-    <div class="flex justify-content-between align-items-center" *ngIf="plan.total_Revenue > 0">
-      <div class="mt-2 flex justify-content-start flex-column" >
-        <span class="plan-pricee">€{{ plan.total_Revenue }}</span> 
-        <!-- <span class="plan-duration">{{ plan.plan_Name }}</span> -->
-        <span class="txt">From last Month</span>
-
-
-      </div>
-      <div *ngIf="plan.is_Up" class="p-tag-success"><img src="arrowUp.svg"/>{{plan.percentage_Change}}%</div>
-      <div *ngIf="!plan.is_Up" class="p-tag-danger"><img src="arrowDown.svg"/>{{getAbsoluteValue(plan.percentage_Change) }}%</div>
-
-    </div>
-
-
- 
-
-  </div>
-</div>
-         
+        <!-- Statistics Cards -->
+        <div class="small-cards">
+            <div class="row g-3">
+                <div class="col-xl-3 col-lg-6 col-sm-6 card-shrink" *ngFor="let plan of pricingPlans">
+                    <div class="small-card d-flex flex-column gap-4">
+                        <div class="small-card-header">
+                            <img class="small-card-icon" [src]="'/financial/' + getIcon(plan.plan_Name)" alt="icon">
+                            <span>{{plan?.plan_Name}}</span>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <span class="small-card-count">€ {{plan?.total_Revenue}}</span>
+                                <span class="percent d-flex align-items-center" [ngStyle]="{ 
+                                            'background-color': plan?.is_Up ? '#F2FDF7' : '#FEF6F6',
+                                            'color': plan?.is_Up ? '#1CA65F' : '#E3141E' 
+                                          }">
+                                    <i class="fas me-1" [class.fa-caret-up]="plan?.is_Up"
+                                        [class.fa-caret-down]="!plan?.is_Up" style="font-size: 18px;"
+                                        *ngIf="!(plan?.percentage_Change === 0)"></i>
+                                    <span>{{plan?.percentage_Change}}%</span>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="small-card-description">From last Month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
   
         <p-tabView styleClass="tabview-custom">
             
@@ -169,9 +129,9 @@
                     <ng-template pTemplate="body" let-payment>
                       <tr>
                         <td>
-                          <div>
-                            <strong>{{ payment.name }}</strong>
-                            <p>{{ payment.email }}</p>
+                          <div class="flex flex-column">
+                            <span class="name">{{ payment.name }}</span>
+                            <span class="email">{{ payment.email }}</span>
                           </div>
                         </td>
                         <td>{{ payment.phoneNo }}</td>
