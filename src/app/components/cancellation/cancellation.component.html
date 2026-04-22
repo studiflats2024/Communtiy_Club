@@ -92,9 +92,9 @@
                     <ng-template pTemplate="body" let-request>
                       <tr>
                         <td>
-                          <div>
-                            <strong>{{ request.name }}</strong>
-                            <p>{{request.email }}</p>
+                          <div class="flex flex-column">
+                            <span class="name">{{ request.name }}</span>
+                            <span class="email">{{request.email }}</span>
                           </div>
                         </td>
                         <td>{{ request.phone }}</td>

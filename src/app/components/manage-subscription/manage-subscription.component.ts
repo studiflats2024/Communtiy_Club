@@ -262,7 +262,18 @@ export class ManageSubscriptionComponent {
     
   }
 
+  getPlanImage(planType: string): string {
+    if (!planType) return ''; 
+    const lowerPlanType = planType.toLowerCase();
 
+      if (lowerPlanType.includes('month')) return 'User.svg';
+      if (lowerPlanType.includes('semi')) return 'Calender.svg';
+      if (lowerPlanType.includes('annual')) return 'Star.svg';
+      if (lowerPlanType.includes('free')) return 'gift icon.svg';
+      if (lowerPlanType.includes('test 101')) return 'gift icon.svg';
+
+      return 'Star.svg';
+  }
 
   getPlanIcon(planType: string): string {
     if (!planType) return 'pi pi-question'; // Handle empty/null values
@@ -432,7 +443,7 @@ payFilter:boolean=false;
   { name: 'Stripe', value: 'stripe', image: 'stripePay.svg' },
   { name: 'MasterCard', value: 'mastercard', image: 'cardPay.svg' },
   { name: 'PayPal', value: 'paypal', image: 'paypal.svg' },
-  { name: 'Cash', value: 'cash', image: 'cashPay.svg' },
+  { name: 'Cash', value: 'cash', image: '/manage-subscription/cash.svg' },
   { name: 'Online', value: 'online', image: 'community/payOnline.png' }
 
 ];
@@ -642,5 +653,47 @@ isValidDate(dateString: string): boolean {
 
   deleteDialog: boolean = false;
   deleteConfimation:boolean = false;
+  selectedPlanId: string | null = null;
+
+  openDeleteDialog(planId: string) {
+    this.selectedPlanId = planId;
+    this.deleteDialog = true;
+  }
+
+  confirmDelete() {
+    if (!this.selectedPlanId) return;
+
+    this.plansService.deletePlan(this.selectedPlanId).subscribe({
+      next: (response) => {
+        console.log('Plan deleted successfully:', response);
+
+        this.deleteDialog = false;
+        this.deleteConfimation = true;
+        setTimeout(() => {
+          this.deleteConfimation = false;
+        }, 2000);
+        this.loadPlans();
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Plan deleted successfully',
+        });
+
+        this.selectedPlanId = null;
+      },
+      error: (error) => {
+        console.error('Error deleting plan:', error);
+
+        this.deleteDialog = false;
+
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to delete the plan',
+        });
+      },
+    });
+  }
 
 }

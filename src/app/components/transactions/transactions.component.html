@@ -105,8 +105,9 @@
                         <td>
                           <!-- <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="p-tag">{{ subscription.planType }}</span> -->
                           <span [ngClass]="getPlanBadgeClass(transaction.plan_Type)" class="badge">
-                            <i [ngClass]="getPlanIcon(transaction.plan_Type)" class="icon"></i>
-                            {{ transaction.plan_Type }}
+                            <!-- <i [ngClass]="getPlanIcon(transaction.plan_Type)" class="icon"></i> -->
+                            <img [src]="'/manage-subscription/' + getPlanImage(transaction.plan_Type)" class="icon" />
+                            <span>{{ transaction.plan_Type }}</span>
                           </span>
                         
                         </td>
@@ -287,7 +288,7 @@ class="responsive-dialog"
     <div *ngFor="let type of status"  >
       <button
         type="button"
-        class="status-tag border-0"
+        class="status-tag border-0" style="border-radius: 8px; padding: 8px;"
         [ngClass]="{
           'selected-success': type.selected && type.value === 'success',
           'p-tag-success': !type.selected && type.value === 'success',
@@ -331,7 +332,7 @@ class="responsive-dialog"
 </ng-template> -->
 <ng-template let-payment pTemplate="item">
   <div class="p-dropdown-item">
-    <img [src]="payment.image" alt="{{ payment.name }}" width="70px" height="100%" class="mr-2" />
+    <img [src]="payment.image" alt="{{ payment.name }}" width="50px" height="35px"/>
     <!-- <span>{{ payment.name }}</span> -->
   </div>
 </ng-template>

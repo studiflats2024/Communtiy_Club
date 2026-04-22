@@ -363,7 +363,7 @@ class="responsive-dialog"
     <div *ngFor="let type of status"  >
       <button
         type="button"
-        class="status-tag border-0"
+        class="status-tag border-0" style="border-radius: 8px; padding: 8px;"
         [ngClass]="{
           'selected-success': type.selected && type.value === 'success',
           'p-tag-success': !type.selected && type.value === 'success',
@@ -407,7 +407,7 @@ class="responsive-dialog"
 </ng-template> -->
 <ng-template let-payment pTemplate="item">
   <div class="p-dropdown-item">
-    <img [src]="payment.image" alt="{{ payment.name }}" width="70px" height="100%" class="mr-2" />
+    <img [src]="payment.image" alt="{{ payment.name }}"  width="50px" height="35px" />
     <!-- <span>{{ payment.name }}</span> -->
   </div>
 </ng-template>

@@ -471,7 +471,7 @@ displayReminder: boolean = false;
   { name: 'Stripe', value: 'stripe', image: 'stripePay.svg' },
   { name: 'MasterCard', value: 'mastercard', image: 'mastercardPay.svg' },
   { name: 'PayPal', value: 'paypal', image: 'paypal.svg' },
-  { name: 'Cash', value: 'cash', image: 'cashPay.svg' }
+  { name: 'Cash', value: 'cash', image: '/manage-subscription/cash.svg' }
 ];
 
 // Selected payment method
@@ -558,11 +558,11 @@ showCancelDialog: boolean = false;
   getActivityClass(activityType: string): string {
     switch (activityType) {
       case 'Courses':
-        return 'p-tag-success'; // Green for success
+        return 'p-tag-info'; // Green for success
       case 'Workshops':
         return 'p-tag-purble'; // Purple for workshops
       case 'Events':
-        return 'p-tag-info'; // Blue for events
+        return 'p-tag-success'; // Blue for events
       case 'Consultant':
         return 'p-tag-danger'; // Red for consultant
       default:

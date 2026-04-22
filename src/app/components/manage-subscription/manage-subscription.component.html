@@ -101,7 +101,7 @@
    <p-overlayPanel #op>
     <ul class="menu-list p-0 m-0 list-unstyled" style="width: 200px; padding: 16px 0;">
       <li><a [routerLink]="['/edit-plan', plan.id]"  (click)="storePlanInLocalStorage(plan)" style="cursor: pointer; text-decoration: none; color:#363636" >Edit</a></li>
-      <li><a style="cursor: pointer; text-decoration: none; color:#363636" (click)="onDeletePlan(plan.id)" >Delete</a></li><!--(click)="deleteItem(course)"-->
+      <li><a style="cursor: pointer; text-decoration: none; color:#363636" (click)="openDeleteDialog(plan.id)" >Delete</a></li><!--(click)="deleteItem(course)"-->
     </ul>
   </p-overlayPanel>
             
@@ -163,7 +163,7 @@
                   </div>
               </ng-template>
 
-              <div>
+              <div>ف
                 <div class="p-card p-3" style="border-radius: 16px;" >
                   <div class="flex justify-content-between align-items-center mb-4">
                     <!-- <h2>Subscription Alerts</h2> -->
@@ -224,9 +224,8 @@
 
                         
                         <td>
-                          <!-- <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="p-tag">{{ subscription.planType }}</span> -->
                           <span [ngClass]="getPlanBadgeClass(payment.plan_Type)" class="badge">
-                            <i [ngClass]="getPlanIcon(payment.plan_Type)" class="icon"></i>
+                            <img [src]="'/manage-subscription/' + getPlanImage(payment.plan_Type)" class="icon" />
                             {{ payment.plan_Type }}
                           </span>
                         
@@ -413,10 +412,9 @@
                       </td>
                       <td>{{ subscription.phone_No }}</td>
                       <td>
-                        <!-- <span [ngClass]="getPlanBadgeClass(subscription.planType)" class="p-tag">{{ subscription.planType }}</span> -->
                         <span [ngClass]="getPlanBadgeClass(subscription.plan_Type)" class="badge">
-                          <i [ngClass]="getPlanIcon(subscription.plan_Type)" class="icon"></i>
-                          {{ subscription.plan_Type }}
+                          <img [src]="'/manage-subscription/' + getPlanImage(subscription.plan_Type)" class="icon" />
+                          <span>{{ subscription.plan_Type }}</span>
                         </span>
                       
                       </td>
@@ -658,7 +656,7 @@ class="responsive-dialog"
     <div *ngFor="let type of status"  >
       <button
         type="button"
-        class="status-tag border-0"
+        class="status-tag border-0" style="border-radius: 8px; padding: 8px;"
         [ngClass]="{
           'selected-success': type.selected && type.value === 'success',
           'p-tag-success': !type.selected && type.value === 'success',
@@ -694,16 +692,9 @@ class="responsive-dialog"
   placeholder="Select Payment Method" 
   [filter]="true"
   optionLabel="name">
-<!-- <ng-template let-payment pTemplate="selectedItem">
-  <div class="p-dropdown-item">
-    <img [src]="payment.image" alt="{{ payment.name }}" width="20" class="mr-2" />
-    <span>{{ payment.name }}</span>
-  </div>
-</ng-template> -->
 <ng-template let-payment pTemplate="item">
   <div class="p-dropdown-item">
-    <img [src]="payment.image" alt="{{ payment.name }}" width="70px" height="100%" class="mr-2" />
-    <!-- <span>{{ payment.name }}</span> -->
+    <img [src]="payment.image" alt="{{ payment.name }}" width="50px" height="35px" />
   </div>
 </ng-template>
 </p-dropdown>
@@ -794,7 +785,7 @@ class="responsive-dialog"
     <div class=" ">
       <p-button
       label="No"
-    
+      (click)="deleteDialog = false"
       class="p-button-outlined custom-button"
       
     ></p-button>
@@ -804,7 +795,7 @@ class="responsive-dialog"
     <p-button
     label="Yes"
     class="p-button-outlined custom-button-add"
-
+    (click)="confirmDelete()"
   ></p-button>
   </div>
   </div>

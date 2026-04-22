@@ -57,9 +57,9 @@ discount: number =0;
 finalPrice: number =0;
 invitationNo: any;
 features: string = '';
-
+  confimationDialog: boolean = false;
   
-  constructor(private messageService: MessageService,private plansService: PlansService) {}
+  constructor(private messageService: MessageService,private plansService: PlansService,private router: Router) {}
   ngOnInit() {
 
  
@@ -142,6 +142,10 @@ this.calculateFinalPrice()
       summary: 'Success',
       detail: response.message
     });
+        this.confimationDialog = true;
+        setTimeout(() => {
+        this.router.navigate(['/manage-subscription']);
+        }, 1500);
       },
       error: (error) => {
         console.error('Error adding plan:', error);

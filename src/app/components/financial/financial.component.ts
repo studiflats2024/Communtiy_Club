@@ -379,7 +379,7 @@ payFilter:boolean=false;
   { name: 'Stripe', value: 'stripe', image: 'stripePay.svg' },
   { name: 'MasterCard', value: 'mastercard', image: 'cardPay.svg' },
   { name: 'PayPal', value: 'paypal', image: 'paypal.svg' },
-  { name: 'Cash', value: 'cash', image: 'cashPay.svg' },
+  { name: 'Cash', value: 'cash', image: '/manage-subscription/cash.svg' },
   { name: 'Online', value: 'online', image: 'community/payOnline.png' }
 
 ];
@@ -531,6 +531,19 @@ getIcon(title: string): string {
       'All Plans': 'dollar.svg'
     };
     return icons[title] || 'calenderIcon.svg';
+  }
+
+  getPlanImage(planType: string): string {
+    if (!planType) return ''; 
+    const lowerPlanType = planType.toLowerCase();
+
+      if (lowerPlanType.includes('month')) return 'User.svg';
+      if (lowerPlanType.includes('semi')) return 'Calender.svg';
+      if (lowerPlanType.includes('annual')) return 'Star.svg';
+      if (lowerPlanType.includes('free')) return 'gift icon.svg';
+      if (lowerPlanType.includes('test 101')) return 'gift icon.svg';
+
+      return 'Star.svg';
   }
 
 }

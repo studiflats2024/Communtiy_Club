@@ -829,106 +829,39 @@ background: #F6F6F6;
 /***************************/
  /* تصميم الشارات الأساسية */
 .badge {
-  display: inline-flex;
+  display: flex;
+  height: 32px;
+  padding: 8px;
+  justify-content: center;
   align-items: center;
-  padding: 5px 10px;
-  border-radius: 20px;
+  gap: 8px;
+  font-family: Poppins;
   font-size: 14px;
+  font-style: normal;
   font-weight: 500;
-  color: #fff;
-  background-color: #ccc;
-  text-transform: capitalize;
-}
-
-/* أيقونة داخل الشارة */
-.badge .icon {
-  margin-right: 8px;
-  font-size: 16px;
+  line-height: normal;
+  border-radius: 16px;
 }
 
 /* ألوان خاصة بكل خطة */
 .badge-monthly {
-   /* أخضر */
-   display: flex;
-   height: 32px;
-   padding: 8px;
-   justify-content: center;
-   align-items: center;
-   gap: 8px;
-
-   border-radius: 16px;
-background: #D7F8E7;
-color: #157E48;
-
-/* Global Tokens/Body/B-2/Medium */
-font-family: Poppins;
-font-size: 14px;
-font-style: normal;
-font-weight: 500;
-line-height: 21px; /* 150% */
+background: var(--Colors-Sucess-100, #F2FDF7);
+color: var(--Colors-Sucess-800, #17894E);
 }
 
 .badge-semi-annual {
-  display: flex;
-  height: 32px;
-  padding: 8px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-
-  border-radius: 16px;
-background: #E7EEF8;
-
-color: var(--Colors-Primary-700, #1151B4);
-
-/* Global Tokens/Body/B-2/Medium */
-font-family: Poppins;
-font-size: 14px;
-font-style: normal;
-font-weight: 500;
-line-height: 21px; /* 150% */
+  background: var(--primary-light, #F6F9FE);
+  color: var(--Colors-Primary-700, #1151B4);
 }
 
 .badge-annual {
-  display: flex;
-  height: 32px;
-  padding: 8px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-
-  border-radius: 16px;
-background: #FBEFD2;
-
-color: #DFA314;
-
-/* Global Tokens/Body/B-2/Medium */
-font-family: Poppins;
-font-size: 14px;
-font-style: normal;
-font-weight: 500;
-line-height: 21px; /* 150% */
+  background: #FDF8EC;
+  color: #BE8B11;
 }
 
 .badge-free-trial {
-  display: flex;
-  height: 32px;
-  padding: 8px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-
-  color: #A85D02;
-
-/* Global Tokens/Body/B-2/Medium */
-font-family: Poppins;
-font-size: 14px;
-font-style: normal;
-font-weight: 500;
-line-height: 21px; /* 150% */
-
-border-radius: 16px;
-background: #FCF3E8;
+  background: #FDF8EC;
+  color: #BE8B11;
 }
 
 /* الشارة الافتراضية */
@@ -1137,69 +1070,53 @@ gap: 8px;
 .status-tag::before {
   content: '●';
   display: inline-block;
-  margin-right: 0.5rem;
   font-size: 1.5em;
   line-height: 1;
 }
 
-/* .status-tag{
+.status-tag{
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
   display: flex;
-height: 40px;
-padding: 8px;
-justify-content: center;
-align-items: center;
-gap: 8px;
-} */
-
-/* Success dot color */
-.p-tag-success.status-tag::before {
-  color: #28a745; /* Green */
-}
-
-.p-tag-success{
-  display: flex;
-  height: 40px;
+  height: 32px;
   padding: 8px;
   justify-content: center;
   align-items: center;
- 
-  color: #28a745;
-  border-radius: 20px;
-background: #D7F8E7 !important;
+  gap: 8px;
+  border-radius: 16px;
+}
+
+/* Success dot color */
+.p-tag-success.status-tag::before {
+  color: #17894E; /* Green */
+}
+
+.p-tag-success{
+  color:#17894E !important;
+  background: var(--Colors-Sucess-100, #F2FDF7);
 }
 
 /* Failed dot color */
 .p-tag-danger.status-tag::before {
-  color: #dc3545; /* Red */
+  color: #C1111A; /* Red */
 }
 
 .p-tag-danger{
-  display: flex;
-  height: 40px;
-  padding: 8px;
-  justify-content: center;
-  align-items: center;
- 
-  color: #dc3545;
-  border-radius: 20px;
-  background: #FDE8E9 !important;
+  color: #C1111A !important;
+  background: var(--Colors-Danger-100, #FEF6F6) !important;
 }
 
 /* Pending dot color */
 .p-tag-warning.status-tag::before {
-  color: #ffc107; /* Yellow */
+  color: #BE8B11; /* Yellow */
 }
 
 
 .p-tag-warning{
-  display: flex;
-  height: 40px;
-  padding: 8px;
-  justify-content: center;
-  align-items: center;
-  color: #ffc107;
-
-  border-radius: 20px;
+  color: #BE8B11 !important;
   background: #FDF8EC !important;
 }
 
@@ -1221,51 +1138,39 @@ background: #D7F8E7 !important;
 
 /* Border and background for different statuses */
 .status-tag.selected-success {
-  border: 2px solid #28a745 !important; /* Green for success */
-  background-color: #eafaf1;
-  color: #28a745;
-
+  border: 2px solid #17894E !important;
   display: flex;
-  height: 40px;
+  height: 36px;
   padding: 8px;
   justify-content: center;
   align-items: center;
- 
-  color: #28a745;
+  color: #17894E;
   border-radius: 20px;
-background: #D7F8E7 !important;
+  background: #F2FDF7 !important;
 }
 
 .status-tag.selected-failed {
-  border: 2px solid  #dc3545 !important; /* Red for failed */
-  background-color: #fbeaec;
-  color: #dc3545;
-
+  border: 2px solid  #C1111A !important; /* Red for failed */
+  background-color: #FEF6F6;
+  color: #C1111A;
   display: flex;
-  height: 40px;
+  height: 36px;
   padding: 8px;
   justify-content: center;
   align-items: center;
- 
-  color: #dc3545;
   border-radius: 20px;
-  background: #FDE8E9 !important;
 }
 
 .status-tag.selected-pending {
-  border: 2px solid #ffc107 !important; /* Yellow for pending */
-  background-color: #fff9e6;
-  color: #ffc107;
-
+  border: 2px solid #BE8B11 !important; /* Yellow for pending */
+  background-color: #FDF8EC ;
+  color: #BE8B11;
   display: flex;
-  height: 40px;
+  height: 36px;
   padding: 8px;
   justify-content: center;
   align-items: center;
-  color: #ffc107;
-
   border-radius: 20px;
-  background: #FDF8EC !important;
 }
 
 .status-tag.not-all {
@@ -1278,6 +1183,7 @@ background: #D7F8E7 !important;
       border: 1px solid #1151B4 !important;
       background-color: #fff !important;
       border-radius: 8px;
+      gap: 0px;
 }
 .status-tag.selected-all {
   display: flex;
@@ -1289,6 +1195,7 @@ background: #D7F8E7 !important;
       border: 1px solid #1151B4 !important;
       background-color: #1151B4 !important;
       border-radius: 8px;
+      gap: 0px;
 }
 .status-tag.selected-all::before {
   content: ''!important;
@@ -1306,7 +1213,7 @@ background: #D7F8E7 !important;
 }
 
 
-:host ::ng-deep .p-dropdown-items {
+:host ::ng-deep .p-dropdown-item {
   margin: 0;
   padding: 0 !important;
   list-style-type: none;

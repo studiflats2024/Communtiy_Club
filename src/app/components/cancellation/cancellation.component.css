@@ -1439,3 +1439,22 @@ line-height: normal;
 .menu-list li:hover {
   background-color: #f0f0f0;
 }
+
+.name,
+.email {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.name{
+  color: var(--Neutrals-Neutrals900, #4A4A4A);
+  font-family: Poppins;
+  font-size: 16px;
+}
+
+.email {
+  color: var(--Neutrals-Neutrals700, #727272);
+  font-size: 14px;
+}

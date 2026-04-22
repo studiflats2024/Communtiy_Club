@@ -248,3 +248,19 @@
     </p>
   </div>
 </p-dialog>
+
+<p-dialog 
+  [(visible)]="confimationDialog" 
+  header="" 
+  [closable]="false" 
+  [modal]="true" 
+  [style]="{  overflow: 'visible', width: '30em' }"
+  class="responsive-dialog">
+
+
+  <div class="d-flex flex-column gap-2 justify-content-center align-items-center">
+    <img src="/manage-subscription/confirmIcon.svg" style="width: 68px;height:68px;" alt="confirmIcon">
+    <span class="dialog-txt">Your New plan has been Created</span>
+  </div>
+
+</p-dialog>

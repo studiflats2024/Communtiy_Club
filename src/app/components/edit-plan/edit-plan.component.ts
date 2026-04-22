@@ -54,6 +54,7 @@ discount: number =0;
 finalPrice: number =0;
 invitationNo: any;
 features: string = '';
+  confimationDialog: boolean = false;
 
 planData:any;
 
@@ -231,6 +232,10 @@ console.log(this.planName,this.selectedPlan?.name,this.selectedDuration?.name,th
     summary: 'Success',
     detail: response.message
   });
+      this.confimationDialog = true;
+      setTimeout(() => {
+      this.router.navigate(['/manage-subscription']);
+      }, 1500);
     },
     error: (error) => {
       console.error('Error adding plan:', error);

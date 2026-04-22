@@ -387,7 +387,7 @@ payFilter:boolean=false;
   { name: 'Stripe', value: 'stripe', image: 'stripePay.svg' },
   { name: 'MasterCard', value: 'mastercard', image: 'cardPay.svg' },
   { name: 'PayPal', value: 'paypal', image: 'paypal.svg' },
-  { name: 'Cash', value: 'cash', image: 'cashPay.svg' },
+  { name: 'Cash', value: 'cash', image: '/manage-subscription/cash.svg' },
   { name: 'Online', value: 'online', image: 'community/payOnline.png' }
 
 ];
