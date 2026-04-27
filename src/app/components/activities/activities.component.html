@@ -170,17 +170,30 @@
                 <ul class="menu-list">
                   <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
-                  <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                  <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+                  <!-- <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li> -->
+
+                  <li>
+                    <a (click)="displayHome(activity.activity_ID, activity.activity_Type, !activity.has_Displayed)">
+                      {{ activity.has_Displayed ? 'Hide From App Home' : 'Display on App Home' }}
+                    </a>
+                  </li>
 
                   <!-- <li><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li> -->
 
-                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
-                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
+                  <!-- <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li> -->
 
+                  <li>
+                    <a (click)="handleAction('publish', activity, !activity.has_Published)">
+                      {{ activity.has_Published ? 'Unpublish' : 'Publish' }}
+                    </a>
+                  </li>
 
                   <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
                   <li><a (click)="deleteItem(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Delete</a></li>
+                
+                   <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
                 </ul>
               </p-overlayPanel>
             </div>
@@ -328,12 +341,23 @@
                   <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
 
-                  <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                  <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+                  <!-- <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li> -->
 
-                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
-                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
+                  <li>
+                    <a (click)="displayHome(activity.activity_ID, activity.activity_Type, !activity.has_Displayed)">
+                      {{ activity.has_Displayed ? 'Hide From App Home' : 'Display on App Home' }}
+                    </a>
+                  </li>
 
+                  <!-- <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li> -->
+
+                  <li>
+                    <a (click)="handleAction('publish', activity, !activity.has_Published)">
+                      {{ activity.has_Published ? 'Unpublish' : 'Publish' }}
+                    </a>
+                  </li>
 
                   <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
                   <li><a (click)="deleteItem(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Delete</a></li>
@@ -482,12 +506,23 @@
                   <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
 
-                  <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                  <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+                  <!-- <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                  <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li> -->
 
-                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
-                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
+                  <li>
+                    <a (click)="displayHome(activity.activity_ID, activity.activity_Type, !activity.has_Displayed)">
+                      {{ activity.has_Displayed ? 'Hide From App Home' : 'Display on App Home' }}
+                    </a>
+                  </li>
+                  
+                  <!-- <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                  <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li> -->
 
+                  <li>
+                    <a (click)="handleAction('publish', activity, !activity.has_Published)">
+                      {{ activity.has_Published ? 'Unpublish' : 'Publish' }}
+                    </a>
+                  </li>
 
                   <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
                   <li><a (click)="deleteItem(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Delete</a></li>
@@ -643,10 +678,8 @@
                         </div>
                         <p-overlayPanel #op>
                           <ul class="menu-list">
-                            <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
-
-          
-                            <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                            
+                            <!-- <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
                             <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
 
                             <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
@@ -657,9 +690,38 @@
 
                             <li><a (click)="showReason(activity.activity_ID,'cancel')" style="text-decoration: none;color:#363636; cursor: pointer;"  >Cancel Event</a></li>
 
-                            <li><a (click)="showReason(activity.activity_ID,'postpone')" style="text-decoration: none;color:#363636; cursor: pointer;" >Postpone Event</a></li>
+                            <li><a (click)="showReason(activity.activity_ID,'postpone')" style="text-decoration: none;color:#363636; cursor: pointer;" >Postpone Event</a></li> -->
 
+                            <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
+                            <li>
+                              <a (click)="displayHome(activity.activity_ID, activity.activity_Type, !activity.has_Displayed)">
+                                {{ activity.has_Displayed ? 'Hide From App Home' : 'Display on App Home' }}
+                              </a>
+                            </li>
+
+                            <li>
+                              <a (click)="handleAction('publish', activity, !activity.has_Published)">
+                                {{ activity.has_Published ? 'Not Publish' : 'Publish' }}
+                              </a>
+                            </li>
+
+                            <!-- <li>
+                              <a (click)="handleAction('cancel', activity)">Cancel Event</a>
+                            </li> -->
+
+                            <li *ngIf="activity.status !== 'Cancelled' && activity.status !== 'Postponed'">
+                              <a (click)="handleAction('cancel', activity)">Cancel Event</a>
+                            </li>
+
+                            <li *ngIf="activity.status === 'Cancelled' || activity.status === 'Postponed'">
+                              <a (click)="viewReason(activity)">View Reason</a>
+                            </li>
+
+                            <li *ngIf="activity.status !== 'Postponed' && activity.status !== 'Cancelled'">
+                              <a (click)="handleAction('postpone', activity)">Postpone Event</a>
+                            </li>
+                            
                             <li><a (click)="deleteItem(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Delete</a></li>
                           </ul>
                         </p-overlayPanel>
@@ -807,12 +869,23 @@
                             <li><a (click)="viewParticipants(activity)" style="text-decoration: none;color:#363636;cursor: pointer;"  [routerLink]="['/participants', activity.activity_ID, activity.activity_Type]" >View Participants</a></li>
 
           
-                            <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
-                            <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li>
+                            <!-- <li *ngIf="!activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Display on App Home</a></li>
+                            <li *ngIf="activity.has_Displayed"><a (click)="displayHome(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Display on App Home</a></li> -->
 
-                            <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
+                            <li>
+                              <a (click)="displayHome(activity.activity_ID, activity.activity_Type, !activity.has_Displayed)">
+                                {{ activity.has_Displayed ? 'Hide From App Home' : 'Display on App Home' }}
+                              </a>
+                            </li>
+
+                            <!-- <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,true)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Publish</a></li>
                             <li><a (click)="togglePublish(activity.activity_ID,activity.activity_Type,false)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Not Publish</a></li>
-          
+           -->
+                            <li>
+                              <a (click)="handleAction('publish', activity, !activity.has_Published)">
+                                {{ activity.has_Published ? 'Unpublish' : 'Publish' }}
+                              </a>
+                            </li>
           
                             <li><a (click)="viewDetails(activity)" style="text-decoration: none;color:#363636; cursor: pointer;"  [routerLink]="['/activity-details', activity.activity_ID, activity.activity_Type]">View Details</a></li>
                             <li><a (click)="deleteItem(activity)"  style="text-decoration: none;color:#363636; cursor: pointer;" >Delete</a></li>
@@ -1065,52 +1138,6 @@ class="responsive-dialog"
 
 </p-dialog>
 
-<!----------------------------------------dialog for success publish---------------------------------------------------------------------->
-
-<p-dialog 
-    [(visible)]="showPublishDialog" 
-    [modal]="true" 
-    class="custom-header" 
-    [style]="{ width: '400px' }"
-  [closable]="true"
-  [dismissableMask]="true"
-      
-    [contentStyle]="{ 'text-align': 'center', 'padding': '1rem' }">
-  <div>
-    <img src="publishCourse.svg" alt="Warning Icon" width="50" height="50" />
-    <div class=" tx-success mt-3">Are you sure you want to Publish the course?</div>
-    <div class="dialog-buttons mt-4">
-       
-
-
-
-      <div class="flex justify-content-between align-items-center " style="margin-top: 35px;">
-        <div class=" ">
-          <p-button
-          label="No"
-         
-          class="p-button-outlined custom-button"
-          (click)="onCancel()"
-        ></p-button>
-       </div>
-      
-       <div class=" ">
-        <p-button
-        label="Yes"
-        
-        class="p-button-outlined custom-button-add"
-        (click)="onConfirm()"
-      ></p-button>
-      </div>
-      </div>
-
-
- 
-    </div>
-  </div>
-</p-dialog>
-
-
 
 <!-----------------------------cancel consultant-------------------------------->
 <p-dialog 
@@ -1166,9 +1193,6 @@ class="responsive-dialog"
  
 </p-dialog>
 
-
-
-
 <!--------------------------------------popup action event---------------->
 
 
@@ -1193,86 +1217,38 @@ class="responsive-dialog"
    
   <div class="flex justify-content-end gap-2">
       <p-button label="Cancel " class=" custom-button" severity="secondary" (onClick)="visibleReason = false" />
-      <p-button label="Save" class=" custom-button-add" (onClick)="eventAction()" />
+      <!-- <p-button label="Save" class=" custom-button-add" (onClick)="eventAction()" /> -->
   </div>
 </p-dialog>
 
 
-<!------------------------ popup Publish ------------------------>
-<p-dialog 
-  [(visible)]="publishConfimation" 
-  header="" 
-  [closable]="false" 
-  [modal]="true" 
-  [style]="{  overflow: 'visible', width: '30em' }"
-  class="responsive-dialog">
 
+<app-confirm-dialog 
+  [(visible)]="confirmDialog.visible"
+  [message]="confirmDialog.message"
+  [iconUrl]="confirmDialog.icon"
+  (confirm)="onConfirm()"
+  (cancel)="onCancel()">
+</app-confirm-dialog>
 
-  <div class="d-flex flex-column gap-2 justify-content-center align-items-center">
-    <img src="/manage-subscription/confirmIcon.svg" style="width: 68px;height:68px;" alt="confirmIcon">
-    <span class="publish-dialog-txt">The course has been successfully published</span>
-  </div>
+<app-success-dialog
+  [(visible)]="successDialog.visible"
+  [message]="successDialog.message"
+  [url]="successDialog.icon">
+</app-success-dialog>
 
-</p-dialog>
+<app-reason-dialog
+  [(visible)]="reasonDialog.visible"
+  [title]="reasonDialog.title"
+  [showDate]="reasonDialog.showDate"
+  (confirm)="eventAction($event.reason, $event.date)"
+  (cancel)="reasonDialog.visible = false">
+</app-reason-dialog>
 
-<!------------------------ popup unPublish ------------------------>
-<p-dialog 
-  [(visible)]="unPublishConfimation" 
-  header="" 
-  [closable]="false" 
-  [modal]="true" 
-  [style]="{  overflow: 'visible', width: '30em' }"
-  class="responsive-dialog">
-
-
-  <div class="d-flex flex-column gap-2 justify-content-center align-items-center">
-    <img src="/manage-subscription/confirmIcon.svg" style="width: 68px;height:68px;" alt="confirmIcon">
-    <span class="publish-dialog-txt">The course is now unpublished and no longer visible to users</span>
-  </div>
-
-</p-dialog>
-
-<!----------------------------------------dialog for success publish---------------------------------------------------------------------->
-
-<p-dialog 
-    [(visible)]="showNotPublishDialog" 
-    [modal]="true" 
-    class="custom-header" 
-    [style]="{ width: '400px' }"
-  [closable]="true"
-  [dismissableMask]="true"
-      
-    [contentStyle]="{ 'text-align': 'center', 'padding': '1rem' }">
-  <div>
-    <img src="/activities/warning.svg" alt="Warning Icon" width="50" height="50" />
-    <div class=" tx-success mt-3">The course will no longer be visible to users. Are you sure ?</div>
-    <div class="dialog-buttons mt-4">
-       
-
-
-
-      <div class="flex justify-content-between align-items-center " style="margin-top: 35px;">
-        <div class=" ">
-          <p-button
-          label="No"
-         
-          class="p-button-outlined custom-button"
-          
-        ></p-button>
-       </div>
-      
-       <div class=" ">
-        <p-button
-        label="Yes"
-        
-        class="p-button-outlined custom-button-add"
-        
-      ></p-button>
-      </div>
-      </div>
-
-
- 
-    </div>
-  </div>
-</p-dialog>
+<!-- <app-reason-dialog
+  [(visible)]="reasonDialog.visible"
+  [title]="reasonDialog.title"
+  [showDate]="reasonDialog.showDate"
+  (confirm)="confirmReason($event.reason, $event.date)"
+  (cancel)="reasonDialog.visible = false">
+</app-reason-dialog> -->

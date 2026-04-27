@@ -1,0 +1,17 @@
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '400px' }" [closable]="true">
+
+    <div class="text-center">
+        <img [src]="iconUrl" width="50" />
+
+        <div class="mt-3 dialog-txt">
+            {{ message }}
+        </div>
+
+        <div class="flex justify-content-between mt-4">
+            <button (click)="onCancel()" class="cancel">No</button>
+
+            <button (click)="onConfirm()" class="confirm">Yes</button>
+        </div>
+    </div>
+
+</p-dialog>

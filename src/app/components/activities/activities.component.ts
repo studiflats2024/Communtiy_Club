@@ -36,6 +36,9 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ActivityService } from '../../services/activity.service';
 import { RouterModule } from '@angular/router';
+import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
+import { SuccessDialogComponent } from '../../shared/components/success-dialog/success-dialog.component';
+import { ReasonDialogComponent } from '../../shared/components/reason-dialog/reason-dialog.component';
  
 
  
@@ -43,7 +46,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-activities',
   standalone: true,
-  imports: [RouterModule,CheckboxModule,OverlayPanelModule, CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
+  imports: [ReasonDialogComponent,SuccessDialogComponent,ConfirmDialogComponent,RouterModule,CheckboxModule,OverlayPanelModule, CalendarModule,ReactiveFormsModule,PaginatorModule,BreadcrumbModule,CommonModule, DialogModule,MenuModule,ButtonModule,ToastModule,FormsModule,NgClass,TabViewModule,BadgeModule,CardModule,TableModule,TagModule,IconFieldModule,InputIconModule,InputTextModule,MultiSelectModule,DropdownModule],
 
   providers: [MessageService ],
 
@@ -227,6 +230,14 @@ displayHome(id:any,type:any,publish:any){
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
       console.log('Success:', response);
 
+      // updated by nour
+      this.showSuccess(
+        publish
+        ? `This ${type} Display on App Home Successfully`
+        : `This ${type} Hidden from App Home Successfully`
+      )
+      // end update
+
       if(this.activeIndex===0){
         this.fetchActivities('All',1,2000);
       }else if(this.activeIndex===1){
@@ -270,7 +281,14 @@ togglePublish(id:any,type:any,publish:any){
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
       console.log('Success:', response);
 
-
+      // updated by nour
+      this.actionState.activity.has_Published = publish;
+      this.showSuccess(
+        publish
+        ? `The ${type} has been successfully published`
+        : `The ${type} is now unpublished and no longer visible to users`
+      )
+      // end update
 
       if(this.activeIndex===0){
         this.fetchActivities('All',1,2000);
@@ -295,6 +313,36 @@ togglePublish(id:any,type:any,publish:any){
     }
   );
 }
+
+// updated by nour
+onConfirm() {
+  const { type } = this.actionState;
+  const { activity } = this.actionState;
+
+  this.confirmDialog.visible = false;
+
+  switch (type) {
+
+    case 'publish':
+      this.togglePublish(activity.activity_ID, activity.activity_Type, !activity.has_Published);
+      break;
+
+    case 'cancel':
+      this.activityID = activity.activity_ID;
+      this.activityType = 'cancel';
+      this.reasonDialog.visible = true;
+      this.reasonDialog.showDate = false;
+      break;
+
+    case 'postpone':
+      this.activityID = activity.activity_ID;
+      this.activityType = 'postpone';
+      this.reasonDialog.visible = true;
+      this.reasonDialog.showDate = true;
+      break;
+  }
+}
+// end update
 
 getPlanBadgeClasss(planType: string): string {
   switch (planType) {
@@ -520,17 +568,17 @@ openPublishDialog() {
   this.showPublishDialog = true;
 }
 
-// Function to handle cancel action
-onCancel() {
-  this.showPublishDialog = false;
-}
+// // Function to handle cancel action
+// onCancel() {
+//   this.showPublishDialog = false;
+// }
 
-// Function to handle confirm action
-onConfirm() {
-  this.showPublishDialog = false;
-  console.log('Course published successfully!');
-  // Add your logic to publish the course here
-}
+// // Function to handle confirm action
+// onConfirm() {
+//   this.showPublishDialog = false;
+//   console.log('Course published successfully!');
+//   // Add your logic to publish the course here
+// }
 
 ///////////////////////////////////cancel consultant////////////////////////////////////////
 showCancelDialog: boolean = false;
@@ -716,12 +764,18 @@ showCancelDialog: boolean = false;
   }
  }
 
- eventAction(){
+ // updated by nour
+ eventAction(reason: string, date?: Date){
   if(this.activityType==='cancel'){
-    this.activityService.cancelEvent(this.activityID, this.reason).subscribe(
+    this.activityService.cancelEvent(this.activityID, reason).subscribe(
       (response) => {
       this.messageService.add({ severity: 'success', summary:'Success', detail:response.message });
-        this.visibleReason = false
+
+        this.showSuccess(
+          `This ${this.getEntityName(this.actionState.activity.activity_Type)} has been cancelled bec ${reason}`
+        );
+        this.reasonDialog.visible = false;
+      // end update
       this.fetchActivities('Event',1,2000);
         
         console.log('Success:', response);
@@ -733,14 +787,24 @@ showCancelDialog: boolean = false;
       }
     );
   }else if(this.activityType==='postpone'){
- 
+  // updated by nour
+    if (!date) {
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:'Date is required' });
+      return;
+    }
 
-    const date = new Date(this.toDate.getTime()-this.toDate.getTimezoneOffset() * 60000).toISOString();
-    console.log(date)
-    this.activityService.postponeEvent(this.activityID, this.reason, date).subscribe(
+     const formattedDate = this.formatDate(date);
+    // const date = new Date(this.toDate.getTime()-this.toDate.getTimezoneOffset() * 60000).toISOString();
+    console.log(formattedDate)
+    this.activityService.postponeEvent(this.activityID, reason, formattedDate).subscribe(
       (response) => {
-        this.showDate=false
-        this.visibleReason = false
+        
+        this.showSuccess(
+          `This ${this.getEntityName(this.actionState.activity.activity_Type)} has been postponed to ${formattedDate} bec ${reason}`
+        );
+
+        this.reasonDialog.visible = false;
+      // end update
       this.fetchActivities('Event',1,2000);
 
         console.log('Success:', response);
@@ -841,9 +905,320 @@ isValidDate(dateString: string): boolean {
   return dateString != null && !isNaN(Date.parse(dateString));
 }
 
-publishConfimation :boolean=false;
-unPublishConfimation:boolean=false;
-showNotPublishDialog:boolean=false;
+// updated by nour
+actionState: {
+  type: 'publish' | 'display' | 'cancel' | 'postpone' | null;
+  activity?: any;
+  value?: boolean | null; // publish / display
+} = {
+  type: null,
+  activity: null
+};
+
+confirmDialog = {
+  visible: false,
+  message: '',
+  icon: ''
+};
+
+successDialog = {
+  visible: false,
+  message: '',
+  icon: ''
+};
+
+reasonDialog = {
+  visible: false,
+  title: '',
+  showDate: false
+};
+
+handleAction(type: 'publish' | 'display' | 'cancel' | 'postpone', activity: any, value?: boolean) {
+  this.actionState = { type, activity, value };
+
+  switch (type) {
+
+    case 'publish':
+      this.openConfirm(
+        value!
+          ? `Are you sure you want to publish this ${this.getEntityName(activity.activity_Type)}?`
+          : `This ${this.getEntityName(activity.activity_Type)} will no longer be visible to users. Are you sure?`,
+        value ? 'publishCourse.svg' : '/activities/warning.svg'
+      );
+      break;
+
+    // case 'display':
+    //   this.executeDisplay();
+    //   break;
+
+    case 'cancel':
+      this.openConfirm(
+        `Are you sure you want to cancel the event?`,
+        '/activities/warning.svg'
+      );
+      break;
+
+    case 'postpone':
+      this.openConfirm(
+        `Are you sure you want to postpone the event?`,
+        '/activities/postpone.svg'
+      );
+      break;
+  }
+}
+
+// handleAction(type: 'publish' | 'display' | 'cancel' | 'postpone', activity: any, value?: boolean) {
+//   this.actionState = { type, activity, value };
+
+//   switch (type) {
+
+//     case 'publish':
+//       this.openConfirm(
+//         value!
+//           ? `Are you sure you want to publish this ${this.getEntityName(activity.activity_Type)}?`
+//           : `This ${this.getEntityName(activity.activity_Type)} will no longer be visible to users. Are you sure?`,
+//         value ? 'publishCourse.svg' : '/activities/warning.svg'
+//       );
+//       break;
+
+//     case 'display':
+//       this.executeDisplay();
+//       break;
+
+//     case 'cancel':
+//       this.openConfirm(
+//         `Are you sure you want to cancel the event?`,
+//         '/activities/warning.svg'
+//       );
+//       break;
+
+//     case 'postpone':
+//       this.openConfirm(
+//         `Are you sure you want to postpone the event?`,
+//         '/activities/postpone.svg'
+//       );
+//       break;
+//   }
+// }
+
+openConfirm(message: string, icon: string) {
+  this.confirmDialog = {
+    visible: true,
+    message,
+    icon
+  };
+}
+
+// onConfirm() {
+//   const { type } = this.actionState;
+
+//   this.confirmDialog.visible = false;
+
+//   switch (type) {
+
+//     // case 'publish':
+//     //   this.executePublish();
+//     //   break;
+
+//     case 'cancel':
+//       this.openReasonDialog('cancel');
+//       break;
+
+//     case 'postpone':
+//       this.openReasonDialog('postpone');
+//       break;
+//   }
+// }
+
+onCancel() {
+  this.confirmDialog.visible = false;
+  this.resetState();
+}
+
+executePublish() {
+  const { activity, value } = this.actionState;
+  const mappedType = this.mapType(activity.activity_Type);
+
+  this.activityService.publishActivity(activity.activity_ID, mappedType, value!).subscribe({
+    next: () => {
+
+      activity.has_Published = value;
+
+      this.showSuccess(
+        value
+          ? `The ${this.getEntityName(activity.activity_Type)} has been successfully published`
+          : `The ${this.getEntityName(activity.activity_Type)} is now unpublished and no longer visible to users`
+      );
+
+      this.reloadData();
+      this.resetState();
+    }
+  });
+}
+
+executeDisplay() {
+  const { activity, value } = this.actionState;
+  const mappedType = this.mapType(activity.activity_Type);
+
+  this.activityService.displayHomeActivity(activity.activity_ID, mappedType, value!).subscribe({
+    next: () => {
+
+      activity.has_Displayed = value;
+
+      this.showSuccess(
+        value
+          ? `This ${this.getEntityName(activity.activity_Type)} Display on App Home Successfully`
+          : `This ${this.getEntityName(activity.activity_Type)} Hide From App Home Successfully`
+      );
+
+      this.reloadData();
+      this.resetState();
+    }
+  });
+}
+
+openReasonDialog(type: 'cancel' | 'postpone') {
+  this.reasonDialog = {
+    visible: true,
+    title: type === 'cancel'
+      ? 'Write Reason for cancellation'
+      : 'Reschedule Your Event',
+    showDate: type === 'postpone'
+  };
+}
+
+formatDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+confirmReason(reason: string, date?: Date) {
+  const { type, activity } = this.actionState;
+
+  if (type === 'cancel') {
+
+    this.activityService.cancelEvent(activity.activity_ID, reason).subscribe(() => {
+
+      this.showSuccess(
+        `This ${this.getEntityName(activity.activity_Type)} has been cancelled bec ${reason}`
+      );
+
+      this.reasonDialog.visible = false;
+      this.reloadData();
+      this.resetState();
+    });
+
+  } else {
+
+     if (!date) {
+      console.error('Date is required for postpone');
+      this.messageService.add({ severity: 'error', summary:'Failed', detail:'Date is required for postpone' });
+      return;
+    }
+
+    const formattedDate = this.formatDate(date);
+
+    this.activityService.postponeEvent(activity.activity_ID, reason, formattedDate).subscribe(() => {
+
+      this.showSuccess(
+        `This ${this.getEntityName(activity.activity_Type)} has been postponed to ${formattedDate} bec ${reason}`
+      );
+
+      this.reasonDialog.visible = false;
+      this.reloadData();
+      this.resetState();
+    });
+  }
+}
+
+showSuccess(message: string) {
+  this.successDialog = {
+    visible: true,
+    message,
+    icon: '/manage-subscription/confirmIcon.svg'
+  };
+
+  setTimeout(() => this.successDialog.visible = false, 3000);
+}
+
+resetState() {
+  this.actionState = {
+    type: null,
+    activity: null
+  };
+}
+
+ mapType(type: string): string {
+    const map: any = {
+      Courses: 'Course',
+      Events: 'Event',
+      Workshops: 'Workshop',
+      Consultant: 'Consult'
+    };
+
+    return map[type] || type;
+  }
+
+  reloadData() {
+    const map: any = {
+      0: 'All',
+      1: 'Course',
+      2: 'Workshop',
+      3: 'Event',
+      4: 'Consult'
+    };
+
+    this.fetchActivities(map[this.activeIndex], 1, 2000);
+  }
+
+  getEntityName(type: string): string {
+    const map: any = {
+      Courses: 'course',
+      Events: 'event',
+      Workshops: 'workshop',
+      Consultant: 'consultation'
+    };
+
+    return map[type] || 'item';
+  }
+
+
+  showCanellationReason(message: string) {
+    this.successDialog = {
+      visible: true,
+      message,
+      icon: '/activities/reasonIcon.svg'
+    };
+
+    setTimeout(() => this.successDialog.visible = false, 3000);
+  }
+
+  viewReason(activity: any) {
+    if(activity.status === 'Cancelled') 
+    {
+      this.successDialog = {
+        visible: true,
+        message: `This ${this.getEntityName(activity.activity_Type)} has been cancelled bec ${activity.reason}`,
+        icon: '/activities/reasonIcon.svg'
+      };
+
+      setTimeout(() => this.successDialog.visible = false, 5000);
+    }
+    else if(activity.status === 'Postponed'){
+      this.successDialog = {
+        visible: true,
+        message: `This ${this.getEntityName(activity.activity_Type)} has been postponed bec ${activity.reason}`,
+        icon: '/activities/reasonIcon.svg'
+      };
+
+      setTimeout(() => this.successDialog.visible = false, 5000);
+    }
+  }
+
+  // end update
 
 }
 

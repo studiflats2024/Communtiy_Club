@@ -1,0 +1,13 @@
+<p-dialog 
+  [(visible)]="visible"
+  [modal]="true"
+  [closable]="false"
+  [style]="{ width: '30em' }"
+>
+
+  <div class="text-center">
+    <img [src]="url" />
+    <div class="mt-3">{{ message }}</div>
+  </div>
+
+</p-dialog>

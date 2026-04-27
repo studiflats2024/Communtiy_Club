@@ -1,0 +1,29 @@
+<p-dialog [(visible)]="visible" [modal]="true" [closable]="false" [style]="{ width: '30rem' }">
+
+    <div class="d-flex flex-column gap-4">
+        <div class="">
+            <span class="title">{{ title }}</span>
+        </div>
+
+        <!-- Date (optional) -->
+        <div *ngIf="showDate" class="">
+            <label class="block mb-2">Enter New Date</label>
+            <p-calendar [(ngModel)]="date" [showIcon]="true" placeholder="Choose date" styleClass="w-full"></p-calendar>
+        </div>
+
+        <!-- Reason -->
+        <div class="">
+            <label class="block mb-2">Reason</label>
+            <textarea pInputTextarea [(ngModel)]="reason" rows="4" style="width:100%" class="form-control"
+                placeholder="Write your reason..."></textarea>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-content-between mt-4">
+            <button class="cancel" (click)="onCancel()">Cancel</button>
+            <button class="confirm" (click)="onConfirm()">Confirm</button>
+        </div>
+
+    </div>
+
+</p-dialog>

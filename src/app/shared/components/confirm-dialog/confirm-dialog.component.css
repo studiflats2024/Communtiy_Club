@@ -1,0 +1,63 @@
+.responsive-dialog .p-dialog {
+  width: 40vw !important;
+}
+
+@media (max-width: 768px) {
+  .responsive-dialog .p-dialog {
+    width: 100vw !important;
+  }
+}
+
+.p-dialog .p-dialog-content {
+  overflow: visible !important; /* السماح بظهور المحتوى الداخلي */
+}
+
+.dialog-txt{
+  color: #000;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.confirm,
+.cancel {
+  display: flex;
+  width: 109px;
+  height: 40px;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.confirm {
+  color: #fff !important;
+  background-color: #1151B4 !important;
+  border: 1px solid #1151B4 !important;
+}
+
+.confirm:hover {
+  background-color: #0b47a0 !important;
+  border-color: #0b47a0 !important;
+}
+
+.cancel {
+  color: #1151B4 !important;
+  background-color: #fff !important;
+  border: 1px solid #1151B4 !important;
+}
+
+.cancel:hover {
+  background-color: #f0f0f0 !important;
+  border-color: #1151B4 !important;
+}
