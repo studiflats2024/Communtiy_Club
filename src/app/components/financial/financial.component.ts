@@ -359,7 +359,7 @@ payFilter:boolean=false;
   showReminder() {
     this.displayFilter=false
     this.displayFilterAlert=false
-    this.displayReminder = true;
+    // this.displayReminder = true;
   }
 
   filterPay(){

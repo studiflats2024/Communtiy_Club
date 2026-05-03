@@ -1,0 +1,491 @@
+.parent {
+    display: flex;
+    width: 100%;
+    padding-top: 100px;
+    background: #F5F9FF;
+}
+
+.fixDiv {
+    width: 250px;
+    background: #F5F9FF;
+}
+
+.page {
+    width: 100%;
+    background: #F5F9FF;
+}
+
+/* Breadcrumb */
+:host ::ng-deep .p-breadcrumb {
+    border: none;
+    margin-left: 0px !important;
+    padding: 0 0 !important;
+    padding-top: 10px;
+    margin-bottom: 20px;
+    background: #F5F9FF !important;
+    cursor: pointer;
+}
+
+:host ::ng-deep .p-breadcrumb ol {
+    margin-left: 45 !important;
+    padding-left: 15px;
+}
+
+:host ::ng-deep .p-breadcrumb ol a {
+    text-decoration: none;
+}
+
+:host ::ng-deep .p-breadcrumb .p-menuitem-link {
+    color: #586880 !important;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+:host ::ng-deep .p-breadcrumb .bread-active {
+    color: var(--Colors-Base-Main-Text, #0A0C0F) !important;
+    font-family: Poppins !important;
+    font-size: 18px;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    line-height: 32px;
+}
+
+/* Small Cards (Statistics) */
+.small-cards {
+    margin-bottom: 24px;
+}
+
+.small-card {
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1 0 0;
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0 2px 4px 0 rgba(27, 28, 29, 0.04);
+    border: none;
+}
+
+.small-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--Colors-Primary-Shade-Shade-7, #475467);
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.small-card-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.small-card-count {
+    color: var(--Colors-Base-Main-Text, #0A0C0F);
+    font-family: Poppins;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.percent {
+    display: flex;
+    width: 62px;
+    height: 32px;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 8px;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.small-card-description {
+    color: var(--Neutrals-Neutrals700, #727272);
+    font-family: Poppins;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+/* Table Card */
+.card-header {
+    color: var(--Colors-Base-Main-Text, #0A0C0F);
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+/* Search Input */
+.search-input {
+    width: 100%;
+    padding-right: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--Colors-Primary-100, #E7EEF8);
+    padding: 8px 16px;
+}
+
+.search-btn {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 0 8px 8px 0;
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: -5px;
+}
+
+/*  Table Styling */
+.card {
+    border: none !important;
+}
+
+::ng-deep .p-table {
+    border: none !important;
+}
+
+::ng-deep .p-table thead th:first-child {
+    color: var(--Colors-Primary-Shade-Shade-9, #29303B);
+    font-family: Poppins !important;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+::ng-deep .p-table tbody td:first-child {
+    color: var(--Neutrals-Neutrals900, #4A4A4A);
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+:host ::ng-deep .p-datatable-thead {
+    border-radius: 16px 16px 0px 0px !important;
+    background: #F6F6F6;
+    text-wrap: nowrap !important;
+}
+
+:host ::ng-deep .p-datatable>.p-datatable-wrapper {
+    overflow-x: auto !important;
+    border-radius: 16px;
+    border: 1px solid #EBEBEB;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+    padding: 8px 16px;
+    height: 65px;
+    color: var(--Colors-Primary-Shade-Shade-9, #29303B);
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    background: #F6F6F6 !important;
+    border-bottom: 1px solid #E5E7EB;
+    vertical-align: middle;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+    padding: 8px 16px;
+    vertical-align: middle;
+    color: var(--Neutrals-Neutrals900, #4A4A4A);
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+:host ::ng-deep .p-datatable-scrollable-body {
+    border: none !important;
+}
+
+:host ::ng-deep .p-datatable-scrollable-header,
+:host ::ng-deep .p-datatable-scrollable-body {
+    min-width: 1200px;
+}
+
+/* Menu List */
+.menu-list {
+    min-width: 200px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.menu-list li {
+    padding: 0;
+}
+
+.menu-list li a {
+    display: block;
+    padding: 8px;
+    transition: all 0.2s;
+    border-radius: 4px;
+    margin: 2px 0;
+    cursor: pointer;
+}
+
+.menu-list li a:hover {
+    background: #f3f4f6;
+}
+
+/* .custom-overlay .p-overlaypanel-content {
+    padding: 8px 12px !important;
+} */
+
+:host ::ng-deep .p-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 8px 8px 12px;
+    min-height: 38px;
+    border: 1px solid var(--Colors-Primary-100, #E7EEF8);
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0 2px 4px 0 rgba(27, 28, 29, 0.04);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-label {
+    padding: 0;
+    font-family: Poppins;
+    font-size: 14px;
+}
+
+:host ::ng-deep .p-dropdown:hover {
+    border-color: #d1d9e8;
+}
+
+:host ::ng-deep .p-dropdown:focus,
+:host ::ng-deep .p-dropdown.p-focus {
+    border-color: #1151B4 !important;
+    box-shadow: 0 2px 4px 0 rgba(27, 28, 29, 0.04), 0 0 0 2px rgba(17, 81, 180, 0.15);
+    outline: none;
+}
+
+:host ::ng-deep .p-dropdown-panel .p-dropdown-item,
+::ng-deep .p-dropdown-panel .p-dropdown-item {
+    font-family: Poppins;
+    font-size: 14px;
+    border-radius: 6px;
+    width: 100%;
+    margin: 0;
+}
+
+:host ::ng-deep .p-dropdown-items,
+::ng-deep .p-dropdown-items {
+    padding-left: 10px;
+}
+
+:host ::ng-deep .p-dialog .p-dropdown,
+::ng-deep .p-dialog .p-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 38px;
+    width: 100%;
+    border: 1px solid var(--Colors-Primary-100, #E7EEF8);
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0 2px 4px 0 rgba(27, 28, 29, 0.04);
+}
+
+:host ::ng-deep .p-dialog .p-dropdown .p-dropdown-label,
+::ng-deep .p-dialog .p-dropdown .p-dropdown-label {
+    padding: 0;
+    font-family: Poppins;
+    font-size: 14px;
+}
+
+.p-card {
+    border-radius: 16px;
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+:host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+:host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+:host ::ng-deep .p-datatable-wrapper {
+    overflow-x: auto;
+    min-width: 0;
+}
+
+/* ==================== Pagination ==================== */
+:host ::ng-deep .p-datatable .p-paginator {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 48px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: #FAFAFA;
+    font-family: Poppins;
+    font-size: 16px;
+    color: #4A4A4A;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-first,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-last {
+    display: none !important;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-rpp-options.p-dropdown {
+    order: -1;
+    min-width: 73px;
+    height: 31px;
+    border: 1px solid #E7EEF8;
+    border-radius: 5.5px;
+    background: #FFF;
+    font-family: Poppins;
+    font-size: 14px;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-rpp-options .p-dropdown-label {
+    color: #222222;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-rpp-options .p-dropdown-trigger,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-rpp-options .p-dropdown-trigger .p-icon {
+    color: #292D32;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-rpp-options .p-dropdown-trigger svg {
+    stroke: #292D32;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-current,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-prev,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-next {
+    border: none;
+    background: transparent;
+    color: #4A4A4A;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-current {
+    margin-right: auto;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-prev .p-icon,
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-next .p-icon {
+    color: #292D32;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-pages .p-paginator-page {
+    min-width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
+    color: #5E5E5E;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 2px;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-pages .p-paginator-page:hover {
+    background: transparent;
+    color: #5E5E5E;
+}
+
+:host ::ng-deep .p-datatable .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #E7EEF8;
+    border: none;
+    color: #1151B4;
+}
+
+.table-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border: none;
+}
+
+.table-status-badge .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.name,
+.email {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.name {
+    color: var(--Neutrals-Neutrals900, #4A4A4A);
+    font-family: Poppins;
+    font-size: 16px;
+}
+
+.email {
+    color: var(--Neutrals-Neutrals700, #727272);
+    font-size: 14px;
+}
+
+@media (max-width: 992px) {
+    .fixDiv {
+        max-width: 0px !important;
+        background: #F5F9FF;
+    }
+
+    .page {
+        padding: 24px;
+        width: 100%;
+        margin-left: 0px;
+    }
+}

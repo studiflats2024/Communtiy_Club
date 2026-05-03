@@ -509,7 +509,7 @@ applyFilters(): void {
 displayReminder: boolean = false;
 
   showReminder() {
-    this.displayReminder = true;
+    // this.displayReminder = true;
   }
 
 ///////////////////////////payment dropdown/////////////////////////

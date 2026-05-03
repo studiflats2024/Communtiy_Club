@@ -1,0 +1,88 @@
+<div class="parent">
+    <div class="fixDiv"></div>
+    <div class="page">
+
+        <!-- Breadcrumb and Date Filter -->
+        <div class="tabview-header-container col-md">
+            <p-breadcrumb class="max-w-full" [model]="items">
+                <ng-template pTemplate="item" let-item>
+                    <a [routerLink]="item.routerLink" class="p-menuitem-link"
+                        routerLinkActive="text-primary font-semibold bread-active">
+                        <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+                        <span>{{ item.label }}</span>
+                    </a>
+                </ng-template>
+            </p-breadcrumb>
+        </div>
+
+        <div class="layout">
+            <div class="card" style="gap: 350px;">
+
+                <div class="d-flex flex-column gap-3">
+                    <div class="border-bottom d-flex flex-column gap-2">
+                        <span class="font-16-500 color-black">Ticket # 1245624 - Cancel My Plan</span>
+                        <span class="font-16-400 color-gray">Feb 25 , 2025</span>
+                    </div>
+
+                    <div class="border-bottom d-flex flex-column gap-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex gap-2 align-items-center">
+                                <img src="/AvatarRating.png" alt="" width="50px">
+                                <div class="d-flex flex-column gap-1">
+                                    <span class="font-14-400 color-black">Hassan Mohamed</span>
+                                    <span class="font-12-400 color-gray">Hassan.Mohamedgmail.com</span>
+                                </div>
+                            </div>
+                            <div class="font-14-400 color-gray">Mon , 2:30 PM </div>
+                        </div>
+                        <span class="font-14-400" style="color: #4A4A4A;">
+                            Hi Studiflats Team,
+                            I hope you're doing well.
+
+                            I’m currently working on customizing the TailAdmin dashboard and would like to add a new
+                            section labeled “Reports.” Before I proceed, I wanted to check if there’s any official guide
+                            or best practice you recommend for adding custom pages within the TailAdmin structure.
+                        </span>
+                    </div>
+                </div>
+
+                <div class="p-3 border">
+
+                </div>
+
+            </div>
+
+            <div class="card ticket-details">
+                <div class="border-bottom">
+                    <span class="font-18-500 color-black">Ticket Details</span>
+                </div>
+                <div class="border-bottom details">
+                    <span class="font-14-400 color-gray">Tenant</span>
+                    <span class="font-16-400 color-black">Ahmed Ali</span>
+                </div>
+                <div class="border-bottom details">
+                    <span class="font-14-400 color-gray">Email</span>
+                    <span class="font-16-400 color-black">Ahmed Ali Email</span>
+                </div>
+                <div class="border-bottom details">
+                    <span class="font-14-400 color-gray">Type</span>
+                    <span class="font-16-400 color-black">Ahmed Ali Type</span>
+                </div>
+                <div class="border-bottom details">
+                    <span class="font-14-400 color-gray">Created</span>
+                    <span class="font-16-400 color-black">Ahmed Ali Created</span>
+                </div>
+                <div class="details">
+                    <span class="font-14-400 color-gray">Status</span>
+                    <!-- <span class="status" [ngStyle]="{
+                                    'background-color': getStatusBgColor(ticket.status),
+                                    'color': getStatusColor(ticket.status) }">
+                        {{ ticket.status }}
+                    </span> -->
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

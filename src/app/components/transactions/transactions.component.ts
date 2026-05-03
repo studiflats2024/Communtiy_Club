@@ -351,7 +351,7 @@ export class TransactionsComponent {
     showReminder() {
       this.displayFilter=false
       
-      this.displayReminder = true;
+      // this.displayReminder = true;
     }
   
     filterPay(){

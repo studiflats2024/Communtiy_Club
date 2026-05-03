@@ -254,7 +254,7 @@ console.log(this.planName,this.selectedPlan?.name,this.selectedDuration?.name,th
 displayReminder: boolean = false;
 
   showReminder() {
-    this.displayReminder = true;
+    // this.displayReminder = true;
   }
 
   trialDuration(){

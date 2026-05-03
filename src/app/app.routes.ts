@@ -135,7 +135,16 @@ export const routes: Routes = [
     loadComponent: () => import('./components/appointments-list/appointments-list.component').then(m => m.AppointmentsListComponent),
     canActivate: [AdminGuard]
   },
-
+  {
+    path: 'ticket-list',
+    loadComponent: () => import('./components/support-tickets-list/support-tickets-list.component').then(m => m.SupportTicketsListComponent),
+    canActivate: [AdminGuard]
+  },
+  {
+    path: 'ticket-details/:id',
+    loadComponent: () => import('./components/support-tickets-details/support-tickets-details.component').then(m => m.SupportTicketsDetailsComponent),
+    canActivate: [AdminGuard]
+  },
 
 
   { path: '**', redirectTo: 'login' },

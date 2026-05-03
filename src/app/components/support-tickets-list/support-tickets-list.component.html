@@ -1,0 +1,158 @@
+<div class="parent">
+    <div class="fixDiv"></div>
+    <div class="page">
+
+        <!-- Breadcrumb and Date Filter -->
+        <div class="tabview-header-container col-md">
+            <p-breadcrumb class="max-w-full" [model]="items">
+                <ng-template pTemplate="item" let-item>
+                    <a [routerLink]="item.routerLink" class="p-menuitem-link"
+                        routerLinkActive="text-primary font-semibold bread-active">
+                        <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+                        <span>{{ item.label }}</span>
+                    </a>
+                </ng-template>
+            </p-breadcrumb>
+        </div>
+
+
+        <!-- Statistics Cards -->
+        <div class="small-cards">
+            <div class="row g-3">
+                <div class="col-xl-4 col-lg-6 col-sm-6 card-shrink">
+                    <div class="small-card d-flex flex-column gap-4">
+                        <div class="small-card-header">
+                            <img class="small-card-icon" src="/support-tickets/total-tickets.svg" alt="icon">
+                            <span>Total Tickets</span>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <span class="small-card-count">{{ statistics?.total_Tickets || 0 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-sm-6 card-shrink">
+                    <div class="small-card d-flex flex-column gap-4">
+                        <div class="small-card-header">
+                            <img class="small-card-icon" src="/support-tickets/pending-tickets.svg" alt="icon">
+                            <span>Pending Tickets</span>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <span class="small-card-count">{{ statistics?.pending_Tickets || 0 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-sm-6 card-shrink">
+                    <div class="small-card d-flex flex-column gap-4">
+                        <div class="small-card-header">
+                            <img class="small-card-icon" src="/support-tickets/solved-tickets.svg" alt="icon">
+                            <span>Solved Tickets</span>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <span class="small-card-count">{{ statistics?.solved_Tickets || 0 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Card -->
+        <div class="p-card p-3" style="border-radius: 16px;">
+            <p-toast></p-toast>
+
+            <!-- Table Header -->
+            <div class="flex justify-content-between align-items-center mb-4">
+                <div class="card-header">Support Tickets</div>
+                <div class="p-inputgroup w-50 d-flex justify-content-end" style="position: relative;">
+                    <input type="text" class="search-input" pInputText placeholder="Search by name, code, date"
+                        [(ngModel)]="searchFilter" (keyup.enter)="applyGlobalFilter()" (blur)="applyGlobalFilter()" />
+
+                    <button pButton type="button" icon="pi pi-search" class="search-btn"
+                        (click)="applyGlobalFilter()"></button>
+
+                </div>
+            </div>
+
+            <!-- Tickets Table -->
+            <div class="card">
+
+                <p-table #dt [value]="ticketList" [paginator]="true" [rows]="pageSize" [totalRecords]="totalRecords"
+                    [first]="(currentPage - 1) * pageSize" [loading]="loading" [lazy]="true"
+                    (onLazyLoad)="onLazyLoad($event)" (onPage)="pageChange($event)" [scrollable]="true"
+                    scrollDirection="horizontal" [rowsPerPageOptions]="[5,10,25,50]" [showCurrentPageReport]="true"
+                    [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
+                    [showFirstLastIcon]="false" [tableStyle]="{'min-width':'1200px'}">
+
+                    <!-- Table Header -->
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Ticket ID </th>
+                            <th> Requested by </th>
+                            <th>Date Created </th>
+                            <th> Issue Type</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </ng-template>
+
+                    <!-- Table Body -->
+                    <ng-template pTemplate="body" let-ticket>
+                        <tr>
+                            <td>{{ ticket.ticket_Code }}</td>
+                            <td>
+                                <span class="name block">{{ ticket.requested_By_Name }}</span>
+                                <span class="email">{{ ticket.requested_By_Email }}</span>
+                            </td>
+                            <td>{{ ticket.created_At | date:'MMM dd, yyyy' }}</td>
+                            <td>{{ ticket.issue_Type || 'Not found'}}</td>
+                            <td>
+                                <span class="table-status-badge" [ngStyle]="{
+                                    'background-color': getStatusBgColor(ticket.status),
+                                    'color': getStatusColor(ticket.status) }">
+                                    <span class="status-dot"
+                                        [style.background-color]="getStatusColor(ticket.status)"></span>
+
+                                    {{ ticket.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="flex justify-content-between align-items-center gap-3">
+                                    <div>
+                                        <img class="mr-2" style="cursor:pointer" src="threeDotPay.svg"
+                                            (click)="op.toggle($event)" alt="Actions" />
+                                    </div>
+                                    <p-overlayPanel #op appendTo="body" styleClass="custom-overlay">
+                                        <ul class="menu-list">
+                                            <li>
+                                                <a [routerLink]="['/ticket-details', ticket.ticket_ID]"
+                                                    (click)="op.hide()"
+                                                    style="cursor:pointer; text-decoration:none; color:#363636">
+                                                    View Details
+                                                </a>
+                                            </li>
+                                            <li *ngIf="ticket.status === 'Pending'">
+                                                <a (click)="updateStatus(ticket.ticket_ID, 'Solved'); op.hide()"
+                                                    style="cursor:pointer; text-decoration:none; color:#363636">
+                                                    Mark as Solved
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </p-overlayPanel>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

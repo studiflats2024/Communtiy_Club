@@ -304,6 +304,6 @@ if (this.password !== this.ConfirmPass) {
   displayReminder: boolean = false;
 
   showReminder() {
-    this.displayReminder = true;
+    // this.displayReminder = true;
   }
 }
