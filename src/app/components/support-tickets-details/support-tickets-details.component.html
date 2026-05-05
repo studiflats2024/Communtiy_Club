@@ -16,37 +16,80 @@
         </div>
 
         <div class="layout">
-            <div class="card" style="gap: 350px;">
+            <div class="card" style="gap: 250px;">
 
                 <div class="d-flex flex-column gap-3">
                     <div class="border-bottom d-flex flex-column gap-2">
-                        <span class="font-16-500 color-black">Ticket # 1245624 - Cancel My Plan</span>
-                        <span class="font-16-400 color-gray">Feb 25 , 2025</span>
+                        <span class="font-16-500 color-black">Ticket {{ticket?.ticket_Code}} -
+                            {{ticket?.ticket_Subject}}</span>
+                        <span class="font-16-400 color-gray">{{ticket?.created_At | date:'MMM dd ,YYY'}}</span>
                     </div>
 
-                    <div class="border-bottom d-flex flex-column gap-3">
+                    <div class="border-bottom d-flex flex-column gap-3" *ngFor="let reply of ticket?.replies">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex gap-2 align-items-center">
-                                <img src="/AvatarRating.png" alt="" width="50px">
+                                <img *ngIf="reply?.attachment_URL" [src]="reply?.attachment_URL" width="50px">
+                                <div *ngIf="!reply?.attachment_URL" class="avatar-circle">
+                                    {{ getInitials(reply?.reply_By_Name!) }}
+                                </div>
+
                                 <div class="d-flex flex-column gap-1">
-                                    <span class="font-14-400 color-black">Hassan Mohamed</span>
-                                    <span class="font-12-400 color-gray">Hassan.Mohamedgmail.com</span>
+                                    <span class="font-14-400 color-black">{{reply.reply_By_Name}}</span>
+                                    <span class="font-12-400 color-gray">{{reply?.reply_By_Email}}</span>
                                 </div>
                             </div>
-                            <div class="font-14-400 color-gray">Mon , 2:30 PM </div>
+                            <div class="font-14-400 color-gray">{{reply?.created_At | date:'MMM dd ,YYYY'}} </div>
                         </div>
-                        <span class="font-14-400" style="color: #4A4A4A;">
-                            Hi Studiflats Team,
-                            I hope you're doing well.
-
-                            I’m currently working on customizing the TailAdmin dashboard and would like to add a new
-                            section labeled “Reports.” Before I proceed, I wanted to check if there’s any official guide
-                            or best practice you recommend for adding custom pages within the TailAdmin structure.
-                        </span>
+                        <span class="font-14-400" style="color: #4A4A4A;">{{reply?.reply_Message}}</span>
                     </div>
                 </div>
 
-                <div class="p-3 border">
+                <div class="reply-box-wrapper">
+                    <div class="reply-box" [class.reply-box--focused]="isTextareaFocused">
+                        <textarea [(ngModel)]="replyMessage" placeholder="Type your reply here" rows="4"
+                            (focus)="isTextareaFocused = true" (blur)="isTextareaFocused = false"
+                            [disabled]="isSending"></textarea>
+
+                        <div class="attachment-preview" *ngIf="selectedFileName">
+                            <i class="pi pi-file"></i>
+                            <span>{{ selectedFileName }}</span>
+                            <button class="remove-attachment" (click)="removeAttachment()" type="button">
+                                <i class="pi pi-times"></i>
+                            </button>
+                        </div>
+
+                        <div class="reply-actions">
+                            <label class="attach-btn" for="file-upload" [class.disabled]="isSending">
+                                <i class="pi pi-paperclip"></i>
+                                <span>Attach</span>
+                            </label>
+                            <input id="file-upload" type="file" (change)="onFileSelected($event)" style="display:none"
+                                [disabled]="isSending" />
+
+                            <button class="reply-btn" (click)="submitReply()"
+                                [disabled]="!replyMessage.trim() || isSending">
+                                <ng-container *ngIf="!isSending">
+                                    Reply
+                                </ng-container>
+                                <ng-container *ngIf="isSending">
+                                    <i class="pi pi-spin pi-spinner"></i>
+                                    Sending...
+                                </ng-container>
+                            </button>
+                        </div>
+
+                        <!-- Success Toast -->
+                        <div class="success-toast" *ngIf="successMessage">
+                            <i class="pi pi-check-circle"></i>
+                            {{ successMessage }}
+                        </div>
+
+                        <!-- Error Toast -->
+                        <div class="error-toast" *ngIf="replyError">
+                            <i class="pi pi-times-circle"></i>
+                            {{ replyError }}
+                        </div>
+                    </div>
 
                 </div>
 
@@ -58,27 +101,27 @@
                 </div>
                 <div class="border-bottom details">
                     <span class="font-14-400 color-gray">Tenant</span>
-                    <span class="font-16-400 color-black">Ahmed Ali</span>
+                    <span class="font-16-400 color-black">{{ticket?.tenant_Name}}</span>
                 </div>
                 <div class="border-bottom details">
                     <span class="font-14-400 color-gray">Email</span>
-                    <span class="font-16-400 color-black">Ahmed Ali Email</span>
+                    <span class="font-16-400 color-black">{{ticket?.tenant_Email}}</span>
                 </div>
                 <div class="border-bottom details">
                     <span class="font-14-400 color-gray">Type</span>
-                    <span class="font-16-400 color-black">Ahmed Ali Type</span>
+                    <span class="font-16-400 color-black">{{ticket?.ticket_Subject}}</span>
                 </div>
-                <div class="border-bottom details">
+                <div class="border-bottom details align-items-center">
                     <span class="font-14-400 color-gray">Created</span>
-                    <span class="font-16-400 color-black">Ahmed Ali Created</span>
+                    <span class="font-16-400 color-black">{{ticket?.created_At | date:'MMM dd ,YYY'}}</span>
                 </div>
-                <div class="details">
+                <div class="details align-items-center">
                     <span class="font-14-400 color-gray">Status</span>
-                    <!-- <span class="status" [ngStyle]="{
-                                    'background-color': getStatusBgColor(ticket.status),
-                                    'color': getStatusColor(ticket.status) }">
-                        {{ ticket.status }}
-                    </span> -->
+                    <span class="status" [ngStyle]="{
+                                    'background-color': getStatusBgColor(ticket?.status!),
+                                    'color': getStatusColor(ticket?.status!) }">
+                        {{ ticket?.status }}
+                    </span>
                 </div>
             </div>
         </div>

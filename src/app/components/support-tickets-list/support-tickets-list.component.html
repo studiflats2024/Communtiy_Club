@@ -84,7 +84,7 @@
                 <p-table #dt [value]="ticketList" [paginator]="true" [rows]="pageSize" [totalRecords]="totalRecords"
                     [first]="(currentPage - 1) * pageSize" [loading]="loading" [lazy]="true"
                     (onLazyLoad)="onLazyLoad($event)" (onPage)="pageChange($event)" [scrollable]="true"
-                    scrollDirection="horizontal" [rowsPerPageOptions]="[5,10,25,50]" [showCurrentPageReport]="true"
+                    scrollDirection="horizontal" [rowsPerPageOptions]="[5,10,20]" [showCurrentPageReport]="true"
                     [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
                     [showFirstLastIcon]="false" [tableStyle]="{'min-width':'1200px'}">
 

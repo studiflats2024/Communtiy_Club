@@ -71,6 +71,11 @@ export class SupportTicketsListComponent {
       },
       error: (err: any) => {
         console.error('Error fetching tickets list:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to fetch tickets list'
+        });
         this.loading = false;
       }
     })

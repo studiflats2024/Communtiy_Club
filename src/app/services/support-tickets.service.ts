@@ -29,15 +29,21 @@ export class SupportTicketsService {
 
   // Update ticket status
   updateTicketStatus(ticketId: string, status: string) {
-    const body = {
-      ticket_ID: ticketId,
-      status: status
-    };
+    const body = { ticket_ID: ticketId, status: status };
 
-    return this.http.post<any>(
-      `${this.apiUrl}/UpdateTicketStatus`,
-      body
-    );
+    return this.http.post<any>(`${this.apiUrl}/UpdateTicketStatus`, body);
+  }
+
+  // Get ticket details
+  getTicketDetails(ticketId: string): Observable<SupportTicket_Details> {
+    const params = new HttpParams().set('Ticket_ID', ticketId);
+    // return this.http.get<SupportTicket_Details>(`${this.apiUrl}/GetTicketDetails`, { params });
+    return this.http.get<SupportTicket_Details>(`${this.apiUrl}/GetTicketDetails?Ticket_ID=${ticketId}`);
+  }
+
+  // POST reply
+  addReply(replyData: SupportTicket_Reply_Request): Observable<SupportTicket_Reply_Response> {
+    return this.http.post<SupportTicket_Reply_Response>(`${this.apiUrl}/AddReply`, replyData);
   }
 
 }
@@ -99,6 +105,44 @@ export interface UpdateStatusRequest {
 }
 
 export interface UpdateStatusResponse {
+  status: string;
+  message: string;
+  uuid: string;
+  rooms_IDs: string[];
+  rooms_Names: string[];
+}
+
+// ==================== Support Tickets Details Interfaces ====================
+export interface SupportTicket_Details {
+  ticket_ID: string;
+  ticket_Code: string;
+  tenant_Name: string;
+  tenant_Email: string;
+  issue_Type: Ticket_Issue_Type;
+  ticket_Subject: string;
+  ticket_Description: string;
+  status: Ticket_Status;
+  created_At: string;
+  updated_At: string;
+  replies: SupportTicket_Reply[];
+}
+
+export interface SupportTicket_Reply {
+  reply_ID: string;
+  reply_By_Name: string;
+  reply_By_Email: string;
+  reply_Message: string;
+  attachment_URL: string;
+  created_At: string;
+}
+
+export interface SupportTicket_Reply_Request {
+  ticket_ID: string;
+  reply_Message: string;
+  attachment_URL: string | null;
+}
+
+export interface SupportTicket_Reply_Response {
   status: string;
   message: string;
   uuid: string;

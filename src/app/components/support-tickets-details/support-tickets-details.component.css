@@ -117,32 +117,13 @@
     padding-bottom: 16px;
 }
 
-/* .details-header {
-    color: #000;
-    font-family: Poppins;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-} */
-
 .details {
     display: grid;
     grid-template-columns: 0.7fr 2fr;
 }
 
-/* .label {
-    color: var(--Neutrals-Neutrals700, #727272);
-    font-size: 14px;
-}
-
-.txt {
-    color: var(--Colors-Base-Main-Text, #0A0C0F);
-    font-size: 16px;
-} */
-
 .status {
-    display: flex;
+    display: inline-flex;
     padding: 8px;
     justify-content: center;
     align-items: center;
@@ -153,4 +134,341 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    width: fit-content;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Avatar */
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 50%;
+    background: #E8EEFF;
+    color: #3B5BDB;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+.avatar-circle--admin {
+    background: #EEF6FF;
+    color: #1D6FA4;
+}
+
+/* Message text */
+/* .message-text {
+    color: #4A4A4A;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+    white-space: pre-line;
+    margin: 0;
+} */
+
+/* Replies thread */
+/* .replies-thread {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 16px;
+}
+
+.reply-item {
+    padding: 16px 0;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.reply-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.reply-item--admin {
+    background: #F8FBFF;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 8px;
+} */
+
+/* Attachment inside reply */
+/* .attachment-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.attachment-link i {
+    color: #3B5BDB;
+    font-size: 13px;
+}
+
+.attachment-link a {
+    font-size: 13px;
+    color: #3B5BDB;
+    text-decoration: none;
+    font-family: Poppins;
+}
+
+.attachment-link a:hover {
+    text-decoration: underline;
+} */
+
+ /* Reply Box  */
+.reply-box {
+    border: 1px solid #EEF0F1;
+    border-radius: 16px;
+    padding: 16px;
+    background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reply-box--focused {
+    border-color: #1151B4;
+    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.08);
+}
+
+.reply-box textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 400;
+    color: #0A0C0F;
+    background: transparent;
+    line-height: normal;
+    min-height: 90px;
+}
+
+.reply-box textarea::placeholder {
+    color: #727272;
+}
+
+.reply-box textarea:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Attachment preview */
+.attachment-preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: #F0F4FF;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #3B5BDB;
+    font-family: Poppins;
+}
+
+.attachment-preview i {
+    font-size: 14px;
+}
+
+.remove-attachment {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 2px;
+    color: #3B5BDB;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.remove-attachment i {
+    font-size: 12px;
+}
+
+/* Reply actions bar */
+.reply-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid #F3F4F6;
+    margin-top: 8px;
+}
+
+/* Attach button */
+.attach-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: #000;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: background 0.15s, color 0.15s;
+    user-select: none;
+}
+
+.attach-btn:hover {
+    background: #F0F4FF;
+    color: #000;
+}
+
+.attach-btn.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* Reply button */
+.reply-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #1151B4;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.reply-btn:hover:not(:disabled) {
+    background: #2340B8;
+    transform: translateY(-1px);
+}
+
+.reply-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.reply-btn:disabled {
+    background: #B0BEC5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Toasts */
+.success-toast,
+.error-toast {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 400;
+    animation: fadeIn 0.25s ease;
+}
+
+.success-toast {
+    background: #F2FDF7;
+    color: #17894E;
+    border: 1px solid #C3EFDA;
+}
+
+.error-toast {
+    background: #FEF6F6;
+    color: #C1111A;
+    border: 1px solid #F5C2C4;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+/* Loading */
+/* .loading-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+:host ::ng-deep .custom-spinner .p-progress-spinner-circle {
+    stroke: #2B4FD8 !important;
+} */
+
+/* Error banner */
+/* .error-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    background: #FEF6F6;
+    color: #C1111A;
+    border: 1px solid #F5C2C4;
+    border-radius: 12px;
+    font-family: Poppins;
+    font-size: 14px;
+    margin-bottom: 16px;
+} */
+
+/* Conversation card */
+/* .conversation-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+} */
+
+@media (max-width:1025px) {
+    .layout {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+}
+
+@media (max-width:913px) {
+    .fixDiv {
+        max-width: 0px;
+    }
+}
+
+@media (max-width:325px) {
+    .details {
+        grid-template-columns: 1fr 2fr;
+    }
 }

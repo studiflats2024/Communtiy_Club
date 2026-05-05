@@ -148,6 +148,7 @@ export interface CompleteAppointmentRequest {
     appointmentId: string;
     resultOfAppointment: string;
     additionalNotes?: string;
+    lead_Source: string;
 }
 
 export interface BulkCancelAppointmentsRequest {

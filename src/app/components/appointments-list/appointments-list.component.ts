@@ -100,6 +100,7 @@ export class AppointmentsListComponent {
   showResultModal = false;
   currentAppointment: AppointmentItem | null = null;
   selectedAppointment: AppointmentItem | null = null;
+  lead_Source: string = '';
 
   // Selection for bulk operations
   selectedAppointments: AppointmentItem[] = [];
@@ -506,7 +507,8 @@ export class AppointmentsListComponent {
     const request: CompleteAppointmentRequest = {
       appointmentId: this.currentAppointment.id,
       resultOfAppointment: this.selectedCompletionResult!,
-      additionalNotes: this.completionNotes || undefined
+      additionalNotes: this.completionNotes || undefined,
+      lead_Source: this.lead_Source || '',
     };
 
     this.appointmentService.completeAppointment(request).subscribe({
