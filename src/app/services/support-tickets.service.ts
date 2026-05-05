@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SupportTicketsService {
-  private readonly apiUrl = 'https://devapi.studiflats.com/api/SupportTicket';
+  private readonly apiUrl = `${environment.apiUrl}/SupportTicket`;
 
   constructor(private http: HttpClient) { }
 

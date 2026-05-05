@@ -1134,7 +1134,7 @@ gap: 8px;
 
 .p-tag-success{
   color:#17894E !important;
-  background: var(--Colors-Sucess-100, #F2FDF7);
+  background: var(--Colors-Sucess-100, #F2FDF7) !important;
 }
 
 /* Failed dot color */

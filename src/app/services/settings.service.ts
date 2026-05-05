@@ -58,14 +58,14 @@ export class SettingsService {
     // GET working hours
     getWorkingHours(): Observable<WorkingHoursListResponse> {
         return this.http.get<WorkingHoursListResponse>(
-            `https://devapi.studiflats.com/api/AppointmentBooking/WorkingHours`
+            `${environment.apiUrl}/AppointmentBooking/WorkingHours`
         );
     }
 
     // UPDATE working hours
     updateWorkingHours(payload: WorkingHoursUpdate[]): Observable<any> {
         return this.http.put(
-            `https://devapi.studiflats.com/api/AppointmentBooking/WorkingHours`,
+            `${environment.apiUrl}/AppointmentBooking/WorkingHours`,
             payload
         );
     }
