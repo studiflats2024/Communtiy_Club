@@ -45,6 +45,27 @@ export interface WorkingDay {
     available_Slots_Count: number;
 }
 
+// Payment method request
+export interface SetPaymentMethodsRequest {
+    cash_Enabled: boolean;
+    online_Enabled: boolean;
+}
+
+// Payment method response
+export interface SetPaymentMethodsResponse {
+    status: string | null;
+    message: string;
+    uuid: string | null;
+    rooms_IDs: number[] | null;
+    rooms_Names: string[] | null;
+}
+
+export interface GetPaymentMethodsResponse {
+    cash_Enabled: boolean;
+    online_Enabled: boolean;
+    available_Methods: string[];
+}
+
 @Injectable({
     providedIn: 'root',
 })
@@ -69,4 +90,18 @@ export class SettingsService {
             payload
         );
     }
+
+    // payment methods
+    getPaymentMethods(): Observable<GetPaymentMethodsResponse> {
+        return this.http.get<GetPaymentMethodsResponse>(`${environment.apiUrl}/Gateway/GetPaymentMethods`);
+    }
+
+    setPaymentMethods(request: SetPaymentMethodsRequest): Observable<SetPaymentMethodsResponse> {
+        const params = new HttpParams()
+            .set('Cash_Enabled', request.cash_Enabled.toString())
+            .set('Online_Enabled', request.online_Enabled.toString());
+
+        return this.http.post<SetPaymentMethodsResponse>(`${environment.apiUrl}/Gateway/SetPaymentMethods`, null, { params });
+    }
+
 }

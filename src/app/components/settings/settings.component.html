@@ -3,24 +3,48 @@
   <div class="page">
 
     <div class="tabview-header-container">
-
       <p-breadcrumb class="max-w-full" [model]="items">
         <ng-template pTemplate="item" let-item>
-          <a [routerLink]="item.routerLink" class="p-menuitem-link"
-            routerLinkActive="text-primary font-semibold bread-active">
+          <a [routerLink]="item.isBack ? null : item.routerLink" class="p-menuitem-link"
+            [class.bread-active]="item.active" [class.bread-back]="item.isBack" (click)="item.isBack ? goBack() : null">
             <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
             <span>{{ item.label }}</span>
           </a>
         </ng-template>
       </p-breadcrumb>
-
     </div>
 
-    <div class="card p-4">
+    <!-- ===================== MAIN SETTINGS PAGE ===================== -->
+    <div *ngIf="currentView === 'main'" class="card p-4 main">
+      <div class="d-flex flex-column gap-4">
 
+        <div class="settings-cards-grid">
+
+          <!-- Working Hours Card -->
+          <div class="settings-card" (click)="navigateTo('working-hours')">
+            <div class="settings-card-icon">
+              <i class="bi bi-clock"></i>
+            </div>
+            <span class="settings-card-title">Working Hours</span>
+          </div>
+
+          <!-- Payment Method Card -->
+          <div class="settings-card" (click)="navigateTo('payment-method')">
+            <div class="settings-card-icon">
+              <img src="/appointment/Earn Icon.svg" alt="Earn Icon">
+            </div>
+            <span class="settings-card-title">Payment Method</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== WORKING HOURS PAGE ===================== -->
+    <div *ngIf="currentView === 'working-hours'" class="card p-4">
       <div class="d-flex flex-column gap-5">
 
-        <!-- عرض التحذيرات (Warnings) بدلاً من الأخطاء عند التفعيل -->
+        <!-- Warnings Alert -->
         <div *ngIf="isEditMode && hasValidationWarnings()" class="alert alert-warning validation-alert">
           <div class="d-flex align-items-start">
             <i class="bi bi-exclamation-circle-fill me-2 mt-1"></i>
@@ -58,31 +82,18 @@
           </div>
 
           <div class="edit">
-            <!-- Read Mode Button -->
-            <span *ngIf="!isEditMode" (click)="enterEditMode()">
-              Edit
-            </span>
-
+            <span *ngIf="!isEditMode" (click)="enterEditMode()">Edit</span>
             <div *ngIf="isEditMode">
-              <span (click)="cancelEdit()">
-                Cancel
-              </span>
+              <span (click)="cancelEdit()">Cancel</span>
             </div>
-
-
           </div>
         </div>
-
-        <!-- Working Days List -->
 
         <!-- Read mode -->
         <div class="second-sec" *ngIf="!isEditMode">
           <div *ngFor="let day of workingDays">
-
             <div class="content-row">
-              <span class="col day-col day-name">
-                {{ day.day }}
-              </span>
+              <span class="col day-col day-name">{{ day.day }}</span>
 
               <div class="col time-col time-cell time-label" [ngClass]="getTimeCallClass(day)">
                 <span>From</span>
@@ -99,85 +110,61 @@
                   {{ getStatusText(day) }}
                 </span>
               </span>
-
             </div>
 
             <div class="d-flex gap-3 col day-col day-name">
               <span>Employee Count</span>
               <span style="color: #727272;">{{ day?.available_Slots_Count }}</span>
             </div>
-
           </div>
         </div>
 
-
         <!-- Edit mode -->
         <div class="second-sec" *ngIf="isEditMode">
-          <div *ngFor="let day of workingDays" [class.disabled-row]="!day.isEnabled && isEditMode" class="">
+          <div *ngFor="let day of workingDays" [class.disabled-row]="!day.isEnabled && isEditMode">
             <div class="edit-mode-layout">
               <div class="day-toggle d-flex align-items-center w-100">
-                <!-- Day Name Column -->
-
                 <span class="day-name day-cell">{{ day.day }}</span>
-
-                <!-- Toggle Switch (Edit Mode Only) -->
                 <div *ngIf="isEditMode" class="form-check form-switch">
                   <input class="form-check-input" type="checkbox" [id]="'toggle-' + day.day" [(ngModel)]="day.isEnabled"
                     (change)="onToggleChange(day)">
                 </div>
-
               </div>
 
               <div class="from-to-edit-mode">
-
-                <!-- From Time Column -->
                 <div class="time-cell time-label" [ngClass]="getTimeCallClass(day)">
                   <span>From</span>
-
                   <input type="time" class="time-input" [(ngModel)]="day.fromTime" [disabled]="!day.isEnabled"
                     (change)="onTimeChange(day)" [ngModelOptions]="{ standalone: true }" />
-
                 </div>
 
-                <!-- To Time Column -->
                 <div class="time-cell time-label" [ngClass]="getTimeCallClass(day)">
                   <span>To</span>
-
                   <input type="time" class="time-input" [(ngModel)]="day.toTime" [disabled]="!day.isEnabled"
                     (change)="onTimeChange(day)" [ngModelOptions]="{ standalone: true }" />
-
                 </div>
-
               </div>
-
             </div>
 
             <div>
               <div class="d-flex gap-3">
-                <label for="" class="day-name day-cell">Employee Count</label>
+                <label class="day-name day-cell">Employee Count</label>
                 <input type="number" class="input-count form-control-sm" [(ngModel)]="day.available_Slots_Count"
                   [disabled]="!day.isEnabled" min="1" max="100" (change)="onSlotsCountChange(day)"
                   [ngModelOptions]="{ standalone: true }">
               </div>
             </div>
-
           </div>
-
         </div>
 
         <!-- Edit Mode Buttons -->
         <div *ngIf="isEditMode" class="btns-layout d-flex justify-content-end gap-4">
-          <button class="btn btn-outline-secondary px-4" (click)="cancelEdit()">
-            Cancel
-          </button>
-          <button class="btn btn-primary px-4" [disabled]="!hasChanges()" (click)="saveWorkingHours()">
-            Save
-          </button>
+          <button class="btn btn-outline-secondary px-4" (click)="cancelEdit()">Cancel</button>
+          <button class="btn btn-primary px-4" [disabled]="!hasChanges()" (click)="saveWorkingHours()">Save</button>
         </div>
 
         <!-- Success Modal -->
         <div class="modal-overlay" [class.show]="showSuccessPopup"></div>
-
         <div class="success-modal" [class.show]="showSuccessPopup">
           <div class="success-modal-content">
             <div class="success-icon mb-3">
@@ -189,10 +176,86 @@
         </div>
 
       </div>
+    </div>
 
+    <!-- ===================== PAYMENT METHOD PAGE ===================== -->
+    <div *ngIf="currentView === 'payment-method'" class="card p-4">
+      <div class="d-flex flex-column gap-3 border p-3">
 
+        <div class="payment-title">
+          <span class="payment-txt">Payment Method</span>
+          <span class="select-payment-txt">
+            Select the payment method used to collect rent and security deposit for this Apartment.
+          </span>
+        </div>
+
+        <!-- Loading state -->
+        <div *ngIf="isPaymentLoading" class="text-muted" style="font-family: Poppins; font-size: 14px;">
+          Loading...
+        </div>
+
+        <!-- API error message -->
+        <div *ngIf="paymentErrorMessage" class="payment-error">
+          <i class="bi bi-exclamation-circle-fill me-1"></i>
+          {{ paymentErrorMessage }}
+        </div>
+
+        <!-- Payment Method Section -->
+        <div *ngIf="!isPaymentLoading" class="payment-section">
+          <div class="payment-section-header">
+            <span class="payment-section-label">Select Payment Method</span>
+            <span class="required-star">*</span>
+          </div>
+
+          <div class="payment-options">
+            <!-- Online -->
+            <label class="payment-option-row" [class.selected]="paymentForm.online">
+              <input type="checkbox" [(ngModel)]="paymentForm.online" (change)="onPaymentChange()"
+                [ngModelOptions]="{ standalone: true }" />
+              <span class="payment-option-label">Online</span>
+            </label>
+
+            <!-- Cash -->
+            <label class="payment-option-row" [class.selected]="paymentForm.cash">
+              <input type="checkbox" [(ngModel)]="paymentForm.cash" (change)="onPaymentChange()"
+                [ngModelOptions]="{ standalone: true }" />
+              <span class="payment-option-label">Cash</span>
+            </label>
+          </div>
+
+          <!-- Validation error -->
+          <div *ngIf="paymentError" class="payment-error">
+            <i class="bi bi-exclamation-circle-fill me-1"></i>
+            {{ paymentError }}
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btns-layout d-flex justify-content-end gap-4">
+          <button class="btn btn-outline-secondary px-4" (click)="cancelPayment()">
+            Cancel
+          </button>
+          <button class="btn btn-primary px-4" [disabled]="!paymentHasChanges() || isPaymentSaving"
+            (click)="savePaymentMethod()">
+            <span *ngIf="isPaymentSaving">Saving...</span>
+            <span *ngIf="!isPaymentSaving">Save</span>
+          </button>
+        </div>
+
+        <!-- Success Modal -->
+        <div class="modal-overlay" [class.show]="showPaymentSuccessPopup"></div>
+        <div class="success-modal" [class.show]="showPaymentSuccessPopup">
+          <div class="success-modal-content">
+            <div class="success-icon mb-3">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <h4>Success</h4>
+            <p>Payment method saved successfully</p>
+          </div>
+        </div>
+
+      </div>
     </div>
 
   </div>
-
 </div>

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
-import { SettingsService, WorkingDay, WorkingHoursUpdate } from '../../services/settings.service';
+import { GetPaymentMethodsResponse, SetPaymentMethodsRequest, SettingsService, WorkingDay, WorkingHoursUpdate } from '../../services/settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -24,11 +24,37 @@ import { SettingsService, WorkingDay, WorkingHoursUpdate } from '../../services/
 })
 export class SettingsComponent {
 
-  items = [
-    { label: 'Dashboard', routerLink: '/dashboard' },
-    { label: 'Settings', routerLink: '/settings' }
+  items: any[] = [
+    { label: 'Dashboard', routerLink: '/dashboard', isBack: false, active: false },
+    { label: 'Settings', routerLink: '/settings', isBack: false, active: true }
   ];
 
+  // ================= Navigation =================
+  currentView: 'main' | 'working-hours' | 'payment-method' = 'main';
+
+  navigateTo(view: 'working-hours' | 'payment-method'): void {
+    this.currentView = view;
+    const label = view === 'working-hours' ? 'Working Hours' : 'Payment Method';
+    this.items = [
+      { label: 'Dashboard', routerLink: '/dashboard', isBack: false, active: false },
+      { label: 'Settings', routerLink: '/settings', isBack: true, active: false },
+      { label, routerLink: `/settings/${view}`, isBack: false, active: true }
+    ];
+    if (view === 'working-hours') this.loadWorkingHours();
+  }
+
+  goBack(): void {
+    this.currentView = 'main';
+    this.isEditMode = false;
+    this.validationErrors.clear();
+    this.validationWarnings.clear();
+    this.items = [
+      { label: 'Dashboard', routerLink: '/dashboard', isBack: false, active: false },
+      { label: 'Settings', routerLink: '/settings', isBack: false, active: true }
+    ];
+  }
+
+  // ================= State =================
   isEditMode: boolean = false;
   showSuccessPopup: boolean = false;
   workingDays: WorkingDay[] = [];
@@ -38,11 +64,9 @@ export class SettingsComponent {
 
   constructor(private settingsService: SettingsService) { }
 
-  ngOnInit(): void {
-    this.loadWorkingHours();
+  ngOnInit() {
+    this.loadPaymentMethods();
   }
-
-  // ================= API =================
 
   loadWorkingHours(): void {
     this.settingsService.getWorkingHours().subscribe({
@@ -335,6 +359,101 @@ export class SettingsComponent {
     }
 
     this.validationErrors.delete(day.day + '_slots');
+  }
+
+  // ================= Payment Method =================
+
+  /** Raw API response (for available_Methods badge display) */
+  paymentMethods: GetPaymentMethodsResponse | null = null;
+
+  /** UI form — used by the HTML checkboxes (matches the existing template exactly) */
+  paymentForm = { online: false, cash: false };
+
+  /** Snapshot saved after a successful load/save — used by paymentHasChanges() */
+  originalPaymentForm = { online: false, cash: false };
+
+  paymentError: string = '';
+  isPaymentLoading: boolean = false;
+  isPaymentSaving: boolean = false;
+  showPaymentSuccessPopup: boolean = false;
+  paymentErrorMessage: string | null = null;
+
+  loadPaymentMethods(): void {
+    this.isPaymentLoading = true;
+    this.paymentError = '';
+    this.paymentErrorMessage = null;
+
+    this.settingsService.getPaymentMethods().subscribe({
+      next: (data: GetPaymentMethodsResponse) => {
+        this.paymentMethods = data;
+        console.log(data);
+
+        this.paymentForm = {
+          online: data.online_Enabled,
+          cash: data.cash_Enabled,
+        };
+        this.originalPaymentForm = { ...this.paymentForm };
+        this.isPaymentLoading = false;
+      },
+      error: (err) => {
+        this.paymentErrorMessage = 'Failed to load payment methods.';
+        console.error(err);
+        this.isPaymentLoading = false;
+      },
+    });
+  }
+
+  onPaymentChange(): void {
+    if (this.paymentForm.online || this.paymentForm.cash) {
+      this.paymentError = '';
+    }
+  }
+
+  paymentHasChanges(): boolean {
+    return (
+      this.paymentForm.online !== this.originalPaymentForm.online ||
+      this.paymentForm.cash !== this.originalPaymentForm.cash
+    );
+  }
+
+  cancelPayment(): void {
+    this.paymentForm = { ...this.originalPaymentForm };
+    this.paymentError = '';
+    this.paymentErrorMessage = null;
+    this.goBack();
+  }
+
+  savePaymentMethod(): void {
+    if (!this.paymentForm.online && !this.paymentForm.cash) {
+      this.paymentError = 'Please select at least one payment method.';
+      return;
+    }
+
+    this.isPaymentSaving = true;
+    this.paymentError = '';
+    this.paymentErrorMessage = null;
+
+    const payload: SetPaymentMethodsRequest = {
+      cash_Enabled: this.paymentForm.cash,
+      online_Enabled: this.paymentForm.online,
+    };
+
+    this.settingsService.setPaymentMethods(payload).subscribe({
+      next: (response) => {
+        this.originalPaymentForm = { ...this.paymentForm };
+        this.isPaymentSaving = false;
+        this.showPaymentSuccessPopup = true;
+        setTimeout(() => this.showPaymentSuccessPopup = false, 3000);
+        console.log(payload);
+
+        this.loadPaymentMethods();
+      },
+      error: (err) => {
+        this.paymentErrorMessage = 'Failed to update payment methods.';
+        console.error(err);
+        this.isPaymentSaving = false;
+      },
+    });
   }
 
 }
