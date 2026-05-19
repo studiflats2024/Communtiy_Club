@@ -73,7 +73,7 @@ export class AppointmentsListComponent {
 
   // Pagination
   currentPage: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 5;
   totalRecords: number = 0;
 
   // Filter
@@ -139,7 +139,7 @@ export class AppointmentsListComponent {
   ngOnInit(): void {
     this.loadStatistics();
     this.loadAdmins();
-    this.loadAppointments();
+    // this.loadAppointments();
   }
 
   /** من (onLazyLoad): مزامنة الصفحة والحجم ثم جلب البيانات – يصلح عدم جلب الصفحة 2 */
@@ -255,7 +255,7 @@ export class AppointmentsListComponent {
   pageChange(event: any): void {
     this.currentPage = (event?.page ?? 0) + 1;
     this.pageSize = event?.rows ?? this.pageSize;
-    this.loadAppointments();
+    // this.loadAppointments();
   }
 
   get isFilterDateRangeInvalid(): boolean {

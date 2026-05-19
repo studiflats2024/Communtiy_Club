@@ -125,11 +125,6 @@ export class SupportTicketsDetailsComponent {
     this.selectedFileName = '';
   }
 
-  isAdminReply(email: string | null): boolean {
-    if (!email || !this.ticket) return false;
-    return email !== this.ticket.tenant_Email;
-  }
-
   getInitials(name: string | null): string {
     if (!name) return '?';
     const parts = name.trim().split(' ');
