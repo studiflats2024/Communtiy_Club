@@ -41,6 +41,43 @@
                         </div>
                         <span class="font-14-400" style="color: #4A4A4A;">{{ticket?.ticket_Description}}</span>
                     </div>
+                    <!----------------------------->
+                    <div *ngIf="lastReply" class="border-bottom d-flex flex-column gap-3">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div class="d-flex gap-2 align-items-center">
+
+            <div class="avatar-circle">
+                {{ getInitials(lastReply.reply_By_Name) }}
+            </div>
+
+            <div class="d-flex flex-column gap-1">
+
+                <span class="font-14-400 color-black">
+                    {{ lastReply.reply_By_Name }}
+                </span>
+
+                <span class="font-12-400 color-gray">
+                    {{ lastReply.reply_By_Email }}
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="font-14-400 color-gray">
+            {{ lastReply.created_At | date:'MMM dd, yyyy' }}
+        </div>
+
+    </div>
+
+    <span class="font-14-400" style="color: #4A4A4A;">
+        {{ lastReply.reply_Message }}
+    </span>
+
+</div>
+                                    <!------------------------------>
                 </div>
 
                 <div class="reply-box-wrapper">

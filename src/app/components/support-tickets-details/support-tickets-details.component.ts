@@ -70,7 +70,7 @@ export class SupportTicketsDetailsComponent {
       },
     });
   }
-
+showReply:boolean =false;
   // Submit reply 
   submitReply(): void {
     if (!this.replyMessage.trim() || this.isSending) return;
@@ -94,7 +94,7 @@ export class SupportTicketsDetailsComponent {
         this.selectedFileName = '';
 
         this.loadTicketDetails();
-
+      this.showReply =true;
         setTimeout(() => (this.successMessage = ''), 4000);
       },
       error: (err) => {
@@ -106,6 +106,12 @@ export class SupportTicketsDetailsComponent {
       },
     });
   }
+
+get lastReply() {
+  return this.ticket?.replies?.length
+    ? this.ticket.replies[this.ticket.replies.length - 1]
+    : null;
+}
 
   // File attachment 
   onFileSelected(event: Event): void {
