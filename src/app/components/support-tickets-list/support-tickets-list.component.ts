@@ -91,7 +91,6 @@ export class SupportTicketsListComponent {
     this.currentPage = (event?.page ?? 0) + 1;
     this.pageSize = event?.rows ?? this.pageSize;
 
-    this.loadTicketsList();
   }
 
   onLazyLoad(event: any): void {

@@ -1,0 +1,143 @@
+<div class="parent">
+    <div class="fixDiv"></div>
+    <div class="page">
+
+        <!-- Breadcrumb and Date Filter -->
+        <div class="tabview-header-container col-md">
+            <p-breadcrumb class="max-w-full" [model]="items">
+                <ng-template pTemplate="item" let-item>
+                    <a [routerLink]="item.routerLink" class="p-menuitem-link"
+                        routerLinkActive="text-primary font-semibold bread-active">
+                        <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+                        <span>{{ item.label }}</span>
+                    </a>
+                </ng-template>
+            </p-breadcrumb>
+        </div>
+
+        <!-- Table Card -->
+        <div class="p-card p-3" style="border-radius: 16px;">
+            <p-toast></p-toast>
+
+            <!-- Table Header -->
+            <div class="card-header-layout  mb-4">
+                <div class="card-header">Contact Us Requests</div>
+                <div class="p-inputgroup w-50 d-flex justify-content-end" style="position: relative;">
+                    <input type="text" class="search-input" pInputText placeholder="Search by name, email, or phone"
+                        [(ngModel)]="searchFilter" (keyup.enter)="applyGlobalFilter()" (blur)="applyGlobalFilter()" />
+
+                    <button pButton type="button" icon="pi pi-search" class="search-btn"
+                        (click)="applyGlobalFilter()"></button>
+
+                    <img src="filterplan.svg" (click)="openFilterDialog()" style="margin-left: 24px; cursor: pointer;"
+                        alt="Filter" />
+                </div>
+            </div>
+
+            <!-- Tickets Table -->
+            <div class="card">
+
+                <p-table #dt [value]="contactList" [paginator]="true" [rows]="pageSize" [totalRecords]="totalRecords"
+                    [first]="(currentPage - 1) * pageSize" [loading]="loading" [lazy]="true"
+                    (onLazyLoad)="onLazyLoad($event)" (onPage)="pageChange($event)" [scrollable]="true"
+                    scrollDirection="horizontal" [rowsPerPageOptions]="[5,10,20]" [showCurrentPageReport]="true"
+                    [currentPageReportTemplate]="'Showing {first} to {last} of {totalRecords} entries'"
+                    [showFirstLastIcon]="false" [tableStyle]="{'min-width':'1200px'}">
+
+                    <!-- Table Header -->
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Requested ID </th>
+                            <th> Name </th>
+                            <th>Phone Number </th>
+                            <th> Date</th>
+                            <th> Time</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </ng-template>
+
+                    <!-- Table Body -->
+                    <ng-template pTemplate="body" let-contact>
+                        <tr>
+                            <td>{{ contact.request_Code }}</td>
+                            <td>
+                                <span class="name block">{{ contact.name }}</span>
+                                <span class="email">{{ contact.email }}</span>
+                            </td>
+                            <td>{{contact.phone_Number}}</td>
+                            <td>{{ contact.created_At | date:'MMM dd, yyyy' }}</td>
+                            <td>{{ contact.created_At | date:'h:mm a' }}</td>
+                            <td>
+                                <span class="table-status-badge" [ngStyle]="{
+                                    'background-color': getStatusBgColor(contact.status),
+                                    'color': getStatusColor(contact.status) }">
+                                    <span class="status-dot" [style.background-color]="getStatusColor(contact.status)">
+                                    </span>
+
+                                    {{ contact.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="flex justify-content-between align-items-center gap-3">
+                                    <div>
+                                        <img class="mr-2" style="cursor:pointer" src="threeDotPay.svg"
+                                            (click)="op.toggle($event)" alt="Actions" />
+                                    </div>
+                                    <p-overlayPanel #op appendTo="body" styleClass="custom-overlay">
+                                        <ul class="menu-list">
+                                            <li>
+                                                <a [routerLink]="['/contact-details', contact.request_ID]"
+                                                    (click)="op.hide()"
+                                                    style="cursor:pointer; text-decoration:none; color:#363636">
+                                                    View Details
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </p-overlayPanel>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- List Filter Dialog -->
+<p-dialog [(visible)]="displayFilter" [modal]="true" [style]="{ overflow: 'visible' }" header="Filter"
+    class="responsive-dialog filter-dialog" [contentStyle]="{ padding: '0', overflow: 'visible' }">
+
+    <div class="filter-dialog-layout">
+        <div class="filter-body mt-2">
+            <!-- Status Filter -->
+            <div class="filter-section">
+                <label class="filter-label">Status</label>
+                <div class="status-buttons">
+                    <button *ngFor="let option of statusOptions" type="button" class="status-filter-btn"
+                        [class.active]="isStatusSelected(option.value)" [ngStyle]="{
+                            'background-color': getStatusBgColor(option.label),
+                            'color': getStatusColor(option.label)
+                        }" (click)="toggleFilterStatus(option.value)">
+                        <span class="status-dot" [style.background-color]="getStatusColor(option.label)"></span>
+                        {{ option.label }}
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="filter-footer mt-2">
+            <div class="d-flex gap-2">
+                <button type="button" class="filter-btn-cancel" (click)="displayFilter=false">Cancel</button>
+                <!-- <button type="button" class="filter-btn-clear" (click)="clearTableFilter()">Clear</button> -->
+            </div>
+            <button type="button" class="dialog-btn" class="filter-btn-apply" (click)="applyFilter()">Apply</button>
+        </div>
+    </div>
+</p-dialog>
