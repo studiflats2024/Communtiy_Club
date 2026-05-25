@@ -4,7 +4,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ContactUs_Details, ContactUs_Reply, ContactUsService } from '../../services/contact-us.service';
 import { MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-contact-details',
@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
     BreadcrumbModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './contact-details.component.html',
   styleUrl: './contact-details.component.css',
@@ -32,23 +33,24 @@ export class ContactDetailsComponent {
 
   toggle: boolean = false;
 
-
-  // Reply form fields
+  isSubmitted = false;
   subject: string = '';
   replyMessage: string = '';
   readonly maxLength = 100;
+  contactReplyForm: any;
 
   constructor(
     private messageService: MessageService,
     private ContactService: ContactUsService,
     private route: ActivatedRoute,
-    private router: Router
-  ) { }
-
-
-  // constructor(private messageService: MessageService, private ContactService: ContactUsService,
-  //   private route: ActivatedRoute, private router: Router
-  // ) { }
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.contactReplyForm = this.fb.group({
+      subject: ['', [Validators.required]],
+      message: ['', [Validators.required, Validators.maxLength(this.maxLength)]]
+    });
+  }
 
   ngOnInit() {
     this.contactId = this.route.snapshot.paramMap.get('id') ?? '';
@@ -88,46 +90,79 @@ export class ContactDetailsComponent {
     this.replyMessage = '';
   }
 
-  // Send reply to API
   sendEmail() {
-    if (!this.subject.trim() || !this.replyMessage.trim()) {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Validation',
-        detail: 'Please fill in both Subject and Message fields.'
-      });
+    this.contactReplyForm.markAllAsTouched();
+
+    if (this.contactReplyForm.invalid) {
       return;
     }
 
-    if (!this.contact?.request_ID) return;
+    const { subject, message } =
+      this.contactReplyForm.getRawValue();
 
-    this.isLoading = true;
+    if (!this.contact?.request_ID) return;
 
     const payload: ContactUs_Reply = {
       request_ID: this.contact.request_ID,
-      reply_Message: this.replyMessage
+      reply_Message: message!.trim()
     };
 
-    this.ContactService.replyToRequest(payload).subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Reply sent successfully.'
-        });
-        // Go back to list after short delay so user sees the toast
-        setTimeout(() => this.router.navigate(['/contact-list']), 1500);
-      },
-      error: () => {
-        this.isLoading = false;
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to send reply. Please try again.'
-        });
-      }
-    });
+    this.isLoading = true;
+
+    this.ContactService.replyToRequest(payload)
+      .subscribe({
+        next: () => {
+          this.isLoading = false;
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Reply sent successfully.'
+          });
+
+          this.contactReplyForm.reset();
+
+          setTimeout(() => {
+            this.router.navigate(['/contact-list']);
+          }, 1500);
+        },
+
+        error: () => {
+          this.isLoading = false;
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to send reply. Please try again.'
+          });
+        }
+      });
+  }
+
+  get subjectError(): string {
+    if (!this.isSubmitted) return '';
+
+    if (!this.subject?.trim()) {
+      return 'Subject is required';
+    }
+
+    return '';
+  }
+
+  get messageError(): string {
+    if (!this.isSubmitted) return '';
+
+    const message = this.replyMessage?.trim();
+
+    if (!message) {
+      return 'Message is required';
+    }
+
+    if (message.length > this.maxLength) {
+      return `Message cannot exceed ${this.maxLength} characters`;
+    }
+
+    return '';
   }
 
   getStatusColor(label: string): string {

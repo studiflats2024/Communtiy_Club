@@ -525,7 +525,8 @@ getAbsoluteValue(value: number): number {
 
 getIcon(title: string): string {
     const icons: any = {
-      'Free Trial': 'calender.svg',
+      'Free Trial': 'freePlan.svg',
+      'Semi annual': 'calender.svg',
       'Monthly': 'user.svg',
       'Annual': 'star.svg',
       'All Plans': 'dollar.svg'

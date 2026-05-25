@@ -18,41 +18,45 @@
 
         <div class="card">
 
-            <div *ngIf="toggle" class="border p-3 d-flex flex-column gap-4">
+            <div *ngIf="toggle" class="border p-3 d-flex flex-column gap-4" [formGroup]="contactReplyForm">
                 <span class="pb-3 font-18-500 title border-bottom">Email Details</span>
 
-                <div class="d-flex flex-column gap-2">
-                    <label for="" class="font-16-500 black">Subject <span style="color: #E3141E;">*</span></label>
-                    <!-- <input type="text" class="field-input" placeholder="Enter subject" [formControl]="subject"
-                        [class.input-error]="subject.invalid && subject.touched">
-                    <span class="error-msg" *ngIf="subject.invalid && subject.touched">
-                        Subject is required.
-                    </span> -->
-                     <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Enter subject"
-                        [(ngModel)]="subject"
-                        maxlength="200"
-                    />
-                </div>
+                <form [formGroup]="contactReplyForm" class="d-flex flex-column gap-4">
 
-                <div class="d-flex flex-column gap-2">
-                    <label for="" class="font-16-500 black">Message <span style="color: #E3141E;">*</span></label>
-                    <!-- <textarea name="" id="" rows="5" class="form-control"
-                        placeholder="Write the message you want to send"></textarea>
-                    <span class="counter">0/100</span> -->
-                    <textarea
-                        rows="4"
-                        class="form-control"
-                        placeholder="Write the message you want to send"
-                        [(ngModel)]="replyMessage"
-                        [maxlength]="maxLength"
-                    ></textarea>
-                    <span class="text-end" style="font-size: 13px; color: #A0A0A0;">
-                        {{ replyMessage.length }}/{{ maxLength }}
-                    </span>
-                </div>
+                    <div class="d-flex flex-column gap-2">
+                        <label class="font-16-500 black">
+                            Subject <span style="color: #E3141E;">*</span>
+                        </label>
+                        <input type="text" class="form-control"
+                            [class.is-invalid]="contactReplyForm.get('subject')?.invalid && contactReplyForm.get('subject')?.touched"
+                            placeholder="Enter subject" formControlName="subject" maxlength="200" />
+                        <span
+                            *ngIf="contactReplyForm.get('subject')?.invalid && contactReplyForm.get('subject')?.touched"
+                            class="error-message">
+                            Subject is required
+                        </span>
+                    </div>
+
+                    <div class="d-flex flex-column gap-2">
+                        <label class="font-16-500 black">
+                            Message <span style="color: #E3141E;">*</span>
+                        </label>
+                        <textarea rows="5" class="form-control"
+                            [class.is-invalid]="contactReplyForm.get('message')?.invalid && contactReplyForm.get('message')?.touched"
+                            placeholder="Write the message you want to send" formControlName="message"
+                            [maxlength]="maxLength">
+                        </textarea>
+                        <span class="text-end" style="font-size: 12px; color: #A0A0A0;">
+                            {{ contactReplyForm.get('message')?.value?.length || 0 }}/{{ maxLength }}
+                        </span>
+                        <span
+                            *ngIf="contactReplyForm.get('message')?.invalid && contactReplyForm.get('message')?.touched"
+                            class="error-message">
+                            Message is required
+                        </span>
+                    </div>
+
+                </form>
             </div>
 
             <div class="request-details">
@@ -81,7 +85,7 @@
                             </span>
                             <span class="black">{{ contact?.name }}</span>
                         </div>
-                        <div class="cell">
+                        <div class="cell min-width">
                             <span class="d-flex gap-2 align-items-center">
                                 <img src="/contact-us/email.svg" alt="">
                                 <span>Email</span>

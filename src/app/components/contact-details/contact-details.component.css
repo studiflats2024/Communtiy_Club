@@ -220,6 +220,28 @@ textarea::placeholder {
     background: var(--Colors-Primary-600, #104494);
 }
 
+.input-error {
+    border: 1px solid #E3141E !important;
+}
+
+.error-message {
+    color: #E3141E;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+    background-image: none !important;
+    padding-right: 0.75rem !important;
+}
+
+@media (max-width: 1285px) {
+    .min-width {
+        min-width: 215px;
+    }
+}
+
 @media (max-width: 992px) {
     .fixDiv {
         max-width: 0px !important;
